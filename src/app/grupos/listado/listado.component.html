@@ -1,0 +1,69 @@
+<app-nuevo-modal
+[nuevo]="nuevo"
+[api]="api"
+(onCloseModal)="nuevo = false">
+</app-nuevo-modal>
+
+<div class="container mt-5">
+    <div class="card mt-5">
+      <span class="red-bar"></span>
+      <div class="card-content">
+        <h1 class="title">
+          Grupo de materiales
+        </h1>
+        <hr>
+        <h2 class="subtitle">
+          Descripción
+        </h2>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-title">
+          <p class="title">
+            Grupos
+          </p>
+        </div>
+        <div class="card-header-icon">
+          <button class="button is-info" (click)="AgregarNuevo()">
+            <span class="icon"></span>
+            <span>Agregar nuevo</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-content">
+
+        <ng-container  *ngFor="let grupo of api.grupos">
+          <div class="card animate__animated animate__fadeInUp">
+            <div class="card-header">
+              <div class="card-header-title">
+                <p class="subtitle">
+                  <i class="{{grupo.icono}}"></i> {{grupo.nombre}}
+                </p>
+              </div>
+              <div class="card-header-icon">
+                <button class="button is-success is-small">
+                  <span class="icon"></span>
+                  <span>Editar</span>
+                </button> 
+                <button class="button is-danger is-small">
+                    <span class="icon"></span>
+                    <span>Eliminar</span>
+                </button>
+              </div>
+            </div>
+            <div class="card-content">
+              <ng-container *ngIf="grupo.parcial">
+                Materiales de manera pacial
+              </ng-container>
+              <ng-container *ngIf="!grupo.parcial">
+                Materiales entregados en envase completo
+              </ng-container>
+            </div>
+          </div>
+          <br>
+        </ng-container>
+
+      </div>
+</div>
