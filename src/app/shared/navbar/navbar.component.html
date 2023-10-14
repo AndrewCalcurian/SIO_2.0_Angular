@@ -1,0 +1,63 @@
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <span class="navbar-item" *ngIf="!Menu">
+          <i class="fas fa-bars menu_" (click)="showMenu()"></i>
+        </span>
+        <span class="navbar-item" *ngIf="Menu">
+            <i class="fas fa-angle-double-down down"></i>
+        </span>
+        <a class="navbar-item" routerLink="">
+            <img src="../../../assets/logo_nav.png" width="112" height="28">
+        </a>
+    </div>
+    <div class="navbar-end">
+        <div class="navbar-item">
+            <i class="fas fa-user"></i>  Andrés Calcurian
+        </div>
+        <!-- <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              <i class="fas fa-user"></i>  Andrés Calcurian
+            </a>
+    
+            <div class="navbar-dropdown">
+              <a class="navbar-item">
+                <i class="fas fa-key"></i> Cambiar Contraseña
+              </a>
+              <a class="navbar-item">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesion
+              </a>
+            </div>
+          </div> -->
+        </div>
+</nav>
+<div class="menu__ animate__animated animate__fadeInLeftBig" id='menu' *ngIf="Menu">
+    <span class="close">
+        <i class="fas fa-times" (click)="cerrarMenu()"></i>
+    </span>
+    <img src="../../../assets/logo_nav.png" width="112" height="28">
+    <hr>
+    <aside class="menu">
+        <p class="menu-label">
+            Materiales
+        </p>
+            <ul class="menu-list">
+                <li><a class="is-active">Grupos</a></li>
+                <li><a>Fabricantes</a></li>
+                <li><a>Proveedores</a></li>
+            </ul>
+        <p class="menu-label">
+            Ordenes
+        </p>
+            <ul class="menu-list">
+                <li>
+                    <a>Ordenes de producción</a>
+                    <ul>
+                        <li><a>Generar</a></li>
+                        <li><a>Consultar</a></li>
+                    </ul>
+                </li>
+            </ul>
+    </aside>
+
+
+</div>

@@ -1,0 +1,95 @@
+@charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+
+// Set your brand colors
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+$rojo-poligrafica: rgb(237, 0, 45);
+// $navBar: rgb(134, 37, 56);
+$navBar: $rojo-poligrafica;
+$card-radius:10px;
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$dark: $navBar;
+$grey-light: $beige-light;
+$primary: rgb(38, 52, 61);
+$link: $rojo-poligrafica;
+$dark-color:#3c3f41;
+$dark-text:#9fadbc;
+$darker-color:#292c2e;
+
+
+$body-background-color: $primary;
+$card-background-color: $dark-color;
+$card-color:$dark-text;
+$title-color:$dark-text;
+$subtitle-color:$dark-text;
+$menu-item-color:$dark-text;
+$modal-card-body-background-color:$dark-color;
+$modal-card-head-background-color:$darker-color;
+$modal-card-title-color:$dark-text;
+$menu-item-hover-color:$dark-text;
+$menu-item-hover-background-color:$rojo-poligrafica;
+$input-background-color:$darker-color;
+$input-color:$dark-text;
+$label-color:$dark-text;
+$modal-card-head-radius:10px;
+
+.mt-5{
+    display: block;
+    margin-top: 25px;
+}
+
+.red-bar{
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 15px;
+    background-color: $rojo-poligrafica;
+    border-right: solid 2px $dark-text;
+}
+.darker{
+    background-color: $darker-color
+}
+
+.modal .modal-background{
+    background-color: rgba(60, 63, 65, 0.30);
+    backdrop-filter: blur(10px);
+}
+
+.modal .modal-card{
+    -webkit-box-shadow: -2px 1px 22px 5px rgba(196,196,196,1);
+-moz-box-shadow: -2px 1px 22px 5px rgba(196,196,196,1);
+box-shadow: -2px 1px 22px 5px rgba(196,196,196,1);
+border-radius: 10px;
+}
+
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+@import "../node_modules/bulma/sass/base/_all.sass";
+@import "../node_modules/bulma/sass/elements/button.sass";
+@import "../node_modules/bulma/sass/elements/container.sass";
+@import "../node_modules/bulma/sass/elements/title.sass";
+@import "../node_modules/bulma/sass/elements/tag.sass";
+@import "../node_modules/bulma/sass/elements/icon.sass";
+@import "../node_modules/bulma/sass/form/_all.sass";
+@import "../node_modules/bulma/sass/components/navbar.sass";
+@import "../node_modules/bulma/sass/layout/hero.sass";
+@import "../node_modules/bulma/sass/layout/section.sass";
+@import "../node_modules/bulma/sass/grid/columns.sass";
+@import "../node_modules/bulma/sass/components/card.sass";
+@import "../node_modules/bulma/sass/elements/table.sass";
+@import "../node_modules/bulma/sass/components/modal.sass";
+@import "../node_modules/bulma/sass/components/message.sass";
+@import "../node_modules/bulma/sass/components/tabs.sass";
+@import "../node_modules/bulma/sass/components/breadcrumb.sass";
+@import "../node_modules/bulma/sass/elements/progress.sass";
+@import "../node_modules/bulma/sass/elements/image.sass";
+@import "../node_modules/bulma/sass/components/menu.sass";
+@import "../node_modules/bulma/css/bulma.css";
+@import "../node_modules/animate.css/animate.css";

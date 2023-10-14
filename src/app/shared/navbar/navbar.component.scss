@@ -1,0 +1,38 @@
+.menu__{
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 250px;
+    background-color: rgba(60, 63, 65, 0.30);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    border-radius: 5px;
+    -webkit-box-shadow: 3px 3px 9px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 3px 9px -4px rgba(0,0,0,0.75);
+    box-shadow: 3px 3px 9px -4px rgba(0,0,0,0.75);
+    padding: 30px;
+    color:#9fadbc;
+}
+
+.close{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+    color: gray;
+}
+
+.menu_{
+    cursor: pointer;
+    animation: bounce; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 1s;
+}
+
+.down{
+    animation: heartBeat; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 1s;
+}
+
+.red{
+    background-color: red;
+}
