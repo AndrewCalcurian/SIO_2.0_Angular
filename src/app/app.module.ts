@@ -9,7 +9,8 @@ import { RouterModule } from '@angular/router';
 
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { GruposModule } from './grupos/grupos.module';
-
+import { FabricantesModule } from './fabricantes/fabricantes.module';
+import { ProveedoresModule } from './proveedores/proveedores.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +24,8 @@ import { GruposModule } from './grupos/grupos.module';
     GruposModule,
     ReactiveFormsModule,
     FormsModule,
+    FabricantesModule,
+    ProveedoresModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,6 +3,21 @@
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
+@font-face {
+    font-family: 'Gilroy';
+    // font-style: normal;
+    // font-weight: normal;
+    src: local('Gilroy'), url('./assets/fonts/Gilroy-ExtraBold.otf') format('truetype');
+}
+@font-face {
+    font-family: 'Gilroy-light';
+    // font-style: normal;
+    // font-weight: normal;
+    src: local('Gilroy-light'), url('./assets/fonts/Gilroy-Light.otf') format('truetype');
+  }
+
+
+
 
 // Set your brand colors
 $purple: #8A4D76;
@@ -22,40 +37,75 @@ $primary: rgb(38, 52, 61);
 $link: $rojo-poligrafica;
 $dark-color:#3c3f41;
 $dark-text:#9fadbc;
-$darker-color:#292c2e;
+$darker-color:#f3fcff;
 
 
 $body-background-color: $primary;
-$card-background-color: $dark-color;
+// $card-background-color: $dark-color;
 $card-color:$dark-text;
 $title-color:$dark-text;
+$title-family:'Gilroy';
+$subtitle-family:'Gilroy';
 $subtitle-color:$dark-text;
+$subtitle-size:15px;
 $menu-item-color:$dark-text;
-$modal-card-body-background-color:$dark-color;
-$modal-card-head-background-color:$darker-color;
-$modal-card-title-color:$dark-text;
+// $modal-card-body-background-color:$dark-color;
+// $modal-card-head-background-color:$darker-color;
+// $modal-card-title-color:$dark-text;
 $menu-item-hover-color:$dark-text;
 $menu-item-hover-background-color:$rojo-poligrafica;
-$input-background-color:$darker-color;
-$input-color:$dark-text;
-$label-color:$dark-text;
+// $input-background-color:$darker-color;
+// $input-color:$dark-text;
+// $label-color:$dark-text;
 $modal-card-head-radius:10px;
+$card-shadow:0px;
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+  
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
 
 .mt-5{
     display: block;
-    margin-top: 25px;
 }
 
 .red-bar{
     display: block;
     position: absolute;
     height: 100%;
-    width: 15px;
+    width: 10px;
     background-color: $rojo-poligrafica;
     border-right: solid 2px $dark-text;
 }
-.darker{
-    background-color: $darker-color
+.card .darker{
+    background-color: $darker-color;
+    display: block;
+    position: fixed;
+    height: 95%;
+    width: 75%;
+
+    overflow:scroll;
+    overflow-x:hidden;
+    
+
 }
 
 .modal .modal-background{
@@ -64,10 +114,36 @@ $modal-card-head-radius:10px;
 }
 
 .modal .modal-card{
-    -webkit-box-shadow: -2px 1px 22px 5px rgba(196,196,196,1);
--moz-box-shadow: -2px 1px 22px 5px rgba(196,196,196,1);
-box-shadow: -2px 1px 22px 5px rgba(196,196,196,1);
-border-radius: 10px;
+    box-shadow: -2px 3px 5px 2px rgba(0,0,0,0.75);
+-webkit-box-shadow: -2px 3px 5px 2px rgba(0,0,0,0.75);
+-moz-box-shadow: -2px 3px 5px 2px rgba(0,0,0,0.75);
+}
+
+
+.container_{
+    display: block;
+    margin-left: 23%;
+    margin-right: 15px;
+}
+
+
+.green{
+    color: #48c78e;
+}
+.red{
+    color: #f03a5f;
+}
+
+.color_bold{
+    font-family: 'Gilroy';
+    color: $dark-text;
+}
+
+.card .blancas{
+    color: white;
+}
+.blue_{
+    color: hsl(207, 61%, 53%);
 }
 
 @import "../node_modules/bulma/sass/utilities/_all.sass";

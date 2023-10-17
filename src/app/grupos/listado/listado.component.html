@@ -4,22 +4,9 @@
 (onCloseModal)="nuevo = false">
 </app-nuevo-modal>
 
-<div class="container mt-5">
-    <div class="card mt-5">
-      <span class="red-bar"></span>
-      <div class="card-content">
-        <h1 class="title">
-          Grupo de materiales
-        </h1>
-        <hr>
-        <h2 class="subtitle">
-          Descripción
-        </h2>
-      </div>
-    </div>
-    <br>
+<div class="container_ mt-5 ">
     <div class="card">
-      <div class="card-header">
+      <!-- <div class="card-header">
         <div class="card-header-title">
           <p class="title">
             Grupos
@@ -31,9 +18,22 @@
             <span>Nuevo</span>
           </button>
         </div>
-      </div>
+      </div> -->
       <div class="card-content darker">
-
+        <div class="card mt-5 title_">
+          <!-- <span class="red-bar"></span> -->
+          <div class="card-content">
+            <h1 class="title blancas">
+              Grupo de materiales
+            </h1>
+            <h2 class="subtitle blancas">
+              Descripción
+            </h2>
+          </div>
+        </div>
+        <br>
+        <span class="icon" (click)="AgregarNuevo()"><i class="fas fa-plus-circle blue_"></i></span>
+        <br><br>
         <ng-container  *ngFor="let grupo of api.grupos">
           <div class="card animate__animated animate__fadeInUp">
             <div class="card-header">
