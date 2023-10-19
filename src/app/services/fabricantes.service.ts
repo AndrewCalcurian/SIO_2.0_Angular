@@ -1,5 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { WebSocketService } from './web-socket.service';
+import { Fabricante, Grupos } from '../fabricantes/models/models-compra';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,7 @@ import { WebSocketService } from './web-socket.service';
 export class FabricantesService{
 
   public grupos:any = []
+  public fabricantes:Array<Fabricante> = []
 
   constructor(private socket:WebSocketService) { 
     this.buscarGrupos()
@@ -20,7 +22,17 @@ export class FabricantesService{
       this.grupos = grupo
     })
 
+
+    this.socket.io.emit('CLIENTE:BuscarFabricante')
+
+    this.socket.io.on('SERVER:Fabricantes', (fabricantes:Array<Fabricante>)=>{
+      this.fabricantes = fabricantes
+    })
     // console.log(this.grupos) 
+  }
+
+  agregarFabricante(data:Fabricante){
+    this.socket.io.emit('CLIENTE:NuevoFabricante', data)
   }
 
 

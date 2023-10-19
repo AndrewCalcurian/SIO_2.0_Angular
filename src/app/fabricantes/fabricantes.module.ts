@@ -6,6 +6,8 @@ import { NavbarModule } from '../shared/navbar/navbar.module';
 import { RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { NuevoComponent } from './nuevo/nuevo.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DetallesComponent } from './detalles/detalles.component';
 
 
 
@@ -13,13 +15,16 @@ import { NuevoComponent } from './nuevo/nuevo.component';
   declarations: [
     FabricantesComponent,
     MainComponent,
-    NuevoComponent
+    NuevoComponent,
+    DetallesComponent
   ],
   imports: [
     CommonModule,
     FabricantesRoutingModule,
     NavbarModule,
-    RouterModule 
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class FabricantesModule { }

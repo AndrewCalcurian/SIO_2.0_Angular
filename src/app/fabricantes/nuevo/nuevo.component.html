@@ -1,22 +1,23 @@
-<div class="modal is-active">
+<div class="modal" [ngClass]="{'is-active':nuevo}">
     <div class="modal-background"></div>
     <div class="modal-card animate__animated animate__fadeInUp">
         <div class="modal-card-head">
-            <p class="modal-card-title">
+            <p class="modal-card-title fuente">
                 Nuevo Fabricante
             </p>
+            <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
         <div class="modal-card-body">
             <div class="field">
                 <label for="" class="label">Razón Social</label>
                 <div class="control">
-                    <input type="text" class="input">
+                    <input type="text" class="input" [(ngModel)]="nombre">
                 </div>
             </div>
             <div class="field">
                 <label for="" class="label">Alias</label>
                 <div class="control">
-                    <input type="text" class="input">
+                    <input type="text" class="input" [(ngModel)]="alias">
                 </div>
             </div>
             <div class="columns">
@@ -25,7 +26,7 @@
                         <label for="" class="label">Origen</label>
                         <div class="Control">
                             <div class="select">
-                                <select name="pais">
+                                <select name="pais" [(ngModel)]="pais">
                                     <option value="Afganistán">Afganistán</option>
                                     <option value="Albania">Albania</option>
                                     <option value="Alemania">Alemania</option>
@@ -269,67 +270,70 @@
                     <div class="field">
                         <label for="" class="label">Estado</label>
                         <div class="control">
-                            <input type="text" class="input">
+                            <input type="text" class="input" [(ngModel)]="estado">
                         </div>
                     </div>
                 </div>
                 <div class="column">
                     <div class="field">
-                        <label for="" class="label">...</label>
-                        <button class="button is-info">
+                        <label for="" class="label"> </label>
+                        <button class="button is-info" (click)="addOrigen()">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="field">
-                <label for="" class="label">Grupo que fabrica</label>
-                <div class="control">
-                    <div class="select">
-                        <select name="" id="">
-                            <option value="" *ngFor="let grupo of api.grupos">{{grupo.nombre}}</option>
-                        </select>
+            <div class="columns">
+                <div class="column is-4">
+                    <div class="field">
+                        <label for="" class="label">Grupo que fabrica</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="" id="" [(ngModel)]="grupo">
+                                    <option value="{{grupo.nombre}}*{{grupo._id}}" *ngFor="let grupo of api.grupos">{{grupo.nombre}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="" class="label"> </label>
+                        <button class="button is-info" (click)="addGrupo()">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal-card">
-        <div class="modal-card-body">
+    <div class="modal-card added animate__animated animate__fadeInUp" *ngIf="origenes.length > 0 || grupos.length > 0">
+        <div class="modal-card-body bg">
             <div class="columns">
                 <div class="column">
-                    <i class="fab fa-font-awesome-flag"></i><strong>Origen(es):</strong>
-                    <div class="columns">
-                        <div class="column">
-                            Venezuela (Caracas)
-                        </div>
-                        <div class="column is-4">
-                            <i class="far fa-trash-alt red"></i>
-                        </div>
-                    </div>
+                    <i class="fab fa-font-awesome-flag"></i> <strong>Origen(es):</strong>
+                    <table class="table">
+                        <tr *ngFor="let origen of origenes;index as i">
+                            <td>{{origen.pais}} ({{origen.estado}})</td>
+                            <td><i class="far fa-trash-alt red" (click)="deleteOrigen(i)"></i></td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="column">
-                    <i class="far fa-object-group"></i><strong>Grupo(s):</strong>
-                    <div class="columns">
-                        <div class="column">
-                            Sustrato
-                        </div>
-                        <div class="column is-4">
-                            <i class="far fa-trash-alt red"></i>
-                        </div>
-                    </div>
-                    <div class="columns">
-                        <div class="column">
-                            Tinta
-                        </div>
-                        <div class="column is-4">
-                            <i class="far fa-trash-alt red"></i>
-                        </div>
-                    </div>
+                    <i class="far fa-object-group"></i> <strong>Grupo(s):</strong>
+                    <table class="table">
+                        <tr *ngFor="let grupo of grupos;index as i">
+                            <td>{{grupo.nombre}}</td>
+                            <td><i class="far fa-trash-alt red" (click)="deleteGrupo(i)"></i></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <hr>
-
+            <button class="button is-success" (click)="guardarFabricante()">
+                <span class="icon"><i class="far fa-save"></i></span>
+                <span>Guardar</span>
+            </button>
         </div>
     </div>
 </div>

@@ -14,7 +14,9 @@ export class ListadoComponent {
   icono = "";
   nuevo:boolean = false;
   editar:boolean = false;
+  material:boolean = false;
   data:any = [];
+  lineas:number = 0;
 
   constructor(public api:GruposService){
 
@@ -24,10 +26,14 @@ export class ListadoComponent {
     this.nuevo = true;
   }
 
+  filas(){
+    return Math.ceil(this.api.grupos.length / 5)
+  }
+
   eliminarGrupo(id:any){
     Swal.fire({
       title:'¿Eliminar este grupo?',
-      text:'El grupo se eliminara de manera permanente',
+      text:'El grupo se eliminará de manera permanente',
       icon:'question',
       showCancelButton:true,
       confirmButtonColor:'#48c78e',

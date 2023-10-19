@@ -7,6 +7,7 @@ import { NuevoModalComponent } from './nuevo-modal/nuevo-modal.component';
 import { ListadoComponent } from './listado/listado.component';
 import { NavbarModule } from '../shared/navbar/navbar.module';
 import { RouterModule } from '@angular/router';
+import { MaterialesComponent } from './materiales/materiales.component';
 
 
 
@@ -14,7 +15,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     GruposComponent,
     NuevoModalComponent,
-    ListadoComponent
+    ListadoComponent,
+    MaterialesComponent
   ],
   imports: [
     CommonModule,

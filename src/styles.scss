@@ -30,13 +30,14 @@ $rojo-poligrafica: rgb(237, 0, 45);
 $navBar: $rojo-poligrafica;
 $card-radius:10px;
 // Update Bulma's global variables
-$family-sans-serif: "Nunito", sans-serif;
+$family-sans-serif: 'Gilroy-light';
 $dark: $navBar;
 $grey-light: $beige-light;
 $primary: rgb(38, 52, 61);
 $link: $rojo-poligrafica;
 $dark-color:#3c3f41;
 $dark-text:#9fadbc;
+$gray-hover: #e9e6e6;
 $darker-color:#f3fcff;
 
 
@@ -50,15 +51,19 @@ $subtitle-color:$dark-text;
 $subtitle-size:15px;
 $menu-item-color:$dark-text;
 // $modal-card-body-background-color:$dark-color;
-// $modal-card-head-background-color:$darker-color;
-// $modal-card-title-color:$dark-text;
+$modal-card-head-background-color:$primary;
+$modal-card-title-color:$dark-text;
 $menu-item-hover-color:$dark-text;
 $menu-item-hover-background-color:$rojo-poligrafica;
 // $input-background-color:$darker-color;
 // $input-color:$dark-text;
 // $label-color:$dark-text;
-$modal-card-head-radius:10px;
+$modal-card-head-radius:5px;
+$table-striped-row-even-background-color:$gray-hover;
 $card-shadow:0px;
+$modal-close-dimensions:80px;
+
+
 
 ::-webkit-scrollbar {
     width: 5px;
@@ -81,7 +86,18 @@ $card-shadow:0px;
   ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(255, 255, 255, 0.3);
   }
+
+.modal .modal-card .modal-card-head .red_cross{
+    background-color: #f03a5f;
+    font-size: 50px;
+}
   
+table tr th{
+    font-family: 'Gilroy';
+}
+.modal .modal-card {
+    border-radius: 5px;
+}
 
 .mt-5{
     display: block;
@@ -94,6 +110,10 @@ $card-shadow:0px;
     width: 10px;
     background-color: $rojo-poligrafica;
     border-right: solid 2px $dark-text;
+}
+
+.modal .fuente{
+    font-family:'Gilroy';
 }
 .card .darker{
     background-color: $darker-color;
@@ -114,9 +134,9 @@ $card-shadow:0px;
 }
 
 .modal .modal-card{
-    box-shadow: -2px 3px 5px 2px rgba(0,0,0,0.75);
--webkit-box-shadow: -2px 3px 5px 2px rgba(0,0,0,0.75);
--moz-box-shadow: -2px 3px 5px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 29px 5px rgba(0,0,0,0.75);
+-webkit-box-shadow: 0px 0px 29px 5px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 29px 5px rgba(0,0,0,0.75);
 }
 
 
