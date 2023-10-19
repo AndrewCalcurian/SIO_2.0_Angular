@@ -10,6 +10,8 @@ export class NuevoModalComponent {
 
   @Input() api:any;
   @Input() nuevo:any;
+  @Input() editar:any;
+  @Input() data:any;
   @Output() onCloseModal = new EventEmitter();
 
   nombre = "";
@@ -58,8 +60,18 @@ export class NuevoModalComponent {
 
   }
 
-  Eliminar(id:any){
-
+  EditarGrupo(){
+    this.onCloseModal.emit()
+    Swal.fire({
+      title:'Edición realizada con exito',
+      icon:'success',
+      toast:true,
+      position:'top-end',
+      showConfirmButton:false,
+      timer:5000,
+      timerProgressBar:true
+    })
+    this.api.EditarGrupo(this.data)
   }
 
   

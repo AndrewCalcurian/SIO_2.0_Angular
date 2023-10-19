@@ -12,8 +12,16 @@ export class GruposService {
    }
 
   GuardarGrupo(data:any){
-    this.socket.io.emit('NuevoGrupo',data)
+    this.socket.io.emit('CLIENTE:NuevoGrupo',data)
     // this.socket.io.emit('NuevoGrupo',{nombre,parcial:false,icono:'test'})
+  }
+
+  EliminarGrupo(id:any){
+    this.socket.io.emit('CLIENTE:deleteGrupo', id)
+  }
+
+  EditarGrupo(data:any){
+    this.socket.io.emit('CLIENTE:EditarGrupo', data)
   }
 
   onGrupos(){
@@ -21,7 +29,7 @@ export class GruposService {
       this.grupos = grupo
     })
 
-    this.socket.io.on('newGroup', (grupo) =>{
+    this.socket.io.on('SERVER:NuevoGrupo', (grupo) =>{
       this.grupos.push(grupo)
     })
   }

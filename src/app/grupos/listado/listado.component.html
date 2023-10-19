@@ -1,24 +1,13 @@
 <app-nuevo-modal
 [nuevo]="nuevo"
+[editar]="editar"
+[data]="data"
 [api]="api"
-(onCloseModal)="nuevo = false">
+(onCloseModal)="editar = false">
 </app-nuevo-modal>
 
 <div class="container_ mt-5 ">
     <div class="card">
-      <!-- <div class="card-header">
-        <div class="card-header-title">
-          <p class="title">
-            Grupos
-          </p>
-        </div>
-        <div class="card-header-icon">
-          <button class="button is-info" (click)="AgregarNuevo()">
-            <span class="icon"><i class="fas fa-plus-circle"></i></span>
-            <span>Nuevo</span>
-          </button>
-        </div>
-      </div> -->
       <div class="card-content darker">
         <div class="card mt-5 title_">
           <!-- <span class="red-bar"></span> -->
@@ -43,11 +32,11 @@
                 </p>
               </div>
               <div class="card-header-icon">
-                <span class="icon"><i class="far fa-edit green"></i></span> 
+                <span class="icon"><i class="far fa-edit green" (click)="EditarGrupo(grupo.nombre,grupo.icono,grupo.parcial,grupo._id )"></i></span> 
                 <!-- <button class="button is-success is-small">
                   <span class="icon"><i class="far fa-edit"></i></span>
                 </button>  -->
-                <span class="icon"><i class="far fa-trash-alt red"></i></span>
+                <span class="icon"><i class="far fa-trash-alt red" (click)="eliminarGrupo(grupo._id)"></i></span>
                 <!-- <button class="button is-danger is-small">
                     <span class="icon"><i class="far fa-trash-alt"></i></span>
                 </button> -->

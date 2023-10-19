@@ -1,23 +1,31 @@
-<div class="modal" [ngClass]="{'is-active':nuevo}">
+<div class="modal" [ngClass]="{'is-active':nuevo || editar}">
     <div class="modal-background"></div>
     <div class="modal-card animate__animated animate__fadeInUp">
         <div class="modal-card-head">
-            <p class="modal-card-title">
+            <p class="modal-card-title" *ngIf="nuevo">
                 Nuevo Grupo
+            </p>
+            <p class="modal-card-title" *ngIf="editar">
+                Editar Grupo
             </p>
         </div>
         <div class="modal-card-body light">
             <div class="field">
                 <label for="" class="label">Nombre del grupo</label>
                 <div class="control">
-                    <input type="text" class="input" [(ngModel)]="nombre">
+                    <input type="text" class="input" [(ngModel)]="nombre" *ngIf="nuevo">
+                    <input type="text" class="input" [(ngModel)]="data.nombre" *ngIf="editar">
                 </div>
             </div>
             <div class="field">
                 <label for="" class="label">Utilizado de forma parcial</label>
                 <div class="control">
                     <div class="select">
-                        <select name="" id="" [(ngModel)]="parcial">
+                        <select name="" id="" [(ngModel)]="parcial" *ngIf="nuevo">
+                            <option value="true">Si</option>
+                            <option value="false">No</option>
+                        </select>
+                        <select name="" id="" [(ngModel)]="data.parcial" *ngIf="editar">
                             <option value="true">Si</option>
                             <option value="false">No</option>
                         </select>
@@ -27,14 +35,19 @@
             <div class="field">
                 <label for="" class="label">Icono (Agregar clase)</label>
                 <div class="control">
-                    <input type="text" class="input" [(ngModel)]="icono">
+                    <input type="text" class="input" [(ngModel)]="icono" *ngIf="nuevo">
+                    <input type="text" class="input" [(ngModel)]="data.icono" *ngIf="editar">
                 </div>
             </div>
         </div>
         <div class="modal-card-foot">
-            <button class="button is-success is-outlined" (click)="nuevoGrupo()">
+            <button class="button is-success" (click)="nuevoGrupo()" *ngIf="nuevo">
                 <span class="icon"></span>
                 <span>Crear</span>
+            </button> 
+            <button class="button is-success" (click)="EditarGrupo()" *ngIf="editar">
+                <span class="icon"></span>
+                <span>Editar</span>
             </button> 
         </div>
     </div>
