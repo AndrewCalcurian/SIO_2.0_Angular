@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { WebSocketService } from './web-socket.service';
-import { Fabricante, Grupos } from '../fabricantes/models/models-compra';
+import { Fabricante, Fabricante_populated } from '../compras/models/modelos-compra';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +33,10 @@ export class FabricantesService{
 
   agregarFabricante(data:Fabricante){
     this.socket.io.emit('CLIENTE:NuevoFabricante', data)
+  }
+
+  editarFabricante(data:Fabricante_populated){
+    this.socket.io.emit('CLIENTE:EditarFabricante', data)
   }
 
 

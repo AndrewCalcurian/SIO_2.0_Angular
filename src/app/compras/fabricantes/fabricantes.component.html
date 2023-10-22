@@ -1,7 +1,9 @@
-<app-nuevo
+<app-nuevo-fabricante
 [nuevo]="nuevo"
-(onCloseModal)="nuevo = false">
-</app-nuevo>
+[editar]="editar"
+[data]="data"
+(onCloseModal)="cerrar()">
+</app-nuevo-fabricante>
 <app-detalles
 [detalle]="detalle"
 [fabricante]="selected"
@@ -65,7 +67,7 @@
                                 </div>
                                 <footer class="card-footer">
                                     <a class="card-footer-item"><i class="fas fa-info-circle blue_" (click)="seleccion((5*fila_i)+i-1)"></i></a>
-                                    <a class="card-footer-item"><i class="far fa-edit green"></i></a>
+                                    <a class="card-footer-item"><i class="far fa-edit green" (click)="Editar((5*fila_i)+i-1)"></i></a>
                                     <a class="card-footer-item"><i class="far fa-trash-alt red"></i></a>
                                 </footer>
                             </div>

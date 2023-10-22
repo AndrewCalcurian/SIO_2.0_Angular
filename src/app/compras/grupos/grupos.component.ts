@@ -3,12 +3,11 @@ import { GruposService } from 'src/app/services/grupos.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-listado',
-  templateUrl: './listado.component.html',
-  styleUrls: ['./listado.component.scss']
+  selector: 'app-grupos',
+  templateUrl: './grupos.component.html',
+  styleUrls: ['./grupos.component.scss']
 })
-export class ListadoComponent {
-
+export class GruposComponent {
   nombre = "";
   parcial = "false";
   icono = "";

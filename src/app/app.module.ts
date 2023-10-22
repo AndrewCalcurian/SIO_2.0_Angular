@@ -8,9 +8,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { NavbarModule } from './shared/navbar/navbar.module';
-import { GruposModule } from './grupos/grupos.module';
-import { FabricantesModule } from './fabricantes/fabricantes.module';
 import { ProveedoresModule } from './proveedores/proveedores.module';
+import { ComprasModule } from './compras/compras.module';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,13 +19,9 @@ import { ProveedoresModule } from './proveedores/proveedores.module';
     BrowserModule,
     CommonModule,
     RouterModule,
-    NavbarModule,
     AppRoutingModule,
-    GruposModule,
-    ReactiveFormsModule,
-    FormsModule,
-    FabricantesModule,
-    ProveedoresModule
+    NavbarModule,
+    ComprasModule
   ],
   providers: [],
   bootstrap: [AppComponent]

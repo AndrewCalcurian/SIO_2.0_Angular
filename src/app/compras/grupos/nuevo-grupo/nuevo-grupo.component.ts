@@ -2,12 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-nuevo-modal',
-  templateUrl: './nuevo-modal.component.html',
-  styleUrls: ['./nuevo-modal.component.scss']
+  selector: 'app-nuevo-grupo',
+  templateUrl: './nuevo-grupo.component.html',
+  styleUrls: ['./nuevo-grupo.component.scss']
 })
-export class NuevoModalComponent {
-
+export class NuevoGrupoComponent {
   @Input() api:any;
   @Input() nuevo:any;
   @Input() editar:any;
@@ -73,7 +72,4 @@ export class NuevoModalComponent {
     })
     this.api.EditarGrupo(this.data)
   }
-
-  
-
 }
