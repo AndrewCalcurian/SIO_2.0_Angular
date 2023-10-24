@@ -39,5 +39,9 @@ export class FabricantesService{
     this.socket.io.emit('CLIENTE:EditarFabricante', data)
   }
 
+  eliminarFabricante(id:string){
+    this.socket.io.emit('CLIENTE:deleteFabricante', id)
+  }
+
 
 }

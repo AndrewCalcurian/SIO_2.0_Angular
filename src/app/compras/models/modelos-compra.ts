@@ -19,7 +19,8 @@ export class Fabricante {
         public nombre:string,
         public alias:string,
         public origenes:Array<Origenes>,
-        public grupo:Array<Grupo["_id"]>
+        public grupo:Array<Grupo["_id"]>,
+        public _id:string
     ){}
 }
 
@@ -30,4 +31,20 @@ export class Fabricante_populated {
         public origenes:Array<Origenes>,
         public grupo:Array<Grupo>
     ){}
+}
+
+export class Proveedores {
+    constructor(
+        public nombre:string,
+        public direccion:string,
+        public rif:string,
+        public fabricante:string,
+        public contactos:{
+            nombre   :string,
+            email    :string,
+            numero   :string
+        }
+    ){
+
+    }
 }

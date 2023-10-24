@@ -8,9 +8,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { NavbarModule } from './shared/navbar/navbar.module';
-import { ProveedoresModule } from './proveedores/proveedores.module';
 import { ComprasModule } from './compras/compras.module';
-import { NavbarComponent } from './shared/navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,

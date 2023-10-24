@@ -1,0 +1,94 @@
+<div class="modal" [ngClass]="{'is-active':nuevo}">
+    <div class="modal-background"></div>
+    <div class="modal-card animate__animated animate__fadeInUp">
+        <div class="modal-card-head">
+            <p class="modal-card-title fuente">
+                Nuevo proveedor
+            </p>
+            <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
+        </div>
+        <div class="modal-card-body">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="" class="label">Fabricante:</label>
+                        <div class="select">
+                            <select id="fabricante" (change)="fabricante_selected($event.target)">
+                                <option value="#">Fabricante</option>
+                                <option value="{{i}}" *ngFor="let fabricante of fabricantes.fabricantes;index as i">{{fabricante.alias}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="" class="label">.</label>
+                        <input type="checkbox" name="" id="" (click)="checkProveedor()" [(ngModel)]="proveedor_directo"> Es proveedor
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Nombre:</label>
+                <div class="control">
+                    <input type="text" class="input" id="nombre" [(ngModel)]="nombre">
+                </div>
+            </div>
+            <div class="field">
+                <label for="" class="label">Dirección</label>
+                <div class="control">
+                    <input type="text" class="input" id="direccion" [(ngModel)]="direccion">
+                </div>
+            </div>
+            <div class="field">
+                <label for="" class="label">Rif:</label>
+                <div class="control">
+                    <input type="text" class="input" [(ngModel)]="rif">
+                </div>
+            </div>
+            <div class="field">
+                <strong>Persona de contacto</strong>
+                <div class="columns">
+                    <div class="column">
+                        <label for="" class="label">Nombre:</label>
+                        <div class="control">
+                            <input type="text" class="input" [(ngModel)]="contacto_nombre">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label for="" class="label" *ngIf="contacto_nombre">Teléfono:</label>
+                        <div class="control" *ngIf="contacto_nombre">
+                            <input type="text" class="input" [(ngModel)]="contacto_numero">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label for="" class="label" *ngIf="contacto_numero">Correo:</label>
+                        <div class="control" *ngIf="contacto_numero">
+                            <input type="text" class="input" [(ngModel)]="contacto_email">
+                        </div>
+                    </div>
+                    <div class="column is-1">
+                        <label for="" class="label">.</label>
+                        <button class="button is-info" (click)="NuevoContacto()">
+                            <span class="icon"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-card bg" *ngIf="contactos.length > 0">
+        <div class="modal-card-body bg">
+            <strong>Personas de contacto:</strong> <br><hr>
+            <ng-container *ngFor="let contacto of contactos;index as i">
+                {{contacto.nombre}} <br>
+                {{contacto.numero}} <br>
+                {{contacto.email}} <br> <br>
+            </ng-container>
+            <hr>
+            <button class="button is-success" (click)="GuardarProveedor()">
+                <span class="icon"></span>
+                <span>Guardar</span>
+            </button>
+        </div>
+    </div>
+</div>

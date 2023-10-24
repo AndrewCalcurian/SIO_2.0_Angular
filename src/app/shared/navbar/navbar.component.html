@@ -3,12 +3,17 @@
     <hr>
     <aside class="menu">
         <p class="menu-label">
-            Materiales
+            Compras
         </p>
             <ul class="menu-list">
-                <li><a [ngClass]="{'is-active':router.url == '/'}" routerLink="/">Grupos</a></li>
-                <li><a [ngClass]="{'is-active':router.url == '/fabricantes'}" routerLink="/fabricantes">Fabricantes</a></li>
-                <li><a [ngClass]="{'is-active':router.url == '/proveedores'}" routerLink="/proveedores">Proveedores</a></li>
+                <li>
+                    <a routerLink="/compras">Compras</a>
+                    <ul>
+                        <li><a [ngClass]="{'is-active':router.url == '/compras/grupos'}" routerLink="/compras/grupos">Grupos</a></li>
+                        <li><a [ngClass]="{'is-active':router.url == '/compras/fabricantes'}" routerLink="/compras/fabricantes">Fabricantes</a></li>
+                        <li><a [ngClass]="{'is-active':router.url == '/compras/proveedores'}" routerLink="/compras/proveedores">Proveedores</a></li>
+                    </ul>
+                </li>
             </ul>
         <p class="menu-label">
             Ordenes

@@ -26,6 +26,9 @@ export class GruposService {
   }
 
   onGrupos(){
+
+    this.socket.io.emit('CLIENTE:buscarGrupos')
+
     this.socket.io.on('cargarGrupos', (grupo:Array<Grupo>) => {
       this.grupos = grupo
     })

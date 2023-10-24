@@ -5,6 +5,7 @@ import { MainComponent } from './main/main.component';
 import { ComprasComponent } from './compras.component';
 import { GruposComponent } from './grupos/grupos.component';
 import { FabricantesComponent } from './fabricantes/fabricantes.component';
+import { ProveedoresComponent } from './proveedores/proveedores.component';
 
 
 const routes: Routes =[
@@ -23,6 +24,10 @@ const routes: Routes =[
       {
         path:'fabricantes',
         component:FabricantesComponent
+      },
+      {
+        path:'proveedores',
+        component:ProveedoresComponent
       }
     ]
 }]

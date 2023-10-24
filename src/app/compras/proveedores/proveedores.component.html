@@ -1,3 +1,10 @@
+<app-nuevo-proveedor
+[nuevo]="nuevo"
+[api]="api"
+(onCloseModal)="cerrar()"
+>
+
+</app-nuevo-proveedor>
 <div class="container_ mt-5">
     <div class="card">
         <div class="card-content darker">
@@ -16,7 +23,7 @@
             <div class="columns">
                 <div class="column">
                     <div class="card">
-                        <div class="card-content blue">
+                        <div class="card-content blue" (click)="addnuevo()">
                             <span class="agregar">
                                 <i class="fas fa-plus-circle"></i>
                             </span>

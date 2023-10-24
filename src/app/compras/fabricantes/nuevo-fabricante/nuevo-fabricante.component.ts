@@ -95,7 +95,8 @@ export class NuevoFabricanteComponent {
       nombre:this.nombre,
       alias:this.alias,
       origenes:this.origenes,
-      grupo:[]
+      grupo:[],
+      _id:''
     }
 
     for(let i=0;i<this.grupos.length;i++){

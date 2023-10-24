@@ -5,10 +5,6 @@ import { AppComponent } from './app.component';
 
 const routes: Routes = [
 {
-  path:'proveedores',
-  loadChildren: () => import('./proveedores/proveedores.module').then(m => m.ProveedoresModule)
-},
-{
   path:'compras',
   loadChildren: () => import('./compras/compras.module').then(m=> m.ComprasModule)
 }];

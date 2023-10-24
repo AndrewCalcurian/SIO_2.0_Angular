@@ -282,7 +282,7 @@
                 <div class="column">
                     <div class="field">
                         <label for="" class="label"> </label>
-                        <button class="button is-info" (click)="addOrigen_()" *ngIf="nuevo">
+                        <button class="button is-info" (click)="addOrigen()" *ngIf="nuevo">
                             <i class="fas fa-plus"></i>
                         </button>
                         <button class="button is-info" (click)="addOrigen_()" *ngIf="!nuevo">
@@ -307,7 +307,7 @@
                 <div class="column">
                     <div class="field">
                         <label for="" class="label"> </label>
-                        <button class="button is-info" (click)="addGrupo_()" *ngIf="nuevo">
+                        <button class="button is-info" (click)="addGrupo()" *ngIf="nuevo">
                             <i class="fas fa-plus"></i>
                         </button>
                         <button class="button is-info" (click)="addGrupo_()" *ngIf="!nuevo">
@@ -348,7 +348,7 @@
         </div>
     </div>
 
-    <div class="modal-card added animate__animated animate__fadeInUp" *ngIf="origenes.length > 0 || grupos.length > 0">
+    <div class="modal-card added animate__animated animate__fadeInUp" *ngIf="origenes.length > 0 || grupos.length > 0 && !editar">
         <div class="modal-card-body bg">
             <div class="columns">
                 <div class="column">

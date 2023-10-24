@@ -11,7 +11,6 @@ export class NavbarComponent implements OnInit {
   constructor(public router:Router) {}
 
   ngOnInit(): void {
-    console.log(this.router.url, '<-- la url')
   }
 
   Menu:boolean = false;
