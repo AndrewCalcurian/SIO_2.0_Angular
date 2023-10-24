@@ -7,6 +7,8 @@ import { Proveedores } from '../compras/models/modelos-compra';
 })
 export class ProveedoresService {
 
+
+  public proveedores:any = []
   constructor(public socket:WebSocketService) { 
     this.buscarProveedor()
   }
@@ -16,12 +18,15 @@ export class ProveedoresService {
     this.socket.io.emit('CLIENTE:BuscarProveedores')
 
     this.socket.io.on('SERVER:proveedores', (proveedores:Array<Proveedores>) => {
-      console.log(proveedores)
+      this.proveedores = proveedores
     })
   }
 
   nuevoProveedor(data:Proveedores){
-    console.log(data)
     this.socket.io.emit('CLIENTE:NuevoProveedor', data)
+  }
+
+  editarProveedores(data:Proveedores){
+    this.socket.io.emit('CLIENTE:EditarProveedor', data)
   }
 }

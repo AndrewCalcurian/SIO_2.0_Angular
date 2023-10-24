@@ -6,6 +6,20 @@
 (onCloseModal)="cerrarModal()">
 </app-nuevo-grupo>
 
+<app-nuevo-material
+[nuevo_material]="nuevo_material"
+(onCloseModal)="cerrarNuevoMaterial()"
+>
+</app-nuevo-material>
+
+<app-materiales
+[material_selected]="material_selected"
+[material]="material"
+(onCloseModal)="cerrarMateriales()"
+>
+
+</app-materiales>
+
 <div class="container_ mt-5 ">
     <div class="card">
       <div class="card-content darker">
@@ -27,7 +41,7 @@
           </span>
           <span>Grupo</span>
         </button> 
-        <button class="button is-success" (click)="AgregarNuevo()">
+        <button class="button is-success" (click)="NuevoMaterial()">
           <span class="icon">
             <i class="fas fa-plus-circle"></i>
           </span>
@@ -63,7 +77,7 @@
                       </ng-container>
                     </div> -->
                     <footer class="card-footer">
-                      <a class="card-footer-item"><i class="fas fa-info-circle blue_" (click)="material = true"></i></a>
+                      <a class="card-footer-item"><i class="fas fa-info-circle blue_" (click)="buscarMaterial((5*fila_i)+i)"></i></a>
                       <a class="card-footer-item"><i class="far fa-edit green" (click)="EditarGrupo(api.grupos[(5*fila_i)+i].nombre,api.grupos[(5*fila_i)+i].icono,api.grupos[(5*fila_i)+i].parcial,api.grupos[(5*fila_i)+i]._id )"></i></a>
                       <a class="card-footer-item"><i class="far fa-trash-alt red" (click)="eliminarGrupo(api.grupos[(5*fila_i)+i]._id)"></i></a>
                     </footer>

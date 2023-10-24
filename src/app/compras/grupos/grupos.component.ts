@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GruposService } from 'src/app/services/grupos.service';
+import { MaterialesService } from 'src/app/services/materiales.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,10 +15,13 @@ export class GruposComponent {
   nuevo:boolean = false;
   editar:boolean = false;
   material:boolean = false;
+  nuevo_material:boolean = false;
   data:any = [];
   lineas:number = 0;
+  material_selected = []
 
-  constructor(public api:GruposService){
+  constructor(public api:GruposService,
+              public materiales:MaterialesService){
 
   }
 
@@ -72,6 +76,24 @@ export class GruposComponent {
   cerrarModal(){
     this.nuevo = false;
     this.editar = false;
+  }
+
+  NuevoMaterial(){
+    this.nuevo_material = true;
+  }
+
+  cerrarNuevoMaterial(){
+    this.nuevo_material = false;
+  }
+
+  buscarMaterial(grupo:number){
+    const id = this.api.grupos[grupo]._id
+    this.material_selected = this.materiales.filtrarGrupos(id)
+    this.material = true;
+  }
+
+  cerrarMateriales(){
+    this.material = false;
   }
 
 }

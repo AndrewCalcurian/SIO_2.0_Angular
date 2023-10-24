@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { Proveedores } from '../models/modelos-compra';
 
 @Component({
   selector: 'app-proveedores',
@@ -9,6 +10,8 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 export class ProveedoresComponent {
 
   public nuevo:boolean = false;
+  public editar:boolean = false;
+  public proveedor_selected!:Proveedores;
 
   constructor(public api:ProveedoresService){
 
@@ -21,5 +24,15 @@ export class ProveedoresComponent {
 
   cerrar(){
     this.nuevo = false;
+    this.editar = false;
+  }
+
+  filas(){
+    return Math.ceil(this.api.proveedores.length / 5)
+  }
+
+  EditarProveedor(i:number){
+    this.editar = true;
+    this.proveedor_selected = this.api.proveedores[i]
   }
 }
