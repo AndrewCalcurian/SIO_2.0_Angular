@@ -1,8 +1,8 @@
 <app-nuevo-proveedor
 [nuevo]="nuevo"
 [editar]="editar"
-[proveedor]="proveedor_selected"
 [api]="api"
+[proveedor]="proveedor_selected"
 (onCloseModal)="cerrar()"
 >
 
@@ -15,7 +15,7 @@
                 <!-- <span class="red-bar"></span> -->
                 <div class="card-content">
                   <h1 class="title blancas">
-                    Fabricantes
+                    Proveedores
                   </h1>
                   <h2 class="subtitle description blancas">
                     Descripción
@@ -24,6 +24,7 @@
             </div>
             <br>
             <ng-container *ngIf="filas() === 0">
+                
                 <div class="columns">
                     <div class="column">
                         <div class="card animate__animated animate__fadeInUp">

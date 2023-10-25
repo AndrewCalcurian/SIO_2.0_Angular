@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { Proveedores } from '../models/modelos-compra';
 
@@ -7,7 +7,7 @@ import { Proveedores } from '../models/modelos-compra';
   templateUrl: './proveedores.component.html',
   styleUrls: ['./proveedores.component.scss']
 })
-export class ProveedoresComponent {
+export class ProveedoresComponent{
 
   public nuevo:boolean = false;
   public editar:boolean = false;
@@ -32,7 +32,9 @@ export class ProveedoresComponent {
   }
 
   EditarProveedor(i:number){
+    console.log('funciona')
     this.editar = true;
     this.proveedor_selected = this.api.proveedores[i]
   }
+
 }

@@ -35,7 +35,7 @@ export class NuevoProveedorComponent {
     this.nombre = '';
     this.direccion = '';
     this.rif = '';
-    this.contactos = '';
+    this.contactos = [];
     this.onCloseModal.emit();
   }
 
@@ -110,4 +110,6 @@ export class NuevoProveedorComponent {
     this.api.editarProveedores(this.proveedor);
     this.cerrar();
   }
+
+
 }

@@ -36,6 +36,7 @@ export class FabricantesService{
   }
 
   editarFabricante(data:Fabricante_populated){
+    console.log(data)
     this.socket.io.emit('CLIENTE:EditarFabricante', data)
   }
 

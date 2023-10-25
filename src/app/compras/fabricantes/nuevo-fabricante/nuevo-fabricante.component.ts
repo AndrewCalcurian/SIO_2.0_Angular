@@ -117,7 +117,7 @@ export class NuevoFabricanteComponent {
   }
 
   editarFabricante(){
-    
+    console.log(this.data)
 
     this.api.editarFabricante(this.data)
 
