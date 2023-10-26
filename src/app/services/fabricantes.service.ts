@@ -49,6 +49,13 @@ export class FabricantesService{
     return this.fabricantes.filter(fabricante => 
       fabricante.grupo.some((g:any) => g._id === idGrupo))
   }
+  /**
+  La función  buscarFabricantesPorId  recibe un parámetro  id  de tipo string y devuelve
+   un array de objetos de fabricantes que coinciden con el valor del  _id  proporcionado. 
+  **/
+  buscarFabricantesPorId(id:string){
+    return this.fabricantes.filter(fabricantes => fabricantes._id == id)
+  }
 
 
 }

@@ -16,15 +16,11 @@
                 </li>
             </ul>
         <p class="menu-label">
-            Ordenes
+            Almacen
         </p>
             <ul class="menu-list">
                 <li>
-                    <a>Ordenes de producción</a>
-                    <ul>
-                        <li><a>Generar</a></li>
-                        <li><a>Consultar</a></li>
-                    </ul>
+                    <a [ngClass]="{'is-active':router.url == '/almacen/recepcion'}" routerLink="/almacen/recepcion">Recepción</a>
                 </li>
             </ul>
     </aside>

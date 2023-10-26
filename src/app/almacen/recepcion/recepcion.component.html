@@ -1,0 +1,107 @@
+<app-detalles
+[detalle]="detalle"
+(onCloseModal)="detalle = false">
+</app-detalles>
+
+<app-nueva-recepcion
+[nueva]="nueva"
+(onCloseModal)="nueva = false">
+
+</app-nueva-recepcion>
+<div class="container_ mt-5">
+    <div class="card">
+        <div class="card-content darker">
+            <div class="card mt-5 title_">
+                <!-- <span class="red-bar"></span> -->
+                <div class="card-content">
+                  <h1 class="title blancas">
+                    Recepción de materiales
+                  </h1>
+                  <h2 class="subtitle description blancas">
+                    Descripción
+                  </h2>
+                </div>
+            </div>
+            <br>
+            <button class="button is-info" (click)="NuevaRecepcion()">
+                <span class="icon">
+                  <i class="fas fa-plus-circle"></i>
+                </span>
+                <span>Nueva recepción</span>
+              </button>
+              <br><br>
+            <div class="card animate__animated animate__fadeInUp">
+                <div class="card-header dark">
+                    <p class="card-header-title">
+                        <strong class="fuente">Documento Nº: </strong>4578 - Fabrica de Tintas Olín, C.A. - <span class="tag is-danger">Por notificar</span> <i class="fas fa-bell shake_button"></i>
+                    </p>
+                    <button class="card-header-icon" aria-label="more options" [ngClass]="{'clicked':clicked}" (click)="showInfo()">
+                        <span class="icon">
+                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="card-content info" [ngClass]="{'hidden': !clicked, 'show': clicked}">
+                    <table class="table is-fullwidth is-striped" *ngIf="clicked">
+                        <thead>
+                            <tr>
+                                <th>OC</th>
+                                <th>Lote</th>
+                                <th>Material</th>
+                                <th>Detalles</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1234567</td>
+                                <td>1236547</td>
+                                <td>
+                                    <div class="circle_"></div>
+                                    Azul proceso Apache
+                                </td>
+                                <td>
+                                    <a (click)="mostrarDetalle()" class="material-link">
+                                        <i class="fas fa-eye"></i>
+                                        30KG
+                                    </a>
+                                </td>
+                                <td><i class="fas fa-info-circle blue_"></i>     <i class="fas fa-edit green"></i>     <i class="fas fa-comment"></i></td>
+                            </tr>
+                            <tr>
+                                <td>12345</td>
+                                <td>1236547</td>
+                                <td>
+                                    <div class="circle_"></div>
+                                    Azul proceso Apache
+                                </td>
+                                <td>
+                                    <a (click)="mostrarDetalle()" class="material-link">
+                                        <i class="fas fa-eye"></i>
+                                        30KG
+                                    </a>
+                                </td>
+                                <td><i class="fas fa-info-circle blue_"></i>     <i class="fas fa-edit green"></i>     <i class="fas fa-comment"></i></td>
+                            </tr>
+                            <tr>
+                                <td>7654321</td>
+                                <td>1236547</td>
+                                <td><div class="circle blink"></div>
+
+                                    Azul proceso Apache</td>
+                                <td>
+                                    <a (click)="mostrarDetalle()" class="material-link">
+                                        <i class="fas fa-eye"></i>
+                                        30KG
+                                    </a>
+                                </td>
+                                <td><i class="fas fa-info-circle blue_"></i>     <i class="fas fa-edit green"></i>     <i class="fas fa-comment"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>

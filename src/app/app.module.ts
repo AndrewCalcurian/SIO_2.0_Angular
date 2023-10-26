@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { ComprasModule } from './compras/compras.module';
+import { AlmacenModule } from './almacen/almacen.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { ComprasModule } from './compras/compras.module';
     RouterModule,
     AppRoutingModule,
     NavbarModule,
-    ComprasModule
+    ComprasModule,
+    AlmacenModule
   ],
   providers: [],
   bootstrap: [AppComponent]
