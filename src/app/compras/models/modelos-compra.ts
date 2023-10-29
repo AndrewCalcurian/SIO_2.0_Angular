@@ -1,3 +1,5 @@
+import { SweetAlertIcon } from "sweetalert2";
+
 export class Origenes {
     constructor(
         public pais: string,
@@ -61,4 +63,11 @@ export class Proveedores {
     ){
 
     }
+}
+
+export class Mensaje {
+    constructor(
+        public mensaje:string,
+        public icon:SweetAlertIcon
+    ){}
 }

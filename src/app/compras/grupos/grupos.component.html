@@ -3,7 +3,9 @@
 [editar]="editar"
 [data]="data"
 [api]="api"
+[cargando]="cargando"
 (onCloseModal)="cerrarModal()">
+(onLoading)='cargando_()'
 </app-nuevo-grupo>
 
 <app-nuevo-material

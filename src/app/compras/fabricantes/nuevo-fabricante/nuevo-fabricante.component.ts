@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Fabricante, Fabricante_populated, Grupo, Origenes } from '../../models/modelos-compra';
 import { FabricantesService } from 'src/app/services/fabricantes.service';
@@ -8,10 +8,11 @@ import { FabricantesService } from 'src/app/services/fabricantes.service';
   templateUrl: './nuevo-fabricante.component.html',
   styleUrls: ['./nuevo-fabricante.component.scss']
 })
-export class NuevoFabricanteComponent {
+export class NuevoFabricanteComponent implements OnInit{
   @Input() nuevo :any;
   @Input() data!  :Fabricante_populated;
   @Input() editar:any;
+  @Input() cargando!:boolean;
   @Output() onCloseModal = new EventEmitter();
 
   nombre :string = '';
@@ -25,6 +26,29 @@ export class NuevoFabricanteComponent {
 
   constructor(public api:FabricantesService){
     
+  }
+
+  ngOnInit(): void {
+    var phrases = [
+      'Arreglando código de programación',
+      'Ajustando colores',
+      'Haciendo las conexiones electricas',
+      'Descargando la información',
+      'Haciendo girar la rueda',
+      'Buscando errores',
+      'Programando la respuesta que quieres',
+      'Ya casi terminamos',
+      'Conectando las tuberias'
+    ];
+  
+    // Function to change the random phrase
+    function changeRandomPhrase() {
+      var randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      document.getElementById('random-phrases')!.textContent = randomPhrase;
+    }
+  
+    // Call the function every 1 second
+    setInterval(changeRandomPhrase, 2000);
   }
 
   cerrar(){
@@ -88,50 +112,23 @@ export class NuevoFabricanteComponent {
     }
   }
 
-  guardarFabricante(){
-    
-
-    let data:Fabricante = {
-      nombre:this.nombre,
-      alias:this.alias,
-      origenes:this.origenes,
-      grupo:[],
-      _id:''
-    }
-
-    for(let i=0;i<this.grupos.length;i++){
-      data.grupo.push(this.grupos[i]._id)
-    }
-
-    this.api.agregarFabricante(data)
-    this.onCloseModal.emit()
-    Swal.fire({
-      title:'Se agregó nuevo fabricante',
-      icon:'success',
-      timer:5000,
-      timerProgressBar:true,
-      toast:true,
-      position:'top-end',
-      showConfirmButton:false
-    })
+  guardarFabricante(): void {
+    const { nombre, alias, origenes, grupos } = this;
+    const nuevoFabricante: Fabricante = {
+      nombre,
+      alias,
+      origenes,
+      grupo: grupos.map(grupo => grupo._id),
+      _id: ''
+    };
+    this.api.agregarFabricante(nuevoFabricante);
+    this.onCloseModal.emit();
   }
 
   editarFabricante(){
-    console.log(this.data)
-
     this.api.editarFabricante(this.data)
 
     this.onCloseModal.emit()
-
-    Swal.fire({
-      title:'Se editó fabricante',
-      icon:'success',
-      timer:5000,
-      timerProgressBar:true,
-      toast:true,
-      position:'top-end',
-      showConfirmButton:false
-    })
   }
 
 

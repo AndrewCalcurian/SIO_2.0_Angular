@@ -1,3 +1,16 @@
+<div class="modal" [ngClass]="{'is-active':cargando}">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box has-text-centered">
+        <div class="loader-container">
+          <div class="loader"></div>
+          <div id="loading-text">Cargando...</div>
+        </div>
+        <div id="random-phrases"></div>
+      </div>
+    </div>
+</div>
+
 <div class="modal" [ngClass]="{'is-active':nuevo || editar}">
     <div class="modal-background"></div>
     <div class="modal-card animate__animated animate__fadeInUp">

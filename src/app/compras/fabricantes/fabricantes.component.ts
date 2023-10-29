@@ -18,6 +18,7 @@ export class FabricantesComponent {
   public editar:boolean = false;
   public selected!:any
   public data:any = [];
+  public cargando:boolean = false;
 
 
   filas(){
@@ -38,6 +39,21 @@ export class FabricantesComponent {
   cerrar(){
     this.editar = false;
     this.nuevo = false;
+    this.cargando = true;
+    
+    setTimeout(() => {
+      this.cargando = false;
+      Swal.fire({
+        title: this.api.mensaje.mensaje,
+        icon: this.api.mensaje.icon,
+        timer: 5000,
+        timerProgressBar: true,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false
+      });
+    }, 1000);
+    
   }
 
   borrarFabricante(id:string){
@@ -53,15 +69,19 @@ export class FabricantesComponent {
     }).then(resultado => {
       if(resultado.isConfirmed){
         this.api.eliminarFabricante(id)
-        Swal.fire({
-        title:'Fabricante eliminado',
-        icon:'success',
-        showConfirmButton:false,
-        position:'top-end',
-        toast:true,
-        timer:5000,
-        timerProgressBar:true
-      })
+        this.cargando = true;
+        setTimeout(() => {
+          this.cargando = false;
+          Swal.fire({
+            title: this.api.mensaje.mensaje,
+            icon: this.api.mensaje.icon,
+            timer: 5000,
+            timerProgressBar: true,
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false
+          });
+        }, 1000);
       }
     }).catch(err => {
       return err

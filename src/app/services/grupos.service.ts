@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { WebSocketService } from './web-socket.service';
-import { Grupo } from '../compras/models/modelos-compra';
+import { Grupo, Mensaje } from '../compras/models/modelos-compra';
+import { Observable, Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +10,12 @@ import { Grupo } from '../compras/models/modelos-compra';
 export class GruposService {
 
   public grupos:Array<Grupo> = []
+  public mensaje!:Mensaje;
+
   constructor(private socket:WebSocketService) {
     this.onGrupos();
    }
+  
 
   GuardarGrupo(data:Grupo){
     this.socket.io.emit('CLIENTE:NuevoGrupo',data)
@@ -26,6 +31,11 @@ export class GruposService {
   }
 
   onGrupos(){
+    // Escucha el evento 'SERVIDOR:enviarMensaje'
+    this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
+      console.error(data.mensaje);
+      this.mensaje = data
+    });
 
     this.socket.io.emit('CLIENTE:buscarGrupos')
 

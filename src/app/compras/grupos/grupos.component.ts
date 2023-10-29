@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GruposService } from 'src/app/services/grupos.service';
 import { MaterialesService } from 'src/app/services/materiales.service';
 import Swal from 'sweetalert2';
@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
   templateUrl: './grupos.component.html',
   styleUrls: ['./grupos.component.scss']
 })
-export class GruposComponent {
+export class GruposComponent implements OnInit {
   nombre = "";
   parcial = "false";
   icono = "";
@@ -16,6 +16,7 @@ export class GruposComponent {
   editar:boolean = false;
   material:boolean = false;
   nuevo_material:boolean = false;
+  cargando:boolean = false;
   data:any = [];
   lineas:number = 0;
   material_selected = []
@@ -23,6 +24,15 @@ export class GruposComponent {
   constructor(public api:GruposService,
               public materiales:MaterialesService){
 
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  cargando_(){
+    this.cargando = true;
+    this.nuevo = false;
   }
 
   AgregarNuevo(){
@@ -46,16 +56,22 @@ export class GruposComponent {
     }).then(resultado => {
 
       if(resultado.isConfirmed){
+
+        this.cargando = true
         this.api.EliminarGrupo(id)
-        Swal.fire({
-        title:'Grupo eliminado',
-        icon:'success',
-        showConfirmButton:false,
-        position:'top-end',
-        toast:true,
-        timer:5000,
-        timerProgressBar:true
-      })
+        setTimeout(() => {
+          this.cargando = false;
+          Swal.fire({
+            title: this.api.mensaje.mensaje,
+            icon: this.api.mensaje.icon,
+            timer: 5000,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            toast: true,
+            position: 'top-end'
+          });
+        }, 1000);
+
       }
     }).catch(err => {
       return err
@@ -74,8 +90,22 @@ export class GruposComponent {
   }
 
   cerrarModal(){
+    this.cargando = true
     this.nuevo = false;
     this.editar = false;
+    
+    setTimeout(() => {
+      this.cargando = false;
+      Swal.fire({
+        title: this.api.mensaje.mensaje,
+        icon: this.api.mensaje.icon,
+        timer: 5000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        toast: true,
+        position: 'top-end'
+      });
+    }, 1000);
   }
 
   NuevoMaterial(){

@@ -1,3 +1,16 @@
+<div class="modal" [ngClass]="{'is-active':cargando}">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box has-text-centered">
+        <div class="loader-container">
+          <div class="loader"></div>
+          <div id="loading-text">Cargando...</div>
+        </div>
+        <div id="random-phrases"></div>
+      </div>
+    </div>
+</div>
+
 <div class="modal" [ngClass]="{'is-active':nuevo || editar}">
     <div class="modal-background"></div>
     <div class="modal-card animate__animated animate__fadeInUp">
@@ -42,11 +55,11 @@
             </div>
         </div>
         <div class="modal-card-foot">
-            <button class="button is-outlined is-success" (click)="nuevoGrupo()" *ngIf="nuevo">
+            <button class="button is-success is-loading" (click)="nuevoGrupo()" *ngIf="nuevo" [ngClass]="{'is-loading':cargando}">
                 <span class="icon"><i class="far fa-save"></i></span>
                 <span>Guardar</span>
             </button> 
-            <button class="button is-outlined is-success" (click)="EditarGrupo()" *ngIf="editar">
+            <button class="button is-success" (click)="EditarGrupo()" *ngIf="editar" [ngClass]="{'is-loading':cargando}">
                 <span class="icon"><i class="fas fa-edit"></i></span>
                 <span>Editar</span>
             </button> 

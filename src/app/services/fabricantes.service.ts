@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { WebSocketService } from './web-socket.service';
-import { Fabricante, Fabricante_populated, Grupo } from '../compras/models/modelos-compra';
+import { Fabricante, Fabricante_populated, Grupo, Mensaje } from '../compras/models/modelos-compra';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,7 @@ export class FabricantesService{
 
   public grupos:any = []
   public fabricantes:Array<Fabricante> = []
+  public mensaje!:Mensaje;
 
   constructor(private socket:WebSocketService) { 
     this.buscarGrupos()
@@ -16,6 +17,12 @@ export class FabricantesService{
   }
 
   buscarGrupos(){
+    // Escucha el evento 'SERVIDOR:enviarMensaje'
+    this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
+      console.error(data.mensaje);
+      this.mensaje = data
+    });
+
     this.socket.io.emit('CLIENTE:buscarGrupos')
 
     this.socket.io.on('cargarGrupos', (grupo) => {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FabricantesService } from 'src/app/services/fabricantes.service';
 import { Proveedores } from '../../models/modelos-compra';
 import Swal from 'sweetalert2';
@@ -8,13 +8,14 @@ import Swal from 'sweetalert2';
   templateUrl: './nuevo-proveedor.component.html',
   styleUrls: ['./nuevo-proveedor.component.scss']
 })
-export class NuevoProveedorComponent {
+export class NuevoProveedorComponent implements OnInit{
 
 
   @Input() nuevo!:boolean;
   @Input() editar!:boolean;
   @Input() proveedor!:Proveedores
   @Input() api:any;
+  @Input() cargando!:boolean;
   @Output() onCloseModal = new EventEmitter();
 
   public proveedor_directo:any = false;
@@ -29,6 +30,29 @@ export class NuevoProveedorComponent {
 
   constructor(public fabricantes:FabricantesService){
 
+  }
+
+  ngOnInit(): void {
+    var phrases = [
+      'Arreglando código de programación',
+      'Ajustando colores',
+      'Haciendo las conexiones electricas',
+      'Descargando la información',
+      'Haciendo girar la rueda',
+      'Buscando errores',
+      'Programando la respuesta que quieres',
+      'Ya casi terminamos',
+      'Conectando las tuberias'
+    ];
+  
+    // Function to change the random phrase
+    function changeRandomPhrase() {
+      var randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      document.getElementById('random-phrases')!.textContent = randomPhrase;
+    }
+  
+    // Call the function every 1 second
+    setInterval(changeRandomPhrase, 2000);
   }
 
   cerrar(){
