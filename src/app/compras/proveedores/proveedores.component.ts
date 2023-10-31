@@ -27,6 +27,20 @@ export class ProveedoresComponent{
   cerrar(){
     this.nuevo = false;
     this.editar = false;
+    this.cargando = true;
+    
+    setTimeout(() => {
+      this.cargando = false;
+      Swal.fire({
+        title: this.api.mensaje.mensaje,
+        icon: this.api.mensaje.icon,
+        timer: 5000,
+        timerProgressBar: true,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false
+      });
+    }, 1000);
   }
 
   filas(){

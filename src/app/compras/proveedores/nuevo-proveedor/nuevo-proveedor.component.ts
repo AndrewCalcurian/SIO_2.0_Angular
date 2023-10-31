@@ -115,17 +115,6 @@ export class NuevoProveedorComponent implements OnInit{
     }
 
     this.api.nuevoProveedor(data);
-
-    Swal.fire({
-      title:'Se guardó nuevo proveedor',
-      icon:'success',
-      timer:5000,
-      position:'top-end',
-      timerProgressBar:true,
-      showConfirmButton:false,
-      toast:true
-    })
-
     this.cerrar();
   }
 
