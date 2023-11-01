@@ -36,13 +36,10 @@ export class NuevoProveedorComponent implements OnInit{
     var phrases = [
       'Arreglando código de programación',
       'Ajustando colores',
-      'Haciendo las conexiones electricas',
       'Descargando la información',
-      'Haciendo girar la rueda',
       'Buscando errores',
       'Programando la respuesta que quieres',
       'Ya casi terminamos',
-      'Conectando las tuberias'
     ];
   
     // Function to change the random phrase

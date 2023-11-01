@@ -9,6 +9,7 @@ export class ProveedoresService {
 
 
   public proveedores:any = []
+  public proveedor_selected!:any
   public mensaje!:Mensaje;
   constructor(public socket:WebSocketService) { 
     this.buscarProveedor()
@@ -40,4 +41,9 @@ export class ProveedoresService {
   eliminarProveedor(id:string){
     this.socket.io.emit('CLIENTE:deleteProveedor', id)
   }
+
+  seleccionarUnProveedor(id:any){
+    this.proveedor_selected = this.proveedores.filter((x:any) =>x.fabricantes._id === id)
+  }
+
 }

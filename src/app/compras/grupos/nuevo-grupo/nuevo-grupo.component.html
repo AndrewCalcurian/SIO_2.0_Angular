@@ -21,7 +21,7 @@
             <p class="modal-card-title fuente" *ngIf="editar">
                 Editar Grupo
             </p>
-            <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
+            <button class="delete red_cross" aria-label="close" (click)="cerrar_()"></button>
         </div>
         <div class="modal-card-body light">
             <div class="field">
@@ -46,11 +46,23 @@
                     </div>
                 </div>
             </div>
-            <div class="field">
-                <label for="" class="label">Icono (Agregar clase)</label>
-                <div class="control">
-                    <input type="text" class="input" [(ngModel)]="icono" *ngIf="nuevo">
-                    <input type="text" class="input" [(ngModel)]="data.icono" *ngIf="editar">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="" class="label">Icono (Agregar clase)</label>
+                        <div class="control">
+                            <input type="text" class="input" [(ngModel)]="icono" *ngIf="nuevo">
+                            <input type="text" class="input" [(ngModel)]="data.icono" *ngIf="editar">
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="" class="label">Trato:</label>
+                        <div class="control">
+                            <input type="checkbox" name="" id="" [ngModel]="trato" (change)="verTrato($event.target)"> <span class="info"> Tratar como sustrato</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -21,14 +21,14 @@
             <p class="modal-card-title fuente" *ngIf="editar">
                 Editar Fabricante
             </p>
-            <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
+            <button class="delete red_cross" aria-label="close" (click)="cerrar_()"></button>
         </div>
         <div class="modal-card-body">
             <div class="field">
-                <label for="" class="label">Razón Social</label>
+                <label class="label">Razón social:</label>
                 <div class="control">
-                    <input type="text" class="input" [(ngModel)]="nombre" *ngIf="nuevo">
-                    <input type="text" class="input" [(ngModel)]="data.nombre" *ngIf="!nuevo">
+                    <input type="text" class="input" id="nombre" [(ngModel)]="nombre" *ngIf="nuevo">
+                    <input type="text" class="input" id="nombre" [(ngModel)]="data.nombre" *ngIf="!nuevo">
                 </div>
             </div>
             <div class="field">
@@ -317,7 +317,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="column">
+                <div class="column is-2">
                     <div class="field">
                         <label for="" class="label"> </label>
                         <button class="button is-info" (click)="addGrupo()" *ngIf="nuevo">
@@ -326,6 +326,69 @@
                         <button class="button is-info" (click)="addGrupo_()" *ngIf="!nuevo">
                             <i class="fas fa-plus"></i>
                         </button>
+                    </div>
+                </div>
+            </div>
+                <ng-container *ngIf="nuevo">
+                    <label for="" class="label"> </label>
+                    <input type="checkbox" name="" id="" (change)="proveedor($event.target)"> <span style="color: black;"> Proveedor directo</span>
+                </ng-container>
+                <ng-container *ngIf="editar">
+                    <hr>
+                    <a style="color: black;" (click)="BuscarProveedor()">
+                        Ver informacion de proveedor
+                    </a>
+                </ng-container>
+                
+            <div class="proveedor_directo" *ngIf="proveedor_directo || proveedor_directo_abierto">
+                <div class="field">
+                    <label for="" class="label">Dirección</label>
+                    <div class="control">
+                        <input type="text" class="input" id="direccion" [(ngModel)]="p_direccion" *ngIf="nuevo">
+                        <input type="text" class="input" id="direccion" [(ngModel)]="proveedor_directo_selected[0].direccion" *ngIf="proveedor_directo_abierto && !nuevo">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Rif:</label>
+                    <div class="control">
+                        <input type="text" class="input" maxlength="12" (input)="addGuion()"  [(ngModel)]="p_rif" *ngIf="nuevo">
+                        <input type="text" class="input" maxlength="12" (input)="addGuion()" [(ngModel)]="proveedor_directo_selected[0].rif" *ngIf="proveedor_directo_abierto && !nuevo">
+                    </div>
+                </div>
+                <div class="field">
+                    <strong>Persona de contacto</strong>
+                    <div class="columns">
+                        <div class="column">
+                            <label for="" class="label">Nombre:</label>
+                            <div class="control">
+                                <input type="text" class="input" [(ngModel)]="p_nombre">
+                            </div>
+                        </div>
+                        <div class="column">
+                            <label for="" class="label">Teléfono:</label>
+                            <div class="control" >
+                                <input type="text" class="input" [(ngModel)]="p_telefono">
+                            </div>
+                        </div>
+                        <div class="column">
+                            <label for="" class="label" >Correo:</label>
+                            <div class="control">
+                                <input type="email" class="input" [(ngModel)]="p_correo" (input)="validateEmail(p_correo)">
+                                <p id="validationMessage"></p>
+                            </div>
+                        </div>
+                        <div class="column is-1" *ngIf="nuevo && p_nombre && p_telefono && correo_valido">
+                            <label for="" class="label" > </label>
+                            <button class="button is-info" (click)="AgregarContacto()">
+                                <span class="icon"><i class="fas fa-plus"></i></span>
+                            </button>
+                        </div>
+                        <div class="column is-1" *ngIf="!nuevo">
+                            <label for="" class="label" > </label>
+                            <button class="button is-info" (click)="AgregarContacto_()">
+                                <span class="icon"><i class="fas fa-plus"></i></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -351,6 +414,35 @@
                             <td><i class="far fa-trash-alt red" (click)="deleteGrupo_(i)"></i></td>
                         </tr>
                     </table>
+                </div>
+                <div class="column" *ngIf="proveedor_directo_abierto">
+                    <i class="far fa-object-group"></i> <strong>Contacto(s):</strong>
+                        <!-- a ver  -->
+                        <table class="table" *ngFor="let contacto of proveedor_directo_selected[0].contactos; index as i">
+                                    <tr [hidden]="elementosVisibles[i]">
+                                        <td>
+                                          {{contacto.nombre}} <br>
+                                          {{contacto.telefono}} <br>
+                                          {{contacto.correo}}
+                                        </td>
+                                        <td>
+                                            <i class="far fa-edit green" (click)="editar_(i)"></i><br>
+                                            <i class="far fa-trash-alt red" (click)="deletecontacto_(i)"></i>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr [hidden]="!elementosVisibles[i]">
+                                        <td>
+                                            <input type="text" class="input" [(ngModel)]="contacto.nombre">
+                                            <input type="text" class="input" [(ngModel)]="contacto.telefono">
+                                            <input type="text" class="input" [(ngModel)]="contacto.correo">
+                                        </td>
+                                        <td>
+                                            <i class="fas fa-check green" (click)="guardarCambios(i)"></i><br>
+                                        </td>
+                                    </tr>
+                        </table>
+                        <!-- a ver -->
                 </div>
             </div>
             <hr>
@@ -380,6 +472,28 @@
                             <td>{{grupo.nombre}}</td>
                             <td><i class="far fa-trash-alt red" (click)="deleteGrupo(i)"></i></td>
                         </tr>
+                    </table>
+                </div>
+            
+                <div class="column" *ngIf="proveedor_directo">
+                    <i class="far fa-object-group"></i> <strong>Contacto(s):</strong>
+                    <table class="table">
+                        <ng-container >
+                            <table class="table">
+                                <tr *ngFor="let contacto of p_contacto;index as i">
+                                    <td>
+                                        {{contacto.nombre}} <br>
+                                        {{contacto.telefono}} <br>
+                                        {{contacto.correo}}
+                                    </td>
+                                    <td>
+                                         <br>
+                                        <i class="far fa-trash-alt red" (click)="deletecontacto(i)"></i>
+                                         
+                                    </td>
+                                </tr>
+                            </table>
+                        </ng-container>
                     </table>
                 </div>
             </div>

@@ -19,6 +19,7 @@ export class NuevoMaterialComponent {
 
   @Input() nuevo_material:any;
   @Output() onCloseModal = new EventEmitter();
+  @Output() onCloseModal_ = new EventEmitter();
 
   public grupo:string = '';
   public gramaje:string = '';
@@ -38,7 +39,7 @@ export class NuevoMaterialComponent {
 
     buscarFabricante(e:any){
       this.Fabricantes = this.fabricante.buscarFabricanteDe(this.grupos.grupos[e.value]._id!)
-      if(this.grupos.grupos[e.value].nombre === 'Sustrato'){
+      if(this.grupos.grupos[e.value].trato){
         this.selected_sustrato = true;
       }else{
         this.selected_sustrato = false;
@@ -75,6 +76,20 @@ export class NuevoMaterialComponent {
       this.nombre = '';
       this.onCloseModal.emit();
     }
+
+    cerrar_(){
+      this.grupo = '';
+      this.gramaje = '';
+      this.calibre = '';
+      this.color = '';
+      this.codigo = '';
+      this.Fabricante = '';
+      this.origen = '';
+      this.serie = '';
+      this.nombre = '';
+      this.onCloseModal_.emit();
+    }
+    
 
     guardarMaterial(){
 

@@ -13,23 +13,22 @@ export class NuevoGrupoComponent implements OnInit{
   @Input() data:any;
   @Input() cargando!:boolean;
   @Output() onCloseModal = new EventEmitter();
+  @Output() onCloseModal_ = new EventEmitter();
   @Output() onLoading = new EventEmitter();
 
   nombre = "";
   parcial = "false";
   icono = "";
+  trato = false;
 
   ngOnInit(): void {
     var phrases = [
       'Arreglando código de programación',
       'Ajustando colores',
-      'Haciendo las conexiones electricas',
       'Descargando la información',
-      'Haciendo girar la rueda',
       'Buscando errores',
       'Programando la respuesta que quieres',
       'Ya casi terminamos',
-      'Conectando las tuberias'
     ];
   
     // Function to change the random phrase
@@ -47,14 +46,20 @@ export class NuevoGrupoComponent implements OnInit{
     let data = {
       nombre:this.nombre,
       parcial:this.parcial,
-      icono:this.icono
+      icono:this.icono,
+      trato:this.trato
     }
     await this.api.GuardarGrupo(data)
 
     this.nombre = "";
     this.parcial = 'false';
     this.icono = "";
+    this.trato = false;
 
+  }
+
+  verTrato(e:any){
+    this.trato = e.checked
   }
 
   cerrar(){
@@ -63,6 +68,15 @@ export class NuevoGrupoComponent implements OnInit{
     this.icono = "";
 
     this.onCloseModal.emit()
+
+  }
+
+  cerrar_(){
+    this.nombre = "";
+    this.parcial = 'false';
+    this.icono = "";
+
+    this.onCloseModal_.emit()
 
   }
 

@@ -53,6 +53,7 @@
                         <div class="control">
                             <div class="select">
                                 <select name="" id="">
+                                    <option value="·">Selecciona proveedor</option>
                                     <option value="{{fabricante._id}}" *ngFor="let fabricante of fabricante;index as i">{{fabricante.nombre}}</option>
                                 </select>
                             </div>
@@ -60,7 +61,24 @@
                     </div>
                 </div>
             </div>
-
+            <hr>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="" class="label">Material</label>
+                        <div class="control">
+                            <div class="select">
+                                <select>
+                                    <option value="">material 1</option>
+                                    <option value="">material 2</option>
+                                    <option value="">material 3</option>
+                                    <option value="">material 4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

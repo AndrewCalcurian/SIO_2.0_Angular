@@ -56,6 +56,12 @@ export class FabricantesComponent {
     
   }
 
+  cerrar__(){
+    this.editar = false;
+    this.nuevo = false;
+    console.log('close 2')
+  }
+
   borrarFabricante(id:string){
     Swal.fire({
       title:'¿Eliminar este Fabricante?',

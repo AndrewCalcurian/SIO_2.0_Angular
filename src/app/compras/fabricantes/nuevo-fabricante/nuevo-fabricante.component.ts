@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Swal from 'sweetalert2';
-import { Fabricante, Fabricante_populated, Grupo, Origenes } from '../../models/modelos-compra';
+import { Fabricante, Fabricante_populated, Grupo, Origenes, Proveedores } from '../../models/modelos-compra';
 import { FabricantesService } from 'src/app/services/fabricantes.service';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
 
 @Component({
   selector: 'app-nuevo-fabricante',
@@ -14,17 +15,30 @@ export class NuevoFabricanteComponent implements OnInit{
   @Input() editar:any;
   @Input() cargando!:boolean;
   @Output() onCloseModal = new EventEmitter();
+  @Output() onCloseModal_ = new EventEmitter();
 
   nombre :string = '';
   alias  :string = '';
   pais   :string = 'Venezuela';
   estado :string = '';
   grupo  :string = ''
+  proveedor_directo :boolean = false;
+
+  p_nombre  :string = ''
+  p_telefono:string = ''
+  p_correo  :string = ''
+  p_contacto:any = []
+  p_direccion:string = ''
+  p_rif:string = ''
+
+  proveedor_directo_selected:any;
+  proveedor_directo_abierto:boolean = false;
 
   public origenes:Array<Origenes> = [];
   public grupos:Array<Grupo> = []
 
-  constructor(public api:FabricantesService){
+  constructor(public api:FabricantesService,
+              public proveedor_service:ProveedoresService){
     
   }
 
@@ -32,13 +46,10 @@ export class NuevoFabricanteComponent implements OnInit{
     var phrases = [
       'Arreglando código de programación',
       'Ajustando colores',
-      'Haciendo las conexiones electricas',
       'Descargando la información',
-      'Haciendo girar la rueda',
       'Buscando errores',
       'Programando la respuesta que quieres',
       'Ya casi terminamos',
-      'Conectando las tuberias'
     ];
   
     // Function to change the random phrase
@@ -50,9 +61,116 @@ export class NuevoFabricanteComponent implements OnInit{
     // Call the function every 1 second
     setInterval(changeRandomPhrase, 2000);
   }
+  elementosVisibles: boolean[] = [];
+
+  editar_(i: number) {
+    this.elementosVisibles[i] = true;
+  }
+
+  guardarCambios(i: number) {
+    this.elementosVisibles[i] = false;
+  }
+  
+  
+  // //genera una funcion llamada editar_() que coloque agregue es estilo display:none al elemento con id contacto_i
+  // editar_(i:number) {
+  //   const elemento = document.getElementById(`contactos_${i}`);
+  //   if (elemento) {
+  //     elemento.style.display = 'none';
+  //     const elemento2 = document.getElementById(`formularios_${i}`);
+  //     if (elemento2) {
+  //       elemento2.style.display = 'block';
+  //       // elimina elemento con id botones_i
+  //       const elemento3 = document.getElementById(`botones_${i}`);
+  //       if (elemento3) {
+  //         elemento3.style.display = 'none';
+  //       }
+  //     }
+
+  //   }
+  // }
+
+    //guardar dentro de this.p_contacto un objeto con nombre,telefono,correo cara uno correspondiente al valor de las variables p_nombre, p_telefono, p_correo
+    AgregarContacto(){
+      this.p_contacto.push({
+        nombre: this.p_nombre,
+        telefono: this.p_telefono,
+        correo: this.p_correo
+      });
+      this.p_nombre = '';
+      this.p_telefono = '';
+      this.p_correo = '';
+    }
+    AgregarContacto_(){
+      this.proveedor_directo_selected[0].contactos.push({
+        nombre: this.p_nombre,
+        telefono: this.p_telefono,
+        correo: this.p_correo
+      });
+      this.p_nombre = '';
+      this.p_telefono = '';
+      this.p_correo = '';
+    }
+
+    addGuion(){
+      if (this.p_rif.length === 1) {
+        this.p_rif = this.p_rif + '-';
+      } 
+
+      if (this.proveedor_directo_selected[0].rif === 1){
+        this.proveedor_directo_selected[0].rif + '-';
+      }
+    }
+
+    checkValidity(email:any) {
+      // Expresión regular para validar el formato del email
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      // Verificar si el email cumple con el formato válido
+      if (!emailRegex.test(email)) {
+        return false;
+      }
+      
+      // Otras validaciones personalizadas, si es necesario
+      
+      return true;
+    }
+
+
+    public correo_valido = false;
+    validateEmail(correo:any) {
+      var validationMessage = document.getElementById("validationMessage");
+    
+      if (this.checkValidity(correo)) {
+        this.correo_valido = true;
+        validationMessage!.textContent = "";
+        validationMessage!.style.color = "green";
+      } else {
+        validationMessage!.textContent = "correo Invalido";
+        validationMessage!.style.color = "red";
+      }
+    }
+
+
+    //crea una funcion llamada deletecontacto que reciba un indice que sera buscado en this.p_contacto y sera elminado del mismo
+    deletecontacto(index: number){
+      this.p_contacto.splice(index, 1);
+    }
+
+    deletecontacto_(index: number){
+      this.proveedor_directo_selected[0].contactos.splice(index, 1);
+    }
+
+  proveedor(e:any){
+    this.proveedor_directo = e.checked;
+  }
 
   cerrar(){
     this.onCloseModal.emit()
+  }
+  cerrar_(){
+    console.log('close')
+    this.onCloseModal_.emit()
   }
 
   addOrigen(){
@@ -118,16 +236,49 @@ export class NuevoFabricanteComponent implements OnInit{
       nombre,
       alias,
       origenes,
+      proveedor:this.proveedor_directo,
       grupo: grupos.map(grupo => grupo._id),
       _id: ''
     };
     this.api.agregarFabricante(nuevoFabricante);
+
+    if(this.proveedor_directo){
+      setTimeout(()=>{
+        const { nombre, p_contacto , p_direccion , p_rif } = this;
+          let proveedor:Proveedores  = {
+            fabricantes:'',
+            nombre,
+            contactos:p_contacto,
+            direccion:p_direccion,
+            rif:p_rif,
+          }
+          this.proveedor_service.nuevoProveedor(proveedor)
+          this.onCloseModal.emit();
+      },1000)
+    }
     this.onCloseModal.emit();
+  }
+
+  BuscarProveedor(){
+
+    if(!this.proveedor_directo_abierto){
+      this.proveedor_service.seleccionarUnProveedor(this.data._id)
+      this.proveedor_directo_selected = this.proveedor_service.proveedor_selected;
+      this.proveedor_directo_abierto = true;
+    }else{
+      this.proveedor_directo_abierto = false;
+    }
+
   }
 
   editarFabricante(){
     this.api.editarFabricante(this.data)
-
+    if(this.proveedor_directo_selected[0]){
+      setTimeout(()=>{
+        this.proveedor_service.editarProveedores(this.proveedor_directo_selected[0])
+        this.onCloseModal.emit()
+      },1000)
+    }
     this.onCloseModal.emit()
   }
 

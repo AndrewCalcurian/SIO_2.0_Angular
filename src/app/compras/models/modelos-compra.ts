@@ -10,6 +10,7 @@ export class Origenes {
 export class Grupo {
     constructor(
         public nombre:string,
+        public trato?:boolean,
         public icono?:string,
         public parcial?:boolean,
         public _id?:string
@@ -22,7 +23,8 @@ export class Fabricante {
         public alias:string,
         public origenes:Array<Origenes>,
         public grupo:any,
-        public _id:string
+        public _id:string,
+        public proveedor:boolean
     ){}
 }
 
@@ -31,7 +33,8 @@ export class Fabricante_populated {
         public nombre:string,
         public alias:string,
         public origenes:Array<Origenes>,
-        public grupo:Array<Grupo>
+        public grupo:Array<Grupo>,
+        public _id?:string
     ){}
 }
 

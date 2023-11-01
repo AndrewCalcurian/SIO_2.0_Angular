@@ -108,6 +108,11 @@ export class GruposComponent implements OnInit {
     }, 1000);
   }
 
+  cerrarModal_(){
+    this.nuevo = false;
+    this.editar = false;
+  }
+
   NuevoMaterial(){
     this.nuevo_material = true;
   }
