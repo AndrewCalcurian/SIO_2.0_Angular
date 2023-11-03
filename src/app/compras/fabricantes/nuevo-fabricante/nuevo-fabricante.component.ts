@@ -34,6 +34,8 @@ export class NuevoFabricanteComponent implements OnInit{
   proveedor_directo_selected:any;
   proveedor_directo_abierto:boolean = false;
 
+  elementosVisibles: boolean[] = [];
+
   public origenes:Array<Origenes> = [];
   public grupos:Array<Grupo> = []
 
@@ -61,7 +63,6 @@ export class NuevoFabricanteComponent implements OnInit{
     // Call the function every 1 second
     setInterval(changeRandomPhrase, 2000);
   }
-  elementosVisibles: boolean[] = [];
 
   editar_(i: number) {
     this.elementosVisibles[i] = true;
@@ -273,7 +274,8 @@ export class NuevoFabricanteComponent implements OnInit{
 
   editarFabricante(){
     this.api.editarFabricante(this.data)
-    if(this.proveedor_directo_selected[0]){
+    console.log(this.proveedor_directo_selected)
+    if(this.proveedor_directo_selected){
       setTimeout(()=>{
         this.proveedor_service.editarProveedores(this.proveedor_directo_selected[0])
         this.onCloseModal.emit()

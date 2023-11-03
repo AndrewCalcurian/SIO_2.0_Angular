@@ -21,34 +21,9 @@
             <p class="modal-card-title fuente" *ngIf="!nuevo">
                 Editar Proveedor
             </p>
-            <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
+            <button class="delete red_cross" aria-label="close" (click)="cerrar_()"></button>
         </div>
         <div class="modal-card-body">
-            <div class="columns">
-                <div class="column">
-                    <div class="field">
-                        <label for="" class="label">Fabricante:</label>
-                        <div class="select" *ngIf="nuevo">
-                            <select id="fabricante" (change)="fabricante_selected($event.target)">
-                                <option value="#">Fabricante</option>
-                                <option value="{{i}}" *ngFor="let fabricante of fabricantes.fabricantes;index as i">{{fabricante.alias}}</option>
-                            </select>
-                        </div>
-                        <div class="select" *ngIf="!nuevo">
-                            <select id="fabricante" (change)="fabricante_selected($event.target)">
-                                <option value="#">Fabricante</option>
-                                <option value="{{fabricante._id}}" *ngFor="let fabricante of fabricantes.fabricantes;index as i">{{fabricante.alias}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="field">
-                        <label for="" class="label"> </label>
-                        <input type="checkbox" name="" id="" (click)="checkProveedor()" [(ngModel)]="proveedor_directo"> Es proveedor
-                    </div>
-                </div>
-            </div>
             <div class="field">
                 <label class="label">Nombre:</label>
                 <div class="control">
@@ -68,6 +43,37 @@
                 <div class="control">
                     <input type="text" class="input" [(ngModel)]="rif" *ngIf="nuevo">
                     <input type="text" class="input" [(ngModel)]="proveedor.rif" *ngIf="editar">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-3">
+                    <div class="field">
+                        <label for="" class="label">Fabricante:</label>
+                        <div class="select" *ngIf="nuevo">
+                            <select id="fabricante" (change)="fabricante_selected($event.target)">
+                                <option value="#">Fabricante</option>
+                                <option value="{{i}}" *ngFor="let fabricante of fabricantes.fabricantes;index as i">{{fabricante.alias}}</option>
+                            </select>
+                        </div>
+                        <div class="select" *ngIf="!nuevo">
+                            <select id="fabricante" (change)="fabricante_selected($event.target)">
+                                <option value="#">Fabricante</option>
+                                <option value="{{fabricante._id}}" *ngFor="let fabricante of fabricantes.fabricantes;index as i">{{fabricante.alias}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="" class="label"> </label>
+                        <div class="control">
+                            <button class="button is-info" (click)="addFabricante()">
+                                <span class="icon">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="field">
@@ -104,14 +110,40 @@
             </div>
         </div>
     </div>
-    <div class="modal-card bg" *ngIf="contactos.length > 0 && nuevo">
+    <div class="modal-card bg" *ngIf="contactos.length > 0 || fabricantes_array_name.length > 0 && nuevo">
         <div class="modal-card-body bg">
-            <strong>Personas de contacto:</strong> <br><hr>
-            <ng-container *ngFor="let contacto of contactos;index as i">
-                {{contacto.nombre}} <br>
-                {{contacto.numero}} <br>
-                {{contacto.email}} <br> <br>
-            </ng-container>
+            <div class="columns">
+                <div class="column">
+                    <strong>Fabricantes:</strong> <br><hr>
+                    <ng-container *ngFor="let fabricante of fabricantes_array_name;index as i">
+                        <div class="columns">
+                            <div class="column is-2">
+                                {{fabricante}}
+                            </div>
+                            <div class="column">
+                                <i class="far fa-trash-alt red" style="cursor: pointer;" (click)="EliminarFabricante(i)"></i>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="column">
+                    <strong>Personas de contacto:</strong> <br><hr>
+                    <ng-container *ngFor="let contacto of contactos;index as i">
+                        <div class="columns">
+                            <div class="column is-3">
+                                {{contacto.nombre}} <br>
+                                {{contacto.numero}}<br>
+                                {{contacto.email}} <br> <br> 
+                            </div>
+                            <div class="column is-1">
+                                  <br>
+                                  <i class="far fa-trash-alt red" style="cursor: pointer;" (click)="EliminarContacto(i)"></i>
+                                 
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
             <hr>
             <button class="button is-success" (click)="GuardarProveedor()">
                 <span class="icon"></span>
@@ -121,12 +153,38 @@
     </div>
     <div class="modal-card bg" *ngIf="editar">
         <div class="modal-card-body bg">
-            <strong>Personas de contacto:</strong> <br><hr>
-            <ng-container *ngFor="let contacto of proveedor.contactos;index as i">
-                {{contacto.nombre}} <br>
-                {{contacto.numero}} <br>
-                {{contacto.email}} <br> <br>
-            </ng-container>
+            <div class="columns">
+                <div class="column">
+                    <strong>Fabricantes:</strong> <br><hr>
+                    <ng-container *ngFor="let fabricante of proveedor.fabricantes;index as i">
+                        <div class="columns">
+                            <div class="column is-2">
+                                {{fabricante.alias}}
+                            </div>
+                            <div class="column">
+                                <i class="far fa-trash-alt red" style="cursor: pointer;" (click)="proveedor.fabricantes.splice(i,1)"></i>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="column">
+                    <strong>Personas de contacto:</strong> <br><hr>
+                    <ng-container *ngFor="let contacto of proveedor.contactos;index as i">
+                        <div class="columns">
+                            <div class="column is-4">
+                                {{contacto.nombre}} <br>
+                                {{contacto.numero}}<br>
+                                {{contacto.email}} <br> <br> 
+                            </div>
+                            <div class="column is-1">
+                                <br>
+                                <i class="far fa-trash-alt red" style="cursor: pointer;" (click)="proveedor.contactos.splice(i,1)"></i>
+                                
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
             <hr>
             <button class="button is-success" (click)="EditarProveedor()">
                 <span class="icon"></span>

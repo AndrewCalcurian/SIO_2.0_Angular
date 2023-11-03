@@ -13,6 +13,7 @@ export class ProveedoresComponent{
   public nuevo:boolean = false;
   public editar:boolean = false;
   public cargando:boolean = false;
+  public detalle:boolean = false;
   public proveedor_selected!:Proveedores;
 
   constructor(public api:ProveedoresService){
@@ -41,6 +42,16 @@ export class ProveedoresComponent{
         showConfirmButton: false
       });
     }, 1000);
+  }
+
+  cerrar_(){
+    this.nuevo = false;
+    this.editar = false;
+  }
+
+  VerProveedor(i:number){
+    this.proveedor_selected = this.api.proveedores[i]
+    this.detalle = true;
   }
 
   filas(){

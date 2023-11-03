@@ -17,6 +17,7 @@ export class NuevoProveedorComponent implements OnInit{
   @Input() api:any;
   @Input() cargando!:boolean;
   @Output() onCloseModal = new EventEmitter();
+  @Output() onCloseModal_ = new EventEmitter();
 
   public proveedor_directo:any = false;
   public nombre:string = '';
@@ -27,6 +28,8 @@ export class NuevoProveedorComponent implements OnInit{
   public contacto_email :string = ''
   public fabricante:any
   public contactos:any = [];
+  public fabricantes_array:any = [];
+  public fabricantes_array_name:any = [];
 
   constructor(public fabricantes:FabricantesService){
 
@@ -60,6 +63,18 @@ export class NuevoProveedorComponent implements OnInit{
     this.onCloseModal.emit();
   }
 
+  cerrar_(){
+    this.nombre = '';
+    this.direccion = '';
+    this.rif = '';
+    this.contactos = [];
+    this.onCloseModal_.emit();
+  }
+
+  EliminarContacto(i:number){
+    this.contactos.splice(i,1)
+  }
+
   checkProveedor(){
     if(!this.proveedor_directo){
       this.nombre = this.fabricantes.fabricantes[this.fabricante].nombre;
@@ -69,6 +84,18 @@ export class NuevoProveedorComponent implements OnInit{
       (<HTMLInputElement>document.getElementById('nombre')).disabled = false;
 
     }
+  }
+
+  addFabricante(){
+      if (!this.fabricantes_array.includes(this.fabricantes.fabricantes[this.fabricante]._id)) {
+        this.fabricantes_array.push(this.fabricantes.fabricantes[this.fabricante]._id);
+        this.fabricantes_array_name.push(this.fabricantes.fabricantes[this.fabricante].alias);
+        this.fabricante = ''
+      }
+  }
+  EliminarFabricante(i:number){
+    this.fabricantes_array.splice(i,1);
+    this.fabricantes_array_name.splice(i,1);
   }
 
   fabricante_selected(e:any | null){
@@ -103,7 +130,7 @@ export class NuevoProveedorComponent implements OnInit{
 
   GuardarProveedor(){
     let data:Proveedores = {
-      fabricantes:this.fabricantes.fabricantes[this.fabricante]._id,
+      fabricantes:this.fabricantes_array,
       nombre    :this.nombre,
       direccion :this.direccion,
       rif       :this.rif,
@@ -116,7 +143,7 @@ export class NuevoProveedorComponent implements OnInit{
   }
 
   EditarProveedor(){
-    this.proveedor.fabricantes = this.proveedor.fabricantes._id;
+    this.proveedor.fabricantes = this.proveedor.fabricantes.map((e:any)=> e._id);
     this.api.editarProveedores(this.proveedor);
     this.cerrar();
   }

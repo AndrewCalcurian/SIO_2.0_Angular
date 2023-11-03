@@ -111,6 +111,7 @@ export class GruposComponent implements OnInit {
   cerrarModal_(){
     this.nuevo = false;
     this.editar = false;
+    this.nuevo_material = false;
   }
 
   NuevoMaterial(){
@@ -119,6 +120,19 @@ export class GruposComponent implements OnInit {
 
   cerrarNuevoMaterial(){
     this.nuevo_material = false;
+    this.cargando = true;
+    setTimeout(() => {
+      this.cargando = false;
+      Swal.fire({
+        title: this.api.mensaje.mensaje,
+        icon: this.api.mensaje.icon,
+        timer: 5000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        toast: true,
+        position: 'top-end'
+      });
+    }, 1000);
   }
 
   buscarMaterial(grupo:number){

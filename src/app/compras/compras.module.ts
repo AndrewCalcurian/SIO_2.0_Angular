@@ -15,6 +15,7 @@ import { NuevoFabricanteComponent } from './fabricantes/nuevo-fabricante/nuevo-f
 import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { NuevoProveedorComponent } from './proveedores/nuevo-proveedor/nuevo-proveedor.component';
 import { NuevoMaterialComponent } from './grupos/nuevo-material/nuevo-material.component';
+import { DetallesProveedoresComponent } from './proveedores/detalles-proveedores/detalles-proveedores.component';
 
 
 
@@ -31,6 +32,7 @@ import { NuevoMaterialComponent } from './grupos/nuevo-material/nuevo-material.c
     ProveedoresComponent,
     NuevoProveedorComponent,
     NuevoMaterialComponent,
+    DetallesProveedoresComponent
   ],
   imports: [
     CommonModule,

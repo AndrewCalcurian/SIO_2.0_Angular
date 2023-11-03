@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FabricantesService } from 'src/app/services/fabricantes.service';
 import { GruposService } from 'src/app/services/grupos.service';
 import { Fabricante } from '../../models/modelos-compra';
@@ -9,7 +9,7 @@ import { MaterialesService } from 'src/app/services/materiales.service';
   templateUrl: './nuevo-material.component.html',
   styleUrls: ['./nuevo-material.component.scss']
 })
-export class NuevoMaterialComponent {
+export class NuevoMaterialComponent implements OnInit{
 
   public Fabricantes:any = []
   public origenes:any = []
@@ -18,6 +18,7 @@ export class NuevoMaterialComponent {
   public selected_pantone:boolean = false;
 
   @Input() nuevo_material:any;
+  @Input() cargando!:boolean;
   @Output() onCloseModal = new EventEmitter();
   @Output() onCloseModal_ = new EventEmitter();
 
@@ -35,6 +36,28 @@ export class NuevoMaterialComponent {
   constructor(public grupos:GruposService,
               public fabricante:FabricantesService,
               public api:MaterialesService){}
+
+            
+            
+  ngOnInit(): void {
+    var phrases = [
+      'Arreglando código de programación',
+      'Ajustando colores',
+      'Descargando la información',
+      'Buscando errores',
+      'Programando la respuesta que quieres',
+      'Ya casi terminamos',
+    ];
+  
+    // Function to change the random phrase
+    function changeRandomPhrase() {
+      var randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      document.getElementById('random-phrases')!.textContent = randomPhrase;
+    }
+  
+    // Call the function every 1 second
+    setInterval(changeRandomPhrase, 2000);
+  }
 
 
     buscarFabricante(e:any){

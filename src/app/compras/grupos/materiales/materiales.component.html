@@ -3,10 +3,15 @@
     <div class="modal-card full">
         <div class="modal-card-head">
             <p class="modal-card-title fuente">
-                grupo
+                Grupo
             </p>
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
+        <ng-container *ngIf="material_selected.length < 1">
+            <div class="modal-card-body light">
+                Aún no hay materiales registrados
+            </div>
+        </ng-container>
         <div class="modal-card-body light" *ngIf="material_selected.length > 0">
             <table class="table is-fullwidth is-striped">
                 <thead>
@@ -23,53 +28,97 @@
                 </thead>
                 <tbody>
                     <ng-container *ngIf="material_selected.length > 0">
-                        <tr *ngFor="let material of material_selected;index as i">
-                            <td>
-                                {{material.nombre}}
-                                <span id="nombre_{{i}}" style="display: none;">
+                        <ng-container *ngFor="let material of material_selected;index as i">
+                            <tr *ngIf="!Edicion[i]">
+                                <td>
+                                    {{material.nombre}}
+                                </td>
+                                <td>
+                                    {{material.fabricante.alias}}
+                                    <ng-container *ngIf="material.origen">
+                                        ({{material.origen}})
+                                    </ng-container>
+                                </td>
+                                <td>
+                                    {{material.serie}}
+                                </td>
+                                <td *ngIf="material.gramaje">
+                                    {{material.gramaje}}
+                                </td>
+                                <td *ngIf="material.gramaje">
+                                    {{material.calibre}}
+                                </td>
+                                <td *ngIf="material.color && colores(material.color)">{{colores(material.color)}}</td>
+                                <td *ngIf="material.color && !colores(material.color)">{{material.codigo}}</td>
+                                <td>
+                                    <span id="editar_{{i}}">
+                                        <i class="far fa-edit green" (click)="editar(i)"></i> 
+                                        <i class="far fa-trash-alt red" (click)="EliminarMaterial(material._id, i)"></i>
+                                    </span>
+                                </td>
+                                <!-- <td>Paleta</td> -->
+                            </tr>
+                            <tr *ngIf="Edicion[i]">
+                                <td>
                                     <input type="text" class="input" [(ngModel)]="material.nombre">
-                                </span>
-                            </td>
-                            <td>
-                                {{material.fabricante.alias}}
-                                <ng-container *ngIf="material.origen">
-                                    ({{material.origen}})
-                                </ng-container>
-                            </td>
-                            <td>
-                                {{material.serie}}
-                                <span id="serie_{{i}}" style="display: none;">
+                                </td>
+                                <td>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <div class="select">
+                                                <select (change)="CambiarFabricante($event.target, i)">
+                                                    <option value="">Fabricante</option>
+                                                    <option value="{{i}}" *ngFor="let fabricante of fabricantes;index as i">{{fabricante.alias}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="column" *ngIf="material.origen">
+                                            <div class="select">
+                                                <select (change)="agregarOrigen($event.target, i)">
+                                                    <option value="">Ubicacion</option>
+                                                    <option value="{{ubicacion.pais}}({{ubicacion.estado}})" *ngFor="let ubicacion of ubicaciones;index as i">{{ubicacion.pais}}({{ubicacion.estado}})</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
                                     <input type="text" class="input" [(ngModel)]="material.serie">
-                                </span>
-                            </td>
-                            <td *ngIf="material.gramaje">
-                                {{material.gramaje}}
-                                <span id="gramaje_{{i}}" style="display: none;">   
+                                </td>
+                                <td *ngIf="material.gramaje">
                                     <input type="text" class="input" [(ngModel)]="material.gramaje">
-                                </span>
-                            </td>
-                            <td *ngIf="material.gramaje">
-                                {{material.calibre}}
-                                <span id="calibre_{{i}}" style="display: none;">
+                                </td>
+                                <td *ngIf="material.gramaje">
                                     <input type="text" class="input" [(ngModel)]="material.calibre">
-                                </span>
-                            </td>
-                            <td *ngIf="material.color && colores(material.color)">{{colores(material.color)}}</td>
-                            <td *ngIf="material.color && !colores(material.color)">{{material.codigo}}</td>
-                            <td>
-                                <span id="editar_{{i}}">
-                                    <i class="far fa-edit green" (click)="editar(i)"></i> 
-                                    <i class="far fa-trash-alt red"></i>
-                                </span>
-                                <span id="confirmar_{{i}}" style="display: none;">
-                                    <i class="fas fa-check green" (click)="confirmar(i)"></i> 
-                                </span>
-                            </td>
-                            <!-- <td>Paleta</td> -->
-                        </tr>
-                    </ng-container>
-                    <ng-container *ngIf="material_selected.length < 1">
-                        Aun no hay materiales
+                                </td>
+                                <td *ngIf="material.color">
+                                    <div class="select" *ngIf="!Pantone[i]">
+                                        <select [(ngModel)]="material.color" (change)="EdiciondeColor($event.target,i)">
+                                            <option value="A">Amarillo</option>
+                                            <option value="C">Cyan</option>
+                                            <option value="M">Magenta</option>
+                                            <option value="K">Negro</option>
+                                            <option value="#">Otro</option>
+                                        </select>
+                                    </div>
+                                    <div *ngIf="Pantone[i]">
+                                        <div class="columns">
+                                            <div class="column">
+                                                <input type="text" class="input" [(ngModel)]="material.codigo">
+                                            </div>
+                                            <div class="column">
+                                                <button class="button is-info" (click)="Pantone_(i)">
+                                                    <span><i class="fas fa-undo"></i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <i class="fas fa-check green" (click)="confirmar(i)"></i>
+                                </td>
+                            </tr>
+                        </ng-container>
                     </ng-container>
                 </tbody>
             </table>
