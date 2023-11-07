@@ -30,74 +30,61 @@
                 <span>Recepción</span>
               </button>
               <br><br>
-            <div class="card animate__animated animate__fadeInUp">
-                <div class="card-header dark">
-                    <p class="card-header-title">
-                        <strong class="fuente">Documento Nº: </strong>4578 - Fabrica de Tintas Olín, C.A. - <span class="tag is-danger">Por notificar</span> <i class="fas fa-bell shake_button"></i>
-                    </p>
-                    <button class="card-header-icon" aria-label="more options" [ngClass]="{'clicked':clicked}" (click)="showInfo()">
-                        <span class="icon">
-                          <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </div>
-                <div class="card-content info" [ngClass]="{'hidden': !clicked, 'show': clicked}">
-                    <table class="table is-fullwidth is-striped" *ngIf="clicked">
-                        <thead>
-                            <tr>
-                                <th>OC</th>
-                                <th>Lote</th>
-                                <th>Material</th>
-                                <th>Detalles</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1234567</td>
-                                <td>1236547</td>
-                                <td>
-                                    <div class="circle_"></div>
-                                    Azul proceso Apache
-                                </td>
-                                <td>
-                                    <a (click)="mostrarDetalle()" class="material-link">
-                                        30KG
-                                    </a>
-                                </td>
-                                <td><i class="fas fa-info-circle blue_"></i>     <i class="fas fa-edit green"></i>     <i class="fas fa-comment"></i></td>
-                            </tr>
-                            <tr>
-                                <td>12345</td>
-                                <td>1236547</td>
-                                <td>
-                                    <div class="circle_"></div>
-                                    Azul proceso Apache
-                                </td>
-                                <td>
-                                    <a (click)="mostrarDetalle()" class="material-link">
-                                        30KG
-                                    </a>
-                                </td>
-                                <td><i class="fas fa-info-circle blue_"></i>     <i class="fas fa-edit green"></i>     <i class="fas fa-comment"></i></td>
-                            </tr>
-                            <tr>
-                                <td>7654321</td>
-                                <td>1236547</td>
-                                <td><div class="circle blink"></div>
-
-                                    Azul proceso Apache</td>
-                                <td>
-                                    <a (click)="mostrarDetalle()" class="material-link">
-                                        30KG
-                                    </a>
-                                </td>
-                                <td><i class="fas fa-info-circle blue_"></i>     <i class="fas fa-edit green"></i>     <i class="fas fa-comment"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+              <ng-container *ngIf="api.recepciones.length < 1">
+                  <div class="columns is-centered">
+                    <div class="column is-half">
+                      <div class="custom-card">
+                        <p class="message">No hay nuevas recepciones</p>
+                      </div>
+                    </div>
+                  </div>
+              </ng-container>
+                <ng-container *ngIf="api.recepciones.length > 0">
+                    <ng-container *ngFor="let recepcion of api.recepciones">
+                        <div class="card animate__animated animate__fadeInUp">
+                            <div class="card-header dark">
+                                <p class="card-header-title">
+                                    <strong class="fuente">Documento Nº: </strong>{{recepcion.documento}} - {{recepcion.proveedor.nombre}} - <span class="tag is-danger">{{recepcion.status}}</span> <i class="fas fa-bell shake_button"></i>
+                                </p>
+                                <button class="card-header-icon" aria-label="more options" [ngClass]="{'clicked':clicked}" (click)="showInfo()">
+                                    <span class="icon">
+                                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="card-content info" [ngClass]="{'hidden': !clicked, 'show': clicked}">
+                                <table class="table is-fullwidth is-striped" *ngIf="clicked">
+                                    <thead>
+                                        <tr>
+                                            <th>OC</th>
+                                            <th>Lote</th>
+                                            <th>Material</th>
+                                            <th>Detalles</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{recepcion.OC}}</td>
+                                            <td>{{recepcion.materiales[0].lote}}</td>
+                                            <td>
+                                                <div class="circle_"></div>
+                                                {{recepcion.materiales[0].material.nombre}} ({{recepcion.materiales[0].material.fabricante.alias}})
+                                            </td>
+                                            <td>
+                                                <a (click)="mostrarDetalle()" class="material-link">
+                                                    {{recepcion.cantidad}}{{recepcion.materiales[0].unidad}}
+                                                </a>
+                                            </td>
+                                            <td><i class="fas fa-info-circle blue_"></i>     <i class="fas fa-edit green"></i>     <i class="fas fa-comment"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br><br>
+                    </ng-container>
+                </ng-container>
             <br>
         </div>
     </div>

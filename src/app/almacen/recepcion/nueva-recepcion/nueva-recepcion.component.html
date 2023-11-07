@@ -1,6 +1,12 @@
+<app-listado
+[listado]="listado"
+[lista]="ParaAlmacenar"
+(onCerrarModal)="CerrarListado()">
+</app-listado>
+
 <div class="modal" [ngClass]="{'is-active':nueva}">
     <div class="modal-background"></div>
-    <div class="modal-card animate__animated animate__fadeInUp">
+    <div class="modal-card long animate__animated animate__fadeInUp">
         <div class="modal-card-head">
             <p class="modal-card-title fuente">
                 Nueva recepción de material
@@ -9,7 +15,7 @@
         </div>
         <div class="modal-card-body">
             <div class="columns">
-                <div class="column">
+                <div class="column is-3">
                     <div class="field">
                         <label for="" class="label">Nº Documento:</label>
                         <div class="control">
@@ -17,15 +23,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="column">
+                <div class="column is-3">
                     <div class="field" *ngIf="documentoLleno">
                         <label for="" class="label">Recepción</label>
                         <div class="control">
-                            <input type="date" class="input" [(ngModel)]="recepcion" (input)="recepcionLleno = recepcion !== ''">
+                            <input type="date" class="input" [max]="Hoy" [(ngModel)]="recepcion" (input)="recepcionLleno = recepcion !== ''">
                         </div>
                     </div>
                 </div>
-                <div class="column">
+                <div class="column is-3">
                     <div class="field" *ngIf="recepcionLleno">
                         <label for="" class="label">Transportista</label>
                         <div class="control">
@@ -35,7 +41,7 @@
                 </div>
             </div>
             <div class="columns">
-                <div class="column">
+                <div class="column is-4">
                     <div class="field" *ngIf="transportistaLleno">
                         <label for="" class="label">Proveedor</label>
                         <div class="control">
@@ -47,38 +53,136 @@
                         </div>
                     </div>
                 </div>
-                <div class="column">
+                <div class="column is-4">
                     <div class="field" *ngIf="proveedor">
                         <label for="" class="label">Fabricante</label>
                         <div class="control">
                             <div class="select">
-                                <select name="" id="">
-                                    <option value="·">Selecciona proveedor</option>
-                                    <option value="{{fabricante._id}}" *ngFor="let fabricante of fabricante;index as i">{{fabricante.nombre}}</option>
+                                <select name="" id="" (change)="buscarmMateriales($event.target)">
+                                    <option value="·">Selecciona fabricante</option>
+                                    <option value="{{i}}" *ngFor="let fabricante of fabricante;index as i">{{fabricante.nombre}}</option>
                                 </select>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr *ngIf="this.material">
+            <div class="columns" *ngIf="this.material">
+                <div class="column is-3">
+                    <div class="field">
+                        <label for="" class="label">Material</label>
+                        <div class="control">
+                            <div class="select">
+                                <select (change)="MaterialSeleccionado($event.target)">
+                                    <option value="">Selecciona Material</option>
+                                    <option value="{{i}}" *ngFor="let material of material;index as i">{{material.nombre}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-2" *ngIf='material_selected'>
+                    <div class="field">
+                        <label for="" class="label">OC:</label>
+                        <div class="control">
+                            <input type="text" class="input" [(ngModel)]='OC'>
                         </div>
                     </div>
                 </div>
             </div>
             <hr>
             <div class="columns">
-                <div class="column">
+                <div class="column is-2" *ngIf="OC">
                     <div class="field">
-                        <label for="" class="label">Material</label>
+                        <label for="" class="label">Nº Lote</label>
                         <div class="control">
-                            <div class="select">
-                                <select>
-                                    <option value="">material 1</option>
-                                    <option value="">material 2</option>
-                                    <option value="">material 3</option>
-                                    <option value="">material 4</option>
-                                </select>
-                            </div>
+                            <input type="text" class="input" [(ngModel)]="lote">
                         </div>
                     </div>
                 </div>
+                <div class="column is-3" *ngIf="lote">
+                    <div class="field">
+                        <label for="" class="label">Presentación</label>
+                        <div class="control">
+                            <span class="select">
+                                <select name="" id="" [(ngModel)]="presentacion"> 
+                                    <option value="Lata">Lata</option>
+                                    <option value="Envase plástico">Envase plástico</option>
+                                    <option value="Paleta">Paleta</option>
+                                    <option value="Tambor">Tambor</option>
+                                    <option value="Rollo">Rollo</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-3" *ngIf="presentacion">
+                    <label for="" class="label">Fabricación</label>
+                    <input type="date" class="input" [max]="Hoy" [(ngModel)]="fabricacion">
+                </div>
             </div>
+            <div class="columns" *ngIf="fabricacion">
+                <div class="column is-3">
+                    <label for="" class="label">Neto / unid</label>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input type="number" class="input" [(ngModel)]="neto">
+                        </div>
+                        <p class="control">
+                            <span class="select">
+                              <select [(ngModel)]="unidad">
+                                <option class="Und">Und</option>
+                                <option class="L">L</option>
+                                <option class="kg">kg</option>
+                              </select>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="column is-2" *ngIf="neto">
+                    <div class="field">
+                        <label for="" class="label">Total {{unidad}}</label>
+                        <div class="control">
+                            <input type="number" class="input" [(ngModel)]="cantidad">
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-1" *ngIf="cantidad">
+                    <label for="" class="label"> </label>
+                    <button class="button is-success" (click)="crearLatas()">
+                        <span class="icon">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="column is-1" *ngIf="ParaAlmacenar.length >0">
+                    <label for="" class="label"> </label>
+                    <span>
+                        <button class="button is-info with_notification centered" (click)="MostrarListado()">
+                          <span class="icon">
+                            <i class="fas fa-info"></i>
+                          </span>
+                          <span class="notification-badge" *ngIf="ParaAlmacenar.length > 0">{{ParaAlmacenar.length}}</span>
+                        </button>
+                    </span>
+                </div>
+                <div class="column" *ngIf="ParaAlmacenar.length >0">
+                    <label for="" class="label"> </label>
+                    <p *ngFor="let mensaje of totalizacion">
+                          {{mensaje}}
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <button class="button is-success" *ngIf="ParaAlmacenar.length >0" (click)="guardar()">
+                <span class="icon">
+                    <i class="fas fa-save"></i>
+                </span>
+                <span>
+                    Guardar
+                </span>
+            </button>
         </div>
     </div>
 </div>

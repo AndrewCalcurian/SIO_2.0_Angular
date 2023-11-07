@@ -8,6 +8,7 @@ import { NavbarModule } from '../shared/navbar/navbar.module';
 import { RecepcionComponent } from './recepcion/recepcion.component';
 import { DetallesComponent } from './recepcion/detalles/detalles.component';
 import { NuevaRecepcionComponent } from './recepcion/nueva-recepcion/nueva-recepcion.component';
+import { ListadoComponent } from './recepcion/listado/listado.component';
 
 
 
@@ -16,7 +17,8 @@ import { NuevaRecepcionComponent } from './recepcion/nueva-recepcion/nueva-recep
     AlmacenComponent,
     RecepcionComponent,
     DetallesComponent,
-    NuevaRecepcionComponent
+    NuevaRecepcionComponent,
+    ListadoComponent
   ],
   imports: [
     CommonModule,

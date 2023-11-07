@@ -93,6 +93,12 @@ export class NuevoProveedorComponent implements OnInit{
         this.fabricante = ''
       }
   }
+  addFabricante_(){
+    if (!this.proveedor.fabricantes.includes(this.fabricantes.fabricantes[this.fabricante])) {
+      this.proveedor.fabricantes.push(this.fabricantes.fabricantes[this.fabricante]);
+      this.fabricante = ''
+    }
+}
   EliminarFabricante(i:number){
     this.fabricantes_array.splice(i,1);
     this.fabricantes_array_name.splice(i,1);

@@ -58,7 +58,7 @@
                         <div class="select" *ngIf="!nuevo">
                             <select id="fabricante" (change)="fabricante_selected($event.target)">
                                 <option value="#">Fabricante</option>
-                                <option value="{{fabricante._id}}" *ngFor="let fabricante of fabricantes.fabricantes;index as i">{{fabricante.alias}}</option>
+                                <option value="{{i}}" *ngFor="let fabricante of fabricantes.fabricantes;index as i">{{fabricante.alias}}</option>
                             </select>
                         </div>
                     </div>
@@ -66,8 +66,15 @@
                 <div class="column">
                     <div class="field">
                         <label for="" class="label"> </label>
-                        <div class="control">
+                        <div class="control" *ngIf="nuevo">
                             <button class="button is-info" (click)="addFabricante()">
+                                <span class="icon">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="control" *ngIf="!nuevo">
+                            <button class="button is-info" (click)="addFabricante_()">
                                 <span class="icon">
                                     <i class="fas fa-plus"></i>
                                 </span>
