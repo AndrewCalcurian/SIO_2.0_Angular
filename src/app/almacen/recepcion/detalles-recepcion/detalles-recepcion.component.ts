@@ -1,16 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-listado',
-  templateUrl: './listado.component.html',
-  styleUrls: ['./listado.component.scss']
+  selector: 'app-detalles-recepcion',
+  templateUrl: './detalles-recepcion.component.html',
+  styleUrls: ['./detalles-recepcion.component.scss']
 })
-export class ListadoComponent {
-  @Input() listado!:boolean;
-  @Input() lista:any;
-  @Input() fabricacion!:string[];
-  @Input() n!:number;
-  @Output() onCerrarModal = new EventEmitter();
+export class DetallesRecepcionComponent {
+
+  constructor(){
+  }
+
+  @Input() detalle!:any
+  @Input() n!:any
+  @Input() lista!:any
+  @Output() onCloseModal = new EventEmitter();
 
   currentDate = new Date();
   year = this.currentDate.getFullYear();
@@ -19,7 +22,6 @@ export class ListadoComponent {
   Hoy = `${this.year}-${this.month}-${this.day}`;
 
   cerrar(){
-    this.onCerrarModal.emit();
+    this.onCloseModal.emit();
   }
-
 }

@@ -7,28 +7,34 @@
             </p>
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
-        <div class="modal-card-body">
-            <p class="title" *ngIf='lista[0]'>{{lista[0].material.nombre}}({{lista[0].material.fabricante.alias}})</p>
+        <div class="modal-card-body" *ngIf="listado">
+            <p class="title" *ngIf='lista[n]'>{{lista[n].nombre}}({{lista[n].fabricante}})</p>
+            <div class="field">
+                <label for="" class="label">Fabricación</label>
+                <div class="control">
+                    <input type="date" class="input" width="30%" [max]="Hoy" [(ngModel)]='fabricacion[n]'>
+                </div>
+            </div>
             <table class="table is-fullwidth is-striped">
                 <thead>
                     <tr>
                         <th>Nº</th>
                         <th>Lote</th>
-                        <th *ngIf="lista[0]">Presentación ({{lista[0].presentacion}} x {{lista[0].unidad}})</th>
+                        <th *ngIf="lista[n]">Presentación ({{lista[n].materiales[0].unidad}}/{{lista[n].materiales[0].presentacion}})</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let material of lista;index as i">
+                    <tr *ngFor="let material of lista[n].materiales;index as i">
                         <td>
-                            <input type="text" class="input" value="{{i+1}}">
+                            <input type="text" class="input" [(ngModel)]='material.codigo'>
                         </td>
                         <td>
-                            <input type="text" class="input" value="{{material.lote}}">
+                            <input type="text" class="input" [(ngModel)]='material.lote'>
                         </td>
                         <td>
                             <div class="field has-addons">
                                 <div class="contro">
-                                    <input type="text" class="input" value="{{material.neto}}">
+                                    <input type="text" class="input" [(ngModel)]='material.neto'>
                                 </div>
                             </div> 
                         </td>

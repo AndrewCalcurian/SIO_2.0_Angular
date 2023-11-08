@@ -152,6 +152,10 @@ table tr th{
 }
 .red{
     color: #f03a5f;
+    transition: filter 0.3s ease-in-out;
+}
+.red:hover{
+    filter: brightness(1.2);
 }
 
 .color_bold{

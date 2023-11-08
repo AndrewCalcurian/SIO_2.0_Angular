@@ -22,6 +22,7 @@ export class NuevaRecepcionComponent {
   @Output() onCloseModal = new EventEmitter();
 
   public documento!:string;
+  public condicion:boolean = false;
   public OC!:string;
   public recepcion!:string;
   public transportista!:string
@@ -38,6 +39,10 @@ export class NuevaRecepcionComponent {
   public listado:boolean = false;
   public netoEspecifico:any = {}
   public totalizacion:any = []
+  public GrupoDeMateriales:any = []
+  public choosen:any;
+  public cantidades:number[] = []
+  public fabricaciones:string[] = []
 
   material_selected!:any;
   cantidad!:number;
@@ -54,16 +59,11 @@ export class NuevaRecepcionComponent {
 
   
   guardar = async () => {
-    const { cantidad, documento, OC, recepcion, transportista, proveedor, fabricacion, ParaAlmacenar } = this;
+    const { GrupoDeMateriales, cantidades, documento, OC, recepcion, transportista, proveedor, fabricacion, ParaAlmacenar } = this;
   
     const proveedorData = this.proveedores.proveedores[proveedor]._id;
-  
-    const materiales = ParaAlmacenar.map((material:any) => {
-      return {
-        ...material,
-        material: material.material._id
-      };
-    });
+
+    const materiales = GrupoDeMateriales.map((materiales:any)=>materiales.materiales)
   
     const data = {
       OC,
@@ -71,13 +71,25 @@ export class NuevaRecepcionComponent {
       transportista,
       proveedor: proveedorData,
       documento,
-      fabricacion,
+      fabricacion:this.fabricaciones,
       materiales,
-      cantidad
+      cantidad:cantidades
     };
-  
+
+    this.OC = ''
+    this.recepcion = '',
+    this.transportista = '',
+    this.proveedor = ''
+    this.documento = '',
+    this.fabricacion = ''
+    this.GrupoDeMateriales = []
+    this.cantidades = []
+    this.fabricaciones = []
+
+
     this.api.GuardarRecepcion(data)
     this.onCloseModal.emit();
+
     setTimeout(() => {
       Swal.fire({
         title: this.api.mensaje.mensaje,
@@ -95,9 +107,16 @@ export class NuevaRecepcionComponent {
     this.onCloseModal.emit();
   }
 
-  MostrarListado(){
+  MostrarListado(n:number){
     this.nueva = false;
     this.listado = true;
+    this.choosen = n
+  }
+
+  EliminarListado(i:number){
+    this.GrupoDeMateriales.splice(i, 1)
+    this.cantidades.splice(i, 1)
+    this.fabricaciones.splice(i, 1)
   }
 
   CerrarListado(){
@@ -129,16 +148,20 @@ export class NuevaRecepcionComponent {
         neto: resto.toFixed(2), 
         lote: this.lote,
         unidad: this.unidad,
-        material: this.material_selected
+        material: this.material_selected,
+        codigo:1
       });
     }
     for (let i = 0; i < cantidadLatas; i++) {
+      const codigo = (resto > 0) ? i + 1 : i;
       this.ParaAlmacenar.push({
-        presentacion: this.presentacion, 
-        neto: this.neto.toFixed(2), 
+        presentacion: this.presentacion,
+        neto: this.neto.toFixed(2),
         lote: this.lote,
         unidad: this.unidad,
-        material: this.material_selected
+        material: this.material_selected,
+        fabricacion:this.fabricacion,
+        codigo: codigo
       });
     }
     
@@ -153,12 +176,54 @@ export class NuevaRecepcionComponent {
     for (const [neto, cantidad] of Object.entries(this.netoEspecifico)) {
       this.totalizacion.push(`${cantidad} ${this.presentacion}(s) de ${neto}${this.unidad}`)
     }
+
+    const materiales = this.ParaAlmacenar.map((material:any) => {
+      return {
+        ...material,
+        material: material.material._id
+      };
+    });
+    this.GrupoDeMateriales.push({materiales,
+                                  nombre:this.ParaAlmacenar[0].material.nombre, 
+                                  fabricante:this.ParaAlmacenar[0].material.fabricante.alias,
+                                  resumen:this.totalizacion,
+                                  check:false,
+                                  condicion:{
+                                    calidad:false,
+                                    identificacion:false,
+                                    cajas_buen_estado:false,
+                                    cajas_limpias:false,
+                                    envases_cerrado:false
+                                  }
+                                });
+    this.cantidades.push(this.cantidad)
+    this.fabricaciones.push(this.fabricacion)
+    console.log(this.fabricaciones)
+    this.lote = ''
+    this.presentacion = ''
+    this.fabricacion = ''
+    this.neto = 0
+    this.unidad = ''
+  }
+
+  abrirCondicion(i:number){
+    this.choosen = i
+    this.condicion = true;
+    this.nueva = false;
   }
   
+  cerrarCondicion(){
+    this.condicion = false;
+    this.nueva = true
+  }
 
   MaterialSeleccionado(e:any){
     this.material_selected = this.material[e.value];
     console.log(this.material_selected)
+  }
+
+  todosLosChecksSonTrue(): boolean {
+    return this.GrupoDeMateriales.map((item:any) => item.check).every((check:any) => check === true);
   }
 
   

@@ -1,13 +1,24 @@
-<app-detalles
-[detalle]="detalle"
-(onCloseModal)="detalle = false">
-</app-detalles>
-
 <app-nueva-recepcion
 [nueva]="nueva"
 (onCloseModal)="nueva = false">
-
 </app-nueva-recepcion>
+
+<app-detalles-recepcion
+[detalle]="detalle"
+[lista]="Material_selected"
+[n]="n_word"
+(onCloseModal)="detalle = false"
+>
+</app-detalles-recepcion>
+
+<app-edicion-recepcion
+[edicion]="edicion"
+[lista]="Material_selected"
+[n]="n_word"
+(onCloseModal)="edicion = false"
+>
+</app-edicion-recepcion>
+
 <div class="container_ mt-5">
     <div class="card">
         <div class="card-content darker">
@@ -30,7 +41,7 @@
                 <span>Recepción</span>
               </button>
               <br><br>
-              <ng-container *ngIf="api.recepciones.length < 1">
+              <ng-container *ngIf="api.recepciones && api.recepciones.length < 1">
                   <div class="columns is-centered">
                     <div class="column is-half">
                       <div class="custom-card">
@@ -39,8 +50,8 @@
                     </div>
                   </div>
               </ng-container>
-                <ng-container *ngIf="api.recepciones.length > 0">
-                    <ng-container *ngFor="let recepcion of api.recepciones">
+                <ng-container *ngIf="api.recepciones && api.recepciones.length > 0">
+                    <ng-container *ngFor="let recepcion of api.recepciones;index as index">
                         <div class="card animate__animated animate__fadeInUp">
                             <div class="card-header dark">
                                 <p class="card-header-title">
@@ -64,19 +75,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr *ngFor="let materiales of recepcion.materiales;index as i">
                                             <td>{{recepcion.OC}}</td>
-                                            <td>{{recepcion.materiales[0].lote}}</td>
+                                            <td>{{materiales[0].lote}}</td>
                                             <td>
                                                 <div class="circle_"></div>
-                                                {{recepcion.materiales[0].material.nombre}} ({{recepcion.materiales[0].material.fabricante.alias}})
+                                                {{materiales[0].material.nombre}} ({{materiales[0].material.fabricante.alias}})
                                             </td>
                                             <td>
-                                                <a (click)="mostrarDetalle()" class="material-link">
-                                                    {{recepcion.cantidad}}{{recepcion.materiales[0].unidad}}
-                                                </a>
+                                                <p>
+                                                    {{recepcion.cantidad[i]}}{{materiales[0].unidad}}
+                                                </p>
                                             </td>
-                                            <td><i class="fas fa-info-circle blue_"></i>     <i class="fas fa-edit green"></i>     <i class="fas fa-comment"></i></td>
+                                            <td>
+                                                <i class="fas fa-info-circle blue_" (click)="EdicionDeMaterial(index,i)"></i>
+                                                     <i class="fas fa-edit green" (click)="publicMaterial(index,i)"></i>
+                                                     <i class="fas fa-comment"></i>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
