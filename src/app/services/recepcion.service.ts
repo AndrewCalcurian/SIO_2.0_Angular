@@ -7,29 +7,40 @@ import { Mensaje } from '../compras/models/modelos-compra';
 })
 export class RecepcionService {
 
-  public mensaje!:Mensaje;
-  public recepciones:any;
-  constructor(public socket:WebSocketService) { 
+  public mensaje!: Mensaje;
+  public recepciones: any;
+  constructor(public socket: WebSocketService) {
     this.BuscarRecepciones();
   }
 
 
 
 
-  BuscarRecepciones(){
+  BuscarRecepciones() {
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
       this.mensaje = data
     });
 
     this.socket.io.emit('CLIENTE:BuscarRecepciones')
 
-    this.socket.io.on('SERVER:Recepciones', (Recepciones)=>{
+    this.socket.io.on('SERVER:Recepciones', (Recepciones) => {
       this.recepciones = Recepciones
       console.log(this.recepciones)
     })
   }
 
-  GuardarRecepcion(data:any){
+  GuardarRecepcion(data: any) {
     this.socket.io.emit('CLIENTE:NuevaRecepcion', data)
   }
+
+  NoticarRecepcion(id: string) {
+    this.socket.io.emit('CLIENTE:NotificaNuevoMaterial', id);
+    console.log(id);
+  }
+
+  checkearRecepcion(id: string) {
+    this.socket.io.emit('CLIENTE:CheckeoDeMaterial', id);
+  }
+
+
 }
