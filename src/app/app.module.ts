@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { ComprasModule } from './compras/compras.module';
 import { AlmacenModule } from './almacen/almacen.module';
+import { LaboratorioModule } from './laboratorio/laboratorio.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,8 @@ import { AlmacenModule } from './almacen/almacen.module';
     AppRoutingModule,
     NavbarModule,
     ComprasModule,
-    AlmacenModule
+    AlmacenModule,
+    LaboratorioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

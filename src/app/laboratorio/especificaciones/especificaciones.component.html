@@ -1,0 +1,93 @@
+<app-nueva-especificacion
+[NUEVA_ESPECIFICACION]="NUEVA_ESPECIFICACION"
+(onCloseModal)="NUEVA_ESPECIFICACION = false"
+>
+
+</app-nueva-especificacion>
+
+<div class="container_ mt-5">
+    <div class="card">
+        <div class="card-content darker">
+            <div class="card mt-5 title_">
+                <!-- <span class="red-bar"></span> -->
+                <div class="card-content">
+                  <h1 class="title blancas">
+                    Especificaciones
+                  </h1>
+                  <h2 class="subtitle description blancas">
+                    Descripción
+                  </h2>
+                </div>
+                <div class="iconos">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="columns">
+              <ng-container *ngFor="let item of [].constructor(6);index as i">
+                <div class="column">
+                  <div class="card animate__animated animate__fadeInUp">
+                    <div class="card-content">
+                      <div class="columns">
+                        <div class="column grupo" style="cursor: pointer;" (click)="randomise()">
+                          Grupo
+                        </div>
+                        <div class="column">
+                          <i class="fas fa-plus-circle blue_" style="cursor: pointer;" (click)="nueva_especificacion()"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            <div class="columns">
+              <ng-container *ngFor="let item of [].constructor(6);index as i">
+                <div class="column">
+                  <div class="card">
+                    <div class="card-content">
+                      <div class="columns">
+                        <div class="column grupo" style="cursor: pointer;" (click)="randomise()">
+                          Grupo
+                        </div>
+                        <div class="column">
+                          <i class="fas fa-plus-circle blue_" style="cursor: pointer;" (click)="nueva_especificacion()"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          <hr>
+          <div class="lista">
+            <table class="table is-fullwidth is-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Fabricante</th>
+                  <th>Origen</th>
+                  <th>Detalles</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let item of [].constructor(random); let i = index">
+                  <tr>
+                    <td>Material Nombre {{i+1}}</td>
+                    <td>Fabricante {{i+1}}</td>
+                    <td>Origen {{i+1}}</td>
+                    <td>
+                      <i class="fas fa-info-circle blue_" style="cursor: pointer;"></i> 
+                      <i class="fas fa-edit green" style="cursor: pointer;"></i>
+                    </td>
+                    <td></td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+</div>

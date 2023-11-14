@@ -23,6 +23,17 @@
                     <a [ngClass]="{'is-active':router.url == '/almacen/recepcion'}" routerLink="/almacen/recepcion">Recepción</a>
                 </li>
             </ul>
+        <p class="menu-label">
+            Laboratorio
+        </p>
+            <ul class="menu-list">
+                <li>
+                    <a routerLink="/laboratorio">Laboratorio</a>
+                    <ul>
+                        <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/especificacion'}" routerLink="/laboratorio/especificacion">Especificación</a></li>
+                    </ul>
+                </li>
+            </ul>
     </aside>
 
 

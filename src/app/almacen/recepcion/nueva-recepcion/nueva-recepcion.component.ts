@@ -4,6 +4,8 @@ import { FabricantesService } from 'src/app/services/fabricantes.service';
 import { MaterialesService } from 'src/app/services/materiales.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { RecepcionService } from 'src/app/services/recepcion.service';
+import { Cell, Img, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
 
 @Component({
@@ -43,6 +45,7 @@ export class NuevaRecepcionComponent {
   public choosen:any;
   public cantidades:number[] = []
   public fabricaciones:string[] = []
+  public condiciones:any;
 
   material_selected!:any;
   cantidad!:number;
@@ -64,9 +67,12 @@ export class NuevaRecepcionComponent {
     const proveedorData = this.proveedores.proveedores[proveedor]._id;
 
     const materiales = GrupoDeMateriales.map((materiales:any)=>materiales.materiales)
+    const condicion = GrupoDeMateriales.map((materiales:any)=>materiales.condicion)
+
   
     const data = {
       OC,
+      condicion,
       recepcion,
       transportista,
       proveedor: proveedorData,
@@ -87,7 +93,7 @@ export class NuevaRecepcionComponent {
     this.fabricaciones = []
 
 
-    this.api.GuardarRecepcion(data)
+    await this.api.GuardarRecepcion(data)
     this.onCloseModal.emit();
 
     setTimeout(() => {
@@ -189,16 +195,15 @@ export class NuevaRecepcionComponent {
                                   resumen:this.totalizacion,
                                   check:false,
                                   condicion:{
-                                    calidad:false,
-                                    identificacion:false,
-                                    cajas_buen_estado:false,
-                                    cajas_limpias:false,
-                                    envases_cerrado:false
+                                    Certificado_de_calidad:false,
+                                    Identificacion_del_lote:false,
+                                    Cajas_en_buen_estado:false,
+                                    Cajas_limpias:false,
+                                    Envases_cerrado_hermeticamente:false
                                   }
                                 });
     this.cantidades.push(this.cantidad)
     this.fabricaciones.push(this.fabricacion)
-    console.log(this.fabricaciones)
     this.lote = ''
     this.presentacion = ''
     this.fabricacion = ''

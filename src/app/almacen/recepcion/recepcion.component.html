@@ -61,7 +61,7 @@
                                         <span class='tag is-warning' *ngIf='recepcion.status === "En observacion"'>{{recepcion.status}}</span> 
                                         <i class="fas fa-bell shake_button" (click)="notificar(recepcion._id)" *ngIf=' recepcion.status === "Por notificar"'></i>
                                         <i class="fas fa-check blue_" (click)="checkar(recepcion._id)" *ngIf='recepcion.status == "Notificado"'></i>
-                                        <i class="fas fa-download" *ngIf='recepcion.status === "En observacion"'></i>
+                                        <i class="fas fa-download" *ngIf='recepcion.status === "En observacion"' (click)="DescargarFormato(recepcion)"></i>
                                 </p>
                                 <button class="card-header-icon" aria-label="more options" [ngClass]="{'clicked':clicked}" (click)="showInfo()">
                                     <span class="icon">
