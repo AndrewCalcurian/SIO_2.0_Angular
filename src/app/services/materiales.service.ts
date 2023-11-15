@@ -52,5 +52,13 @@ export class MaterialesService {
     this.socket.io.emit('CLIENTE:NotificarNuevoMaterial', id);
   }
 
+  filtrarPorGrupoSinEspecificacion(id: string): Materiales[] {
+    return this.materiales.filter((material:any) => material.grupo === id && !material.especificacion);
+  }
+
+  filtrarPorGrupoConEspecificacion(id: any): Materiales[] {
+    return this.materiales.filter((material:any) => material.grupo === id && material.especificacion);
+  }
+
 
 }

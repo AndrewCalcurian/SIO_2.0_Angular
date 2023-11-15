@@ -8,7 +8,229 @@
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
         <div class="modal-card-body">
-    
+            <div class="columns">
+                <div class="column is-3">
+                    <div class="field">
+                        <label for="" class="label">Material:</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="" id="" [(ngModel)]="Material_selected">
+                                    <option value="#">Selecciona un material</option>
+                                    <option value="{{i}}" *ngFor="let material of Materiales;index as i">{{material.nombre}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <table class="table is-fullwidth is-striped" *ngIf="Material_selected != '#'">
+                <tbody>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>Viscosidad</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Min:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.viscosidad.min">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Max:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.viscosidad.max">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-5">
+                                    <div class="columns">
+                                        <div class="column">
+                                            und / cond:
+                                        </div>
+                                        <div class="column">
+                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionTinta.viscosidad.con">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Rígidez</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Min:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.rigidez.min">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Max:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.rigidez.max">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-5">
+                                    <div class="columns">
+                                        <div class="column">
+                                            und / cond:
+                                        </div>
+                                        <div class="column">
+                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionTinta.rigidez.con">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Inko o Tack</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Min:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.tack.min">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Max:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.tack.max">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-5">
+                                    <div class="columns">
+                                        <div class="column">
+                                            und / cond:
+                                        </div>
+                                        <div class="column">
+                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionTinta.tack.con">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Dispersión o Finura</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Min:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.finura.max">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Max:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.finura.min">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-5">
+                                    <div class="columns">
+                                        <div class="column">
+                                            und / cond:
+                                        </div>
+                                        <div class="column">
+                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionTinta.finura.con">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Secado en capas finas</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Min:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.secado.max">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-3">
+                                    <div class="columns">
+                                        <div class="column is-3">
+                                            Max:
+                                        </div>
+                                        <div class="column">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionTinta.secado.min">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-5">
+                                    <div class="columns">
+                                        <div class="column">
+                                            und / cond:
+                                        </div>
+                                        <div class="column">
+                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionTinta.secado.con">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <button class="button is-success" (click)="guardar()">
+                <span class="icon"><i class="fas fa-save"></i></span>
+                <span>Guardar</span>
+            </button>
         </div>
     </div>
 </div>

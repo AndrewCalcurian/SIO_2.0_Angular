@@ -28,13 +28,13 @@
     overflow-x: hidden;
 }
 
-.blue_ {
+.footer_ a {
     transition: color 0.3s, transform 0.3s;
   }
   
-  .blue_:hover {
-    color: rgb(85, 85, 211);
-    transform: scale(1.2);
+  .footer_ a:hover {
+    color: rgb(224, 224, 224);
+    transform: scale(1.5);
     animation: swing 0.5s ease-in-out infinite alternate;
   }
   
@@ -63,7 +63,7 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: blue;
+    background-color: #d5234d;
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.3s;
@@ -71,8 +71,24 @@
   
   .grupo:hover {
     transform: scale(1.1);
+    cursor: pointer;
   }
   
   .grupo:hover::before {
     transform: scaleX(1);
+  }
+
+  .footer_{
+    background-color: #3d8fd1;
+    color:white;
+  }
+
+  .footer_ a{
+    color: white;
+  }
+
+  .isSelected {
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(243, 243, 243);
+    box-shadow: 0px 0px 10px rgb(0, 0, 0);
   }

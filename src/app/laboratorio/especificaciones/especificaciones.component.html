@@ -1,5 +1,6 @@
 <app-nueva-especificacion
 [NUEVA_ESPECIFICACION]="NUEVA_ESPECIFICACION"
+[Materiales]="materiales_seleceted"
 (onCloseModal)="NUEVA_ESPECIFICACION = false"
 >
 
@@ -24,42 +25,35 @@
             </div>
             <br>
             <br>
-            <div class="columns">
-              <ng-container *ngFor="let item of [].constructor(6);index as i">
-                <div class="column">
-                  <div class="card animate__animated animate__fadeInUp">
-                    <div class="card-content">
-                      <div class="columns">
-                        <div class="column grupo" style="cursor: pointer;" (click)="randomise()">
-                          Grupo
-                        </div>
-                        <div class="column">
-                          <i class="fas fa-plus-circle blue_" style="cursor: pointer;" (click)="nueva_especificacion()"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-            <div class="columns">
-              <ng-container *ngFor="let item of [].constructor(6);index as i">
-                <div class="column">
-                  <div class="card">
-                    <div class="card-content">
-                      <div class="columns">
-                        <div class="column grupo" style="cursor: pointer;" (click)="randomise()">
-                          Grupo
-                        </div>
-                        <div class="column">
-                          <i class="fas fa-plus-circle blue_" style="cursor: pointer;" (click)="nueva_especificacion()"></i>
+            <ng-container *ngFor="let fila of [].constructor(filas());index as fila_i">
+              <div class="columns">
+                <div class="column" *ngFor="let tarjeta of [].constructor(6);index as i">
+                  <ng-container *ngIf="grupos.grupos[(5*fila_i)+i]">
+                    <div class="card animate__animated animate__fadeInUp" [ngClass]="{'isSelected':grupoSelected == grupos.grupos[(5*fila_i)+i].nombre}">
+                      <div class="card-header">
+                        <div class="div card-header-title">
+                          <div class="subtitle">
+                            <div class="columns">
+                              <div class="column is-1">
+                                <i class="{{grupos.grupos[(5*fila_i)+i].icono}}"></i>
+                              </div>
+                              <div class="column grupo" (click)="randomise(grupos.grupos[(5*fila_i)+i].nombre, grupos.grupos[(5*fila_i)+i]._id)">
+                                {{grupos.grupos[(5*fila_i)+i].nombre}} <i class="fas fa-glass-whiskey indicator animate__animated animate__flash" *ngIf="grupos.grupos[(5*fila_i)+i].parcial"></i>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      <footer class="card-footer footer_">
+                        <a class="card-footer-item"> 
+                          <i class="fas fa-plus-circle" style="cursor: pointer;" (click)="nueva_especificacion(grupos.grupos[(5*fila_i)+i]._id)"></i>
+                        </a>
+                      </footer>
                     </div>
-                  </div>
+                  </ng-container>
                 </div>
-              </ng-container>
-            </div>
+              </div>
+            </ng-container>
           <hr>
           <div class="lista">
             <table class="table is-fullwidth is-striped">
@@ -67,16 +61,18 @@
                 <tr>
                   <th>Nombre</th>
                   <th>Fabricante</th>
+                  <th>Serie</th>
                   <th>Origen</th>
                   <th>Detalles</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <ng-container *ngFor="let item of [].constructor(random); let i = index">
+                <ng-container *ngFor="let item of materialesEspecificados; let i = index">
                   <tr>
-                    <td>Material Nombre {{i+1}}</td>
-                    <td>Fabricante {{i+1}}</td>
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.fabricante.alias}}</td>
+                    <td>{{item.serie}}</td>
                     <td>Origen {{i+1}}</td>
                     <td>
                       <i class="fas fa-info-circle blue_" style="cursor: pointer;"></i> 
