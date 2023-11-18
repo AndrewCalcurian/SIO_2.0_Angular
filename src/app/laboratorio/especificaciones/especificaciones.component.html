@@ -1,10 +1,18 @@
 <app-nueva-especificacion
 [NUEVA_ESPECIFICACION]="NUEVA_ESPECIFICACION"
 [Materiales]="materiales_seleceted"
-(onCloseModal)="NUEVA_ESPECIFICACION = false"
+(onCloseModal)="cerrarNuevo()"
 >
 
 </app-nueva-especificacion>
+
+<app-detalles-especificacion
+[Detalle]="Detalle"
+(onCloseModal)="Detalle = false"
+[Especificacion]="Especificacion"
+>
+
+</app-detalles-especificacion>
 
 <div class="container_ mt-5">
     <div class="card">
@@ -73,9 +81,9 @@
                     <td>{{item.nombre}}</td>
                     <td>{{item.fabricante.alias}}</td>
                     <td>{{item.serie}}</td>
-                    <td>Origen {{i+1}}</td>
+                    <td></td>
                     <td>
-                      <i class="fas fa-info-circle blue_" style="cursor: pointer;"></i> 
+                      <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="Detallar(item)"></i> 
                       <i class="fas fa-edit green" style="cursor: pointer;"></i>
                     </td>
                     <td></td>

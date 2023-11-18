@@ -8,6 +8,7 @@ import { LaboratorioRoutingModule } from './laboratorio-routing.module';
 import { AnalisisTintaComponent } from './analisis-tinta/analisis-tinta.component';
 import { EspecificacionesComponent } from './especificaciones/especificaciones.component';
 import { NuevaEspecificacionComponent } from './especificaciones/nueva-especificacion/nueva-especificacion.component';
+import { DetallesEspecificacionComponent } from './especificaciones/detalles-especificacion/detalles-especificacion.component';
 
 
 
@@ -16,7 +17,8 @@ import { NuevaEspecificacionComponent } from './especificaciones/nueva-especific
     LaboratorioComponent,
     AnalisisTintaComponent,
     EspecificacionesComponent,
-    NuevaEspecificacionComponent
+    NuevaEspecificacionComponent,
+    DetallesEspecificacionComponent
   ],
   imports: [
     CommonModule,

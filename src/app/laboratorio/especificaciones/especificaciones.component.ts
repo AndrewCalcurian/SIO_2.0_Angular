@@ -9,10 +9,12 @@ import { MaterialesService } from 'src/app/services/materiales.service';
 })
 export class EspecificacionesComponent implements OnInit{
   NUEVA_ESPECIFICACION:boolean = false;
+  Detalle:boolean = false;
   random = 15;
   materiales_seleceted:any = []
   materialesEspecificados:any;
   grupoSelected:any
+  Especificacion:any;
   constructor(public grupos:GruposService,
     public material:MaterialesService){
 
@@ -24,6 +26,18 @@ export class EspecificacionesComponent implements OnInit{
       this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(this.grupos.grupos[0]._id)
     }, 1000);
   }
+  
+  cerrarNuevo(){
+    this.NUEVA_ESPECIFICACION = false;
+    this.grupoSelected = this.grupos.grupos[0].nombre
+      this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(this.grupos.grupos[0]._id)
+  }
+
+  Detallar(data:any){
+    this.Detalle = true;
+    this.Especificacion = data.especificacion
+  }
+
 
   nueva_especificacion(id:any){
     this.NUEVA_ESPECIFICACION = true;
@@ -34,7 +48,6 @@ export class EspecificacionesComponent implements OnInit{
   randomise(grupo:string, id:any){
     this.grupoSelected = grupo;
     this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(id)
-    console.log(this.materialesEspecificados)
   }
 
   filas(){

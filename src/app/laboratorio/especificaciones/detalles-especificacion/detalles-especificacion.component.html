@@ -1,0 +1,42 @@
+<div class="modal" [ngClass]="{'is-active':Detalle}">
+    <div class="modal-background"></div>
+    <div class="modal-card animate__animated animate__fadeInUp">
+        <div class="modal-card-head">
+            <div class="modal-card-title fuente">
+                Material
+            </div>
+            <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
+        </div>
+        <div class="modal-card-body light" *ngIf="Detalle">
+            <i class="fas fa-circle red"></i> <strong class="fuente">Especificación:</strong> <br>
+            <hr>
+            <div>
+                <span *ngIf="Especificacion.viscosidad.min >= 0 && Especificacion.viscosidad.max >0">
+                    <i class="fas fa-circle red"></i> Viscosidad: <br>
+                          {{Especificacion.viscosidad.min}} - {{Especificacion.viscosidad.max}} / {{Especificacion.viscosidad.con}}
+                    <br>
+                </span>
+                <span *ngIf="Especificacion.rigidez.min >= 0 && Especificacion.rigidez.max >0">
+                    <i class="fas fa-circle red"></i> Rígidez: <br>
+                          {{Especificacion.rigidez.min}} - {{Especificacion.rigidez.max}} / {{Especificacion.rigidez.con}}
+                    <br>
+                </span>
+                <span *ngIf="Especificacion.tack.min >= 0 && Especificacion.tack.max >0">
+                    <i class="fas fa-circle red"></i> Inko o Tack: <br>
+                          {{Especificacion.tack.min}} - {{Especificacion.tack.max}} / {{Especificacion.tack.con}}
+                    <br>
+                </span>
+                <span *ngIf="Especificacion.finura.min >= 0 && Especificacion.finura.max >0">
+                    <i class="fas fa-circle red"></i> Dispersión o Finura: <br>
+                          {{Especificacion.finura.min}} - {{Especificacion.finura.max}} / {{Especificacion.finura.con}}
+                    <br>
+                </span>
+                <span *ngIf="Especificacion.secado.min >= 0 && Especificacion.secado.max >0">
+                    <i class="fas fa-circle red"></i> Secado en capa fina: <br>
+                          {{Especificacion.secado.min}} - {{Especificacion.secado.max}} / {{Especificacion.secado.con}}
+                    <br>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
