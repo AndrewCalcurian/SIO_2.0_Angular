@@ -7,16 +7,18 @@ import { MaterialesService } from 'src/app/services/materiales.service';
   templateUrl: './especificaciones.component.html',
   styleUrls: ['./especificaciones.component.scss']
 })
-export class EspecificacionesComponent implements OnInit{
-  NUEVA_ESPECIFICACION:boolean = false;
-  Detalle:boolean = false;
+export class EspecificacionesComponent implements OnInit {
+  NUEVA_ESPECIFICACION: boolean = false;
+  EDITAR_ESPECIFICACION: boolean = false;
+  Detalle: boolean = false;
   random = 15;
-  materiales_seleceted:any = []
-  materialesEspecificados:any;
-  grupoSelected:any
-  Especificacion:any;
-  constructor(public grupos:GruposService,
-    public material:MaterialesService){
+  materiales_seleceted: any = []
+  materialesEspecificados: any;
+  grupoSelected: any
+  Especificacion: any;
+  especificacion_para_editar!: any;
+  constructor(public grupos: GruposService,
+    public material: MaterialesService) {
 
   }
 
@@ -26,31 +28,38 @@ export class EspecificacionesComponent implements OnInit{
       this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(this.grupos.grupos[0]._id)
     }, 1000);
   }
-  
-  cerrarNuevo(){
+
+  cerrarNuevo() {
     this.NUEVA_ESPECIFICACION = false;
+    this.EDITAR_ESPECIFICACION = false;
     this.grupoSelected = this.grupos.grupos[0].nombre
-      this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(this.grupos.grupos[0]._id)
+    this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(this.grupos.grupos[0]._id)
   }
 
-  Detallar(data:any){
+  Detallar(data: any) {
     this.Detalle = true;
     this.Especificacion = data.especificacion
   }
 
 
-  nueva_especificacion(id:any){
+  nueva_especificacion(id: any) {
     this.NUEVA_ESPECIFICACION = true;
     this.materiales_seleceted = this.material.filtrarPorGrupoSinEspecificacion(id);
-    
+
   }
 
-  randomise(grupo:string, id:any){
+  randomise(grupo: string, id: any) {
     this.grupoSelected = grupo;
     this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(id)
   }
 
-  filas(){
+  filas() {
     return Math.ceil(this.grupos.grupos.length / 6)
   }
+
+  Editar(item: any) {
+    this.EDITAR_ESPECIFICACION = true;
+    this.especificacion_para_editar = item.especificacion;
+  }
+
 }

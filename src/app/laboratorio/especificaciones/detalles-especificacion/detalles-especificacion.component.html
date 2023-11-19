@@ -8,7 +8,7 @@
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
         <div class="modal-card-body light" *ngIf="Detalle">
-            <i class="fas fa-circle red"></i> <strong class="fuente">Especificación:</strong> <br>
+            <strong class="fuente">Especificación:</strong> <br>
             <hr>
             <div>
                 <span *ngIf="Especificacion.viscosidad.min >= 0 && Especificacion.viscosidad.max >0">

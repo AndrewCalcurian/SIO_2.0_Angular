@@ -1,6 +1,8 @@
 <app-nueva-especificacion
 [NUEVA_ESPECIFICACION]="NUEVA_ESPECIFICACION"
 [Materiales]="materiales_seleceted"
+[Edicion]="EDITAR_ESPECIFICACION"
+[Editable]="especificacion_para_editar"
 (onCloseModal)="cerrarNuevo()"
 >
 
@@ -53,7 +55,7 @@
                         </div>
                       </div>
                       <footer class="card-footer footer_">
-                        <a class="card-footer-item"> 
+                        <a class="card-footer-item">
                           <i class="fas fa-plus-circle" style="cursor: pointer;" (click)="nueva_especificacion(grupos.grupos[(5*fila_i)+i]._id)"></i>
                         </a>
                       </footer>
@@ -84,7 +86,7 @@
                     <td></td>
                     <td>
                       <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="Detallar(item)"></i> 
-                      <i class="fas fa-edit green" style="cursor: pointer;"></i>
+                      <i class="fas fa-edit green" style="cursor: pointer;" (click)="Editar(item)"></i>
                     </td>
                     <td></td>
                   </tr>

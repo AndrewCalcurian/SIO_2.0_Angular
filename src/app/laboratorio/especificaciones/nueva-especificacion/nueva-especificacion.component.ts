@@ -8,62 +8,70 @@ import { EspecificacionesService } from 'src/app/services/especificaciones.servi
 })
 export class NuevaEspecificacionComponent {
 
-  constructor(public api:EspecificacionesService){
+  constructor(public api: EspecificacionesService) {
 
   }
 
-  @Input() NUEVA_ESPECIFICACION!:boolean;
-  @Input() Materiales!:any;
+  @Input() NUEVA_ESPECIFICACION!: boolean;
+  @Input() Materiales!: any;
+  @Input() Edicion!: any;
+  @Input() Editable!: any;
   @Output() onCloseModal = new EventEmitter();
 
-  public EspecificacionTinta:any = {
-    viscosidad:{
-      min:0,
-      max:0,
-      con:''
+  public EspecificacionTinta: any = {
+    viscosidad: {
+      min: 0,
+      max: 0,
+      con: ''
     },
-    rigidez:{
-      min:0,
-      max:0,
-      con:''
+    rigidez: {
+      min: 0,
+      max: 0,
+      con: ''
     },
-    tack:{
-      min:0,
-      max:0,
-      con:''
+    tack: {
+      min: 0,
+      max: 0,
+      con: ''
     },
-    finura:{
-      min:0,
-      max:0,
-      con:''
+    finura: {
+      min: 0,
+      max: 0,
+      con: ''
     },
-    secado:{
-      min:0,
-      max:0,
-      con:''
+    secado: {
+      min: 0,
+      max: 0,
+      con: ''
     }
   }
 
-  public Material_selected:any = '#';
+  public Material_selected: any = '#';
 
-  cerrar(){
+  cerrar() {
     this.Material_selected = '#'
     // Código para establecer los valores min y max en 0
-Object.keys(this.EspecificacionTinta).forEach((key:any) => {
-  this.EspecificacionTinta[key].min = 0;
-  this.EspecificacionTinta[key].max = 0;
-  this.EspecificacionTinta[key].con = '';
-});
+    Object.keys(this.EspecificacionTinta).forEach((key: any) => {
+      this.EspecificacionTinta[key].min = 0;
+      this.EspecificacionTinta[key].max = 0;
+      this.EspecificacionTinta[key].con = '';
+    });
     this.onCloseModal.emit();
   }
 
-  guardar(){
+  guardar() {
     let data = {
-      especificacion:this.EspecificacionTinta, 
-      material:this.Materiales[this.Material_selected]
+      especificacion: this.EspecificacionTinta,
+      material: this.Materiales[this.Material_selected]
     }
     this.api.GuardarEspecificacion(data);
     this.cerrar();
+  }
+
+  Editar_() {
+    this.api.EditarESpecificacion(this.Editable);
+    this.cerrar()
+
   }
 
 }
