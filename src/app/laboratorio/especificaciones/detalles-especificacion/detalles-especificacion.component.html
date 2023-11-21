@@ -8,34 +8,102 @@
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
         <div class="modal-card-body light" *ngIf="Detalle">
-            <strong class="fuente">Especificación:</strong> <br>
-            <hr>
             <div>
-                <span *ngIf="Especificacion.viscosidad.min >= 0 && Especificacion.viscosidad.max >0">
-                    <i class="fas fa-circle red"></i> Viscosidad: <br>
-                          {{Especificacion.viscosidad.min}} - {{Especificacion.viscosidad.max}} / {{Especificacion.viscosidad.con}}
-                    <br>
-                </span>
-                <span *ngIf="Especificacion.rigidez.min >= 0 && Especificacion.rigidez.max >0">
-                    <i class="fas fa-circle red"></i> Rígidez: <br>
-                          {{Especificacion.rigidez.min}} - {{Especificacion.rigidez.max}} / {{Especificacion.rigidez.con}}
-                    <br>
-                </span>
-                <span *ngIf="Especificacion.tack.min >= 0 && Especificacion.tack.max >0">
-                    <i class="fas fa-circle red"></i> Inko o Tack: <br>
-                          {{Especificacion.tack.min}} - {{Especificacion.tack.max}} / {{Especificacion.tack.con}}
-                    <br>
-                </span>
-                <span *ngIf="Especificacion.finura.min >= 0 && Especificacion.finura.max >0">
-                    <i class="fas fa-circle red"></i> Dispersión o Finura: <br>
-                          {{Especificacion.finura.min}} - {{Especificacion.finura.max}} / {{Especificacion.finura.con}}
-                    <br>
-                </span>
-                <span *ngIf="Especificacion.secado.min >= 0 && Especificacion.secado.max >0">
-                    <i class="fas fa-circle red"></i> Secado en capa fina: <br>
-                          {{Especificacion.secado.min}} - {{Especificacion.secado.max}} / {{Especificacion.secado.con}}
-                    <br>
-                </span>
+                <ng-container *ngIf="Especificacion.viscosidad">
+                    <span *ngIf="Especificacion.viscosidad.min >= 0 && Especificacion.viscosidad.max >0">
+                        <i class="fas fa-circle red"></i> Viscosidad: <br>
+                              {{Especificacion.viscosidad.min}} - {{Especificacion.viscosidad.max}} / {{Especificacion.viscosidad.con}}
+                        <br>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="Especificacion.rigidez">
+                    <span *ngIf="Especificacion.rigidez.min >= 0 && Especificacion.rigidez.max >0">
+                        <i class="fas fa-circle red"></i> Rígidez: <br>
+                              {{Especificacion.rigidez.min}} - {{Especificacion.rigidez.max}} / {{Especificacion.rigidez.con}}
+                        <br>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="Especificacion.tack">
+                    <span *ngIf="Especificacion.tack.min >= 0 && Especificacion.tack.max >0">
+                        <i class="fas fa-circle red"></i> Inko o Tack: <br>
+                              {{Especificacion.tack.min}} - {{Especificacion.tack.max}} / {{Especificacion.tack.con}}
+                        <br>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="Especificacion.finura">
+                    <span *ngIf="Especificacion.finura.min >= 0 && Especificacion.finura.max >0">
+                        <i class="fas fa-circle red"></i> Dispersión o Finura: <br>
+                              {{Especificacion.finura.min}} - {{Especificacion.finura.max}} / {{Especificacion.finura.con}}
+                        <br>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="Especificacion.secado">
+                    <span *ngIf="Especificacion.secado.min >= 0 && Especificacion.secado.max >0">
+                        <i class="fas fa-circle red"></i> Secado en capa fina: <br>
+                              {{Especificacion.secado.min}} - {{Especificacion.secado.max}} / {{Especificacion.secado.con}}
+                        <br>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="Especificacion.gramaje">
+                    <table class="table is-fullwidth is-striped">
+                        <tbody>
+                            <tr>
+                                <th> </th>
+                                <th>Mínimo</th>
+                                <th>Nominal</th>
+                                <th>Máximo</th>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-circle red"></i> Gramaje (g/m²)</th>
+                                <td>{{Especificacion.gramaje.min}}</td>
+                                <td>{{Especificacion.gramaje.nom}}</td>
+                                <td>{{Especificacion.gramaje.max}}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-circle red"></i> Calibre (mm)</th>
+                                <td>{{Especificacion.calibre.mm.min}}</td>
+                                <td>{{Especificacion.calibre.mm.nom}}</td>
+                                <td>{{Especificacion.calibre.mm.max}}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-circle red"></i> Calibre (pt)</th>
+                                <td>{{Especificacion.calibre.pt.min}}</td>
+                                <td>{{Especificacion.calibre.pt.nom}}</td>
+                                <td>{{Especificacion.calibre.pt.max}}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-circle red"></i> Calibre (μm)</th>
+                                <td>{{Especificacion.calibre.um.min}}</td>
+                                <td>{{Especificacion.calibre.um.nom}}</td>
+                                <td>{{Especificacion.calibre.um.max}}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-circle red"></i> Cobb TOP (g/m²)</th>
+                                <td>{{Especificacion.cobb.top.min}}</td>
+                                <td>{{Especificacion.cobb.top.nom}}</td>
+                                <td>{{Especificacion.cobb.top.max}}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-circle red"></i> Cobb BACK (g/m²)</th>
+                                <td>{{Especificacion.cobb.back.min}}</td>
+                                <td>{{Especificacion.cobb.back.nom}}</td>
+                                <td>{{Especificacion.cobb.back.max}}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-circle red"></i> Curling (s)</th>
+                                <td>{{Especificacion.curling.min}}</td>
+                                <td>{{Especificacion.curling.nom}}</td>
+                                <td>{{Especificacion.curling.max}}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-circle red"></i> Blancura (%)</th>
+                                <td>{{Especificacion.blancura.min}}</td>
+                                <td>{{Especificacion.blancura.nom}}</td>
+                                <td>{{Especificacion.blancura.max}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-container>
             </div>
         </div>
     </div>

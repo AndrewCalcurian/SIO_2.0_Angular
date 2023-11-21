@@ -1,0 +1,19 @@
+<div class="modal" [ngClass]="{'is-active':Inventario}">
+    <div class="modal-background"></div>
+    <div class="modal-card long animate__animated animate__fadeInUp">
+        <div class="modal-card-head">
+            <p class="modal-card-title fuente">
+                Inventario
+            </p>
+            <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
+        </div>
+        <div class="modal-card-body">
+            <div class="no-inventario" *ngIf="!listado">
+                <span>No hay inventario</span>
+            </div>
+            <ng-container *ngIf="listado">
+                
+            </ng-container>
+        </div>
+    </div>
+</div>

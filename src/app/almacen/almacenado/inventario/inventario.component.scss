@@ -1,0 +1,35 @@
+.long{
+    width: 80%;
+}
+.no-inventario {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #555555;
+  position: relative;
+}
+
+.no-inventario::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.no-inventario span {
+  position: relative;
+  z-index: 1;
+}

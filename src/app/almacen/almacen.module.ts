@@ -11,6 +11,8 @@ import { ListadoComponent } from './recepcion/listado/listado.component';
 import { CondicionComponent } from './recepcion/condicion/condicion.component';
 import { DetallesRecepcionComponent } from './recepcion/detalles-recepcion/detalles-recepcion.component';
 import { EdicionRecepcionComponent } from './recepcion/edicion-recepcion/edicion-recepcion.component';
+import { AlmacenadoComponent } from './almacenado/almacenado.component';
+import { InventarioComponent } from './almacenado/inventario/inventario.component';
 
 
 
@@ -22,7 +24,9 @@ import { EdicionRecepcionComponent } from './recepcion/edicion-recepcion/edicion
     ListadoComponent,
     CondicionComponent,
     DetallesRecepcionComponent,
-    EdicionRecepcionComponent
+    EdicionRecepcionComponent,
+    AlmacenadoComponent,
+    InventarioComponent
   ],
   imports: [
     CommonModule,

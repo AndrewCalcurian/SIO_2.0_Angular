@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Cell, Img, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { AlmacenService } from 'src/app/services/almacen.service';
 import { RecepcionService } from 'src/app/services/recepcion.service';
 import Swall from 'sweetalert2'
 @Component({
@@ -16,9 +17,19 @@ export class RecepcionComponent {
   public Material_selected!: any;
   public n_word!: any
 
-  constructor(public api: RecepcionService) {
+  constructor(public api: RecepcionService,
+              public almacen:AlmacenService) {
 
   }
+
+EnviarAlmacen = async(index: number, i: number) =>{
+  const materiales = this.api.recepciones[index].materiales[i];
+  await materiales.forEach((material:any) => {
+    material.material = material.material._id;
+    material.recepcion = this.api.recepciones[index]._id;
+  });
+  this.almacen.GuardarAlmacen(materiales);
+}
 
   showInfo() {
     if (!this.clicked) {
@@ -40,16 +51,12 @@ export class RecepcionComponent {
     this.detalle = true;
     this.Material_selected = this.api.recepciones[x]
     this.n_word = y
-
-    console.log(this.Material_selected)
   }
 
   EdicionDeMaterial(x: number, y: number) {
     this.edicion = true;
     this.Material_selected = this.api.recepciones[x]
     this.n_word = y
-
-    console.log(this.Material_selected)
   }
 
   notificar(id: string) {
@@ -102,30 +109,7 @@ export class RecepcionComponent {
         })
         .join(' ');
     });
-    // let conditions:any = [];
-    // for (let i = 0; i < informacion.condicion.length; i++) {
-    //   for (let n = 0; n < Object.keys(informacion.condicion[i]).length; n++) {
-        
-    //     let propiedad = Object.keys(informacion.condicion[i])[n];
-    //     let valor = informacion.condicion[i][propiedad];
 
-    //     if(propiedad != '_id'){
-    //       if(valor === false){
-    //         if(conditions[i]){
-    //           conditions[i] = `( ) ${propiedad} `;
-    //         }else{
-    //           conditions[i] = conditions[i] + `( ) ${propiedad} `;
-    //         }
-    //       }else{
-    //         if(conditions[i]){
-    //           conditions[i] = `(x) ${propiedad} `;
-    //         }else{
-    //           conditions[i] = conditions[i] + `(x) ${propiedad} `;
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
     const pdf = new PdfMakeWrapper();
     PdfMakeWrapper.setFonts(pdfFonts);
     pdf.pageOrientation('landscape');

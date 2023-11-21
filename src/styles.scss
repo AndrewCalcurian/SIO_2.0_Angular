@@ -33,7 +33,7 @@ $card-radius:10px;
 $family-sans-serif: 'Gilroy-light';
 $dark: $navBar;
 $grey-light: $beige-light;
-$primary: rgb(38, 52, 61);
+$primary: #26343d;
 $link: $rojo-poligrafica;
 $dark-color:#3c3f41;
 $dark-text:#9fadbc;
@@ -168,6 +168,9 @@ table tr th{
 }
 .blue_{
     color: hsl(207, 61%, 53%);
+}
+.fa-circle{
+    font-size: xx-small;
 }
 
 @import "../node_modules/bulma/sass/utilities/_all.sass";

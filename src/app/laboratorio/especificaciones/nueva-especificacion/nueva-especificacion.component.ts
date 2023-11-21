@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { EspecificacionSustrato } from 'src/app/compras/models/modelos-compra';
 import { EspecificacionesService } from 'src/app/services/especificaciones.service';
 
 @Component({
@@ -13,9 +14,11 @@ export class NuevaEspecificacionComponent {
   }
 
   @Input() NUEVA_ESPECIFICACION!: boolean;
+  @Input() NUEVO_SUSTRATO!:boolean;
   @Input() Materiales!: any;
   @Input() Edicion!: any;
   @Input() Editable!: any;
+  @Input() Edicion_sustrato!: any;
   @Output() onCloseModal = new EventEmitter();
 
   public EspecificacionTinta: any = {
@@ -45,6 +48,53 @@ export class NuevaEspecificacionComponent {
       con: ''
     }
   }
+  
+EspecificacionSustrato: EspecificacionSustrato = {
+    gramaje: {
+      min: 0,
+      nom: 0,
+      max: 0,
+    },
+    calibre: {
+      pt: {
+        min: 0,
+        nom: 0,
+        max: 0,
+      },
+      um: {
+        min: 0,
+        nom: 0,
+        max: 0,
+      },
+      mm: {
+        min: 0,
+        nom: 0,
+        max: 0,
+      },
+    },
+    cobb: {
+      top: {
+        min: 0,
+        nom: 0,
+        max: 0,
+      },
+      back: {
+        min: 0,
+        nom: 0,
+        max: 0,
+      },
+    },
+    curling: {
+      min: 0,
+      nom: 0,
+      max: 0,
+    },
+    blancura: {
+      min: 0,
+      nom: 0,
+      max: 0,
+    },
+  };
 
   public Material_selected: any = '#';
 
@@ -56,6 +106,54 @@ export class NuevaEspecificacionComponent {
       this.EspecificacionTinta[key].max = 0;
       this.EspecificacionTinta[key].con = '';
     });
+    
+    this.EspecificacionSustrato = {
+      gramaje: {
+        min: 0,
+        nom: 0,
+        max: 0,
+      },
+      calibre: {
+        pt: {
+          min: 0,
+          nom: 0,
+          max: 0,
+        },
+        um: {
+          min: 0,
+          nom: 0,
+          max: 0,
+        },
+        mm: {
+          min: 0,
+          nom: 0,
+          max: 0,
+        },
+      },
+      cobb: {
+        top: {
+          min: 0,
+          nom: 0,
+          max: 0,
+        },
+        back: {
+          min: 0,
+          nom: 0,
+          max: 0,
+        },
+      },
+      curling: {
+        min: 0,
+        nom: 0,
+        max: 0,
+      },
+      blancura: {
+        min: 0,
+        nom: 0,
+        max: 0,
+      },
+    };
+
     this.onCloseModal.emit();
   }
 
@@ -68,7 +166,17 @@ export class NuevaEspecificacionComponent {
     this.cerrar();
   }
 
+  guardar_sustrato(){
+    let data = {
+      especificacion: this.EspecificacionSustrato,
+      material: this.Materiales[this.Material_selected]
+    }
+    this.api.GuardarEspecificacion(data);
+    this.cerrar();
+  }
+
   Editar_() {
+    console.log(this.Editable)
     this.api.EditarESpecificacion(this.Editable);
     this.cerrar()
 

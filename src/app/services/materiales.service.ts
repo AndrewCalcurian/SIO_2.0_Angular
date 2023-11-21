@@ -33,7 +33,7 @@ export class MaterialesService {
   }
 
   filtrarGrupos(id:any){
-    return this.materiales.filter((x:any)=> x.grupo === id)
+    return this.materiales.filter((x:any)=> x.grupo._id === id)
   }
 
   guardarMaterial(data:any){
@@ -44,20 +44,21 @@ export class MaterialesService {
     this.socket.io.emit('CLIENTE:elminarMaterial', id)
   }
 
-  filtrarPorGrupos(id: string[]): any[] { 
-    return this.materiales.filter((x: any) => id.some((groupId: string) => x.grupo.includes(groupId))); 
-  } 
+  filtrarPorGrupos(ids: string[]): any[] {
+    console.log(ids)
+    return this.materiales.filter((x: any) => ids.some((groupId: string) => groupId.includes(x.grupo._id)));
+  }
 
   notificarMaterial(id:string) {
     this.socket.io.emit('CLIENTE:NotificarNuevoMaterial', id);
   }
 
   filtrarPorGrupoSinEspecificacion(id: string): Materiales[] {
-    return this.materiales.filter((material:any) => material.grupo === id && !material.especificacion);
+    return this.materiales.filter((material:any) => material.grupo._id === id && !material.especificacion);
   }
 
   filtrarPorGrupoConEspecificacion(id: any): Materiales[] {
-    return this.materiales.filter((material:any) => material.grupo === id && material.especificacion);
+    return this.materiales.filter((material:any) => material.grupo._id === id && material.especificacion);
   }
 
 
