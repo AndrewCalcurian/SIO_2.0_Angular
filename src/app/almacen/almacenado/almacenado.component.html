@@ -1,6 +1,8 @@
 <app-inventario
 [Inventario]="Inventario"
 [listado]="listado"
+[General]="Generales"
+[ByLotes]="ByLotes"
 (onCloseModal)="Inventario = false"
 >
 
@@ -17,6 +19,9 @@
                   <h2 class="subtitle description blancas">
                     Descripción
                   </h2>
+                  <div class="iconos">
+                    <i class="fas fa-box-open"></i>
+                  </div>
                 </div>
             </div>
             <br>
@@ -24,65 +29,22 @@
                 <div class="columns">
                   <div class="column" *ngFor="let tarjeta of [].constructor(5);index as i">
                     <ng-container *ngIf="grupos.grupos[(5*fila_i)+i]">
-                      <div class="card animate__animated animate__fadeInUp">
-                        <div class="card-header">
-                          <div class="card-header-title">
-                            <div class="subtitle">
+                        <div class="card animate__animated animate__fadeInUp grupos" (click)="detallar(grupos.grupos[(5*fila_i)+i]._id)">
+                            <div class="card-content">
                               <div class="columns">
-                                <div class="column is-1">
-                                  <i class="{{grupos.grupos[(5*fila_i)+i].icono}}"></i>
+                                <div class="column is-half blue_">
+                                    <i class="{{grupos.grupos[(5*fila_i)+i].icono}}"></i>
                                 </div>
-                                <div class="column">
-                                  {{grupos.grupos[(5*fila_i)+i].nombre}} <i class="fas fa-glass-whiskey indicator animate__animated animate__flash" *ngIf="grupos.grupos[(5*fila_i)+i].parcial"></i>
+                                <div class="column is-half">
+                                  <p>{{grupos.grupos[(5*fila_i)+i].nombre}} <i class="fas fa-glass-whiskey indicator animate__animated animate__flash" *ngIf="grupos.grupos[(5*fila_i)+i].parcial"></i></p>
                                 </div>
-                              </div>                    
+                              </div>
                             </div>
                           </div>
-                        </div>
-                          <footer class="card-footer">
-                            <a class="card-footer-item"><i class="fas fa-info-circle blue_" (click)="detallar(grupos.grupos[(5*fila_i)+i]._id)"></i></a>
-                          </footer>
-                      </div>
                     </ng-container>
                   </div>
                 </div>
               </ng-container>
-            <!-- <ng-container *ngFor="let grupo of grupos.grupos">
-                <div class="card animate__animated animate__fadeInUp">
-                    <div class="card-header dark">
-                        <p class="card-header-title">
-                            {{grupo.nombre}}
-                        </p>
-                    </div>
-                    <div class="card-content">
-                        <table class="table is-fullwidth is-striped">
-                            <thead>
-                                <tr>
-                                    <th>Lote</th>
-                                    <th>Código</th>
-                                    <th>Cantidad</th>
-                                    <th>Material</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ng-container *ngFor="let almacen of api.Almacen">
-                                    <tr *ngIf="almacen.material.grupo == grupo._id">
-                                        <td>{{almacen.lote}}</td>
-                                        <td>{{almacen.codigo}}</td>
-                                        <td>{{almacen.presentacion}} {{almacen.neto}}{{almacen.unidad}}</td>
-                                        <td>{{almacen.material.nombre}} ({{almacen.material.fabricante.alias}})
-                                            <ng-container *ngIf="almacen.material.gramaje">{{almacen.material.gramaje}}g Calibre: {{almacen.material.calibre}}</ng-container>
-                                             Serie: {{almacen.material.serie}}
-                                            <ng-container *ngIf="almacen.material.gramaje">{{almacen.material.origen}}</ng-container>
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <br>
-            </ng-container> -->
         </div>
     </div>
 </div>

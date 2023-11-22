@@ -15,7 +15,7 @@ const routes: Routes =[
         component:RecepcionComponent
       },
       {
-        path:'almacen',
+        path:'inventario',
         component:AlmacenadoComponent
       }
     ]

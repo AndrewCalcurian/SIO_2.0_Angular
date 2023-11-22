@@ -87,3 +87,27 @@
     padding: 20px;
     border-radius: 4px;
   }
+
+  .icon-button {
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    margin: 5px;
+    background-color: #eaeaea;
+    transition: background-color 0.3s;
+  }
+  
+  .icon-button:hover {
+    background-color: #b0b0b0;
+  }
+  
+  .icon-button i {
+    font-size: 24px;
+    color: #333;
+    transition: color 0.3s;
+  }
+  
+  .icon-button:hover i {
+    color: #fff;
+  }

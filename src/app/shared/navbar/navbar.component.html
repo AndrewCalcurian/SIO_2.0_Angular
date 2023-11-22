@@ -20,6 +20,9 @@
         </p>
             <ul class="menu-list">
                 <li>
+                    <a [ngClass]="{'is-active':router.url == '/almacen/inventario'}" routerLink="/almacen/inventario">Inventario</a>
+                </li>
+                <li>
                     <a [ngClass]="{'is-active':router.url == '/almacen/recepcion'}" routerLink="/almacen/recepcion">Recepción</a>
                 </li>
             </ul>

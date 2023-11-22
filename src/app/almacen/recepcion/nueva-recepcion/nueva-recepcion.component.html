@@ -93,7 +93,11 @@
                             <div class="select">
                                 <select (change)="MaterialSeleccionado($event.target)">
                                     <option value="">Selecciona Material</option>
-                                    <option value="{{i}}" *ngFor="let material of material;index as i">{{material.nombre}}</option>
+                                    <option value="{{i}}" *ngFor="let material of material;index as i">{{material.nombre}} {{material.fabricante.alias}} {{material.serie}}
+                                        <ng-container *ngIf="material.gramaje">
+                                            {{material.gramaje}}g/m² {{material.calibre}}pt
+                                        </ng-container>
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -101,16 +105,32 @@
                 </div>
             </div>
             <div class="columns">
-                <div class="column" *ngIf="material_selected">
-                    <div class="field">
+                <div class="column">
+                    <div class="field" *ngIf="material_selected">
                         <label for="" class="label">Nº Lote</label>
                         <div class="control">
                             <input type="text" class="input" [(ngModel)]="lote">
                         </div>
                     </div>
                 </div>
-                <div class="column" *ngIf="lote">
-                    <div class="field">
+                <div class="column" >
+                    <div class="field" *ngIf="lote">
+                        <label for="" class="label">Ancho</label>
+                        <div class="control">
+                            <input type="number" class="input" [(ngModel)]="ancho">
+                        </div>
+                    </div>
+                </div>
+                <div class="column" >
+                    <div class="field" *ngIf="ancho">
+                        <label for="" class="label">Largo</label>
+                        <div class="control">
+                            <input type="number" class="input" [(ngModel)]="largo">
+                        </div>
+                    </div>
+                </div>
+                <div class="column" >
+                    <div class="field" *ngIf="largo">
                         <label for="" class="label">Presentación</label>
                         <div class="control">
                             <span class="select">

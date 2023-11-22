@@ -52,6 +52,8 @@ export class NuevaRecepcionComponent {
   presentacion!:string;
   neto!:number;
   lote!:string;
+  ancho!:number;
+  largo!:number;
   unidad:string = 'Und';
 
   currentDate = new Date();
@@ -153,6 +155,8 @@ export class NuevaRecepcionComponent {
         presentacion: this.presentacion, 
         neto: resto.toFixed(2), 
         lote: this.lote,
+        ancho: this.ancho,
+        largo: this.largo,
         unidad: this.unidad,
         material: this.material_selected,
         codigo:1
@@ -164,6 +168,8 @@ export class NuevaRecepcionComponent {
         presentacion: this.presentacion,
         neto: this.neto.toFixed(2),
         lote: this.lote,
+        ancho: this.ancho,
+        largo: this.largo,
         unidad: this.unidad,
         material: this.material_selected,
         fabricacion:this.fabricacion,
@@ -205,6 +211,8 @@ export class NuevaRecepcionComponent {
     this.cantidades.push(this.cantidad)
     this.fabricaciones.push(this.fabricacion)
     this.lote = ''
+    this.ancho = 0
+    this.largo = 0
     this.presentacion = ''
     this.fabricacion = ''
     this.neto = 0
