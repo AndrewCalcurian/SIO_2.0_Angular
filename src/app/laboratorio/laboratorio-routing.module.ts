@@ -5,6 +5,7 @@ import { LaboratorioComponent } from './laboratorio.component';
 import { LaboratorioIndexComponent } from './laboratorio-index/laboratorio-index.component';
 import { AnalisisTintaComponent } from './analisis-tinta/analisis-tinta.component';
 import { EspecificacionesComponent } from './especificaciones/especificaciones.component';
+import { AnalisisComponent } from './analisis/analisis.component';
 
 const routes: Routes =[
   {
@@ -20,8 +21,8 @@ const routes: Routes =[
         component:EspecificacionesComponent
       },
       {
-        path:'analisis-tinta',
-        component:AnalisisTintaComponent
+        path:'analisis',
+        component:AnalisisComponent
       }
     ]
 }]

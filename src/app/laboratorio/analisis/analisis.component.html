@@ -1,0 +1,62 @@
+<app-analisis-tinta
+[Tinta]="Tinta"
+[Materiales]="Material_selected"
+[Recepcion]="Recepcion_selected">
+
+</app-analisis-tinta>
+
+<div class="container_ mt-5">
+    <div class="card">
+        <div class="card-content darker">
+            <div class="card mt-5 title_">
+                <!-- <span class="red-bar"></span> -->
+                <div class="card-content">
+                  <h1 class="title blancas">
+                    Análisis
+                  </h1>
+                  <h2 class="subtitle description blancas">
+                    Descripción
+                  </h2>
+                </div>
+                <div class="iconos">
+                    <i class="fas fa-vials"></i>
+                </div>
+            </div>
+            <br>
+            <ng-container>
+                <table class="table is-fullwidth is-striped">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Lote</th>
+                            <th>Material</th>
+                            <th>Cantidad</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let recepcion of recepciones.recepciones;index as index">
+                            <ng-container *ngIf="recepcion.status === 'En observacion'">
+                                <tr *ngFor="let material of recepcion.materiales;index as i">
+                                    <td>{{material[0].material.grupo.nombre}}</td>
+                                    <td>{{material[0].lote}}</td>
+                                    <td>{{material[0].material.nombre}}
+                                        <ng-container *ngIf="material[0].material.gramaje">
+                                            ({{material[0].ancho}}x{{material[0].largo}})
+                                            {{material[0].material.gramaje}}(g/m²) - {{material[0].material.calibre}}(pt)
+                                        </ng-container> {{material[0].material.fabricante.alias}} / {{material[0].material.serie}}</td>
+                                    <td>{{recepcion.cantidad[i]}}</td>
+                                    <td>
+                                        <button class="button is-info" (click)="Analizar(recepcion, material, index, i)">
+                                            <span class="icon"><i class="fas fa-vial"></i></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -9,6 +9,7 @@ import { AnalisisTintaComponent } from './analisis-tinta/analisis-tinta.componen
 import { EspecificacionesComponent } from './especificaciones/especificaciones.component';
 import { NuevaEspecificacionComponent } from './especificaciones/nueva-especificacion/nueva-especificacion.component';
 import { DetallesEspecificacionComponent } from './especificaciones/detalles-especificacion/detalles-especificacion.component';
+import { AnalisisComponent } from './analisis/analisis.component';
 
 
 
@@ -18,7 +19,8 @@ import { DetallesEspecificacionComponent } from './especificaciones/detalles-esp
     AnalisisTintaComponent,
     EspecificacionesComponent,
     NuevaEspecificacionComponent,
-    DetallesEspecificacionComponent
+    DetallesEspecificacionComponent,
+    AnalisisComponent
   ],
   imports: [
     CommonModule,
