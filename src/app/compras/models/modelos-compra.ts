@@ -107,3 +107,90 @@ export class Mensaje {
         public blancura: Gramaje,
     ){}
   }
+
+  export class AnalisisSustrato {
+    constructor(
+        public numero_muestras: number,
+        public masa_inicial:number[],
+        public masa_final:number[],
+        public gramaje:any,
+        public cobb_top:number[],
+        public cobb_back:number[],
+        public ancho:number,
+        public largo:number,
+        public gramaje_cobb:{
+            promedio:number,
+            desviacion:number,
+            max:number,
+            min:number,
+            cobb_top_max:number,
+            cobb_top_min:number,
+            cobb_back_max:number,
+            cobb_back_min:number,
+            decimales:number  
+        },
+
+    ){}
+  }
+
+  export class AnalisisSustrato2 {
+    constructor(
+        public numero_muestras:number,
+        public ancho:number,
+        public largo:number,
+        public gramaje:{
+            masa_inicial:number[],
+            masa_final:number[],
+            gramaje:any,
+            promedio:number,
+            desviacion:number,
+            max:number,
+            min:number,
+            decimales:number
+        },
+        public cobb:{
+            top:{
+                cobb:number[],
+                max:number,
+                min:number
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            },
+            back:{
+                cobb:number[],
+                max:number,
+                min:number
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            }
+        },
+        public calibre:{
+            mm:{
+                mm:number[],
+                max:number,
+                min:number,
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            },
+            um:{
+                um:number[],
+                max:number,
+                min:number,
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            },
+            pt:{
+                pt:number[],
+                max:number,
+                min:number,
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            },
+        }
+    ){}
+  }

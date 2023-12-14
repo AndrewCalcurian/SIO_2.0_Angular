@@ -1,11 +1,11 @@
 <div class="modal" [ngClass]="{'is-active':Tinta}">
     <div class="modal-background"></div>
     <div class="modal-card long">
-        <div class="modal-card-head" *ngIf="Materiales[0]">
+        <div class="modal-card-head" *ngIf="Materiales">
             <p class="modal-card-title fuente">
                 {{Materiales[0].material.nombre}} {{Materiales[0].material.fabricante.alias}} / {{Materiales[0].material.serie}}
             </p>
-            <button class="delete red_cross" aria-label="close"></button>
+            <button class="delete red_cross" aria-label="close" (click)="cerrarSencillo()"></button>
         </div>
         <div class="modal-card-body">
             <span class="titles">
@@ -37,12 +37,13 @@
                 <tr>
                     <th>Realizado Sobre:</th>
                     <th>tipo</th>
+                    <th>Estandar</th>
                     <th>Sustrato de muestra:</th>
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox" (click)="Carton($event)"> Cartón <br>
-                        <input type="checkbox" (click)="Papel($event)"> Papel <br>
+                        <input type="checkbox" (click)="Carton($event)" [(ngModel)]="Analisis.cuantitativo.carton"> Cartón <br>
+                        <input type="checkbox" (click)="Papel($event)" [(ngModel)]="Analisis.cuantitativo.papel"> Papel <br>
                     </td>
                     <td>
                         <div class="columns">
@@ -63,6 +64,10 @@
                                 </div>
                             </div>
                         </div>
+                    </td>
+                    <td>
+                        <label for="" class="label">Estandar tomado</label>
+                        <input type="text" class="input" [(ngModel)]="Analisis.resultado.estandar">
                     </td>
                     <td>
                         <fieldset (change)="muestreo($event.target)">
@@ -439,7 +444,7 @@
                                 <div class="field">
                                     <label for="" class="label"> </label>
                                     <div class="control">
-                                        <button class="button is-success" (click)="comparar('C1')">
+                                        <button class="button is-info" (click)="comparar('C1')">
                                             <span class="icon is-small">
                                                 <i class="fas fa-clone"></i>
                                             </span>
@@ -545,7 +550,7 @@
                                 <div class="field">
                                     <label for="" class="label"> </label>
                                     <div class="control">
-                                        <button class="button is-success" (click)="comparar('C2')">
+                                        <button class="button is-info" (click)="comparar('C2')">
                                             <span class="icon is-small">
                                                 <i class="fas fa-clone"></i>
                                             </span>
@@ -651,7 +656,7 @@
                                 <div class="field">
                                     <label for="" class="label"> </label>
                                     <div class="control">
-                                        <button class="button is-success" (click)="comparar('C3')">
+                                        <button class="button is-info" (click)="comparar('C3')">
                                             <span class="icon is-small">
                                                 <i class="fas fa-clone"></i>
                                             </span>
@@ -838,15 +843,74 @@
                 <br>
                 <ng-container *ngIf="selecccion == 1">
                     <button class="button is-info" (click)="ShowRollDown(0)" *ngIf="isAnalisisCartonFilled()">
-                        <span>RollDowns</span>
+                        <span>Roll Downs</span>
                     </button>
                 </ng-container>
+                <ng-container *ngIf="selecccion == 2">
+                    <button class="button is-info" (click)="ShowRollDown(1)" *ngIf="isAnalisisPapelFilled()">
+                        <span>Roll Downs</span>
+                    </button>
+                </ng-container>
+                <hr>
+                <div class="file is-info has-name">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="resume" (change)="subirImagen($event)">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Roll Down
+                        </span>
+                      </span>
+                      <span class="file-name">
+                        {{Analisis.img}}
+                      </span>
+                    </label>
+                  </div>
+                <br>
+                <div class="field">
+                    <label for="" class="label">Observación</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Observación" [(ngModel)]="Analisis.resultado.observacion"></textarea>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <button class="button is-success" (click)="guardar()">
+                            <span class="icon"><i class="fas fa-save"></i></span>
+                            <span>Guardar</span>
+                        </button>
+                    </div>
+                    <div class="column">
+                        <table class="table is-fullwidth">
+                            <tr>
+                                <th>Resultado</th>
+                                <th>Generar Analisis</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="select">
+                                        <select name="" id="" [(ngModel)]="Analisis.resultado.resultado">
+                                            <option value="APROBADO">APROBADO</option>
+                                            <option value="RECHAZADO">RECHAZADO</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="button is-success" (click)="AnalisisCompletado()" *ngIf="Analisis.resultado.resultado">
+                                        <span>Descargar</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
 
-<!-- <div class="modal" [ngClass]="{'is-active':RollDownModal}"> -->
-    <div class="modal is-active" >
+<div class="modal" [ngClass]="{'is-active':RollDownModal}">
     <div class="modal-background"></div>
         <div class="columns long_">
             <button class="delete red_cross cerrar" aria-label="close" (click)="RollDownModal = false"></button>
@@ -858,7 +922,7 @@
                         </p>
                     </div>
                     <div class="card-content">
-                        <div class="roll" id="muestra1" [style]="RollDown.descarga_1.muestra" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)"></div>
+                        <div class="roll" id="muestra1" [style]="RollDown.descarga_1.muestra"></div>
                         <div class="roll" id="muestra2" [style]="RollDown.descarga_2.muestra"></div>
                         <div class="roll" id="muestra3" [style]="RollDown.descarga_3.muestra"></div>
                     </div>

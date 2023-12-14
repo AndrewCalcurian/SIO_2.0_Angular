@@ -10,6 +10,7 @@ import { EspecificacionesComponent } from './especificaciones/especificaciones.c
 import { NuevaEspecificacionComponent } from './especificaciones/nueva-especificacion/nueva-especificacion.component';
 import { DetallesEspecificacionComponent } from './especificaciones/detalles-especificacion/detalles-especificacion.component';
 import { AnalisisComponent } from './analisis/analisis.component';
+import { AnalisisSustratoComponent } from './analisis-sustrato/analisis-sustrato.component';
 
 
 
@@ -20,7 +21,8 @@ import { AnalisisComponent } from './analisis/analisis.component';
     EspecificacionesComponent,
     NuevaEspecificacionComponent,
     DetallesEspecificacionComponent,
-    AnalisisComponent
+    AnalisisComponent,
+    AnalisisSustratoComponent
   ],
   imports: [
     CommonModule,

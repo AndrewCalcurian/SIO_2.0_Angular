@@ -1,9 +1,21 @@
 <app-analisis-tinta
 [Tinta]="Tinta"
 [Materiales]="Material_selected"
-[Recepcion]="Recepcion_selected">
+[Recepcion]="Recepcion_selected"
+[Index]="index_material"
+[Analisis]="Analisis"
+(onCloseModal)="Cerrar()"
+(onCloseSencillo)="Tinta = false">
 
 </app-analisis-tinta>
+
+<app-analisis-sustrato
+[sustrato]="Sustrato"
+[Materiales]="Material_selected"
+[Recepcion]="Recepcion_selected"
+[Index]="index_material">
+
+</app-analisis-sustrato>
 
 <div class="container_ mt-5">
     <div class="card">
@@ -45,7 +57,7 @@
                                             ({{material[0].ancho}}x{{material[0].largo}})
                                             {{material[0].material.gramaje}}(g/m²) - {{material[0].material.calibre}}(pt)
                                         </ng-container> {{material[0].material.fabricante.alias}} / {{material[0].material.serie}}</td>
-                                    <td>{{recepcion.cantidad[i]}}</td>
+                                    <td>{{Format(recepcion.cantidad[i])}}</td>
                                     <td>
                                         <button class="button is-info" (click)="Analizar(recepcion, material, index, i)">
                                             <span class="icon"><i class="fas fa-vial"></i></span>
