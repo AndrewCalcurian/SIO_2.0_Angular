@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { empty } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import * as moment from 'moment';
 import { AnalisisSustrato, AnalisisSustrato2 } from 'src/app/compras/models/modelos-compra';
+import { AnalisisService } from 'src/app/services/analisis.service';
 
 @Component({
   selector: 'app-analisis-sustrato',
@@ -13,72 +14,19 @@ export class AnalisisSustratoComponent {
   @Input() Recepcion:any;
   @Input() Materiales:any;
   @Input() Index:any;
+  @Input() analisis:any;
+  @Output() onCloseModal = new EventEmitter();
+  @Output() onCloseSencillo = new EventEmitter()
+
+
+  constructor(public api:AnalisisService){
+    
+  }
 
   public Gramaje_Cobb = true;
   public calibre = false;
   public curling = false;
   public dimensiones = false;
-
-
-  public analisis:AnalisisSustrato2 = {
-    numero_muestras: 0,
-    ancho:0,
-    largo:0,
-    gramaje:{
-      masa_inicial:[],
-      masa_final:[],
-      gramaje:[],
-      promedio:0,
-      desviacion:0,
-      max:0,
-      min:0,
-      decimales:0
-    },
-    cobb:{
-      top:{
-        cobb:[],
-        max:0,
-        min:0,
-        promedio:0,
-        desviacion:0,
-        decimales:0
-      },
-      back:{
-        cobb:[],
-        max:0,
-        min:0,
-        promedio:0,
-        desviacion:0,
-        decimales:0
-      }
-    },
-    calibre:{
-      mm:{
-        mm:[],
-        max:0,
-        min:0,
-        promedio:0,
-        desviacion:0,
-        decimales:0
-      },
-      um:{
-        um:[],
-        max:0,
-        min:0,
-        promedio:0,
-        desviacion:0,
-        decimales:0
-      },
-      pt:{
-        pt:[],
-        max:0,
-        min:0,
-        promedio:0,
-        desviacion:0,
-        decimales:0
-      }
-    }
-  } 
 
   tabs(n){
     switch(n){
@@ -253,7 +201,7 @@ export class AnalisisSustratoComponent {
       }
     }
     
-    this.analisis.calibre.um.min = Math.min(...this.analisis.calibre.um.um)
+    this.analisis.calibre.um.max = Math.max(...this.analisis.calibre.um.um)
     this.analisis.calibre.um.min = Math.min(...this.analisis.calibre.um.um)
     this.analisis.calibre.um.promedio = this.Promedio(this.analisis.calibre.um.um)
     this.analisis.calibre.um.desviacion = this.desviacionEstandar(this.analisis.calibre.um.um, this.analisis.calibre.um.promedio)
@@ -276,7 +224,7 @@ export class AnalisisSustratoComponent {
     }
 
     
-    this.analisis.calibre.pt.min = Math.min(...this.analisis.calibre.pt.pt)
+    this.analisis.calibre.pt.max = Math.max(...this.analisis.calibre.pt.pt)
     this.analisis.calibre.pt.min = Math.min(...this.analisis.calibre.pt.pt)
     this.analisis.calibre.pt.promedio = this.Promedio(this.analisis.calibre.pt.pt)
     this.analisis.calibre.pt.desviacion = this.desviacionEstandar(this.analisis.calibre.pt.pt, this.analisis.calibre.pt.promedio)
@@ -300,5 +248,197 @@ export class AnalisisSustratoComponent {
 
   }
 
+  curling_(i){
+    this.analisis.curling_blancura.curling.max = Number(Math.max.apply(Math, this.analisis.curling_blancura.curling.curling).toFixed(2));
+    this.analisis.curling_blancura.curling.min = Number(Math.min.apply(Math, this.analisis.curling_blancura.curling.curling).toFixed(2));
+  
+    const sum = this.analisis.curling_blancura.curling.curling.reduce((a, b) => a + b, 0);
+    const average = sum / this.analisis.curling_blancura.curling.curling.length;
+    this.analisis.curling_blancura.curling.promedio =   Number(average.toFixed(2));
+    this.analisis.curling_blancura.curling.desviacion = Number(this.desviacionEstandar(this.analisis.curling_blancura.curling.curling, this.analisis.curling_blancura.curling.promedio).toFixed(2))
+    if(this.analisis.curling_blancura.curling.desviacion > 0){
+      this.analisis.curling_blancura.curling.decimales = 0;
+    }
+    if(this.analisis.curling_blancura.curling.desviacion < 1){
+      let str = this.analisis.curling_blancura.curling.desviacion.toString()
+      let split = str.split('.')
+      let decimales = split[1]
 
+      if(decimales){
+        for(let i=0;i<decimales.length;i++){
+          if(decimales[i] != '0'){
+            this.analisis.curling_blancura.curling.decimales = Number(i)
+            this.analisis.curling_blancura.curling.decimales = this.analisis.curling_blancura.curling.decimales + 1;
+            i = 100;
+          }
+        }
+      }else{
+        this.analisis.curling_blancura.curling.decimales = 2;
+      }
+    }
+  }
+
+  blancura_(i){
+    this.analisis.curling_blancura.blancura.max = Number(Math.max.apply(Math, this.analisis.curling_blancura.blancura.blancura).toFixed(2));
+    this.analisis.curling_blancura.blancura.min = Number(Math.min.apply(Math, this.analisis.curling_blancura.blancura.blancura).toFixed(2));
+  
+    const sum = this.analisis.curling_blancura.blancura.blancura.reduce((a, b) => a + b, 0);
+    const average = sum / this.analisis.curling_blancura.blancura.blancura.length;
+    this.analisis.curling_blancura.blancura.promedio =   Number(average.toFixed(2));
+    this.analisis.curling_blancura.blancura.desviacion = Number(this.desviacionEstandar(this.analisis.curling_blancura.blancura.blancura, this.analisis.curling_blancura.blancura.promedio).toFixed(2))
+    if(this.analisis.curling_blancura.blancura.desviacion > 0){
+      this.analisis.curling_blancura.blancura.decimales = 0;
+    }
+    if(this.analisis.curling_blancura.blancura.desviacion < 1){
+      let str = this.analisis.curling_blancura.blancura.desviacion.toString()
+      let split = str.split('.')
+      let decimales = split[1]
+
+      if(decimales){
+        for(let i=0;i<decimales.length;i++){
+          if(decimales[i] != '0'){
+            this.analisis.curling_blancura.blancura.decimales = Number(i)
+            this.analisis.curling_blancura.blancura.decimales = this.analisis.curling_blancura.blancura.decimales + 1;
+            i = 100;
+          }
+        }
+      }else{
+        this.analisis.curling_blancura.blancura.decimales = 2;
+      }
+    }
+  }
+
+  escuadra_(i){
+    this.analisis.dimensiones.Escuadra.max = Number(Math.max.apply(Math, this.analisis.dimensiones.Escuadra.escuadra).toFixed(2));
+    this.analisis.dimensiones.Escuadra.min = Number(Math.min.apply(Math, this.analisis.dimensiones.Escuadra.escuadra).toFixed(2));
+  
+    const sum = this.analisis.dimensiones.Escuadra.escuadra.reduce((a, b) => a + b, 0);
+    const average = sum / this.analisis.dimensiones.Escuadra.escuadra.length;
+    this.analisis.dimensiones.Escuadra.promedio =   Number(average.toFixed(2));
+    this.analisis.dimensiones.Escuadra.desviacion = Number(this.desviacionEstandar(this.analisis.dimensiones.Escuadra.escuadra, this.analisis.dimensiones.Escuadra.promedio).toFixed(2))
+    if(this.analisis.dimensiones.Escuadra.desviacion > 0){
+      this.analisis.dimensiones.Escuadra.decimales = 0;
+    }
+    if(this.analisis.dimensiones.Escuadra.desviacion < 1){
+      let str = this.analisis.dimensiones.Escuadra.desviacion.toString()
+      let split = str.split('.')
+      let decimales = split[1]
+
+      if(decimales){
+        for(let i=0;i<decimales.length;i++){
+          if(decimales[i] != '0'){
+            this.analisis.dimensiones.Escuadra.decimales = Number(i)
+            this.analisis.dimensiones.Escuadra.decimales = this.analisis.dimensiones.Escuadra.decimales + 1;
+            i = 100;
+          }
+        }
+      }else{
+        this.analisis.dimensiones.Escuadra.decimales = 2;
+      }
+    }
+  }
+
+  contraEscuadra_(i){
+    this.analisis.dimensiones.contraEscuadra.max = Number(Math.max.apply(Math, this.analisis.dimensiones.contraEscuadra.contraEscuadra).toFixed(2));
+    this.analisis.dimensiones.contraEscuadra.min = Number(Math.min.apply(Math, this.analisis.dimensiones.contraEscuadra.contraEscuadra).toFixed(2));
+  
+    const sum = this.analisis.dimensiones.contraEscuadra.contraEscuadra.reduce((a, b) => a + b, 0);
+    const average = sum / this.analisis.dimensiones.contraEscuadra.contraEscuadra.length;
+    this.analisis.dimensiones.contraEscuadra.promedio =   Number(average.toFixed(2));
+    this.analisis.dimensiones.contraEscuadra.desviacion = Number(this.desviacionEstandar(this.analisis.dimensiones.contraEscuadra.contraEscuadra, this.analisis.dimensiones.contraEscuadra.promedio).toFixed(2))
+    if(this.analisis.dimensiones.contraEscuadra.desviacion > 0){
+      this.analisis.dimensiones.contraEscuadra.decimales = 0;
+    }
+    if(this.analisis.dimensiones.contraEscuadra.desviacion < 1){
+      let str = this.analisis.dimensiones.contraEscuadra.desviacion.toString()
+      let split = str.split('.')
+      let decimales = split[1]
+
+      if(decimales){
+        for(let i=0;i<decimales.length;i++){
+          if(decimales[i] != '0'){
+            this.analisis.dimensiones.contraEscuadra.decimales = Number(i)
+            this.analisis.dimensiones.contraEscuadra.decimales = this.analisis.dimensiones.contraEscuadra.decimales + 1;
+            i = 100;
+          }
+        }
+      }else{
+        this.analisis.dimensiones.contraEscuadra.decimales = 2;
+      }
+    }
+  }
+
+  Pinza_(i){
+    this.analisis.dimensiones.Pinza.max = Number(Math.max.apply(Math, this.analisis.dimensiones.Pinza.pinza).toFixed(2));
+    this.analisis.dimensiones.Pinza.min = Number(Math.min.apply(Math, this.analisis.dimensiones.Pinza.pinza).toFixed(2));
+  
+    const sum = this.analisis.dimensiones.Pinza.pinza.reduce((a, b) => a + b, 0);
+    const average = sum / this.analisis.dimensiones.Pinza.pinza.length;
+    this.analisis.dimensiones.Pinza.promedio =   Number(average.toFixed(2));
+    this.analisis.dimensiones.Pinza.desviacion = Number(this.desviacionEstandar(this.analisis.dimensiones.Pinza.pinza, this.analisis.dimensiones.Pinza.promedio).toFixed(2))
+    if(this.analisis.dimensiones.Pinza.desviacion > 0){
+      this.analisis.dimensiones.Pinza.decimales = 0;
+    }
+    if(this.analisis.dimensiones.Pinza.desviacion < 1){
+      let str = this.analisis.dimensiones.Pinza.desviacion.toString()
+      let split = str.split('.')
+      let decimales = split[1]
+
+      if(decimales){
+        for(let i=0;i<decimales.length;i++){
+          if(decimales[i] != '0'){
+            this.analisis.dimensiones.Pinza.decimales = Number(i)
+            this.analisis.dimensiones.Pinza.decimales = this.analisis.dimensiones.Pinza.decimales + 1;
+            i = 100;
+          }
+        }
+      }else{
+        this.analisis.dimensiones.Pinza.decimales = 2;
+      }
+    }
+  }
+
+  contraPinza_(i){
+    this.analisis.dimensiones.contraPinza.max = Number(Math.max.apply(Math, this.analisis.dimensiones.contraPinza.contraPinza).toFixed(2));
+    this.analisis.dimensiones.contraPinza.min = Number(Math.min.apply(Math, this.analisis.dimensiones.contraPinza.contraPinza).toFixed(2));
+  
+    const sum = this.analisis.dimensiones.contraPinza.contraPinza.reduce((a, b) => a + b, 0);
+    const average = sum / this.analisis.dimensiones.contraPinza.contraPinza.length;
+    this.analisis.dimensiones.contraPinza.promedio =   Number(average.toFixed(2));
+    this.analisis.dimensiones.contraPinza.desviacion = Number(this.desviacionEstandar(this.analisis.dimensiones.contraPinza.contraPinza, this.analisis.dimensiones.contraPinza.promedio).toFixed(2))
+    if(this.analisis.dimensiones.contraPinza.desviacion > 0){
+      this.analisis.dimensiones.contraPinza.decimales = 0;
+    }
+    if(this.analisis.dimensiones.contraPinza.desviacion < 1){
+      let str = this.analisis.dimensiones.contraPinza.desviacion.toString()
+      let split = str.split('.')
+      let decimales = split[1]
+
+      if(decimales){
+        for(let i=0;i<decimales.length;i++){
+          if(decimales[i] != '0'){
+            this.analisis.dimensiones.contraPinza.decimales = Number(i)
+            this.analisis.dimensiones.contraPinza.decimales = this.analisis.dimensiones.contraPinza.decimales + 1;
+            i = 100;
+          }
+        }
+      }else{
+        this.analisis.dimensiones.contraPinza.decimales = 2;
+      }
+    }
+  }
+
+  guardar(){
+    this.analisis.resultado.guardado.fecha = moment().format('DD/MM/YYYY')
+    this.api.EnviarAnalisisSustrato(this.analisis, this.Recepcion, this.Index);
+    this.onCloseModal.emit();
+  }
+
+  AnalisisCompletado(){
+
+  }
+
+  cerrar(){
+    this.onCloseSencillo.emit();
+  }
 }

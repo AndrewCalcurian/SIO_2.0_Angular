@@ -9,6 +9,7 @@ export class AnalisisService {
 
   public mensaje!: Mensaje;
   public AnalisisTintas;
+  public AnalisisSustrato;
   constructor(private socket:WebSocketService) {
     this.BuscarAnalisisTinta()
    }
@@ -25,12 +26,22 @@ export class AnalisisService {
     this.socket.io.on('SERVER:AnalisisTinta', async(AnalisisTinta)=>{
       this.AnalisisTintas = AnalisisTinta;
     })
+
+    this.socket.io.emit('CLIENTE:BuscarAnalisisSustrato');
+    this.socket.io.on('SERVER:AnalisisSustrato', async(AnalisisSustrato)=>{
+      this.AnalisisSustrato = AnalisisSustrato;
+    })
   
   }
 
   buscarAnalisisPorID(id){
     return this.AnalisisTintas.find(x => x._id === id)
   } 
+
+  buscarAnalisisSustratoPorID(id){
+    console.log(this.AnalisisSustrato.find(x => x._id === id))
+    return this.AnalisisSustrato.find(x => x._id === id)
+  }
 
   EnvarAnalisis(data, recepcion, index){
     const Data = {
@@ -39,5 +50,14 @@ export class AnalisisService {
       index
     }
     this.socket.io.emit('CLIENTE:AnalisisTinta', Data)
+  }
+
+  EnviarAnalisisSustrato(data, recepcion, index){
+    const Data = {
+      data,
+      recepcion,
+      index
+    }
+    this.socket.io.emit('CLIENTE:AnalisisSustrato', Data)
   }
 }

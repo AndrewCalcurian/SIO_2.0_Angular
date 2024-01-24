@@ -191,6 +191,71 @@ export class Mensaje {
                 desviacion:number,
                 decimales:number
             },
-        }
+        },
+        public curling_blancura:{
+            curling:{
+              curling:number[],
+              max:number,
+              min:number,
+              promedio:number,
+              desviacion:number,
+              decimales:number
+            },
+            blancura:{
+                blancura:number[],
+                max:number,
+                min:number,
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            }
+          },
+        public dimensiones:{
+            Escuadra:{
+                escuadra:number[],
+                max:number,
+                min:number,
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            },
+            contraEscuadra:{
+                contraEscuadra:number[],
+                max:number,
+                min:number,
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            },
+            Pinza:{
+                pinza:number[],
+                max:number,
+                min:number,
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            },
+            contraPinza:{
+                contraPinza:number[],
+                max:number,
+                min:number,
+                promedio:number,
+                desviacion:number,
+                decimales:number
+            },
+        },
+        public resultado:{
+            estandar:string,
+            resultado:string,
+            observacion:string,
+            guardado:{
+              usuario:string,
+              fecha:string
+            },
+            validado:{
+              usuario:string,
+              fecha:string
+            }
+          }
     ){}
   }

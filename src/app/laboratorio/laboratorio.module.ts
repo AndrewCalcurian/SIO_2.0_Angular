@@ -11,12 +11,14 @@ import { NuevaEspecificacionComponent } from './especificaciones/nueva-especific
 import { DetallesEspecificacionComponent } from './especificaciones/detalles-especificacion/detalles-especificacion.component';
 import { AnalisisComponent } from './analisis/analisis.component';
 import { AnalisisSustratoComponent } from './analisis-sustrato/analisis-sustrato.component';
+import { LaboratorioIndexComponent } from './laboratorio-index/laboratorio-index.component';
 
 
 
 @NgModule({
   declarations: [
     LaboratorioComponent,
+    LaboratorioIndexComponent,
     AnalisisTintaComponent,
     EspecificacionesComponent,
     NuevaEspecificacionComponent,
