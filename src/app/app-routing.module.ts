@@ -14,6 +14,10 @@ const routes: Routes = [
 {
   path:'laboratorio',
   loadChildren: () => import('./laboratorio/laboratorio.module').then(m => m.LaboratorioModule)
+},
+{
+  path: 'maquinas',
+  loadChildren: () => import('./fases-ymaquinarias/fases-routing.module').then(m => m.FasesRoutingModule)
 }];
 
 @NgModule({

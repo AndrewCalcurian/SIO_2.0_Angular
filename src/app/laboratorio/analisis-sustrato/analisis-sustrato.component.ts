@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
+import { Cell, Img, PdfMakeWrapper, Stack, Table, Txt } from 'pdfmake-wrapper';
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { AnalisisSustrato, AnalisisSustrato2 } from 'src/app/compras/models/modelos-compra';
 import { AnalisisService } from 'src/app/services/analisis.service';
 
@@ -435,6 +438,460 @@ export class AnalisisSustratoComponent {
   }
 
   AnalisisCompletado(){
+
+    let analisis = this.analisis
+    let muestras_ = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+    let Material = this.Materiales[0]
+    console.log(Material)
+
+    let hoy = moment().format('dd/mm/yyyy')
+    async function GenerarCertificado(){
+    const pdf = new PdfMakeWrapper();
+    PdfMakeWrapper.setFonts(pdfFonts);
+    pdf.pageOrientation('landscape');
+    pdf.pageSize('A4');
+
+    pdf.add(
+      new Table([
+        [
+          new Cell(await new Img('../../assets/poli_cintillo.png').width(50).margin([0, 5]).build()).alignment('center').rowSpan(4).end,
+          new Cell(new Txt(`
+          FORMATO DE REPORTE DE ANÁLISIS DE SUSTRATO
+          `).bold().end).alignment('center').fontSize(9).rowSpan(4).end,
+          new Cell(new Txt('Código: FLC-004').end).fillColor('#dedede').fontSize(5).alignment('center').end,
+        ],
+        [
+          new Cell(new Txt('').end).end,
+          new Cell(new Txt('').end).end,
+          new Cell(new Txt('N° de Revisión: 0').end).fillColor('#dedede').fontSize(5).alignment('center').end,
+        ],
+        [
+          new Cell(new Txt('').end).end,
+          new Cell(new Txt('').end).end,
+          new Cell(new Txt('Fecha de Revision: 28/06/2023').end).fillColor('#dedede').fontSize(5).alignment('center').end,
+        ],
+        [
+          new Cell(new Txt('').end).end,
+          new Cell(new Txt('').end).end,
+          new Cell(new Txt('Página: 1 de 1').end).fillColor('#dedede').fontSize(5).alignment('center').end,
+        ],
+      ]).widths(['25%','50%','25%']).end
+    )
+
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+        ]
+      ]).widths(['100%']).end
+    )
+
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt('INFORMACIÓN DE SUSTRATO').bold().end).fontSize(8).color('#ffffff').fillColor('#000000').decorationColor('#ffffff').alignment('center').end
+        ]
+      ]).widths(['100%']).end
+    )
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+        ]
+      ]).widths(['100%']).end
+    )
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt('Descripción:').end).fillColor('#dedede').fontSize(6).end,
+          new Cell(new Txt(`${Material.material.nombre} ${Material.material.gramaje}g (${Material.ancho}x${Material.largo})`).end).fontSize(6).colSpan(2).end,
+          new Cell(new Txt('').end).fontSize(6).end,
+          new Cell(new Txt('Marca:').end).fontSize(6).fillColor('#dedede').end,
+          new Cell(new Txt(`${Material.material.marca}`).bold().fontSize(6).fontSize(6).end).end,
+          new Cell(new Txt('Molino:').end).fontSize(6).fillColor('#dedede').end,
+          new Cell(new Txt('NOMBRE DE MOLINO').end).fontSize(6).end,
+          new Cell(new Txt('N° Lote').end).margin([15,6]).fillColor('#dedede').rowSpan(2).fontSize(6).end,
+          new Cell(new Txt(Material.lote).alignment('center').bold().end).alignment('center').rowSpan(2).margin([0,3]).end,
+
+        ],
+        [
+          new Cell(new Txt('Tamaño de muestra (cm):').end).fontSize(6).fillColor('#dedede').end,
+          new Cell(new Txt(`${analisis.ancho} x ${analisis.largo}`).end).fontSize(6).end,
+          // new Cell(new Txt(`${material.lote}`).end).fontSize(6).end,
+          new Cell(new Txt('Area (cm²):').end).fontSize(6).fillColor('#dedede').end,
+          new Cell(new Txt(`${analisis.ancho * analisis.largo}`).end).fontSize(6).end,
+          new Cell(new Txt('Fecha:').end).fontSize(6).fillColor('#dedede').end,
+          new Cell(new Txt(hoy).end).colSpan(2).fontSize(6).end,
+          new Cell(new Txt('').end).border([false, false, false, false,]).fontSize(6).end,
+          new Cell(new Txt(Material.lote).end).rowSpan(2).fontSize(6).end,
+          new Cell(new Txt('').end).fontSize(6).end,
+        ],
+      ]).widths(['11%','8%','6%','8%','10%','11%','11%','11%','24%']).end
+    )
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+        ]
+      ]).widths(['100%']).end
+    )
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt('PROPIEDADES A EVALUAR DEL SUSTRATO').bold().end).fontSize(8).color('#ffffff').fillColor('#000000').decorationColor('#ffffff').alignment('center').end
+        ]
+      ]).widths(['100%']).end
+    )
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+        ]
+      ]).widths(['100%']).end
+    )
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt('#').alignment('center').end).fontSize(6).margin([0,15]).rowSpan(4).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('Gramaje').alignment('center').end).fontSize(6).colSpan(2).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('Gramaje').alignment('center').end).fontSize(6).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('Cobb').alignment('center').end).fontSize(6).colSpan(3).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('-').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('Gramaje').alignment('center').end).fontSize(6).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('Calibre').alignment('center').end).fontSize(6).colSpan(3).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('Curling').alignment('center').end).fontSize(6).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('Blancura').alignment('center').end).fontSize(6).fillColor('#4e4e4e').color('#FFFFFF').end,
+          new Cell(new Txt('').alignment('center').end).rowSpan(3).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('').alignment('center').end).rowSpan(4).fontSize(6).fillColor('#4e4e4e').end,
+          new Cell(new Txt('Dimensiones del pliego (mm)').alignment('center').end).fillColor('#4e4e4e').color('#FFFFFF').colSpan(4).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).end,
+        ],
+        [
+          new Cell(new Txt(' ').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('Masa inicial (g)').alignment('center').margin([0,10]).end).rowSpan(3).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('Gramaje\n (g/m²)').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('Masa final (g)').alignment('center').margin([0,10]).end).rowSpan(3).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('Cobb (g/m²) \n TOP').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('Cobb (g/m²) \nBACK').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('(mm)').alignment('center').margin([0,5]).end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('(um)').alignment('center').margin([0,5]).end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('(pt)').alignment('center').margin([0,5]).end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('(s)').alignment('center').margin([0,5]).end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('(%)').alignment('center').margin([0,5]).end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('Escuadra').alignment('center').margin([0,5]).end).rowSpan(3).fillColor('#bdbdbd').fontSize(6).end,
+          new Cell(new Txt('contra escuadra').alignment('center').margin([0,5]).end).rowSpan(3).fillColor('#bdbdbd').fontSize(6).end,
+          new Cell(new Txt('Pinza').alignment('center').margin([0,5]).end).rowSpan(3).fillColor('#bdbdbd').fontSize(6).end,
+          new Cell(new Txt('Contra pinza').alignment('center').margin([0,5]).end).rowSpan(3).fillColor('#bdbdbd').fontSize(6).end,
+        ],
+        [
+          new Cell(new Txt(' ').alignment('center').end).fontSize(6).fillColor('#cecece').end,
+          new Cell(new Txt('Masa inicial (g)').alignment('center').end).fontSize(6).fillColor('#cecece').end,
+          new Cell(new Txt('COVENIN 945-84').alignment('center').end).fontSize(5).fillColor('#cecece').end,
+          new Cell(new Txt('Masa final (g)').alignment('center').end).fontSize(6).fillColor('#cecece').end,
+          new Cell(new Txt('COVENIN 1243-78').alignment('center').end).colSpan(2).fontSize(5).fillColor('#cecece').end,
+          new Cell(new Txt('-').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('COVENIN 946-79').alignment('center').end).colSpan(3).fontSize(6).fillColor('#cecece').end,
+          new Cell(new Txt('(um)').alignment('center').end).fontSize(6).fillColor('#cecece').end,
+          new Cell(new Txt('(pt)').alignment('center').end).fontSize(6).fillColor('#cecece').end,
+          new Cell(new Txt('ISO 5635').alignment('center').end).fontSize(5).fillColor('#cecece').end,
+          new Cell(new Txt('ISO 2470').alignment('center').end).rowSpan(2).fontSize(5).fillColor('#cecece').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('Escuadra').alignment('center').end).fillColor('#cecece').fontSize(6).end,
+          new Cell(new Txt('contra escuadra').alignment('center').end).fillColor('#cecece').fontSize(6).end,
+          new Cell(new Txt('Pinza').alignment('center').end).fillColor('#cecece').fontSize(6).end,
+          new Cell(new Txt('Contra pinza').alignment('center').end).fillColor('#cecece').fontSize(6).end,
+        ],
+        [
+          new Cell(new Txt(' ').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('Masa inicial (g)').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('TAPPI T410').alignment('center').end).fontSize(5).fillColor('#eeeded').end,
+          new Cell(new Txt('Masa final (g)').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('TAPPI T411').alignment('center').end).colSpan(2).fontSize(5).fillColor('#eeeded').end,
+          new Cell(new Txt('-').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('TAPPI T411').alignment('center').end).colSpan(3).fontSize(5).fillColor('#eeeded').end,
+          new Cell(new Txt('(um)').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('(pt)').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('TAPPI T466').alignment('center').end).fontSize(5).fillColor('#eeeded').end,
+          new Cell(new Txt('(%)').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('Escuadra').alignment('center').end).fillColor('#eeeded').fontSize(6).end,
+          new Cell(new Txt('contra escuadra').alignment('center').end).fillColor('#eeeded').fontSize(6).end,
+          new Cell(new Txt('Pinza').alignment('center').end).fillColor('#eeeded').fontSize(6).end,
+          new Cell(new Txt('Contra pinza').alignment('center').end).fillColor('#eeeded').fontSize(6).end,
+        ],
+        [
+          new Cell(new Stack(muestras_).end).rowSpan(2).fontSize(6).alignment('center').end,
+          new Cell(new Stack(analisis.gramaje.masa_inicial).fontSize(6).alignment('center').end).rowSpan(2).end,
+          new Cell(new Stack(analisis.gramaje.gramaje).end).fontSize(6).alignment('center').rowSpan(2).end,
+          new Cell(new Stack(analisis.gramaje.masa_final).fontSize(6).alignment('center').end).rowSpan(2).fillColor('#dedede').end,
+          new Cell(new Stack(analisis.cobb.top.cobb).end).rowSpan(2).fontSize(6).alignment('center').fillColor('#dedede').end,
+          new Cell(new Stack(analisis.cobb.back.cobb).end).rowSpan(2).fontSize(6).alignment('center').fillColor('#dedede').end,
+          new Cell(new Stack(analisis.calibre.mm.mm).end).rowSpan(2).fontSize(6).alignment('center').end,
+          new Cell(new Stack(analisis.calibre.um.um).end).rowSpan(2).fontSize(6).alignment('center').end,
+          new Cell(new Stack(analisis.calibre.pt.pt).end).rowSpan(2).fontSize(6).alignment('center').end,
+          new Cell(new Stack(analisis.curling_blancura.curling.curling).end).rowSpan(2).fontSize(6).alignment('center').fillColor('#dedede').end,
+          new Cell(new Stack(analisis.curling_blancura.blancura.blancura).end).rowSpan(2).fontSize(6).alignment('center').end,
+          new Cell(new Txt('').alignment('center').end).rowSpan(2).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Stack(muestras_).alignment('center').end).rowSpan(2).fontSize(6).end,
+          new Cell(new Stack(analisis.dimensiones.Escuadra.escuadra).alignment('center').end).rowSpan(2).fontSize(6).end,
+          new Cell(new Stack(analisis.dimensiones.contraEscuadra.contraEscuadra).alignment('center').end).rowSpan(2).fontSize(6).end,
+          new Cell(new Stack(analisis.dimensiones.Pinza.pinza).alignment('center').end).rowSpan(2).fontSize(6).end,
+          new Cell(new Stack(analisis.dimensiones.contraPinza.contraPinza).alignment('center').end).rowSpan(2).fontSize(6).end,
+        ],
+        [
+          new Cell(new Txt('').end).fontSize(6).alignment('center').end,
+          new Cell(new Txt('').fontSize(6).alignment('center').end).end,
+          new Cell(new Txt('').end).fontSize(6).alignment('center').end,
+          new Cell(new Txt('').fontSize(6).alignment('center').end).fillColor('#dedede').end,
+          new Cell(new Txt('').end).fontSize(6).alignment('center').fillColor('#dedede').end,
+          new Cell(new Stack(analisis.cobb.back.cobb).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').end).fontSize(6).alignment('center').end,
+          new Cell(new Txt('').end).fontSize(6).alignment('center').end,
+          new Cell(new Txt('').end).fontSize(6).alignment('center').end,
+          new Cell(new Txt('').end).fontSize(6).alignment('center').fillColor('#dedede').end,
+          new Cell(new Txt('').end).fontSize(6).alignment('center').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).end,
+        ]
+      ]).widths(['4.5%','6.5%','6.5%','6.5%','6.5%','6.5%','6.5%','6.5%','6.5%','6.5%','6.5%','1%','3.5%','6.5%','6.5%','6.5%','6.5%']).end
+    )
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt('X̅').alignment('center').bold().end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('n/a').alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.gramaje.promedio.toFixed(analisis.gramaje.decimales)).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('n/a').alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(`${analisis.cobb.top.promedio.toString()}`).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(`${analisis.cobb.back.promedio.toString()}`).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.mm.promedio.toFixed(analisis.calibre.mm.decimales)).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.um.promedio.toFixed(analisis.calibre.um.decimales)).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.pt.promedio.toFixed(analisis.calibre.pt.decimales)).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.curling_blancura.curling.promedio.toFixed(analisis.curling_blancura.curling.deciameles)).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.curling_blancura.blancura.promedio.toFixed(analisis.curling_blancura.blancura.decimales)).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('X̅').alignment('center').end).border([true,false,true,true]).fillColor('#bdbdbd').fontSize(6).end,
+          new Cell(new Txt(analisis.dimensiones.Escuadra.promedio.toFixed(analisis.dimensiones.Escuadra.decimales)).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.dimensiones.contraEscuadra.promedio.toFixed(analisis.dimensiones.contraEscuadra.decimales)).alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.dimensiones.Pinza.promedio.toFixed(analisis.dimensiones.Pinza.decimales)).alignment('center').end).colSpan(2).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(analisis.dimensiones.contraPinza.promedio.toFixed(analisis.dimensiones.contraPinza.deciameles)).alignment('center').end).colSpan(2).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+        ],
+        [
+          new Cell(new Txt('S').alignment('center').bold().end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('n/a').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.gramaje.desviacion.toFixed(analisis.gramaje.decimales)).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('n/a').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(`${analisis.cobb.top.desviacion.toString()}`).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(`${analisis.cobb.back.desviacion.toString()}`).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.mm.desviacion.toFixed(analisis.calibre.mm.decimales)).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.um.desviacion.toFixed(analisis.calibre.um.decimales)).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.pt.desviacion.toFixed(analisis.calibre.pt.decimales)).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.curling_blancura.curling.desviacion.toFixed(analisis.curling_blancura.curling.deciameles)).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.curling_blancura.blancura.desviacion.toFixed(analisis.curling_blancura.blancura.deciameles)).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('S').alignment('center').end).fillColor('#bdbdbd').fontSize(6).end,
+          new Cell(new Txt(analisis.dimensiones.Escuadra.desviacion.toFixed(analisis.dimensiones.Escuadra.decimales)).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.dimensiones.contraEscuadra.desviacion.toFixed(analisis.dimensiones.contraEscuadra.decimales)).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.dimensiones.Pinza.desviacion.toFixed(analisis.dimensiones.Pinza.decimales)).alignment('center').end).colSpan(2).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(analisis.dimensiones.contraPinza.desviacion.toFixed(analisis.dimensiones.contraPinza.decimales)).alignment('center').end).colSpan(2).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+        ],
+        [
+          new Cell(new Txt('mín').alignment('center').bold().end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('n').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.gramaje.min.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('n').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(`${analisis.cobb.top.min}`).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(`${analisis.cobb.back.min}`).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.mm.min.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.um.min.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.pt.min.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.curling_blancura.curling.min.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.curling_blancura.blancura.min.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('mín').alignment('center').end).fillColor('#bdbdbd').fontSize(6).end,
+          new Cell(new Txt(analisis.dimensiones.Escuadra.min.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.dimensiones.contraEscuadra.min.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.dimensiones.Pinza.min.toString()).alignment('center').end).colSpan(2).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(analisis.dimensiones.contraPinza.min.toString()).alignment('center').end).colSpan(2).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+        ],
+        [
+          new Cell(new Txt('máx').alignment('center').bold().end).border([true,false,true,true]).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('n').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.gramaje.max.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('n').alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(`${analisis.cobb.top.max}`).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(`${analisis.cobb.back.max}`).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.mm.max.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.um.max.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.calibre.pt.max.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.curling_blancura.curling.max.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.curling_blancura.blancura.max.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('máx').alignment('center').end).fillColor('#bdbdbd').fontSize(6).end,
+          new Cell(new Txt(analisis.dimensiones.Escuadra.max.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.dimensiones.contraEscuadra.max.toString()).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(analisis.dimensiones.Pinza.max.toString()).alignment('center').end).colSpan(2).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(analisis.dimensiones.contraPinza.max.toString()).alignment('center').end).colSpan(2).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).colSpan(2).fontSize(6).fillColor('#eeeded').end,
+        ],
+        [
+          new Cell(new Txt('ESPEC.').alignment('center').bold().margin([0,10]).end).border([true,false,true,true]).rowSpan(3).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('mín').alignment('center').bold().end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.gramaje.min).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('n/a').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.cobb.top.min).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.cobb.back.min).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.mm.min).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.um.min).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.pt.min).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.curling.min).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.blancura.min).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('std').alignment('center').end).fillColor('#bdbdbd').fontSize(6).end,
+          new Cell(new Txt(Material.material.ancho).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(Material.material.ancho).alignment('center').end).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt(Material.material.largo).alignment('center').end).colSpan(2).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.largo).alignment('center').end).colSpan(2).fontSize(6).fillColor('#bdbdbd').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+        ],
+        [
+          new Cell(new Txt('').alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('std').alignment('center').bold().end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.gramaje.nom).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('n/a').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.cobb.top.nom).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.cobb.back.nom).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.mm.nom).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.um.nom).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.pt.nom).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.curling.nom).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.blancura.nom).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('Medicion N°').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('1').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('2').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('3').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('X').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('S').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+        ],
+        [
+          new Cell(new Txt('').alignment('center').end).border([true,false,true,true]).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('máx').alignment('center').bold().end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.gramaje.max).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('n/a').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.cobb.top.max).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.cobb.back.max).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.mm.max).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.um.max).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.calibre.pt.max).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.curling.max).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt(Material.material.especificacion.blancura.max).alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('Temp.').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+        ],
+        [
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).end,
+          new Cell(new Txt('').alignment('center').end).border([false,false]).fontSize(6).color('#FFFFFF').end,
+          new Cell(new Txt('Humedad.').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+          new Cell(new Txt('').alignment('center').end).fontSize(6).fillColor('#eeeded').end,
+        ]
+      ]).widths(['4.7%','6.6%','6.7%','6.8%','6.7%','6.6%','6.7%','6.7%','6.7%','6.7%','6.7%','1%','3.6%','6.7%','6.7%','2.6%','2.6%','2.6%','2.6%']).end
+    )
+
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+        ]
+      ]).widths(['100%']).end
+    )
+
+    pdf.add(
+      new Table([
+        [
+          new Cell(new Txt('OBSERVACIÓN').fontSize(8).alignment('center').end).fillColor('#000000').color('#FFFFFF').end,
+          new Cell(new Txt('RESULTADO DE ANÁLISIS').fontSize(8).alignment('center').end).fillColor('#0000000').color('#FFFFFF').end
+        ],
+        [
+          new Cell(new Txt(analisis.resultado.observacion).fontSize(8).end).rowSpan(2).end,
+          new Cell(new Txt(analisis.resultado.resultado).fontSize(10).bold().end).border([false]).alignment('center').end
+        ],
+        [
+          new Cell(new Txt('').fontSize(8).end).end,
+          new Cell(new Table([
+            [
+              new Cell(new Txt('Realizado por:').fontSize(8).alignment('center').end).colSpan(2).fillColor('#000000').color('#FFFFFF').end,
+              new Cell(new Txt('Realizado por:').fontSize(8).alignment('center').end).fillColor('#000000').color('#FFFFFF').end,
+              new Cell(new Txt('').fontSize(8).alignment('center').end).border([false]).fillColor('#FFFFFF').end,
+              new Cell(new Txt('Validado por:').fontSize(8).alignment('center').end).colSpan(2).fillColor('#0000000').color('#FFFFFF').end,
+              new Cell(new Txt('Validado por:').fontSize(8).alignment('center').end).fillColor('#000000').color('#FFFFFF').end
+            ],
+            [
+              new Cell(new Txt('Firma:').fontSize(6).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.guardado.usuario).fontSize(6).alignment('center').end).end,
+              new Cell(new Txt('').fontSize(6).alignment('center').end).border([false]).fillColor('#FFFFFF').end,
+              new Cell(new Txt('Firma:').fontSize(6).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.validado.usuario).fontSize(6).alignment('center').end).end,
+            ],
+            [
+              new Cell(new Txt('Fecha:').fontSize(6).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.guardado.fecha).fontSize(6).alignment('center').end).end,
+              new Cell(new Txt('').fontSize(6).alignment('center').end).border([false]).fillColor('#FFFFFF').end,
+              new Cell(new Txt('Fecha:').fontSize(6).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.validado.fecha).fontSize(6).alignment('center').end).end,
+            ]
+          ]).widths(['10%','38%','2%','10%','38%']).end
+        ).alignment('center').border([false]).end
+        ]
+      ]).widths(['60%','40%']).end
+    )
+
+
+    pdf.create().download(`test`)
+  }
+  GenerarCertificado()
 
   }
 

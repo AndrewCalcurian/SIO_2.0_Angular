@@ -2,38 +2,44 @@
     <img src="../../../assets/LOGO-SIO.png" width="100" height="20" id="logo_menu">
     <hr>
     <aside class="menu">
-        <p class="menu-label">
-            Compras
-        </p>
             <ul class="menu-list">
                 <li>
-                    <a routerLink="/compras">Compras</a>
-                    <ul>
+                    <a routerLink="/compras" (click)="select_menu(1)" [ngClass]="{'is-active':router.url == '/compras'}">Compras</a>
+                    <ul *ngIf="router.url == '/compras' || router.url == '/compras/grupos' || router.url == '/compras/fabricantes' || router.url == '/compras/proveedores'">
                         <li><a [ngClass]="{'is-active':router.url == '/compras/grupos'}" routerLink="/compras/grupos">Grupos</a></li>
                         <li><a [ngClass]="{'is-active':router.url == '/compras/fabricantes'}" routerLink="/compras/fabricantes">Fabricantes</a></li>
                         <li><a [ngClass]="{'is-active':router.url == '/compras/proveedores'}" routerLink="/compras/proveedores">Proveedores</a></li>
                     </ul>
                 </li>
             </ul>
-        <p class="menu-label">
-            Almacen
-        </p>
             <ul class="menu-list">
                 <li>
-                    <a [ngClass]="{'is-active':router.url == '/almacen/inventario'}" routerLink="/almacen/inventario">Inventario</a>
-                </li>
-                <li>
-                    <a [ngClass]="{'is-active':router.url == '/almacen/recepcion'}" routerLink="/almacen/recepcion">Recepción</a>
+                    <a routerLink="/almacen">Inventario</a>
+                    <ul *ngIf="router.url == '/almacen' || router.url == '/almacen/inventario' || router.url == '/almacen/recepcion'">
+                        <li>
+                            <a [ngClass]="{'is-active':router.url == '/almacen/inventario'}" routerLink="/almacen/inventario">Inventario</a>
+                        </li>
+                        <li>
+                            <a [ngClass]="{'is-active':router.url == '/almacen/recepcion'}" routerLink="/almacen/recepcion">Recepción</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
-        <p class="menu-label">
-            Laboratorio
-        </p>
             <ul class="menu-list">
                 <li>
-                    <a routerLink="/laboratorio">Laboratorio</a>
-                    <ul>
+                    <a routerLink="/laboratorio" (click)="select_menu(3)" [ngClass]="{'is-active':router.url == '/laboratorio'}">Laboratorio</a>
+                    <ul *ngIf="router.url == '/laboratorio' || router.url == '/laboratorio/especificacion' || router.url == '/laboratorio/analisis'">
                         <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/especificacion'}" routerLink="/laboratorio/especificacion">Especificación</a></li>
+                        <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/analisis'}" routerLink="/laboratorio/analisis">Análisis</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="menu-list">
+                <li>
+                    <a routerLink="/maquinas" (click)="select_menu(3)" [ngClass]="{'is-active':router.url == '/maquinas'}">Producción</a>
+                    <ul *ngIf="router.url == '/maquinas' || router.url == '/maquinas/fases' || router.url == '/laboratorio/analisis'">
+                        <li> <a [ngClass]="{'is-active':router.url == '/maquinas/fases'}" routerLink="/maquinas/fases">Fases</a></li>
+                        <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/analisis'}" routerLink="/laboratorio/analisis">Máquinas</a></li>
                     </ul>
                 </li>
             </ul>

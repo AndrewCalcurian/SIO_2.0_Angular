@@ -11,6 +11,9 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { ComprasModule } from './compras/compras.module';
 import { AlmacenModule } from './almacen/almacen.module';
 import { LaboratorioModule } from './laboratorio/laboratorio.module';
+import { FasesYMaquinariasComponent } from './fases-ymaquinarias/fases-ymaquinarias.component';
+import { MainComponent } from './fases-ymaquinarias/main/main.component';
+import { FasesYmaquinariasModule } from './fases-ymaquinarias/fases-ymaquinarias.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +26,8 @@ import { LaboratorioModule } from './laboratorio/laboratorio.module';
     NavbarModule,
     ComprasModule,
     AlmacenModule,
-    LaboratorioModule
+    LaboratorioModule,
+    FasesYmaquinariasModule
   ],
   providers: [],
   bootstrap: [AppComponent]
