@@ -1,0 +1,65 @@
+<app-nuevo-producto 
+[nuevo]="nuevo"
+(onCloseModal)="cerrar()">
+</app-nuevo-producto>
+<app-clientes
+[data]="data"
+[cliente]="cliente"
+(onCloseModal)="cerrar()"
+(onGuardarCliente)="GuardarCiente()">
+</app-clientes>
+<div class="container_ mt-5 ">
+    <div class="card">
+      <div class="card-content darker">
+        <div class="card mt-5 title_">
+          <!-- <span class="red-bar"></span> -->
+          <div class="card-content">
+            <h1 class="title blancas">
+              Productos
+            </h1>
+            <h2 class="subtitle blancas">
+              Descripción
+            </h2>
+          </div>
+        </div>
+        <br>
+        <button class="button is-info" (click)="nuevoProducto()">
+          <span class="icon">
+            <i class="fas fa-plus-circle"></i>
+          </span>
+          <span>Producto</span>
+        </button> 
+        <button class="button is-success" (click)="nuevoCliente()">
+            <span class="icon">
+              <i class="fas fa-plus-circle"></i>
+            </span>
+            <span>Cliente</span>
+          </button> 
+        <br><br>
+        <!-- tarjetas -->
+        <div class="columns">
+            <div class="column">
+                <!-- tarjtea de prueba -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="columns">
+                          <div class="column is-half blue_">
+                              <img src="http://192.168.0.23:8080/api/imagen/producto/62266c741c1b1805b8ad24a0-953.png" alt="imagen">
+                          </div>
+                          <div class="column is-half otherHalf">
+                            <b>Est. Gelatina Sonrissa Uva 66g</b><br>
+                            Alimentos Heinz, C.A. <br>
+                            AH-001-1
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <!-- trajeta de prueba -->
+            </div>
+            <div class="column"></div>
+            <div class="column"></div>
+        </div>
+        <!-- tarjetas -->
+      </div>
+    </div>
+</div>

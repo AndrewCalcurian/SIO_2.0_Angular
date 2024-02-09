@@ -23,6 +23,10 @@ export class FasesService {
     this.socket.io.emit('CLIENTE:EditFase', data);
   }
 
+  eliminarFase(id){
+    this.socket.io.emit('CLIENTE:deleteFase', id)
+  }
+
   onFases(){
     this.socket.io.emit('CLIENTE:buscarFase')
   

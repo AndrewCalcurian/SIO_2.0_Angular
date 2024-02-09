@@ -12,9 +12,10 @@
                 {{informacion.descripcion}}
             </p>
             <hr>
-                 <i class="fas fa-circle red"></i> Maquina 1<br>
-                 <i class="fas fa-circle red"></i> Maquina 2<br>
-                 <i class="fas fa-circle red"></i> Maquina 3<br>
+            <strong>Maquinas que gestionan esta fase:</strong> <br>
+            <ng-container *ngFor="let maquina of maquines">
+                     <i class="fas fa-circle red"></i> {{maquina.nombre}} {{maquina.marca}} {{maquina.modelo}}<br>
+            </ng-container>
         </div>
     </div>
 </div>

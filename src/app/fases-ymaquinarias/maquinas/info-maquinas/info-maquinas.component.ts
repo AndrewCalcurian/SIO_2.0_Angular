@@ -1,20 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-informacion',
-  templateUrl: './informacion.component.html',
-  styleUrls: ['./informacion.component.scss']
+  selector: 'app-info-maquinas',
+  templateUrl: './info-maquinas.component.html',
+  styleUrls: ['./info-maquinas.component.scss']
 })
-export class InformacionComponent {
+export class InfoMaquinasComponent {
 
-  @Input() data:any;
   @Input() info:any;
   @Input() informacion:any;
-  @Input() maquines:any
   @Output() onCloseModal = new EventEmitter();
 
 
   cerrar(){
     this.onCloseModal.emit();
   }
+
 }

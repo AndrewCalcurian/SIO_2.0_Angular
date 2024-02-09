@@ -37,9 +37,10 @@
             <ul class="menu-list">
                 <li>
                     <a routerLink="/maquinas" (click)="select_menu(3)" [ngClass]="{'is-active':router.url == '/maquinas'}">Producción</a>
-                    <ul *ngIf="router.url == '/maquinas' || router.url == '/maquinas/fases' || router.url == '/laboratorio/analisis'">
+                    <ul *ngIf="router.url == '/maquinas' || router.url == '/maquinas/fases' || router.url == '/maquinas/maquinas' || router.url == '/maquinas/productos'">
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/fases'}" routerLink="/maquinas/fases">Fases</a></li>
-                        <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/analisis'}" routerLink="/laboratorio/analisis">Máquinas</a></li>
+                        <li> <a [ngClass]="{'is-active':router.url == '/maquinas/maquinas'}" routerLink="/maquinas/maquinas">Máquinas</a></li>
+                        <li> <a [ngClass]="{'is-active':router.url == '/maquinas/productos'}" routerLink="/maquinas/productos">Productos</a></li>
                     </ul>
                 </li>
             </ul>

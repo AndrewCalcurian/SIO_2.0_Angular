@@ -9,6 +9,12 @@ import { MainComponent } from './main/main.component';
 import { NuevaFaseComponent } from './fases/nueva-fase/nueva-fase.component';
 import { FasesYMaquinariasComponent } from './fases-ymaquinarias.component';
 import { InformacionComponent } from './fases/informacion/informacion.component';
+import { MaquinasComponent } from './maquinas/maquinas.component';
+import { NuevaMaquinaComponent } from './maquinas/nueva-maquina/nueva-maquina.component';
+import { InfoMaquinasComponent } from './maquinas/info-maquinas/info-maquinas.component';
+import { ProductosComponent } from './productos/productos.component';
+import { NuevoProductoComponent } from './productos/nuevo-producto/nuevo-producto.component';
+import { ClientesComponent } from './productos/clientes/clientes.component';
 
 
 
@@ -18,7 +24,13 @@ import { InformacionComponent } from './fases/informacion/informacion.component'
     MainComponent,
     NuevaFaseComponent,
     FasesYMaquinariasComponent,
-    InformacionComponent
+    InformacionComponent,
+    MaquinasComponent,
+    NuevaMaquinaComponent,
+    InfoMaquinasComponent,
+    ProductosComponent,
+    NuevoProductoComponent,
+    ClientesComponent
   ],
   imports: [
     CommonModule,
