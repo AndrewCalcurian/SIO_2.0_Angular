@@ -10,7 +10,7 @@ import Swall from 'sweetalert2'
   styleUrls: ['./recepcion.component.scss']
 })
 export class RecepcionComponent {
-  public clicked: any;
+  public clicked: any = [];
   public detalle: boolean = false;
   public edicion: boolean = false;
   public nueva: boolean = false;
@@ -22,6 +22,11 @@ export class RecepcionComponent {
 
   }
 
+poseeAnalisis(lote){
+  console.log(this.almacen.buscarPorLote(lote))
+  return this.almacen.buscarPorLote(lote)
+}
+
 EnviarAlmacen = async(index: number, i: number) =>{
   const materiales = this.api.recepciones[index].materiales[i];
   await materiales.forEach((material:any) => {
@@ -31,11 +36,11 @@ EnviarAlmacen = async(index: number, i: number) =>{
   this.almacen.GuardarAlmacen(materiales);
 }
 
-  showInfo() {
-    if (!this.clicked) {
-      this.clicked = true;
+  showInfo(i) {
+    if (!this.clicked[i]) {
+      this.clicked[i] = true;
     } else {
-      this.clicked = false;
+      this.clicked[i] = false;
     }
   }
 

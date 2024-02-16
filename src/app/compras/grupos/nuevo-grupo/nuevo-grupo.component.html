@@ -60,7 +60,10 @@
                     <div class="field">
                         <label for="" class="label">Trato:</label>
                         <div class="control">
-                            <input type="checkbox" name="" id="" [ngModel]="trato" (change)="verTrato($event.target)"> <span class="info"> Tratar como sustrato</span>
+                            <input type="checkbox" name="" id="" [checked]="trato" [(ngModel)]="trato" (change)="verTrato($event.target)"> <span class="info"> Tratar como sustrato</span>
+                        </div>
+                        <div class="control">
+                            <input type="checkbox" name="" id="" [checked]="otro" [(ngModel)]="otro" (change)="verOtro($event.target)"> <span class="info"> Tratar como material sin análisis</span>
                         </div>
                     </div>
                 </div>

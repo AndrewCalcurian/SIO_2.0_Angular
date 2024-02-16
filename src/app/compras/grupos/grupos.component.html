@@ -4,6 +4,8 @@
 [data]="data"
 [api]="api"
 [cargando]="cargando"
+[otro]="otro"
+[trato]="trato"
 (onCloseModal)="cerrarModal()"
 (onCloseModal_)="cerrarModal_()">
 (onLoading)='cargando_()'
@@ -563,7 +565,7 @@
                   </div>
                     <footer class="card-footer">
                       <a class="card-footer-item"><i class="fas fa-info-circle blue_" (click)="buscarMaterial((5*fila_i)+i)"></i></a>
-                      <a class="card-footer-item"><i class="far fa-edit green" (click)="EditarGrupo(api.grupos[(5*fila_i)+i].nombre,api.grupos[(5*fila_i)+i].icono,api.grupos[(5*fila_i)+i].parcial,api.grupos[(5*fila_i)+i]._id )"></i></a>
+                      <a class="card-footer-item"><i class="far fa-edit green" (click)="EditarGrupo(api.grupos[(5*fila_i)+i].nombre,api.grupos[(5*fila_i)+i].icono,api.grupos[(5*fila_i)+i].parcial,api.grupos[(5*fila_i)+i]._id ,api.grupos[(5*fila_i)+i].trato, api.grupos[(5*fila_i)+i].otro)"></i></a>
                       <a class="card-footer-item"><i class="far fa-trash-alt red" (click)="eliminarGrupo(api.grupos[(5*fila_i)+i]._id)"></i></a>
                     </footer>
                 </div>

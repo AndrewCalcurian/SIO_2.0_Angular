@@ -63,14 +63,14 @@
                                         <i class="fas fa-check blue_" (click)="checkar(recepcion._id)" *ngIf='recepcion.status == "Notificado"'></i>
                                         <i class="fas fa-download" *ngIf='recepcion.status === "En observacion"' (click)="DescargarFormato(recepcion)" style="cursor: pointer;"></i>
                                     </p>
-                                <button class="card-header-icon" aria-label="more options" [ngClass]="{'clicked':clicked}" (click)="showInfo()">
+                                <button class="card-header-icon" aria-label="more options" [ngClass]="{'clicked':clicked[index]}" (click)="showInfo(index)">
                                     <span class="icon">
                                       <i class="fas fa-angle-down" aria-hidden="true"></i>
                                     </span>
                                 </button>
                             </div>
-                            <div class="card-content info" [ngClass]="{'hidden': !clicked, 'show': clicked}">
-                                <table class="table is-fullwidth is-striped" *ngIf="clicked">
+                            <div class="card-content info" [ngClass]="{'hidden': !clicked[index], 'show': clicked[index]}">
+                                <table class="table is-fullwidth is-striped" *ngIf="clicked[index]">
                                     <thead>
                                         <tr>
                                             <th>OC</th>
@@ -100,7 +100,10 @@
                                                      <i class="fas fa-comment"></i>
                                             </td>
                                             <td>
-                                                 <button class="button is-danger" (click)="EnviarAlmacen(index, i)">Enviar a almacen</button>
+                                                 <button class="button is-danger" (click)="EnviarAlmacen(index, i)" *ngIf="materiales[0].material.grupo.otro || poseeAnalisis(materiales[0].lote)">
+                                                <span class="icon"><i class="fas fa-plus"></i></span>
+                                                <span>Inventario</span>
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -22,6 +22,7 @@ export class NuevaRecepcionComponent {
 
   @Input() nueva!:boolean;
   @Output() onCloseModal = new EventEmitter();
+  
 
   public documento!:string;
   public condicion:boolean = false;
@@ -32,6 +33,7 @@ export class NuevaRecepcionComponent {
   public fabricante:any
   public material:any
   public fabricacion:any
+  public es_sustrato = false;
 
   public documentoLleno:boolean = false;
   public OCLLeno:boolean = false;
@@ -163,7 +165,7 @@ export class NuevaRecepcionComponent {
       });
     }
     for (let i = 0; i < cantidadLatas; i++) {
-      const codigo = (resto > 0) ? i + 1 : i;
+      const codigo = (resto > 0) ? i + 2 : i+1;
       this.ParaAlmacenar.push({
         presentacion: this.presentacion,
         neto: this.neto.toFixed(2),
@@ -232,6 +234,7 @@ export class NuevaRecepcionComponent {
 
   MaterialSeleccionado(e:any){
     this.material_selected = this.material[e.value];
+    if(this.material_selected)
     console.log(this.material_selected)
   }
 

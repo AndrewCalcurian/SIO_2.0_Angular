@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="column" >
-                    <div class="field" *ngIf="lote">
+                    <div class="field" *ngIf="lote && material_selected.grupo.trato">
                         <label for="" class="label">Ancho</label>
                         <div class="control">
                             <input type="number" class="input" [(ngModel)]="ancho">
@@ -130,6 +130,22 @@
                     </div>
                 </div>
                 <div class="column" >
+                    <ng-container *ngIf="lote && !material_selected.grupo.trato">
+                        <div class="field" *ngIf="lote">
+                            <label for="" class="label">Presentación</label>
+                            <div class="control">
+                                <span class="select">
+                                    <select name="" id="" [(ngModel)]="presentacion"> 
+                                        <option value="Lata">Lata</option>
+                                        <option value="Envase plástico">Envase plástico</option>
+                                        <option value="Paleta">Paleta</option>
+                                        <option value="Tambor">Tambor</option>
+                                        <option value="Rollo">Rollo</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </ng-container>
                     <div class="field" *ngIf="largo">
                         <label for="" class="label">Presentación</label>
                         <div class="control">

@@ -19,6 +19,10 @@ export class ClientesService {
     // this.socket.io.emit('NuevoGrupo',{nombre,parcial:false,icono:'test'})
   }
 
+  EditarClientes(data:any){
+    this.socket.io.emit('CLIENTE:EditCliente', data);
+  }
+
   onClientes(){
     this.socket.io.emit('CLIENTE:buscarCliente')
   

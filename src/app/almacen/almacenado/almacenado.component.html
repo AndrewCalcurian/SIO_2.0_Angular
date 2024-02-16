@@ -33,7 +33,8 @@
                             <div class="card-content">
                               <div class="columns">
                                 <div class="column is-half blue_">
-                                    <i class="{{grupos.grupos[(5*fila_i)+i].icono}}"></i>
+                                    <i class="{{grupos.grupos[(5*fila_i)+i].icono}}" *ngIf="grupos.grupos[(5*fila_i)+i].icono"></i>
+                                    <i class="fas fa-paperclip" *ngIf="!grupos.grupos[(5*fila_i)+i].icono"></i>
                                 </div>
                                 <div class="column is-half">
                                   <p>{{grupos.grupos[(5*fila_i)+i].nombre}} <i class="fas fa-glass-whiskey indicator animate__animated animate__flash" *ngIf="grupos.grupos[(5*fila_i)+i].parcial"></i></p>

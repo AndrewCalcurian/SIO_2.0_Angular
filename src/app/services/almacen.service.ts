@@ -28,4 +28,8 @@ export class AlmacenService {
   BuscarPorGrupo(grupo:string){
     return this.Almacen.filter((x:any)=> x.material.grupo === grupo)
   }
+
+  buscarPorLote(lote:any){
+    return this.Almacen.some((x) => x.lote === lote);
+  }
 }

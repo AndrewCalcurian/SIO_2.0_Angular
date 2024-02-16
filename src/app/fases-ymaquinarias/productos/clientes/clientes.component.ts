@@ -15,6 +15,7 @@ export class ClientesComponent {
 
   @Input() data:any;
   @Input() cliente:any;
+  @Input() editar:any;
   @Output() onCloseModal = new EventEmitter();
   @Output() onGuardarCliente = new EventEmitter();
 
@@ -67,5 +68,20 @@ export class ClientesComponent {
     }, 1000);
   }
   
+  editarCliente(){
+    this.api.EditarClientes(this.data)
+    this.onGuardarCliente.emit();
+    setTimeout(() => {
+      Swal.fire({
+        icon:this.api.mensaje.icon,
+        text:this.api.mensaje.mensaje,
+        timer:1500,
+        timerProgressBar:true,
+        toast:true,
+        position:'top-end',
+        showConfirmButton:false
+      })
+    }, 1000);
+  }
 
 }

@@ -12,6 +12,8 @@ export class NuevoGrupoComponent implements OnInit{
   @Input() editar:any;
   @Input() data:any;
   @Input() cargando!:boolean;
+  @Input() trato;
+  @Input() otro;
   @Output() onCloseModal = new EventEmitter();
   @Output() onCloseModal_ = new EventEmitter();
   @Output() onLoading = new EventEmitter();
@@ -19,7 +21,6 @@ export class NuevoGrupoComponent implements OnInit{
   nombre = "";
   parcial = "false";
   icono = "";
-  trato = false;
 
   ngOnInit(): void {
     var phrases = [
@@ -47,7 +48,8 @@ export class NuevoGrupoComponent implements OnInit{
       nombre:this.nombre,
       parcial:this.parcial,
       icono:this.icono,
-      trato:this.trato
+      trato:this.trato,
+      otro:this.otro
     }
     await this.api.GuardarGrupo(data)
 
@@ -60,6 +62,10 @@ export class NuevoGrupoComponent implements OnInit{
 
   verTrato(e:any){
     this.trato = e.checked
+  }
+
+  verOtro(e:any){
+    this.otro = e.checked
   }
 
   cerrar(){
@@ -81,6 +87,8 @@ export class NuevoGrupoComponent implements OnInit{
   }
 
   EditarGrupo(){
+    this.data.otro = this.otro;
+    this.data.trato = this.trato;
     this.api.EditarGrupo(this.data)
     this.onCloseModal.emit()
   }

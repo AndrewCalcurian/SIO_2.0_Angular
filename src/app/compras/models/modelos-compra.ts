@@ -13,6 +13,7 @@ export class Grupo {
         public trato?:boolean,
         public icono?:string,
         public parcial?:boolean,
+        public otro?:boolean,
         public _id?:string
     ){}
 }
@@ -256,6 +257,64 @@ export class Mensaje {
               usuario:string,
               fecha:string
             }
-          }
+          },
+    ){}
+  }
+
+  export class Tinta {
+    constructor(
+        public tinta: string,
+        public cantidad: number,
+    ){}
+  }
+  
+  export class Barniz {
+    constructor(
+        public barniz: string,
+        public cantidad: number,
+    ){}
+  }
+  
+  export class Pegamento {
+    constructor(
+        public pega: string,
+        public cantidad: number,
+    ){}
+  }
+
+  export class Producto {
+    constructor(
+        public cliente: string,
+        public producto: string,
+        public codigo: string,
+        public tamano_desplegado: number[],
+        public tamano_cerrado: number[],
+        public diseno: string,
+        public sustrato: string[],
+        public tintas: Tinta[],
+        public barnices: Barniz[],
+        public archivo_diseno: string,
+        public archivo_montaje: string[],
+        public tipo_plancha: string,
+        public tiempo_exposicion: string,
+        public maquinas: string[],
+        public tamano_sustrato_imprimir: number[],
+        public area_efectiva: number[],
+        public fuente: string,
+        public troqueladora: string[],
+        public guillotina: string[],
+        public pegadora: string[],
+        public pegamento: Pegamento[],
+        public embalaje: string,
+        public caja: string[],
+        public unidades_por_caja: number,
+        public cantidad_por_paquetes: number,
+        public vista_aerea: string,
+        public vista_3d: string,
+        public tipo_paleta: string,
+        public tamano_paleta: string,
+        public cantidad_estibas: number,
+        public peso_cajas: string,
+        public paletizado: string,
     ){}
   }

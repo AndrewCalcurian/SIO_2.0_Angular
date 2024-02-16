@@ -26,7 +26,7 @@
                     <!-- Mostrar el valor correspondiente al material -->
                     <span class="EnviarAlFinal peso">
                         <span class="strong"><span class="bigger">{{ Format(item[1])}}</span>
-                            <br> <span>{{peso(item[1], GetMaterial(item[0]).gramaje, item[0].split('-')[1], item[0].split('-')[2])}} tm</span>
+                            <br> <span *ngIf="GetMaterial(item[0]).gramaje">{{peso(item[1], GetMaterial(item[0]).gramaje, item[0].split('-')[1], item[0].split('-')[2])}} tm</span>
                         </span> 
                         <button class="Arrow" [ngClass]="{'clicked':GeneralOculto[x]}" (click)="showLotes(x)">
                         <span class="icon">
@@ -52,14 +52,19 @@
                                     <tr>
                                         <th>Código</th>
                                         <th>Cantidad</th>
-                                        <th>Origens</th>
+                                        <th>Origenes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let detalle of getDetallado(lotes[0], GetMaterial(item[0])._id)">
                                         <td>{{detalle.codigo}}</td>
                                         <td>{{Format(detalle.neto)}}</td>
-                                        <td>{{detalle.material.origen}}</td>
+                                        <td *ngIf="detalle.material.origen">
+                                            {{detalle.material.origen}}
+                                        </td>
+                                        <td *ngIf="!detalle.material.origen">
+                                            N/A
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

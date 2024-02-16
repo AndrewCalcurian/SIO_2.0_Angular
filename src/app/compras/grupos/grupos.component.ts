@@ -20,6 +20,8 @@ export class GruposComponent implements OnInit {
   data:any = [];
   lineas:number = 0;
   material_selected = []
+  trato = false;
+  otro = false;
 
   constructor(public api:GruposService,
               public materiales:MaterialesService){
@@ -37,6 +39,8 @@ export class GruposComponent implements OnInit {
 
   AgregarNuevo(){
     this.nuevo = true;
+    this.trato = false;
+    this.otro = false;
   }
 
   filas(){
@@ -78,13 +82,16 @@ export class GruposComponent implements OnInit {
     })
   }
 
-  EditarGrupo(nombre:any, icono:any, parcial:any, id:any){
+  EditarGrupo(nombre:any, icono:any, parcial:any, id:any, trato, otro){
     this.data = {
       id,
       nombre,
       icono,
       parcial
     }
+
+    this.trato = trato;
+    this.otro = otro
 
     this.editar = true;
   }

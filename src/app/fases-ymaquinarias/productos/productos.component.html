@@ -1,10 +1,12 @@
 <app-nuevo-producto 
 [nuevo]="nuevo"
+[producto]="producto"
 (onCloseModal)="cerrar()">
 </app-nuevo-producto>
 <app-clientes
 [data]="data"
 [cliente]="cliente"
+[editar]="editar"
 (onCloseModal)="cerrar()"
 (onGuardarCliente)="GuardarCiente()">
 </app-clientes>
@@ -37,28 +39,35 @@
           </button> 
         <br><br>
         <!-- tarjetas -->
-        <div class="columns">
-            <div class="column">
-                <!-- tarjtea de prueba -->
-                <div class="card">
-                    <div class="card-content">
-                        <div class="columns">
-                          <div class="column is-half blue_">
-                              <img src="http://192.168.0.23:8080/api/imagen/producto/62266c741c1b1805b8ad24a0-953.png" alt="imagen">
-                          </div>
-                          <div class="column is-half otherHalf">
-                            <b>Est. Gelatina Sonrissa Uva 66g</b><br>
-                            Alimentos Heinz, C.A. <br>
-                            AH-001-1
-                          </div>
+        <ng-container *ngFor="let fila of [].constructor(filas());index as fila_i">
+            <div class="columns">
+              <div class="column" *ngFor="let tarjeta of [].constructor(5);index as i">
+                <ng-container *ngIf="clientes.clientes[(5*fila_i)+i]">
+                  <div class="card animate__animated animate__fadeInUp">
+                    <div class="card-header">
+                      <div class="card-header-title">
+                        <div class="subtitle">
+                          <div class="columns">
+                            <div class="column is-1">
+                              <i class="{{clientes.clientes[(5*fila_i)+i].nombre}}"></i>
+                            </div>
+                            <div class="column">
+                              {{clientes.clientes[(5*fila_i)+i].nombre}} <br> {{clientes.clientes[(5*fila_i)+i].marca}} {{clientes.clientes[(5*fila_i)+i].modelo}}<i class="fas fa-glass-whiskey indicator animate__animated animate__flash" *ngIf="clientes.clientes[(5*fila_i)+i].parcial"></i>
+                            </div>
+                          </div>                    
                         </div>
                       </div>
-                </div>
-                <!-- trajeta de prueba -->
+                    </div>
+                      <footer class="card-footer">
+                        <a class="card-footer-item"><i class="fas fa-info-circle blue_"></i></a>
+                        <a class="card-footer-item" (click)="EditarCliente(clientes.clientes[(5*fila_i)+i])"><i class="far fa-edit green" ></i></a>
+                        <a class="card-footer-item"><i class="far fa-trash-alt red"></i></a>
+                      </footer>
+                  </div>
+                </ng-container>
+              </div>
             </div>
-            <div class="column"></div>
-            <div class="column"></div>
-        </div>
+          </ng-container>
         <!-- tarjetas -->
       </div>
     </div>
