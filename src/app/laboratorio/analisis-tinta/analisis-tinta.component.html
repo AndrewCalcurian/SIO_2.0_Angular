@@ -37,7 +37,7 @@
                 <tr>
                     <th>Realizado Sobre:</th>
                     <th>tipo</th>
-                    <th>Estandar</th>
+                    <th>Estándar</th>
                     <th>Sustrato de muestra:</th>
                 </tr>
                 <tr>
@@ -49,7 +49,7 @@
                         <div class="columns">
                             <div class="column">
                                 <div class="field" *ngIf="Analisis.cuantitativo.papel">
-                                    <label for="" class="label">Gramaje:</label>
+                                    <label for="" class="label">Gramaje (g/m²):</label>
                                     <div class="field">
                                         <input type="text" class="input" placeholder="Gramaje" *ngIf="Analisis.cuantitativo.papel" [(ngModel)]="Analisis.cuantitativo.gramaje">
                                     </div>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="column">
                                 <div class="field" *ngIf="Analisis.cuantitativo.carton">
-                                    <label for="" class="label">Calibre:</label>
+                                    <label for="" class="label">Calibre (pt):</label>
                                     <div class="field">
                                         <input type="text" class="input" placeholder="Calibre" *ngIf="Analisis.cuantitativo.carton" [(ngModel)]="Analisis.cuantitativo.calibre">
                                     </div>
@@ -66,7 +66,7 @@
                         </div>
                     </td>
                     <td>
-                        <label for="" class="label">Estandar tomado</label>
+                        <label for="" class="label">Estándar tomado</label>
                         <input type="text" class="input" [(ngModel)]="Analisis.resultado.estandar">
                     </td>
                     <td>
@@ -88,7 +88,7 @@
               <ng-container [ngSwitch]="selecccion">
                   <ng-container *ngIf="selecccion == 1">
                       <span class="titles">
-                          Muestra #1
+                          Descarga #1
                       </span>
                       <table class="table is-fullwidth">
                           <tr>
@@ -194,7 +194,7 @@
                           </tr>
                       </table>
                       <span class="titles">
-                          Muestra #2
+                          Descarga #2
                       </span>
                       <table class="table is-fullwidth">
                           <tr>
@@ -300,7 +300,7 @@
                           </tr>
                       </table>
                       <span class="titles">
-                          Muestra #3
+                          Descarga #3
                       </span>
                       <table class="table is-fullwidth">
                           <tr>
@@ -408,7 +408,7 @@
                   </ng-container>
                   <ng-container *ngIf="selecccion == 2">
                     <span class="titles">
-                        Muestra #1
+                        Descarga #1
                     </span>
                     <table class="table is-fullwidth">
                         <tr>
@@ -514,7 +514,7 @@
                         </tr>
                     </table>
                     <span class="titles">
-                        Muestra #2
+                        Descarga #2
                     </span>
                     <table class="table is-fullwidth">
                         <tr>
@@ -620,7 +620,7 @@
                         </tr>
                     </table>
                     <span class="titles">
-                        Muestra #3
+                        Descarga #3
                     </span>
                     <table class="table is-fullwidth">
                         <tr>
@@ -729,7 +729,7 @@
                 </ng-container>
                 <ng-container *ngIf="selecccion == 3">
                     <span class="titles">
-                        Muestra #1
+                        Descarga #1
                     </span>
                     <table class="table is-fullwidth">
                         <tr>
@@ -766,7 +766,7 @@
                         </tr>
                     </table>
                     <span class="titles">
-                        Muestra #2
+                        Descarga #2
                     </span>
                     <table class="table is-fullwidth">
                         <tr>
@@ -803,7 +803,7 @@
                         </tr>
                     </table>
                     <span class="titles">
-                        Muestra #3
+                        Descarga #3
                     </span>
                     <table class="table is-fullwidth">
                         <tr>
@@ -932,7 +932,7 @@
                 <div class="card">
                     <div class="modal-card-head">
                         <p class="modal-card-title fuente">
-                            Estandar
+                            Estándar
                         </p>
                     </div>
                     <div class="card-content">

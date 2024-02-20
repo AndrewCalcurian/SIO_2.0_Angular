@@ -15,11 +15,20 @@ export class NuevaEspecificacionComponent {
 
   @Input() NUEVA_ESPECIFICACION!: boolean;
   @Input() NUEVO_SUSTRATO!:boolean;
+  @Input() NUEVA_CAJA!:boolean;
+  @Input() NUEVO_PADS!:boolean;
+  @Input() NUEVO_OTROS!:boolean;
   @Input() Materiales!: any;
   @Input() Edicion!: any;
   @Input() Editable!: any;
   @Input() Edicion_sustrato!: any;
   @Output() onCloseModal = new EventEmitter();
+
+
+  public newKey = ''
+  public newKey_Value = ''
+
+  public Esp_otro:any;
 
   public EspecificacionTinta: any = {
     viscosidad: {
@@ -180,6 +189,21 @@ EspecificacionSustrato: EspecificacionSustrato = {
     this.api.EditarESpecificacion(this.Editable);
     this.cerrar()
 
+  }
+
+  GuardarOtro(){
+
+    this.Esp_otro[this.newKey] = this.newKey_Value
+    let data = {
+      especificacion:this.Esp_otro,
+      material: this.Materiales[this.Material_selected]
+    }
+    this.api.GuardarEspecificacion2(data)
+    this.cerrar();
+
+    this.newKey = ''
+    this.newKey_Value = ''
+    this.Esp_otro = null;
   }
 
 }

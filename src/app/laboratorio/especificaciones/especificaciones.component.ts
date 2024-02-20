@@ -12,6 +12,9 @@ export class EspecificacionesComponent implements OnInit {
   EDITAR_ESPECIFICACION: boolean = false;
   EDITAR_SUSTRATO: boolean = false;
   NUEVO_SUSTRATO: boolean = false
+  NUEVA_CAJA: boolean = false;
+  NUEVO_PADS: boolean = false;
+  NUEVO_OTROS: boolean = false;
   Detalle: boolean = false;
   random = 15;
   materiales_seleceted: any = []
@@ -34,8 +37,11 @@ export class EspecificacionesComponent implements OnInit {
   cerrarNuevo() {
     this.NUEVA_ESPECIFICACION = false;
     this.EDITAR_ESPECIFICACION = false;
+    this.NUEVA_CAJA = false;
     this.EDITAR_SUSTRATO = false;
     this.NUEVO_SUSTRATO = false;
+    this.NUEVO_PADS = false;
+    this.NUEVO_OTROS = false;
     this.grupoSelected = this.grupos.grupos[0].nombre
     this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(this.grupos.grupos[0]._id)
   }
@@ -50,8 +56,14 @@ export class EspecificacionesComponent implements OnInit {
     let Grupo:any = this.grupos.grupos.find((x:any) => x._id == id )
     if(Grupo.trato){
       this.NUEVO_SUSTRATO = true;
-    }else{
+    }else if(Grupo.nombre === 'Tintas'){
       this.NUEVA_ESPECIFICACION = true;
+    }else if(Grupo.nombre === 'Cajas corrugadas'){
+      this.NUEVA_CAJA = true;
+    }else if(Grupo.nombre === 'Soportes de Embalaje'){
+      this.NUEVO_PADS = true;
+    }else{
+      this.NUEVO_OTROS = true;
     }
     this.materiales_seleceted = this.material.filtrarPorGrupoSinEspecificacion(id);
 
@@ -63,7 +75,7 @@ export class EspecificacionesComponent implements OnInit {
   }
 
   filas() {
-    return Math.ceil(this.grupos.grupos.length / 6)
+    return Math.ceil(this.grupos.grupos.length / 5)
   }
 
   Editar(item: any) {

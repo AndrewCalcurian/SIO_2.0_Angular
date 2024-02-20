@@ -60,7 +60,7 @@
                                             ({{material[0].ancho}}x{{material[0].largo}})
                                             {{material[0].material.gramaje}}(g/m²) - {{material[0].material.calibre}}(pt)
                                         </ng-container> {{material[0].material.fabricante.alias}} / {{material[0].material.serie}}</td>
-                                    <td>{{Format(recepcion.cantidad[i])}}</td>
+                                    <td>{{Format(recepcion.cantidad[i])}} {{material[0].unidad}}</td>
                                     <td>
                                         <button class="button is-info" (click)="Analizar(recepcion, material, index, i)">
                                             <span class="icon"><i class="fas fa-vial"></i></span>

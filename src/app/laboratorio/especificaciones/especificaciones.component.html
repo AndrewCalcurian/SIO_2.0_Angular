@@ -1,6 +1,9 @@
 <app-nueva-especificacion
 [NUEVA_ESPECIFICACION]="NUEVA_ESPECIFICACION"
 [NUEVO_SUSTRATO]="NUEVO_SUSTRATO"
+[NUEVA_CAJA]="NUEVA_CAJA"
+[NUEVO_PADS]="NUEVO_PADS"
+[NUEVO_OTROS]="NUEVO_OTROS"
 [Materiales]="materiales_seleceted"
 [Edicion]="EDITAR_ESPECIFICACION"
 [Edicion_sustrato]="EDITAR_SUSTRATO"
@@ -39,7 +42,7 @@
             <br>
             <ng-container *ngFor="let fila of [].constructor(filas());index as fila_i">
               <div class="columns">
-                <div class="column" *ngFor="let tarjeta of [].constructor(6);index as i">
+                <div class="column" *ngFor="let tarjeta of [].constructor(5);index as i">
                   <ng-container *ngIf="grupos.grupos[(5*fila_i)+i]">
                     <div class="card animate__animated animate__fadeInUp" [ngClass]="{'isSelected':grupoSelected == grupos.grupos[(5*fila_i)+i].nombre}">
                       <div class="card-header">
@@ -50,7 +53,7 @@
                                 <i class="{{grupos.grupos[(5*fila_i)+i].icono}}"></i>
                               </div>
                               <div class="column grupo" (click)="randomise(grupos.grupos[(5*fila_i)+i].nombre, grupos.grupos[(5*fila_i)+i]._id)">
-                                {{grupos.grupos[(5*fila_i)+i].nombre}} <i class="fas fa-glass-whiskey indicator animate__animated animate__flash" *ngIf="grupos.grupos[(5*fila_i)+i].parcial"></i>
+                                {{grupos.grupos[(5*fila_i)+i].nombre}}
                               </div>
                             </div>
                           </div>

@@ -25,6 +25,11 @@ export class EspecificacionesService {
     this.socket.io.emit('CLIENTE:nuevaEspecificacion', data)
   }
 
+  GuardarEspecificacion2(data: any) {
+    this.socket.io.emit('CLIENTE:nuevaEspecificacion2', data)
+  }
+
+
   EditarESpecificacion(data: any) {
     this.socket.io.emit('CLIENTE:EdicionEspecificacion', data)
   }

@@ -58,6 +58,7 @@ export class MaterialesService {
   }
 
   filtrarPorGrupoConEspecificacion(id: any): Materiales[] {
+    console.log(this.materiales.filter((material:any) => material.grupo._id === id && material.especificacion));
     return this.materiales.filter((material:any) => material.grupo._id === id && material.especificacion);
   }
 
