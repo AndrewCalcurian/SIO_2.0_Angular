@@ -28,7 +28,30 @@ export class NuevaEspecificacionComponent {
   public newKey = ''
   public newKey_Value = ''
 
-  public Esp_otro:any;
+  public Esp_otro:any = {}
+
+  public EspecificacionPads:any = {
+    largo:{
+      min:'',
+      nom:'',
+      max:''
+    },
+    ancho:{
+      min:'',
+      nom:'',
+      max:''
+    },
+    signado:{
+      min:'',
+      nom:'',
+      max:''
+    },
+    espesor:{
+      min:'',
+      nom:'',
+      max:''
+    }
+  }
 
   public EspecificacionTinta: any = {
     viscosidad: {
@@ -191,19 +214,56 @@ EspecificacionSustrato: EspecificacionSustrato = {
 
   }
 
-  GuardarOtro(){
-
-    this.Esp_otro[this.newKey] = this.newKey_Value
+  guardarPads(){
     let data = {
-      especificacion:this.Esp_otro,
+      especificacion:this.EspecificacionPads,
       material: this.Materiales[this.Material_selected]
     }
     this.api.GuardarEspecificacion2(data)
     this.cerrar();
 
+    this.EspecificacionPads = {
+      largo:{
+        min:'',
+        nom:'',
+        max:''
+      },
+      ancho:{
+        min:'',
+        nom:'',
+        max:''
+      },
+      signado:{
+        min:'',
+        nom:'',
+        max:''
+      },
+      espesor:{
+        min:'',
+        nom:'',
+        max:''
+      }
+    }
+  }
+
+  GuardarOtro(){
+
+
+    if(this.newKey && this.newKey_Value){
+      this.Esp_otro[this.newKey] = this.newKey_Value
+    }
+    let data = {
+      especificacion:this.Esp_otro,
+      material: this.Materiales[this.Material_selected]
+    }
+
+    console.log(data)
+    this.api.GuardarEspecificacion2(data)
+    this.cerrar();
+
     this.newKey = ''
     this.newKey_Value = ''
-    this.Esp_otro = null;
+    this.Esp_otro = {}
   }
 
 }

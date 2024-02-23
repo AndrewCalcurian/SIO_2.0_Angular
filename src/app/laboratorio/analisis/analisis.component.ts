@@ -13,6 +13,7 @@ export class AnalisisComponent {
 
   public Tinta:boolean = false;
   public Sustrato:boolean = false;
+  public Caja:boolean = false;
   public Recepcion_selected;
   public Material_selected;
   public index_material;
@@ -291,6 +292,9 @@ export class AnalisisComponent {
   }
 
   Analizar(recepcion:any, material:any, index_recepcion:number, index_material:number){
+
+    console.log(material[0].material.grupo.nombre,'_',material[0].material.grupo.trato)
+
     if(material[0].material.grupo.nombre === 'Tintas'){
       this.Tinta = true;
       this.Recepcion_selected = recepcion;
@@ -300,21 +304,29 @@ export class AnalisisComponent {
       if(this.analisis.buscarAnalisisPorID(material[0].analisis)){
         this.Analisis = this.analisis.buscarAnalisisPorID(material[0].analisis)
       }
-
-
+    }
+    
+    if(material[0].material.grupo.nombre === 'Cajas corrugadas'){
+      this.Caja = true;
+      this.Recepcion_selected = recepcion;
+      this.Material_selected = material;
+      this.index_material = index_material;
+      console.log(this.Material_selected)
     }
 
-    if(material[0].material.grupo.trato){
+    if(material[0].material.grupo.trato === true){
       this.Sustrato = true;
       this.Recepcion_selected = recepcion;
       this.Material_selected = material;
       this.index_material = index_material;
-      
-      console.log(material[0].analisis)
+
       if(this.analisis.buscarAnalisisSustratoPorID(material[0].analisis)){
         this.analisisSustrato = this.analisis.buscarAnalisisSustratoPorID(material[0].analisis)
       }
     }
+
+
+
   }
 
   Cerrar_(){

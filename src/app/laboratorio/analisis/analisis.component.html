@@ -6,8 +6,13 @@
 [Analisis]="Analisis"
 (onCloseModal)="Cerrar()"
 (onCloseSencillo)="Tinta = false">
-
 </app-analisis-tinta>
+
+<app-analisis-cajas
+[caja]="Caja"
+[Materiales]="Material_selected"
+(onCloseModal)="Caja = false">
+</app-analisis-cajas>
 
 <app-analisis-sustrato
 [sustrato]="Sustrato"
@@ -17,7 +22,6 @@
 [Index]="index_material"
 (onCloseSencillo)="Sustrato = false"
 (onCloseModal)="Cerrar_tinta()">
-
 </app-analisis-sustrato>
 
 <div class="container_ mt-5">

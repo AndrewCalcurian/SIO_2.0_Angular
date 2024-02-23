@@ -64,7 +64,7 @@
                     <td>Mín</td>
                     <td>Máx</td>
                 </tr>
-                <tr>
+                <tr *ngIf="Materiales[0].material.especificacion">
                     <td>Gramaje</td>
                     <td>{{Materiales[0].material.especificacion.gramaje.min}}</td>
                     <td>{{Materiales[0].material.especificacion.gramaje.nom}}</td>

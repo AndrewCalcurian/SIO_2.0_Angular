@@ -45,7 +45,6 @@ export class MaterialesService {
   }
 
   filtrarPorGrupos(ids: string[]): any[] {
-    console.log(ids)
     return this.materiales.filter((x: any) => ids.some((groupId: string) => groupId.includes(x.grupo._id)));
   }
 
@@ -54,13 +53,16 @@ export class MaterialesService {
   }
 
   filtrarPorGrupoSinEspecificacion(id: string): Materiales[] {
-    return this.materiales.filter((material:any) => material.grupo._id === id && !material.especificacion);
-  }
+    return this.materiales.filter((material: any) => 
+        material.grupo._id === id && (!material.especificacion && !material.especificacion2)
+    );
+}
 
   filtrarPorGrupoConEspecificacion(id: any): Materiales[] {
-    console.log(this.materiales.filter((material:any) => material.grupo._id === id && material.especificacion));
-    return this.materiales.filter((material:any) => material.grupo._id === id && material.especificacion);
-  }
+    return this.materiales.filter((material: any) => 
+        material.grupo._id === id && (material.especificacion || material.especificacion2)
+    );
+}
 
 
 }

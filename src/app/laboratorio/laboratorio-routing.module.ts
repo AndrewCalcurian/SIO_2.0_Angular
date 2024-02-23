@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { LaboratorioComponent } from './laboratorio.component';
 import { LaboratorioIndexComponent } from './laboratorio-index/laboratorio-index.component';
-import { AnalisisTintaComponent } from './analisis-tinta/analisis-tinta.component';
+import { AnalisisTintaComponent } from './analisis/analisis-tinta/analisis-tinta.component';
 import { EspecificacionesComponent } from './especificaciones/especificaciones.component';
 import { AnalisisComponent } from './analisis/analisis.component';
 
