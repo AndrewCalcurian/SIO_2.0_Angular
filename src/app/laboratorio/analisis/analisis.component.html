@@ -24,6 +24,12 @@
 (onCloseModal)="Cerrar_tinta()">
 </app-analisis-sustrato>
 
+<app-analisis-pads
+[pads]="pads"
+[Materiales]="Material_selected"
+(onCloseModal)="pads = false">
+</app-analisis-pads>
+
 <div class="container_ mt-5">
     <div class="card">
         <div class="card-content darker">

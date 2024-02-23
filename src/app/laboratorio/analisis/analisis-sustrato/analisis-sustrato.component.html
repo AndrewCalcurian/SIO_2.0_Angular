@@ -74,7 +74,7 @@
                     <td>{{analisis.gramaje.min}}</td>
                     <td>{{analisis.gramaje.max}}</td>
                 </tr>
-                <tr>
+                <tr  *ngIf="Materiales[0].material.especificacion">
                     <td>Cobb Top</td>
                     <td>{{Materiales[0].material.especificacion.cobb.top.min}}</td>
                     <td>{{Materiales[0].material.especificacion.cobb.top.nom}}</td>
@@ -84,7 +84,7 @@
                     <td>{{analisis.cobb.top.min}}</td>
                     <td>{{analisis.cobb.top.max}}</td>
                 </tr>
-                <tr>
+                <tr  *ngIf="Materiales[0].material.especificacion">
                     <td>Cobb Back</td>
                     <td>{{Materiales[0].material.especificacion.cobb.back.min}}</td>
                     <td>{{Materiales[0].material.especificacion.cobb.back.nom}}</td>
