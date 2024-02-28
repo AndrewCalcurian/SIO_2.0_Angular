@@ -10,6 +10,9 @@ export class AnalisisService {
   public mensaje!: Mensaje;
   public AnalisisTintas;
   public AnalisisSustrato;
+  public AnalisisCajas;
+  public AnalisisPads;
+  public AnalisisOtros;
   constructor(private socket:WebSocketService) {
     this.BuscarAnalisisTinta()
    }
@@ -31,6 +34,21 @@ export class AnalisisService {
     this.socket.io.on('SERVER:AnalisisSustrato', async(AnalisisSustrato)=>{
       this.AnalisisSustrato = AnalisisSustrato;
     })
+
+    this.socket.io.emit('CLIENTE:BuscarAnalisisCajas');
+    this.socket.io.on('SERVER:AnalisisCajas', async(AnalisisCajas)=>{
+      this.AnalisisCajas = AnalisisCajas;
+    })
+
+    this.socket.io.emit('CLIENTE:BuscarAnalisisPads');
+    this.socket.io.on('SERVER:AnalisisPads', async(AnalisisPads)=>{
+      this.AnalisisPads = AnalisisPads;
+    })
+
+    this.socket.io.emit('CLIENTE:BuscarAnalisisOtros');
+    this.socket.io.on('SERVER:AnalisisOtros', async(AnalisisOtros)=>{
+      this.AnalisisOtros = AnalisisOtros;
+    })
   
   }
 
@@ -39,8 +57,19 @@ export class AnalisisService {
   } 
 
   buscarAnalisisSustratoPorID(id){
-    console.log(this.AnalisisSustrato.find(x => x._id === id))
     return this.AnalisisSustrato.find(x => x._id === id)
+  }
+
+  buscarAnalisisCajasPorID(id){
+    return this.AnalisisCajas.find(x => x._id === id)
+  }
+
+  buscarAnalisisPadsPorID(id){
+    return this.AnalisisPads.find(x => x._id === id)
+  }
+
+  buscarAnalisisOtrosPorID(id){
+    return this.AnalisisOtros.find(x => x._id === id)
   }
 
   EnvarAnalisis(data, recepcion, index){
@@ -59,5 +88,32 @@ export class AnalisisService {
       index
     }
     this.socket.io.emit('CLIENTE:AnalisisSustrato', Data)
+  }
+
+  EnviarAnalisisCajas(data, recepcion, index){
+    const Data = {
+      data,
+      recepcion,
+      index
+    }
+    this.socket.io.emit('CLIENTE:AnalisisCajas', Data)
+  }
+
+  EnviarAnalisisPads(data, recepcion, index){
+    const Data = {
+      data,
+      recepcion,
+      index
+    }
+    this.socket.io.emit('CLIENTE:AnalisisPads', Data)
+  }
+
+  EnviarAnalisisOtros(data, recepcion, index){
+    const Data = {
+      data,
+      recepcion,
+      index
+    }
+    this.socket.io.emit('CLIENTE:AnalisisOtros', Data)
   }
 }

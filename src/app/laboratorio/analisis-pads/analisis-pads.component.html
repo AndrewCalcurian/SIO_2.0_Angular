@@ -19,7 +19,7 @@
                 <div class="column is-2">
                     <div class="field">
                         <div class="control mt">
-                            <input type="number" name="" id="" class="input" [(ngModel)]="muestras">
+                            <input type="number" name="" id="" class="input" [(ngModel)]="analisis.muestras">
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let muestra of [].constructor(muestras);index as i">
+                    <tr *ngFor="let muestra of [].constructor(analisis.muestras);index as i">
                         <td>{{i +1 }}</td>
                         <td><input type="number" name="" id="" class="input" (change)="largo()" [(ngModel)]="analisis.largo.largo[i]"></td>
                         <td><input type="number" name="" id="" class="input" (change)="ancho()" [(ngModel)]="analisis.ancho.ancho[i]"></td>
@@ -113,14 +113,42 @@
             <div class="field">
                 <label class="label">Observación</label>
                 <div class="control">
-                    <textarea class="textarea" id="" cols="30" rows="3"></textarea>
+                    <textarea class="textarea" id="" cols="30" rows="3" [(ngModel)]="analisis.resultado.observacion"></textarea>
                 </div>
             </div>
 
             <br>
-            <button class="button is-success">
-                guardar (TEST)
-            </button>
+            <div class="columns">
+                <div class="column">
+                    <button class="button is-success" (click)="guardar()">
+                        <span class="icon"><i class="fas fa-save"></i></span>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+                <div class="column">
+                    <table class="table is-fullwidth">
+                        <tr>
+                            <th>Resultado</th>
+                            <th>Generar Analisis</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="select">
+                                    <select name="" id="" [(ngModel)]="analisis.resultado.resultado">
+                                        <option value="APROBADO">APROBADO</option>
+                                        <option value="RECHAZADO">RECHAZADO</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="button is-success" *ngIf="analisis.resultado.resultado" (click)="AnalisisCompletado()">
+                                    <span>Descargar</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
         </div>
     </div>

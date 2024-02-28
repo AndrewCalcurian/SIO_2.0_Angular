@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { AnalisisSustrato2 } from 'src/app/compras/models/modelos-compra';
 import { AnalisisService } from 'src/app/services/analisis.service';
+import { GruposService } from 'src/app/services/grupos.service';
+import { MaterialesService } from 'src/app/services/materiales.service';
 import { RecepcionService } from 'src/app/services/recepcion.service';
 import Swal from 'sweetalert2';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-analisis',
@@ -15,9 +18,22 @@ export class AnalisisComponent {
   public Sustrato:boolean = false;
   public Caja:boolean = false;
   public pads:boolean = false;
+  public otro:boolean = false;
   public Recepcion_selected;
   public Material_selected;
   public index_material;
+  mostrarSeccionBuscar: boolean = false;
+  
+
+
+  tipo_de_busqueda:any = ''
+  grupo_selected = ''
+  material_selected = ''
+  lote_selected = ''
+  desde = ''
+  hasta = ''
+  loading:boolean = false;
+  sin_analizar = true
 
   public Analisis:any = {
     img:'no-image',
@@ -282,9 +298,166 @@ export class AnalisisComponent {
     }
   } 
 
-  constructor(public recepciones:RecepcionService,
-              public analisis:AnalisisService){
+  public AnalisisCajas:any = {
+    longitud_interna:{
+      largo:{
+        largo:[],
+        min:0,
+        max:0,
+        promedio:0,
+        desviacion:0,
+        decimales:0
+      },
+      ancho:{
+        ancho:[],
+        min:0,
+        max:0,
+        promedio:0,
+        desviacion:0,
+        decimales:0
+      },
+      alto:{
+        alto:[],
+        min:0,
+        max:0,
+        promedio:0,
+        desviacion:0,
+        decimales:0
+      },
+    },
+    longitud_externa:{
+      largo:{
+        largo:[],
+        min:0,
+        max:0,
+        promedio:0,
+        desviacion:0,
+        decimales:0
+      },
+      ancho:{
+        ancho:[],
+        min:0,
+        max:0,
+        promedio:0,
+        desviacion:0,
+        decimales:0
+      },
+      alto:{
+        alto:[],
+        min:0,
+        max:0,
+        promedio:0,
+        desviacion:0,
+        decimales:0
+      },
+    },
+    espesor:{
+      espesor:[],
+      min:0,
+      max:0,
+      promedio:0,
+      desviacion:0,
+      decimales:0
+    },
+    resultado:{
+      observacion:'',
+      resultado:'',
+      guardado:{
+        usuario:'',
+        fecha:''
+      },
+      validado:{
+        usuario:'',
+        fecha:''
+      }
+    },
+    muestras:0
+  }
 
+  public analisisPads:any = {
+    muestras:0,
+    largo:{
+      largo:[],
+      min:0,
+      max:0,
+      promedio:0,
+      desviacion:0,
+      decimales:0
+    },
+    ancho:{
+      ancho:[],
+      min:0,
+      max:0,
+      promedio:0,
+      desviacion:0,
+      decimales:0
+    },
+    signado:{
+      signado:[],
+      min:0,
+      max:0,
+      promedio:0,
+      desviacion:0,
+      decimales:0
+    },
+    espesor:{
+      espesor:[],
+      min:0,
+      max:0,
+      promedio:0,
+      desviacion:0,
+      decimales:0
+    },
+    resultado:{
+      observacion:'',
+      resultado:'',
+      guardado:{
+        usuario:'',
+        fecha:''
+      },
+      validado:{
+        usuario:'',
+        fecha:''
+      }
+    },
+  }
+
+  public AnalisisOtro:any = {
+    apariencia:false,
+    ph:'',
+    otro:'',
+    resultado:{
+      observacion:'',
+      resultado:'',
+      guardado:{
+        usuario:'',
+        fecha:''
+      },
+      validado:{
+        usuario:'',
+        fecha:''
+      }
+    }
+  }
+
+  public Materiales:any = []
+
+  constructor(public recepciones:RecepcionService,
+              public analisis:AnalisisService,
+              public grupos:GruposService,
+              public materiales:MaterialesService){
+  }
+
+  reset(){
+    if(this.tipo_de_busqueda != 'grupo'){
+      this.grupo_selected = ''
+      this.material_selected = ''
+    }else if(this.tipo_de_busqueda != 'lote'){
+      this.lote_selected = ''
+    }else if(this.tipo_de_busqueda != 'fecha'){
+      this.desde = ''
+      this.hasta = ''
+    }
   }
 
   Format(n:any){
@@ -308,12 +481,18 @@ export class AnalisisComponent {
       this.Recepcion_selected = recepcion;
       this.Material_selected = material;
       this.index_material = index_material;
-      console.log(this.Material_selected)
+      if(this.analisis.buscarAnalisisCajasPorID(material[0].analisis)){
+        this.AnalisisCajas = this.analisis.buscarAnalisisCajasPorID(material[0].analisis)
+        console.log(this.AnalisisCajas)
+      }
     }else if(material[0].material.grupo.nombre === 'Soportes de Embalaje'){
       this.pads = true;
       this.Recepcion_selected = recepcion;
       this.Material_selected = material;
       this.index_material = index_material;
+      if(this.analisis.buscarAnalisisPadsPorID(material[0].analisis)){
+        this.analisisPads = this.analisis.buscarAnalisisPadsPorID(material[0].analisis)
+      }
 
     }else if(material[0].material.grupo.trato === true){
       this.Sustrato = true;
@@ -323,6 +502,14 @@ export class AnalisisComponent {
 
       if(this.analisis.buscarAnalisisSustratoPorID(material[0].analisis)){
         this.analisisSustrato = this.analisis.buscarAnalisisSustratoPorID(material[0].analisis)
+      }
+    }else{
+      this.otro = true;
+      this.Recepcion_selected = recepcion;
+      this.Material_selected = material;
+      this.index_material = index_material;
+      if(this.analisis.buscarAnalisisOtrosPorID(material[0].analisis)){
+        this.AnalisisOtro = this.analisis.buscarAnalisisOtrosPorID(material[0].analisis)
       }
     }
 
@@ -364,4 +551,44 @@ export class AnalisisComponent {
     }, 1000);
   }
 
+  buscar() {
+    this.mostrarSeccionBuscar = true;
+  }
+
+  buscar_(){
+    this.sin_analizar = false;
+    this.loading = true;
+
+    if(this.grupo_selected){
+      this.Materiales = this.recepciones.filtrarMaterialesPorGrupoYAnalisis(this.grupo_selected, this.material_selected)
+    }
+
+    if(this.lote_selected){
+      this.Materiales = this.recepciones.filtrarMaterialesPorLoteYAnalisis(this.lote_selected)
+    }
+
+    if(this.desde && this.hasta){
+      if(this.hasta < this.desde){
+        Swal.fire({
+          showConfirmButton:false,
+          icon:'error',
+          text:'Debes ingresar un lapso de fechas validas',
+          toast:true,
+          timerProgressBar:true,
+          timer:5000,
+          position:'top-end'
+        })
+        this.loading = false;
+      }
+    }
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
+
+  }
+
+  cancelar() {
+    this.mostrarSeccionBuscar = false;
+  }
 }

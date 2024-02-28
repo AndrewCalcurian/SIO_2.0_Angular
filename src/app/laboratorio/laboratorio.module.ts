@@ -13,7 +13,7 @@ import { AnalisisComponent } from './analisis/analisis.component';
 import { AnalisisSustratoComponent } from './analisis/analisis-sustrato/analisis-sustrato.component';
 import { LaboratorioIndexComponent } from './laboratorio-index/laboratorio-index.component';
 import { AnalisisCajasComponent } from './analisis/analisis-cajas/analisis-cajas.component';
-import { AnalisisPadsComponent } from './analisis/analisis-pads/analisis-pads.component';
+import { AnalisisPadsComponent } from './analisis-pads/analisis-pads.component';
 import { AnalisisOtrosComponent } from './analisis-otros/analisis-otros.component';
 
 

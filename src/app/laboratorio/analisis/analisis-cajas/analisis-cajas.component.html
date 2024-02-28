@@ -9,7 +9,7 @@
         </div>
         <div class="modal-card-body">
             <span class="titles">
-                Caracteristicas y propiedades
+                Características y propiedades
             </span>
             <br>
             <div class="columns">
@@ -17,7 +17,7 @@
                     <div class="field">
                         <label for="" class="label" style="text-align: center;">Número de muestras:</label>
                         <div class="control mt">
-                            <input type="number" name="" id="" class="input" [(ngModel)]="muestras">
+                            <input type="number" name="" id="" class="input" [(ngModel)]="analisis.muestras">
                         </div>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let muestra of [].constructor(muestras);index as i">
+                    <tr *ngFor="let muestra of [].constructor(analisis.muestras);index as i">
                         <td>{{i +1 }}</td>
                         <td>
                             <div class="columns">
@@ -232,7 +232,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let muestra of [].constructor(muestras);index as i">
+                    <tr *ngFor="let muestra of [].constructor(analisis.muestras);index as i">
                         <td>{{i +1 }}</td>
                         <td>
                             <div class="columns">
@@ -288,7 +288,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let muestra of [].constructor(muestras);index as i">
+                    <tr *ngFor="let muestra of [].constructor(analisis.muestras);index as i">
                         <td>{{i +1 }}</td>
                         <td>
                             <div class="columns">
@@ -311,14 +311,42 @@
             <div class="field">
                 <label class="label">Observación</label>
                 <div class="control">
-                    <textarea class="textarea" id="" cols="30" rows="3"></textarea>
+                    <textarea class="textarea" id="" cols="30" rows="3" [(ngModel)]="analisis.resultado.observacion"></textarea>
                 </div>
             </div>
 
             <br>
-            <button class="button is-success" (click)="guardar()">
-                guardar (TEST)
-            </button>
+            <div class="columns">
+                <div class="column">
+                    <button class="button is-success" (click)="guardar()">
+                        <span class="icon"><i class="fas fa-save"></i></span>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+                <div class="column">
+                    <table class="table is-fullwidth">
+                        <tr>
+                            <th>Resultado</th>
+                            <th>Generar Analisis</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="select">
+                                    <select name="" id="" [(ngModel)]="analisis.resultado.resultado">
+                                        <option value="APROBADO">APROBADO</option>
+                                        <option value="RECHAZADO">RECHAZADO</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="button is-success" *ngIf="analisis.resultado.resultado" (click)="AnalisisCompletado()">
+                                    <span>Descargar</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

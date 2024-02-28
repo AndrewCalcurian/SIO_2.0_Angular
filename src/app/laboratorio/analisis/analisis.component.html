@@ -11,8 +11,30 @@
 <app-analisis-cajas
 [caja]="Caja"
 [Materiales]="Material_selected"
+[Recepcion]="Recepcion_selected"
+[Index]="index_material"
+[analisis]="AnalisisCajas"
 (onCloseModal)="Caja = false">
 </app-analisis-cajas>
+
+<app-analisis-pads
+[pads]="pads"
+[Materiales]="Material_selected"
+[Recepcion]="Recepcion_selected"
+[Index]="index_material"
+[analisis]="analisisPads"
+(onCloseModal)="pads = false">
+</app-analisis-pads>
+
+<app-analisis-otros
+[otro]="otro"
+[Materiales]="Material_selected"
+[Recepcion]="Recepcion_selected"
+[Index]="index_material"
+[analisis]="AnalisisOtro"
+(onCloseModal)="otro = false">
+
+</app-analisis-otros>
 
 <app-analisis-sustrato
 [sustrato]="Sustrato"
@@ -23,12 +45,6 @@
 (onCloseSencillo)="Sustrato = false"
 (onCloseModal)="Cerrar_tinta()">
 </app-analisis-sustrato>
-
-<app-analisis-pads
-[pads]="pads"
-[Materiales]="Material_selected"
-(onCloseModal)="pads = false">
-</app-analisis-pads>
 
 <div class="container_ mt-5">
     <div class="card">
@@ -48,40 +64,366 @@
                 </div>
             </div>
             <br>
-            <ng-container>
-                <table class="table is-fullwidth is-striped">
-                    <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Lote</th>
-                            <th>Material</th>
-                            <th>Cantidad</th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ng-container *ngFor="let recepcion of recepciones.recepciones;index as index">
-                            <ng-container *ngIf="recepcion.status === 'En observacion'">
-                                <tr *ngFor="let material of recepcion.materiales;index as i">
-                                    <td>{{material[0].material.grupo.nombre}}</td>
-                                    <td>{{material[0].lote}}</td>
-                                    <td>{{material[0].material.nombre}}
-                                        <ng-container *ngIf="material[0].material.gramaje">
-                                            ({{material[0].ancho}}x{{material[0].largo}})
-                                            {{material[0].material.gramaje}}(g/m²) - {{material[0].material.calibre}}(pt)
-                                        </ng-container> {{material[0].material.fabricante.alias}} / {{material[0].material.serie}}</td>
-                                    <td>{{Format(recepcion.cantidad[i])}} {{material[0].unidad}}</td>
-                                    <td>
-                                        <button class="button is-info" (click)="Analizar(recepcion, material, index, i)">
-                                            <span class="icon"><i class="fas fa-vial"></i></span>
-                                        </button>
-                                    </td>
-                                </tr>
+            <div class="columns">
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            <ng-container>
+                                <span class="title">
+                                    Pendientes
+                                </span>
+                                <hr>
+                                <table class="table is-fullwidth is-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo</th>
+                                            <th>Lote</th>
+                                            <th>Material</th>
+                                            <th>Cantidad</th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let recepcion of recepciones.recepciones;index as index">
+                                            <ng-container *ngIf="recepcion.status === 'En observacion'">
+                                                <tr *ngFor="let material of recepcion.materiales;index as i">
+                                                    <td>{{material[0].material.grupo.nombre}}</td>
+                                                    <td>{{material[0].lote}}</td>
+                                                    <td>{{material[0].material.nombre}}
+                                                        <ng-container *ngIf="material[0].material.gramaje">
+                                                            ({{material[0].ancho}}x{{material[0].largo}})
+                                                            {{material[0].material.gramaje}}(g/m²) - {{material[0].material.calibre}}(pt)
+                                                        </ng-container> {{material[0].material.fabricante.alias}} / {{material[0].material.serie}}</td>
+                                                    <td>{{Format(recepcion.cantidad[i])}} {{material[0].unidad}}</td>
+                                                    <td>
+                                                        <span class="icon blue_"><i class="fas fa-vial" (click)="Analizar(recepcion, material, index, i)"></i></span>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
                             </ng-container>
-                        </ng-container>
-                    </tbody>
-                </table>
-            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-4">
+                    <div class="card mt-5">
+                        <div class="card-content orange">
+                            <div class="columns">
+                                <div class="column is-2">
+                                    <span class="number_">
+                                        <h1>34</h1>
+                                    </span>
+                                </div>
+                                <div class="column is-2">
+                                    <span class="fina">Análisis</span> <br>
+                                    <span class="gruesa">Mes</span>
+                                </div>
+                                <div class="column">
+                                    <span class="Detalle">
+                                        Septiembre
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-5">
+                        <div class="card-content green__">
+                            <div class="columns">
+                                <div class="column is-2">
+                                    <span class="number_">
+                                        <h1>115</h1>
+                                    </span>
+                                </div>
+                                <div class="column is-2">
+                                    <span class="fina">Análisis</span> <br>
+                                    <span class="gruesa">Año</span>
+                                </div>
+                                <div class="column">
+                                    <span class="Detalle">
+                                        2024
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-5">
+                        <div class="card-content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="columns">
+                <div class="column is-5">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="title">
+                                Estadísticas
+                            </span>
+                            <hr>
+                            <div class="columns">
+                                <div class="column">
+
+                                </div>
+                                <div class="column">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo</th>
+                                                <th>Aprobados</th>
+                                                <th>Rechazados</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Sustrato</td>
+                                                <td>100</td>
+                                                <td>5</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tinta</td>
+                                                <td>100</td>
+                                                <td>5</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cajas</td>
+                                                <td>100</td>
+                                                <td>5</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pads</td>
+                                                <td>100</td>
+                                                <td>5</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Otros</td>
+                                                <td>100</td>
+                                                <td>5</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <table class="table is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Lote</th>
+                                        <th>Resultado</th>
+                                        <th>detallar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>28/02/2024</td>
+                                        <td>0424</td>
+                                        <td>
+                                        <span class="etiqueta">
+                                            <span class="tag is-success">APROBADO</span>
+                                        </span>
+                                        </td>
+                                        <td><span class="blue_">
+                                            <i class="fas fa-eye"></i>
+                                        </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>28/02/2024</td>
+                                        <td>0424</td>
+                                        <td>
+                                        <span class="etiqueta">
+                                            <span class="tag is-success">APROBADO</span>
+                                        </span>
+                                        </td>
+                                        <td><span class="blue_">
+                                            <i class="fas fa-eye"></i>
+                                        </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>28/02/2024</td>
+                                        <td>0424</td>
+                                        <td>
+                                        <span class="etiqueta">
+                                            <span class="tag is-danger">RECHAZADO</span>
+                                        </span>
+                                        </td>
+                                        <td><span class="blue_">
+                                            <i class="fas fa-eye"></i>
+                                        </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>28/02/2024</td>
+                                        <td>0424</td>
+                                        <td>
+                                        <span class="etiqueta">
+                                            <span class="tag is-success">APROBADO</span>
+                                        </span>
+                                        </td>
+                                        <td><span class="blue_">
+                                            <i class="fas fa-eye"></i>
+                                        </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>28/02/2024</td>
+                                        <td>0424</td>
+                                        <td>
+                                        <span class="etiqueta">
+                                            <span class="tag is-success">APROBADO</span>
+                                        </span>
+                                        </td>
+                                        <td><span class="blue_">
+                                            <i class="fas fa-eye"></i>
+                                        </span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="title">
+                                Busqueda
+                            </span>
+                            <hr>
+                        <button class="button is-success" (click)="buscar()" *ngIf="!mostrarSeccionBuscar">
+                            <span class="icon"><i class="fas fa-search"></i></span>
+                            <span>Buscar</span>
+                        </button>
+                        <div id="seccionBuscar" class="buscar" [ngClass]="{ 'mostrar': mostrarSeccionBuscar }">
+                            <span>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="columns">
+                                            <div class="column">
+                                                <div class="field">
+                                                    <label for="" class="label">Buscar por:</label>
+                                                    <div class="control">
+                                                        <div class="select">
+                                                            <select name="" id="" [(ngModel)]="tipo_de_busqueda" (change)="reset()">
+                                                                <option value="grupo">Grupo</option>
+                                                                <option value="lote">Lote</option>
+                                                                <option value="fecha">Fecha</option>
+                                                                <option value="fabricante">Fabricante</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field" *ngIf="tipo_de_busqueda === 'grupo'">
+                                            <label for="" class="label">Seleccione el grupo:</label>
+                                            <div class="control">
+                                                    <div class="select">
+                                                        <select [(ngModel)]="grupo_selected">
+                                                            <option value="{{grupo._id}}" *ngFor="let grupo of grupos.grupos">{{grupo.nombre}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <div *ngIf="tipo_de_busqueda === 'lote'">
+                                            <div class="field">
+                                                <label for="" class="label">Nº Lote</label>
+                                                <div class="control">
+                                                    <input type="text" class="input" [(ngModel)]="lote_selected">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="tipo_de_busqueda === 'fecha'">
+                                            <div class="columns">
+                                                <div class="column">
+                                                    <div class="field">
+                                                        <label class="label">Desde:</label>
+                                                        <div class="control">
+                                                            <input type="date" name="" id="" class="input" [(ngModel)]="desde">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="column">
+                                                    <div class="field">
+                                                        <label class="label">Hasta:</label>
+                                                        <div class="control">
+                                                            <input type="date" name="" id="" class="input" [(ngModel)]="hasta">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field" *ngIf="grupo_selected">
+                                            <label class="label">Selecciona Material:</label>
+                                            <div class="control">
+                                                <div class="select">
+                                                    <select [(ngModel)]="material_selected">
+                                                        <option value="">Todos los materiales</option>
+                                                        <option value="{{material._id}}" *ngFor="let material of materiales.filtrarGrupos(grupo_selected);index as i">{{material.nombre}} {{material.serie}} ({{material.fabricante.alias}})
+                                                        <ng-container *ngIf="material.grupo.trato">
+                                                            {{material.gramaje}}g {{material.calibre}}pt
+                                                        </ng-container>
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                            <br>
+                            <button class="button is-success" (click)="buscar_()">
+                                <span class="icon"></span>
+                                <span>Buscar</span>
+                            </button> 
+                            <button class="button is-danger" (click)="cancelar()">
+                                <span class="icon"></span>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+        
+                        <br> <br>
+                        <div class="card_ cargando" *ngIf="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Cargando
+                        </div>
+                        <div class="card__ empty" *ngIf="!loading && Materiales.length === 0 && !sin_analizar">
+                            No se encontraron resultados. <i class="far fa-frown"></i>
+                        </div>
+                        <div class="wave-container" *ngIf="sin_analizar">
+                            <div class="wave">Esperando consulta...</div>
+                          </div>
+                        <br>
+        
+                        <br>
+                            <table class="table is-fullwidth is-striped" *ngIf="!loading && Materiales.length > 0 && !sin_analizar">
+                                <thead>
+                                    <tr>
+                                        <th>Material</th>
+                                        <th>Lote</th>
+                                        <th>Resultado</th>
+                                        <th>Descargar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let material of Materiales">
+                                        <td>{{material.material.material.nombre}}</td>
+                                        <td>{{material.material.lote}}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

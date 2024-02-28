@@ -20,6 +20,7 @@
     "@angular/router": "^16.2.0",
     "animate.css": "^4.1.1",
     "bulma": "^0.9.4",
+    "chart.js": "^4.4.2",
     "draggable": "^4.2.0",
     "moment": "^2.29.4",
     "pdfmake": "^0.2.8",

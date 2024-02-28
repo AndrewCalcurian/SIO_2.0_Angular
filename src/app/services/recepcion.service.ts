@@ -43,4 +43,74 @@ export class RecepcionService {
   }
 
 
+filtrarMaterialesPorGrupoYAnalisis(nombreGrupo: string, materia?: any) {
+    console.log(materia)
+    let materialesFiltrados: any[] = [];
+    let materialesSet = new Set(); // Utilizar un Set para mantener los materiales únicos
+    this.recepciones.forEach((recepcion) => {
+        recepcion.materiales.forEach((grupoMateriales) => {
+            grupoMateriales.forEach((material) => {
+                if (material.material.grupo._id === nombreGrupo && material.analisis && (!materia || material.material._id === materia)) {
+                    const materialKey = material.material._id; // Utilizar el _id del material como clave
+                    if (!materialesSet.has(materialKey)) { // Verificar si el material ya existe en el Set
+                        materialesFiltrados.push({
+                            material: material,
+                            Recepcion: recepcion
+                        });
+                        materialesSet.add(materialKey); // Agregar el _id del material al Set
+                    }
+                }
+            });
+        });
+    });
+    return materialesFiltrados;
+}
+
+filtrarMaterialesPorLoteYAnalisis(nombreLote: string, materia?: any) {
+  console.log(nombreLote)
+  let materialesFiltrados: any[] = [];
+  let materialesSet = new Set(); // Utilizar un Set para mantener los materiales únicos
+  this.recepciones.forEach((recepcion) => {
+      recepcion.materiales.forEach((grupoMateriales) => {
+          grupoMateriales.forEach((material) => {
+              if (material.lote === nombreLote && material.analisis) {
+                  const materialKey = material.material._id; // Utilizar el _id del material como clave
+                  if (!materialesSet.has(materialKey)) { // Verificar si el material ya existe en el Set
+                      materialesFiltrados.push({
+                          material: material,
+                          Recepcion: recepcion
+                      });
+                      materialesSet.add(materialKey); // Agregar el _id del material al Set
+                  }
+              }
+          });
+      });
+  });
+  return materialesFiltrados;
+}
+
+filtrarMaterialesPorfechaYAnalisis(nombreLote: string, materia?: any) {
+  console.log(nombreLote)
+  let materialesFiltrados: any[] = [];
+  let materialesSet = new Set(); // Utilizar un Set para mantener los materiales únicos
+  this.recepciones.forEach((recepcion) => {
+      recepcion.materiales.forEach((grupoMateriales) => {
+          grupoMateriales.forEach((material) => {
+              if (material.lote === nombreLote && material.analisis) {
+                  const materialKey = material.material._id; // Utilizar el _id del material como clave
+                  if (!materialesSet.has(materialKey)) { // Verificar si el material ya existe en el Set
+                      materialesFiltrados.push({
+                          material: material,
+                          Recepcion: recepcion
+                      });
+                      materialesSet.add(materialKey); // Agregar el _id del material al Set
+                  }
+              }
+          });
+      });
+  });
+  return materialesFiltrados;
+}
+
+
 }
