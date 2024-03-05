@@ -446,7 +446,50 @@ export class AnalisisComponent {
               public analisis:AnalisisService,
               public grupos:GruposService,
               public materiales:MaterialesService){
+
+                setTimeout(() => {
+                  this.SustratoChar()
+                }, 5000);
   }
+
+  public sustrato_char:any;
+
+  SustratoChar(){
+    if(this.sustrato_char){
+      this.sustrato_char.destroy();
+    }
+    this.sustrato_char = new Chart("Sustrato_chart",{
+      type:'bar',
+      data:{
+        labels:['Sustrato','Tinta','Cajas','Pads','Otros'],
+        datasets: [{
+          label: 'Aprobados',
+          data: [30,29,14,13,32],
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.9)',
+          ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+          ],
+          // hoverOffset: 4
+        },
+        {
+          label: 'Rechazados',
+          data: [5,3,1,0,1],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.9)',
+          ],
+          borderColor: [
+            'rgb(54, 162, 235)',
+          ],
+          // hoverOffset: 4
+        }],
+      }
+    })
+  }
+
+// setInterval(changeText, 5000); // Cambia el texto cada 5 segundos
+
 
   reset(){
     if(this.tipo_de_busqueda != 'grupo'){
@@ -579,6 +622,13 @@ export class AnalisisComponent {
           position:'top-end'
         })
         this.loading = false;
+      }else{
+        const desde = Date.parse(this.desde);
+        const hasta = Date.parse(this.hasta);
+
+
+        this.Materiales = this.recepciones.filtrarMaterialesporFecha(desde, hasta)
+
       }
     }
 

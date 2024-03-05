@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WebSocketService } from './web-socket.service';
 import { Mensaje } from '../compras/models/modelos-compra';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -112,5 +113,30 @@ filtrarMaterialesPorfechaYAnalisis(nombreLote: string, materia?: any) {
   return materialesFiltrados;
 }
 
+filtrarMaterialesporFecha(desde, hasta){
+  let materialesFiltrados: any[] = [];
+  let materialesSet = new Set(); // Utilizar un Set para mantener los materiales únicos
+  this.recepciones.forEach((recepcion) => {
+    const fecha_moment = moment(recepcion.createdAt).format('yyyy-MM-DD');
+    const fecha = Date.parse(fecha_moment);
+    if(fecha >= desde && fecha <= hasta){
+      recepcion.materiales.forEach((grupoMateriales) => {
+        grupoMateriales.forEach((material) => {
+            if (material.analisis) {
+                const materialKey = material.material._id; // Utilizar el _id del material como clave
+                if (!materialesSet.has(materialKey)) { // Verificar si el material ya existe en el Set
+                    materialesFiltrados.push({
+                        material: material,
+                        Recepcion: recepcion
+                    });
+                    materialesSet.add(materialKey); // Agregar el _id del material al Set
+                }
+            }
+        });
+    });
+    }
+  })
+  return materialesFiltrados;
+}
 
 }

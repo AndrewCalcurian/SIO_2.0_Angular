@@ -66,13 +66,12 @@
             <br>
             <div class="columns">
                 <div class="column">
-                    <div class="card">
+                    <div class="card h-310">
                         <div class="card-content">
                             <ng-container>
                                 <span class="title">
                                     Pendientes
                                 </span>
-                                <hr>
                                 <table class="table is-fullwidth is-striped">
                                     <thead>
                                         <tr>
@@ -108,8 +107,8 @@
                     </div>
                 </div>
                 <div class="column is-4">
-                    <div class="card mt-5">
-                        <div class="card-content orange">
+                    <div class="card tags">
+                        <div class="card-content ty orange">
                             <div class="columns">
                                 <div class="column is-2">
                                     <span class="number_">
@@ -128,8 +127,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mt-5">
-                        <div class="card-content green__">
+                    <div class="card mt-5 tags">
+                        <div class="card-content ty green__">
                             <div class="columns">
                                 <div class="column is-2">
                                     <span class="number_">
@@ -148,66 +147,207 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mt-5">
-                        <div class="card-content">
+                    <div class="card mt-5 tags">
+                        <div class="card-content ty blue___">
+                            <div class="columns info_">
+                                <div class="column is-2">
+                                    <span class="number_">
+                                        <h1>2</h1>
+                                    </span>
+                                </div>
+                                <div class="column is-2">
+                                    <span class="fina">Dia(s)</span> <br>
+                                    <!-- <span class="gruesa">Dia(s)</span> -->
+                                </div>
+                                <div class="column">
+                                    <span class="low">
+                                        Tiempo promedio
+                                    </span><br>
+                                    <span class="lowl">
+                                       de análisis
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="position_">
+                                <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                                  <defs>
+                                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                                  </defs>
+                                  <g class="moving-waves">
+                                    <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.25)" />
+                                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.20)" />
+                                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0)" />
+                                    <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.10)" />
+                                    <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.05)" />
+                                    <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0)" />
+                                  </g>
+                                </svg>
+                              </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <br>
-
-            <div class="columns">
-                <div class="column is-5">
-                    <div class="card">
-                        <div class="card-content">
-                            <span class="title">
-                                Estadísticas
-                            </span>
-                            <hr>
+            <div class="card dark">
+                <div class="card-content">
+                    <span class="title">
+                        Buscador
+                    </span>
+                    <div class="columns">
+                        <div class="column">
                             <div class="columns">
                                 <div class="column">
-
+                                    <div class="field">
+                                        <label for="" class="label">Buscar por:</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select name="" id="" [(ngModel)]="tipo_de_busqueda" (change)="reset()">
+                                                    <option value="grupo">Grupo</option>
+                                                    <option value="lote">Lote</option>
+                                                    <option value="fecha">Fecha</option>
+                                                    <option value="fabricante">Fabricante</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="column">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Tipo</th>
-                                                <th>Aprobados</th>
-                                                <th>Rechazados</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Sustrato</td>
-                                                <td>100</td>
-                                                <td>5</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tinta</td>
-                                                <td>100</td>
-                                                <td>5</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cajas</td>
-                                                <td>100</td>
-                                                <td>5</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Pads</td>
-                                                <td>100</td>
-                                                <td>5</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Otros</td>
-                                                <td>100</td>
-                                                <td>5</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="field" *ngIf="tipo_de_busqueda === 'grupo'">
+                                        <label for="" class="label">Seleccione el grupo:</label>
+                                        <div class="control">
+                                                <div class="select">
+                                                    <select [(ngModel)]="grupo_selected">
+                                                        <option value="{{grupo._id}}" *ngFor="let grupo of grupos.grupos">{{grupo.nombre}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div *ngIf="tipo_de_busqueda === 'lote'">
+                                        <div class="field">
+                                            <label for="" class="label">Nº Lote</label>
+                                            <div class="control">
+                                                <input type="text" class="input" [(ngModel)]="lote_selected">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="tipo_de_busqueda === 'fecha'">
+                                        <div class="columns">
+                                            <div class="column">
+                                                <div class="field">
+                                                    <label class="label">Desde:</label>
+                                                    <div class="control">
+                                                        <input type="date" name="" id="" class="input" [(ngModel)]="desde">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column">
+                                                <div class="field">
+                                                    <label class="label">Hasta:</label>
+                                                    <div class="control">
+                                                        <input type="date" name="" id="" class="input" [(ngModel)]="hasta">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="field" *ngIf="grupo_selected">
+                                        <label class="label">Selecciona Material:</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select [(ngModel)]="material_selected">
+                                                    <option value="">Todos los materiales</option>
+                                                    <option value="{{material._id}}" *ngFor="let material of materiales.filtrarGrupos(grupo_selected);index as i">{{material.nombre}} {{material.serie}} ({{material.fabricante.alias}})
+                                                    <ng-container *ngIf="material.grupo.trato">
+                                                        {{material.gramaje}}g {{material.calibre}}pt
+                                                    </ng-container>
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field button____">
+                                    <label for="" class="label"> </label>
+                                    <div class="control" *ngIf="tipo_de_busqueda === 'grupo' || tipo_de_busqueda === 'lote' || tipo_de_busqueda === 'fecha'">
+                                        <button class="button is-success" (click)="buscar_()">
+                                            <span class="icon"><i class="fas fa-search"></i></span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="column">
+                            <span class="resultado">
+                               <span *ngIf="Materiales.length < 1">{{Materiales.length}}</span> 
+                               <span *ngIf="Materiales.length > 0"><a href="#">{{Materiales.length}}</a></span> Resultado(s) obtenido(s)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-content">
+                    <span class="title">
+                        Estadísticas
+                    </span>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="chart-container">
+                                <canvas  id="Sustrato_chart" width="100" height="100">{{ sustrato_char }}</canvas>
+                            </div>
+                            <div class="carga" *ngIf="!sustrato_char">
+                                <div class="spinner left"></div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <span class="subtitle">
+                                Detalles
+                            </span>
+                            <table class="table is-fullwidth is-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Aprobados</th>
+                                        <th>Rechazados</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Sustrato</td>
+                                        <td>30</td>
+                                        <td>5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tinta</td>
+                                        <td>29</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cajas</td>
+                                        <td>14</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pads</td>
+                                        <td>13</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Otros</td>
+                                        <td>32</td>
+                                        <td>1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="column">
+                            <span class="subtitle">
+                                Últimos 5
+                            </span>
                             <table class="table is-fullwidth">
                                 <thead>
                                     <tr>
@@ -283,146 +423,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="card">
-                        <div class="card-content">
-                            <span class="title">
-                                Busqueda
-                            </span>
-                            <hr>
-                        <button class="button is-success" (click)="buscar()" *ngIf="!mostrarSeccionBuscar">
-                            <span class="icon"><i class="fas fa-search"></i></span>
-                            <span>Buscar</span>
-                        </button>
-                        <div id="seccionBuscar" class="buscar" [ngClass]="{ 'mostrar': mostrarSeccionBuscar }">
-                            <span>
-                                <div class="columns">
-                                    <div class="column">
-                                        <div class="columns">
-                                            <div class="column">
-                                                <div class="field">
-                                                    <label for="" class="label">Buscar por:</label>
-                                                    <div class="control">
-                                                        <div class="select">
-                                                            <select name="" id="" [(ngModel)]="tipo_de_busqueda" (change)="reset()">
-                                                                <option value="grupo">Grupo</option>
-                                                                <option value="lote">Lote</option>
-                                                                <option value="fecha">Fecha</option>
-                                                                <option value="fabricante">Fabricante</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column">
-                                        <div class="field" *ngIf="tipo_de_busqueda === 'grupo'">
-                                            <label for="" class="label">Seleccione el grupo:</label>
-                                            <div class="control">
-                                                    <div class="select">
-                                                        <select [(ngModel)]="grupo_selected">
-                                                            <option value="{{grupo._id}}" *ngFor="let grupo of grupos.grupos">{{grupo.nombre}}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <div *ngIf="tipo_de_busqueda === 'lote'">
-                                            <div class="field">
-                                                <label for="" class="label">Nº Lote</label>
-                                                <div class="control">
-                                                    <input type="text" class="input" [(ngModel)]="lote_selected">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div *ngIf="tipo_de_busqueda === 'fecha'">
-                                            <div class="columns">
-                                                <div class="column">
-                                                    <div class="field">
-                                                        <label class="label">Desde:</label>
-                                                        <div class="control">
-                                                            <input type="date" name="" id="" class="input" [(ngModel)]="desde">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="column">
-                                                    <div class="field">
-                                                        <label class="label">Hasta:</label>
-                                                        <div class="control">
-                                                            <input type="date" name="" id="" class="input" [(ngModel)]="hasta">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column">
-                                        <div class="field" *ngIf="grupo_selected">
-                                            <label class="label">Selecciona Material:</label>
-                                            <div class="control">
-                                                <div class="select">
-                                                    <select [(ngModel)]="material_selected">
-                                                        <option value="">Todos los materiales</option>
-                                                        <option value="{{material._id}}" *ngFor="let material of materiales.filtrarGrupos(grupo_selected);index as i">{{material.nombre}} {{material.serie}} ({{material.fabricante.alias}})
-                                                        <ng-container *ngIf="material.grupo.trato">
-                                                            {{material.gramaje}}g {{material.calibre}}pt
-                                                        </ng-container>
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </span>
-                            <br>
-                            <button class="button is-success" (click)="buscar_()">
-                                <span class="icon"></span>
-                                <span>Buscar</span>
-                            </button> 
-                            <button class="button is-danger" (click)="cancelar()">
-                                <span class="icon"></span>
-                                <span>Cancelar</span>
-                            </button>
-                        </div>
-        
-                        <br> <br>
-                        <div class="card_ cargando" *ngIf="loading">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            Cargando
-                        </div>
-                        <div class="card__ empty" *ngIf="!loading && Materiales.length === 0 && !sin_analizar">
-                            No se encontraron resultados. <i class="far fa-frown"></i>
-                        </div>
-                        <div class="wave-container" *ngIf="sin_analizar">
-                            <div class="wave">Esperando consulta...</div>
-                          </div>
-                        <br>
-        
-                        <br>
-                            <table class="table is-fullwidth is-striped" *ngIf="!loading && Materiales.length > 0 && !sin_analizar">
-                                <thead>
-                                    <tr>
-                                        <th>Material</th>
-                                        <th>Lote</th>
-                                        <th>Resultado</th>
-                                        <th>Descargar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let material of Materiales">
-                                        <td>{{material.material.material.nombre}}</td>
-                                        <td>{{material.material.lote}}</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
-
+            <br>
 
         </div>
     </div>

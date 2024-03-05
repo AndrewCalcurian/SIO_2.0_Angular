@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WebSocketService } from './web-socket.service';
 import { Mensaje } from '../compras/models/modelos-compra';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -116,4 +117,18 @@ export class AnalisisService {
     }
     this.socket.io.emit('CLIENTE:AnalisisOtros', Data)
   }
+
+  buscarAnalisisPorFechas(desde: any, hasta: any) {
+    console.log(desde, '-', hasta);
+    
+    const analisisFiltrados = this.AnalisisTintas.filter((analisis) => {
+        const fecha_moment = moment(analisis.createdAt).format('yyyy-MM-DD');
+        const fecha = Date.parse(fecha_moment);
+        console.log(fecha);
+        return fecha >= desde && fecha <= hasta;
+    });
+
+    return analisisFiltrados;
+}
+
 }
