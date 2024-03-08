@@ -19,6 +19,7 @@ export class AnalisisCajasComponent {
   @Input() analisis:any;
   @Input() Index:any;
   @Output() onCloseModal = new EventEmitter()
+  @Output() onCloseMensaje = new EventEmitter()
   
   interna = true;
   externa = false;
@@ -81,7 +82,7 @@ change2(n: string): void {
 guardar(){
   this.analisis.resultado.guardado.fecha = moment().format('DD/MM/YYYY')
     this.api.EnviarAnalisisCajas(this.analisis, this.Recepcion, this.Index);
-    this.onCloseModal.emit();
+    this.onCloseMensaje.emit();
 }
 
 desviacionEstandar(array, promedio) {
@@ -623,6 +624,8 @@ let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
     pdf.create().download(`test`)
   }
   GenerarCertificado()
+  this.api.EnviarAnalisisCajas(this.analisis, this.Recepcion, this.Index);
+  this.onCloseMensaje.emit();
   }
 
 }

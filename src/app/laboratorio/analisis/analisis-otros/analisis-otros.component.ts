@@ -19,6 +19,7 @@ export class AnalisisOtrosComponent {
  @Input() analisis:any;
  @Input() Index:any;
  @Output() onCloseModal = new EventEmitter();
+ @Output() onCloseMensaje = new EventEmitter();
 
 
  getThirdKeyValue(): { key: string, value: any } {
@@ -35,7 +36,7 @@ cerrar(){
 guardar(){
   this.analisis.resultado.guardado.fecha = moment().format('DD/MM/YYYY')
     this.api.EnviarAnalisisOtros(this.analisis, this.Recepcion, this.Index);
-    this.onCloseModal.emit();
+    this.onCloseMensaje.emit();
 }
 
 
@@ -320,6 +321,8 @@ AnalisisCompletado(){
   }
 
   GenerarCertificado()
+  this.api.EnviarAnalisisOtros(this.analisis, this.Recepcion, this.Index);
+    this.onCloseMensaje.emit();
   }
 
 

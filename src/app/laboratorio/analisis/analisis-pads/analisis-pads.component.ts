@@ -19,6 +19,7 @@ export class AnalisisPadsComponent {
   @Input() analisis:any;
   @Input() Index:any;
   @Output() onCloseModal = new EventEmitter();
+  @Output() onCloseMensaje = new EventEmitter();
 
   public muestras = 10;
 
@@ -197,10 +198,9 @@ calcularMedidas(tipo: string, medidas: number[], analisis: any) {
   }
 
   guardar(){
-    console.log(this.analisis)
     this.analisis.resultado.guardado.fecha = moment().format('DD/MM/YYYY')
       this.api.EnviarAnalisisPads(this.analisis, this.Recepcion, this.Index);
-      this.onCloseModal.emit();
+      this.onCloseMensaje.emit();
   }
 
   AnalisisCompletado(){
@@ -493,6 +493,8 @@ let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
   }
 
   GenerarCertificado()
+  this.api.EnviarAnalisisPads(this.analisis, this.Recepcion, this.Index);
+      this.onCloseMensaje.emit();
   }
 
 }

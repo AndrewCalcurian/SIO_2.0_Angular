@@ -200,37 +200,45 @@ export class AnalisisTintaComponent{
     let analisis = this.Analisis;
     let producto = this.Materiales;
     let recepcion = this.Recepcion;
+    let cualidad = []
     let index = this.Index
 
+    let tono = '';
+    let opacidad = '';
+    let viscosidad = '';
+    let secadoCapaFina = '';
+    let secadoCapaGruesa = '';
+    let brillo = '';
+
     if(analisis.cualitativo.tono){
-      analisis.cualitativo.tono = 'Cumple'
+      tono = 'Cumple'
     }else(
-      analisis.cualitativo.tono = 'No cumple'
+      tono = 'No cumple'
     )
-    if(analisis.cualitativo.tono){
-      analisis.cualitativo.opacidad = 'Cumple'
+    if(analisis.cualitativo.opacidad){
+     opacidad = 'Cumple'
     }else(
-      analisis.cualitativo.opacidad = 'No cumple'
+     opacidad = 'No cumple'
     )
-    if(analisis.cualitativo.tono){
-      analisis.cualitativo.viscosidad = 'Cumple'
+    if(analisis.cualitativo.viscosidad){
+      viscosidad = 'Cumple'
     }else(
-      analisis.cualitativo.viscosidad = 'No cumple'
+      viscosidad = 'No cumple'
     )
-    if(analisis.cualitativo.tono){
-      analisis.cualitativo.secadoCapaFina = 'Cumple'
+    if(analisis.cualitativo.secadoCapaFina){
+      secadoCapaFina = 'Cumple'
     }else(
-      analisis.cualitativo.secadoCapaFina = 'No cumple'
+      secadoCapaFina = 'No cumple'
     )
-    if(analisis.cualitativo.tono){
-      analisis.cualitativo.secadoCapaGruesa = 'Cumple'
+    if(analisis.cualitativo.secadoCapaGruesa){
+      secadoCapaGruesa = 'Cumple'
     }else(
-      analisis.cualitativo.secadoCapaGruesa = 'No cumple'
+      secadoCapaGruesa = 'No cumple'
     )
-    if(analisis.cualitativo.tono){
-      analisis.cualitativo.brillo = 'Cumple'
+    if(analisis.cualitativo.brillo){
+      brillo = 'Cumple'
     }else(
-      analisis.cualitativo.brillo = 'No cumple'
+      brillo = 'No cumple'
     )
 
     analisis.resultado.validado.fecha = moment().format('DD/MM/YYYY')
@@ -397,7 +405,7 @@ export class AnalisisTintaComponent{
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
-            new Cell(new Txt(analisis.cualitativo.tono).bold().end).colSpan(7).fontSize(8).alignment('center').end,
+            new Cell(new Txt(tono).bold().end).colSpan(7).fontSize(8).alignment('center').end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
@@ -412,7 +420,7 @@ export class AnalisisTintaComponent{
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
-            new Cell(new Txt(analisis.cualitativo.opacidad).bold().end).colSpan(7).fontSize(8).alignment('center').end,
+            new Cell(new Txt(opacidad).bold().end).colSpan(7).fontSize(8).alignment('center').end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
@@ -427,7 +435,7 @@ export class AnalisisTintaComponent{
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
-            new Cell(new Txt(analisis.cualitativo.viscosidad).bold().end).colSpan(7).fontSize(8).alignment('center').end,
+            new Cell(new Txt(viscosidad).bold().end).colSpan(7).fontSize(8).alignment('center').end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
@@ -442,7 +450,7 @@ export class AnalisisTintaComponent{
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
-            new Cell(new Txt(analisis.cualitativo.secadoCapaFina).bold().end).colSpan(7).fontSize(8).alignment('center').end,
+            new Cell(new Txt(secadoCapaFina).bold().end).colSpan(7).fontSize(8).alignment('center').end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
@@ -457,7 +465,7 @@ export class AnalisisTintaComponent{
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
-            new Cell(new Txt(analisis.cualitativo.secadoCapaGruesa).bold().end).colSpan(7).fontSize(8).alignment('center').end,
+            new Cell(new Txt(secadoCapaGruesa).bold().end).colSpan(7).fontSize(8).alignment('center').end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
@@ -472,7 +480,7 @@ export class AnalisisTintaComponent{
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
-            new Cell(new Txt(analisis.cualitativo.brillo).bold().end).colSpan(7).fontSize(8).alignment('center').end,
+            new Cell(new Txt(brillo).bold().end).colSpan(7).fontSize(8).alignment('center').end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
             new Cell(new Txt('').bold().end).end,
@@ -967,6 +975,8 @@ export class AnalisisTintaComponent{
     }
 
     GenerarCertificado()
+    this.api.EnvarAnalisis(this.Analisis, this.Recepcion, this.Index);
+    this.onCloseModal.emit()
   }
 
 }

@@ -39,7 +39,7 @@
   }
 
   .pdfColor{
-    color: #c8c8c8;
+    color: #9f9f9f;
   }
   
   @keyframes scale-animation {
@@ -52,4 +52,8 @@
     100% {
       transform: scale(1);
     }
+  }
+
+  .blue_{
+    cursor: pointer;
   }

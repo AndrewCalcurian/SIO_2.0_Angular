@@ -22,6 +22,9 @@ export class AnalisisComponent {
   public Recepcion_selected;
   public Material_selected;
   public index_material;
+  public Busqueda:boolean = false;
+  public parametro:any = [];
+
   mostrarSeccionBuscar: boolean = false;
   
 
@@ -441,18 +444,30 @@ export class AnalisisComponent {
   }
 
   public Materiales:any = []
+  public mesActual = '';
+  public yearActual;
 
   constructor(public recepciones:RecepcionService,
               public analisis:AnalisisService,
               public grupos:GruposService,
               public materiales:MaterialesService){
 
+
+                const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                const fechaActual = new Date();
+                this.mesActual = meses[fechaActual.getMonth()];
+                this.yearActual = new Date().getFullYear();
                 setTimeout(() => {
                   this.SustratoChar()
                 }, 5000);
   }
 
   public sustrato_char:any;
+
+  MostrarDesdeBusqueda(e){
+    this.Busqueda = false;
+    this.Analizar(e[0],e[1],e[2],e[3])
+  }
 
   SustratoChar(){
     if(this.sustrato_char){
@@ -464,24 +479,22 @@ export class AnalisisComponent {
         labels:['Sustrato','Tinta','Cajas','Pads','Otros'],
         datasets: [{
           label: 'Aprobados',
-          data: [30,29,14,13,32],
-          backgroundColor: [
-            'rgba(54, 162, 235, 0.9)',
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-          ],
+          data: [this.analisis.SustratoAprobado,this.analisis.TintasAprobadas,this.analisis.CajasAceptadas,this.analisis.PadsAprobados,this.analisis.OtrosAprobados],
+          backgroundColor: ['rgba(72, 199, 142, 0.5)',],
+          borderColor: ['rgb(72, 199, 142)',],
+          borderWidth:2,
+          borderSkipped: false,
+          borderRadius:10
           // hoverOffset: 4
         },
         {
           label: 'Rechazados',
-          data: [5,3,1,0,1],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.9)',
-          ],
-          borderColor: [
-            'rgb(54, 162, 235)',
-          ],
+          data: [this.analisis.SustratoRechazado,this.analisis.TintasRechazadas,this.analisis.CajasRechazadas,this.analisis.PadsRechazados,this.analisis.OtrosRechazados],
+          backgroundColor: ['rgba(255, 99, 132, 0.5)',],
+          borderColor: ['rgb(255, 99, 132)',],
+          borderWidth:2,
+          borderSkipped: false,
+          borderRadius:10
           // hoverOffset: 4
         }],
       }
@@ -564,9 +577,29 @@ export class AnalisisComponent {
     this.Tinta = false;
   }
 
+  cerrar_cajas(){
+    this.Caja = false;
+    this.pads = false;
+    this.otro = false;
+    setTimeout(() => {
+      this.SustratoChar();
+      Swal.fire({
+        title: this.analisis.mensaje.mensaje,
+        icon: this.analisis.mensaje.icon,
+        timer: 5000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        toast: true,
+        position: 'top-end'
+      });
+    }, 1000);
+  }
+
   Cerrar(){
     this.Tinta = false;
+    this.SustratoChar()
     setTimeout(() => {
+      this.SustratoChar();
       Swal.fire({
         title: this.analisis.mensaje.mensaje,
         icon: this.analisis.mensaje.icon,
@@ -628,6 +661,7 @@ export class AnalisisComponent {
 
 
         this.Materiales = this.recepciones.filtrarMaterialesporFecha(desde, hasta)
+        console.log(this.Materiales)
 
       }
     }
@@ -640,5 +674,10 @@ export class AnalisisComponent {
 
   cancelar() {
     this.mostrarSeccionBuscar = false;
+  }
+
+  MostrarBusquedad(){
+    this.Busqueda = true;
+    console.log(this.Materiales)
   }
 }

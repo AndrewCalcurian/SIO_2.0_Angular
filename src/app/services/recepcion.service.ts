@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WebSocketService } from './web-socket.service';
 import { Mensaje } from '../compras/models/modelos-compra';
 import * as moment from 'moment';
+import { AnalisisComponent } from '../laboratorio/analisis/analisis.component';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,33 @@ export class RecepcionService {
 
   public mensaje!: Mensaje;
   public recepciones: any;
+  public topFive = []
   constructor(public socket: WebSocketService) {
     this.BuscarRecepciones();
   }
 
 
 
+  buscarTop5(){
+    if(this.recepciones){
+      this.socket.io.on('SERVER:TopFive', (data) => {
+        console.log(data)
+        data.forEach((analisis, index)=>{
+          this.recepciones.forEach((recepcion, indieRecepcion)=>{
+              recepcion.materiales.forEach((materiales, indiceMateriales)=>{
+                if(materiales[0].analisis === data._id){
+                  console.log('done')
+                }
+              })
+          })
+        })
+      })
+    }
+  }
 
   BuscarRecepciones() {
+  
+
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
       this.mensaje = data
     });
@@ -26,8 +46,8 @@ export class RecepcionService {
 
     this.socket.io.on('SERVER:Recepciones', (Recepciones) => {
       this.recepciones = Recepciones
-      console.log(this.recepciones)
     })
+      this.buscarTop5();
   }
 
   GuardarRecepcion(data: any) {

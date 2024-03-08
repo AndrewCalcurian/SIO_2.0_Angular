@@ -15,7 +15,7 @@
             <div class="columns">
                 <table class="table fullwidth" *ngIf="Materiales">
                     <thead>
-                        <tr>
+                        <tr *ngIf="Materiales[0].material.especificacion2">
                             <th>Apariencia</th>
                             <td>{{Materiales[0].material.especificacion2.especificacion.apariencia}}</td>
                             <th><input type="checkbox" name="" id="" [checked]="analisis.apariencia" [(ngModel)]="analisis.apariencia"> CUMPLE</th>
@@ -37,7 +37,7 @@
                         <th align="center">Especificación</th>
                         <th align="center">Resultado</th>
                     </tr>
-                    <tr>
+                    <tr *ngIf="Materiales[0].material.especificacion2">
                         <td align="center">{{Materiales[0].material.especificacion2.especificacion.ph_m}}-{{Materiales[0].material.especificacion2.especificacion.ph_M}}</td>
                         <td align="center">
                             <input type="text" class="input" [(ngModel)]="analisis.ph">
@@ -50,7 +50,7 @@
             </span>
             <table class="table is-fullwidth" *ngIf="Materiales">
                 <thead>
-                    <tr>
+                    <tr *ngIf="Materiales[0].material.especificacion2">
                         <th rowspan="2" align="center">
                             <span class="centered">
                                 {{ getThirdKeyValue().key }}
@@ -59,7 +59,7 @@
                         <th align="center">Especificación</th>
                         <th align="center">Resultado</th>
                     </tr>
-                    <tr>
+                    <tr *ngIf="Materiales[0].material.especificacion2">
                         <td align="center">{{ getThirdKeyValue().value }}</td>
                         <td align="center">
                             <input type="text" class="input" [(ngModel)]="analisis.otro">
@@ -93,7 +93,7 @@
                         <tr>
                             <td>
                                 <div class="select">
-                                    <select name="" id="" >
+                                    <select name="" id="" [(ngModel)]="analisis.resultado.resultado">
                                         <option value="APROBADO">APROBADO</option>
                                         <option value="RECHAZADO">RECHAZADO</option>
                                     </select>

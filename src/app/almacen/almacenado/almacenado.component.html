@@ -25,7 +25,157 @@
                 </div>
             </div>
             <br>
-            <ng-container *ngFor="let fila of [].constructor(filas());index as fila_i">
+            <div class="columns">
+              <div class="column">
+                <div class="columns">
+                  <div class="column">
+                    <div class="card">
+                      <div class="card-content tarjetas primera">
+                        <div class="columns">
+                          <div class="column is-2">
+                            <span class="number_">
+                                <h1>3</h1>
+                            </span>
+                        </div>
+                        <div class="column">
+                            <span class="low">
+                                Materiales en 
+                            </span><br>
+                            <span class="lowl">
+                              stock crítico
+                            </span>
+                        </div>
+                        </div>
+                        <div class="position__">
+                          <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                          viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                            <defs>
+                              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                            </defs>
+                            <g class="moving-waves">
+                              <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.25)" />
+                              <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.20)" />
+                              <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0)" />
+                              <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.10)" />
+                              <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.05)" />
+                              <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0)" />
+                            </g>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="column">
+                    <div class="card">
+                      <div class="card-content tarjetas segunda">
+                        <div class="columns">
+                          <div class="column is-2">
+                            <span class="number_">
+                                <h1>5</h1>
+                            </span>
+                        </div>
+                        <div class="column">
+                            <span class="low">
+                                Materiales en 
+                            </span><br>
+                            <span class="lowl">
+                              cero stock
+                            </span>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="column">
+                    <div class="card">
+                      <div class="card-content tarjetas tercera">
+                        <div class="columns">
+                          <div class="column is-2">
+                            <span class="number_">
+                                <h1>2</h1>
+                            </span>
+                        </div>
+                        <div class="column">
+                            <span class="low">
+                                Materiales en 
+                            </span><br>
+                            <span class="lowl">
+                              observación
+                            </span>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-content dark">
+                    <div class="columns">
+                      <div class="column is-3">
+                        <span class=" mensaje">Busqueda:</span>
+                      </div>
+                      <div class="column">
+                        <input type="text" class="input Buscador is-small" placeholder="Ingrese palabra o número clave para la busqueda">
+                      </div>
+                    </div>
+                  </div> 
+                </div>
+                <br>
+                <div class="card">
+                  <div class="card-content">
+                    <div class="subtitles">
+                      Inventario
+                    </div>
+                    <br>
+                    <ng-container *ngFor="let fila of [].constructor(filas());index as fila_i">
+                      <div class="columns">
+                        <div class="column" *ngFor="let tarjeta of [].constructor(3);index as i">
+                          <ng-container *ngIf="grupos.grupos[(3*fila_i)+i]">
+                              <div class="card animate__animated animate__fadeInUp grupos" (click)="detallar(grupos.grupos[(3*fila_i)+i]._id)">
+                                  <div class="card-content">
+                                    <div class="columns">
+                                      <div class="column is-3 blue_">
+                                          <i class="{{grupos.grupos[(3*fila_i)+i].icono}}" *ngIf="grupos.grupos[(3*fila_i)+i].icono"></i>
+                                          <i class="fas fa-paperclip" *ngIf="!grupos.grupos[(3*fila_i)+i].icono"></i>
+                                      </div>
+                                      <div class="column">
+                                        <p>{{grupos.grupos[(3*fila_i)+i].nombre}} <i class="fas fa-glass-whiskey indicator animate__animated animate__flash" *ngIf="grupos.grupos[(3*fila_i)+i].parcial"></i></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="column is-4">
+                  <div class="card">
+                    <div class="card-content top">
+                      <ng-container *ngFor="let grupo of grupos.grupos; index as i">
+                        <span class="subtitles">
+                          {{ grupo.nombre }}
+                        </span>
+                        <div class="columns">
+                          <div class="column hidden">
+                            <span>
+                              Cartón Rev. Blanco 70x83 300g 75pt (Caracas, (Venezuela))
+                            </span>
+                          </div>
+                          <div class="column is-2">
+                            <strong>
+                              2
+                            </strong>
+                          </div>
+                        </div>
+                      </ng-container>                
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- <ng-container *ngFor="let fila of [].constructor(filas());index as fila_i">
                 <div class="columns">
                   <div class="column" *ngFor="let tarjeta of [].constructor(5);index as i">
                     <ng-container *ngIf="grupos.grupos[(5*fila_i)+i]">
@@ -45,7 +195,7 @@
                     </ng-container>
                   </div>
                 </div>
-              </ng-container>
+              </ng-container> -->
         </div>
     </div>
 </div>

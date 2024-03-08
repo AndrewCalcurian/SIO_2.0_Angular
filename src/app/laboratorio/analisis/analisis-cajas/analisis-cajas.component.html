@@ -46,7 +46,7 @@
                     <td>Mín</td>
                     <td>Máx</td>
                 </tr>
-                <tr>
+                <tr *ngIf="Materiales[0].material.especificacion2">
                     <th>Largo</th>
                     <td>{{Materiales[0].material.especificacion2.especificacion.li_largo_min}}</td>
                     <td>{{Materiales[0].material.especificacion2.especificacion.li_largo_nom}}</td>
@@ -56,7 +56,7 @@
                     <td>{{analisis.longitud_interna.largo.min}}</td>
                     <td>{{analisis.longitud_interna.largo.max}}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="Materiales[0].material.especificacion2">
                     <th>Ancho</th>
                     <td>{{Materiales[0].material.especificacion2.especificacion.li_ancho_min}}</td>
                     <td>{{Materiales[0].material.especificacion2.especificacion.li_ancho_nom}}</td>
@@ -66,7 +66,7 @@
                     <td>{{analisis.longitud_interna.ancho.min}}</td>
                     <td>{{analisis.longitud_interna.ancho.max}}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="Materiales[0].material.especificacion2">
                     <th>Alto</th>
                     <td>{{Materiales[0].material.especificacion2.especificacion.li_alto_min}}</td>
                     <td>{{Materiales[0].material.especificacion2.especificacion.li_alto_nom}}</td>
@@ -94,7 +94,7 @@
                     <td>Mín</td>
                     <td>Máx</td>
                 </tr>
-                <tr>
+                <tr *ngIf="Materiales[0].material.especificacion2">
                     <th>Largo</th>
                     <td>{{Materiales[0].material.especificacion2.especificacion.le_largo_min}}</td>
                     <td>{{Materiales[0].material.especificacion2.especificacion.le_largo_nom}}</td>
@@ -104,7 +104,7 @@
                     <td>{{analisis.longitud_externa.largo.min}}</td>
                     <td>{{analisis.longitud_externa.largo.max}}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="Materiales[0].material.especificacion2">
                     <th>Ancho</th>
                     <td>{{Materiales[0].material.especificacion2.especificacion.le_ancho_min}}</td>
                     <td>{{Materiales[0].material.especificacion2.especificacion.le_ancho_nom}}</td>
@@ -114,7 +114,7 @@
                     <td>{{analisis.longitud_externa.ancho.min}}</td>
                     <td>{{analisis.longitud_externa.ancho.max}}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="Materiales[0].material.especificacion2">
                     <th>Alto</th>
                     <td>{{Materiales[0].material.especificacion2.especificacion.le_alto_min}}</td>
                     <td>{{Materiales[0].material.especificacion2.especificacion.le_alto_nom}}</td>
@@ -142,7 +142,7 @@
                     <td>Mín</td>
                     <td>Máx</td>
                 </tr>
-                <tr>
+                <tr *ngIf="Materiales[0].material.especificacion2">
                     <td>Espesor</td>
                     <td>{{Materiales[0].material.especificacion2.especificacion.espesor_min}}</td>
                     <td>{{Materiales[0].material.especificacion2.especificacion.espesor_nom}}</td>

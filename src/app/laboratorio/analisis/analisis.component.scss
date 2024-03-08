@@ -308,8 +308,7 @@ width: 100%;
     color: white;
     height: 100px;
     overflow: hidden;
-    min-width: 447px;
-    max-width: 447px;
+    width: 100%;
     
   }
 
@@ -325,9 +324,15 @@ width: 100%;
     margin-bottom: -30px;
 }
 
+
+.position__{
+    position: absolute;
+    margin-bottom: 20px;
+}
+
   .waves {
     position: relative;
-    width: 447px;
+    width: 500px;
     height: 50px;
     margin-bottom: -65px;
     margin-left: -20px;
@@ -428,7 +433,9 @@ width: 100%;
   }
 
   .resultado{
-    position: rela;
+    position: relative;
+    top: 15%;
+    left: 15%;
   }
 
   .button____{
@@ -444,4 +451,64 @@ width: 100%;
   a{
     color: #ffc3c3;
     text-decoration: underline dotted;
+  }
+
+  .subtitles{
+    display: block;
+    width: 100%;
+    background-color: #3c3f41;
+    padding: 3px;
+    border-radius: 5px;
+    color: white;
+    font-family: 'Gilroy';
+    font-size: large;
+    padding-left: 15px;
+  }
+
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    cursor:help;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(255, 245, 152);
+    color: #333;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: x-small;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .message {
+    text-align: center;
+  }
+  
+  .message-heading {
+    font-size: 15px;
+    color: #000000; /* Color de texto suave */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 20px;
+    background-color: #8bffa6; /* Color de fondo pastel */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+
+  .tag{
+    width: 80px;
   }

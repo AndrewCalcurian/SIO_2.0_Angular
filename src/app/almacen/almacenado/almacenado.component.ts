@@ -20,7 +20,7 @@ export class AlmacenadoComponent {
 
 
     filas(){
-      return Math.ceil(this.grupos.grupos.length / 5)
+      return Math.ceil(this.grupos.grupos.length / 3)
     }
 
     detallar = async(id:any)=>{

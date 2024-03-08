@@ -69,39 +69,43 @@
                 </div>
               </div>
             </ng-container>
-          <hr>
-          <div class="lista">
-            <table class="table is-fullwidth is-striped">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Fabricante</th>
-                  <th>Serie</th>
-                  <th>Origen</th>
-                  <th>Detalles</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let item of materialesEspecificados; let i = index">
-                  <tr>
-                    <td>{{item.nombre}}
-                      <ng-container *ngIf="item.gramaje">
-                        {{item.gramaje}}g Calibre {{item.calibre}}
-                      </ng-container>
-                    </td>
-                    <td>{{item.fabricante.alias}}</td>
-                    <td>{{item.serie}}</td>
-                    <td>{{item.origen}}</td>
-                    <td>
-                      <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="Detallar(item)"></i> 
-                      <i class="fas fa-edit green" style="cursor: pointer;" (click)="Editar(item)"></i>
-                    </td>
-                    <td></td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
+          <br>
+          <div class="card">
+            <div class="card-content">
+              <div class="lista">
+                <table class="table is-fullwidth is-striped">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Fabricante</th>
+                      <th>Serie</th>
+                      <th>Origen</th>
+                      <th>Detalles</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let item of materialesEspecificados; let i = index">
+                      <tr>
+                        <td>{{item.nombre}}
+                          <ng-container *ngIf="item.gramaje">
+                            {{item.gramaje}}g Calibre {{item.calibre}}
+                          </ng-container>
+                        </td>
+                        <td>{{item.fabricante.alias}}</td>
+                        <td>{{item.serie}}</td>
+                        <td>{{item.origen}}</td>
+                        <td>
+                          <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="Detallar(item)"></i> 
+                          <i class="fas fa-edit green" style="cursor: pointer;" (click)="Editar(item)"></i>
+                        </td>
+                        <td></td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
     </div>

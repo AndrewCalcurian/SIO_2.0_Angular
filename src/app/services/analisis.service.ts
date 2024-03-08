@@ -10,17 +10,81 @@ export class AnalisisService {
 
   public mensaje!: Mensaje;
   public AnalisisTintas;
+  public TintasAprobadas;
+  public TintasRechazadas;
+  public TintaAnalizadaEnElAno;
+  public TintaAnalizadaEnElMes;
   public AnalisisSustrato;
+  public SustratoAprobado;
+  public SustratoRechazado;
+  public SustratoAnalizadaEnElAno;
+  public SustratoAnalizadaEnElMes;
   public AnalisisCajas;
+  public CajasAceptadas;
+  public CajasRechazadas;
+  public CajaAnalizadaEnElAno;
+  public CajaAnalizadaEnElMes;
   public AnalisisPads;
+  public PadsAprobados;
+  public PadsRechazados;
+  public PadsAnalizadaEnElAno;
+  public PadsAnalizadaEnElMes;
   public AnalisisOtros;
+  public OtrosAprobados;
+  public OtrosRechazados;
+  public OtrosAnalizadaEnElAno;
+  public OtrosAnalizadaEnElMes;
+  public AnalisisEnElAno = 0;
+  public AnalisisEnElMes = 0;
   constructor(private socket:WebSocketService) {
     this.BuscarAnalisisTinta()
    }
 
 
+   BuscarAnalisis(targetId){
+    // Buscar en el primer arreglo
+const result1 = this.AnalisisTintas.find(item => item._id === targetId);
+
+// Buscar en el segundo arreglo
+const result2 = this.AnalisisSustrato.find(item => item._id === targetId);
+
+// Buscar en el tercer arreglo
+const result3 = this.AnalisisCajas.find(item => item._id === targetId);
+
+// Buscar en el cuarto arreglo
+const result4 = this.AnalisisPads.find(item => item._id === targetId);
+
+// Buscar en el quinto arreglo
+const result5 = this.AnalisisOtros.find(item => item._id === targetId);
+
+// Verificar los resultados
+if (result1) {
+  return result1;
+}
+if (result2) {
+  return result2;
+}
+if (result3) {
+  return result3;
+}
+if (result4) {
+  return result4;
+}
+if (result5) {
+  return result5;
+}
+
+   }
+
+   calcularAnualYMensual(){
+    this.AnalisisEnElAno = (this.TintaAnalizadaEnElAno + this.SustratoAnalizadaEnElAno) + (this.CajaAnalizadaEnElAno + this.PadsAnalizadaEnElAno) + this.OtrosAnalizadaEnElAno;
+    this.AnalisisEnElMes = (this.TintaAnalizadaEnElMes + this.SustratoAnalizadaEnElMes) + (this.CajaAnalizadaEnElMes + this.PadsAnalizadaEnElMes) + this.OtrosAnalizadaEnElMes;
+   }
 
   BuscarAnalisisTinta(){
+    this.AnalisisEnElAno = 0;
+    this.AnalisisEnElMes = 0;
+
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
       this.mensaje = data
     });
@@ -29,26 +93,143 @@ export class AnalisisService {
 
     this.socket.io.on('SERVER:AnalisisTinta', async(AnalisisTinta)=>{
       this.AnalisisTintas = AnalisisTinta;
+
+      // Obtener el año actual
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+// Filtrar los AnalisisTintas con resultado APROBADOS y RECHAZADOS en el año actual
+const aprobados = this.AnalisisTintas.filter(analisis => 
+    analisis.resultado.resultado === 'APROBADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const rechazados = this.AnalisisTintas.filter(analisis => 
+    analisis.resultado.resultado === 'RECHAZADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const analisisMes = this.AnalisisTintas.filter(analisis => new Date(analisis.createdAt).getMonth() === month);
+
+// Contar la cantidad de AnalisisTintas con resultado APROBADOS y RECHAZADOS
+this.TintasAprobadas = aprobados.length;
+this.TintasRechazadas = rechazados.length;
+this.TintaAnalizadaEnElAno = aprobados.length + rechazados.length
+this.TintaAnalizadaEnElMes =  analisisMes.length
+this.calcularAnualYMensual()
     })
 
     this.socket.io.emit('CLIENTE:BuscarAnalisisSustrato');
     this.socket.io.on('SERVER:AnalisisSustrato', async(AnalisisSustrato)=>{
       this.AnalisisSustrato = AnalisisSustrato;
+
+            // Obtener el año actual
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+// Filtrar los AnalisisTintas con resultado APROBADOS y RECHAZADOS en el año actual
+const aprobados = this.AnalisisSustrato.filter(analisis => 
+    analisis.resultado.resultado === 'APROBADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const rechazados = this.AnalisisSustrato.filter(analisis => 
+    analisis.resultado.resultado === 'RECHAZADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const analisisMes = this.AnalisisSustrato.filter(analisis => new Date(analisis.createdAt).getMonth() === month);
+
+// Contar la cantidad de AnalisisTintas con resultado APROBADOS y RECHAZADOS
+this.SustratoAprobado = aprobados.length;
+this.SustratoRechazado = rechazados.length;
+this.SustratoAnalizadaEnElAno = aprobados.length + rechazados.length
+this.SustratoAnalizadaEnElMes = analisisMes.length
+this.calcularAnualYMensual()
     })
 
     this.socket.io.emit('CLIENTE:BuscarAnalisisCajas');
     this.socket.io.on('SERVER:AnalisisCajas', async(AnalisisCajas)=>{
       this.AnalisisCajas = AnalisisCajas;
+
+                  // Obtener el año actual
+                  const currentDate = new Date();
+                  const year = currentDate.getFullYear();
+                  const month = currentDate.getMonth();
+
+// Filtrar los AnalisisTintas con resultado APROBADOS y RECHAZADOS en el año actual
+const aprobados = this.AnalisisCajas.filter(analisis => 
+    analisis.resultado.resultado === 'APROBADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const rechazados = this.AnalisisCajas.filter(analisis => 
+    analisis.resultado.resultado === 'RECHAZADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const analisisMes = this.AnalisisCajas.filter(analisis => new Date(analisis.createdAt).getMonth() === month);
+
+
+// Contar la cantidad de AnalisisTintas con resultado APROBADOS y RECHAZADOS
+this.CajasAceptadas = aprobados.length;
+this.CajasRechazadas = rechazados.length;
+this.CajaAnalizadaEnElAno = aprobados.length + rechazados.length
+this.CajaAnalizadaEnElMes = analisisMes.length
+this.calcularAnualYMensual()
     })
 
     this.socket.io.emit('CLIENTE:BuscarAnalisisPads');
     this.socket.io.on('SERVER:AnalisisPads', async(AnalisisPads)=>{
       this.AnalisisPads = AnalisisPads;
+      
+                      // Obtener el año actual
+                      const currentDate = new Date();
+                      const year = currentDate.getFullYear();
+                      const month = currentDate.getMonth();
+
+// Filtrar los AnalisisTintas con resultado APROBADOS y RECHAZADOS en el año actual
+const aprobados = this.AnalisisPads.filter(analisis => 
+    analisis.resultado.resultado === 'APROBADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const rechazados = this.AnalisisPads.filter(analisis => 
+    analisis.resultado.resultado === 'RECHAZADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const analisisMes = this.AnalisisPads.filter(analisis => new Date(analisis.createdAt).getMonth() === month);
+
+
+// Contar la cantidad de AnalisisTintas con resultado APROBADOS y RECHAZADOS
+this.PadsAprobados = aprobados.length;
+this.PadsRechazados = rechazados.length;
+this.PadsAnalizadaEnElAno = aprobados.length + rechazados.length
+this.PadsAnalizadaEnElMes = analisisMes.length
+this.calcularAnualYMensual()
     })
 
     this.socket.io.emit('CLIENTE:BuscarAnalisisOtros');
     this.socket.io.on('SERVER:AnalisisOtros', async(AnalisisOtros)=>{
       this.AnalisisOtros = AnalisisOtros;
+                            // Obtener el año actual
+                            const currentDate = new Date();
+                            const year = currentDate.getFullYear();
+                            const month = currentDate.getMonth();
+
+// Filtrar los AnalisisTintas con resultado APROBADOS y RECHAZADOS en el año actual
+const aprobados = this.AnalisisOtros.filter(analisis => 
+    analisis.resultado.resultado === 'APROBADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const rechazados = this.AnalisisOtros.filter(analisis => 
+    analisis.resultado.resultado === 'RECHAZADO' && new Date(analisis.createdAt).getFullYear() === year
+);
+
+const analisisMes = this.AnalisisPads.filter(analisis => new Date(analisis.createdAt).getMonth() === month);
+
+
+// Contar la cantidad de AnalisisTintas con resultado APROBADOS y RECHAZADOS
+this.OtrosAprobados = aprobados.length;
+this.OtrosRechazados = rechazados.length;
+this.OtrosAnalizadaEnElAno = aprobados.length + rechazados.length
+this.OtrosAnalizadaEnElMes = analisisMes.length
+this.calcularAnualYMensual()
     })
   
   }
@@ -130,5 +311,7 @@ export class AnalisisService {
 
     return analisisFiltrados;
 }
+
+
 
 }
