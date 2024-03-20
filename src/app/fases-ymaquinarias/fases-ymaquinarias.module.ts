@@ -15,6 +15,9 @@ import { InfoMaquinasComponent } from './maquinas/info-maquinas/info-maquinas.co
 import { ProductosComponent } from './productos/productos.component';
 import { NuevoProductoComponent } from './productos/nuevo-producto/nuevo-producto.component';
 import { ClientesComponent } from './productos/clientes/clientes.component';
+import { NewProductoComponent } from './productos/new-producto/new-producto.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 
@@ -30,7 +33,8 @@ import { ClientesComponent } from './productos/clientes/clientes.component';
     InfoMaquinasComponent,
     ProductosComponent,
     NuevoProductoComponent,
-    ClientesComponent
+    ClientesComponent,
+    NewProductoComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +42,9 @@ import { ClientesComponent } from './productos/clientes/clientes.component';
     NavbarModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule,
+    ServiceWorkerModule
   ]
 })
 export class FasesYmaquinariasModule { }

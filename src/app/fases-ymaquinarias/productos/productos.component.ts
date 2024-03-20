@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { SwPush } from '@angular/service-worker';
 import { Producto } from 'src/app/compras/models/modelos-compra';
 import { ClientesService } from 'src/app/services/clientes.service';
+// import { SwPush } from '@angular/service-worker';
 
 @Component({
   selector: 'app-productos',
@@ -9,7 +11,10 @@ import { ClientesService } from 'src/app/services/clientes.service';
 })
 export class ProductosComponent {
 
-  constructor(public clientes:ClientesService){}
+  readonly VAPID_PUBLIC_KEY = "YOUR_SERVER_PUBLIC_KEY";
+
+  constructor(public clientes:ClientesService) {
+  }
 
   public nuevo;
   public cliente;
@@ -34,16 +39,8 @@ export class ProductosComponent {
     tamano_cerrado:[],
     diseno:'',
     sustrato:[],
-    tintas:[
-      {
-        tinta:'',
-        cantidad:0
-      }
-    ],
-    barnices:[{
-      barniz:'',
-      cantidad:0
-    }],
+    tintas:[],
+    barnices:[],
     archivo_diseno:'',
     archivo_montaje:[],
     tipo_plancha:'',
@@ -51,7 +48,7 @@ export class ProductosComponent {
     maquinas:[],
     tamano_sustrato_imprimir:[],
     area_efectiva:[],
-    fuente:'',
+    fuente:[],
     troqueladora:[],
     guillotina:[],
     pegadora:[],

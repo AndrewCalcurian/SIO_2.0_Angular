@@ -3,6 +3,13 @@
 [producto]="producto"
 (onCloseModal)="cerrar()">
 </app-nuevo-producto>
+
+<app-new-producto 
+[nuevo]="nuevo"
+[producto]="producto"
+(onCloseModal)="cerrar()">
+</app-new-producto>
+
 <app-clientes
 [data]="data"
 [cliente]="cliente"
@@ -72,3 +79,7 @@
       </div>
     </div>
 </div>
+
+
+
+<button>Enviar notificación</button>

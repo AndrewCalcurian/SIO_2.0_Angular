@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LaboratorioComponent } from './laboratorio.component';
 import { NavbarModule } from '../shared/navbar/navbar.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,17 +11,18 @@ import { DetallesEspecificacionComponent } from './especificaciones/detalles-esp
 import { AnalisisComponent } from './analisis/analisis.component';
 import { AnalisisSustratoComponent } from './analisis/analisis-sustrato/analisis-sustrato.component';
 import { LaboratorioIndexComponent } from './laboratorio-index/laboratorio-index.component';
-import { AnalisisCajasComponent } from './analisis/analisis-cajas/analisis-cajas.component';
-import { AnalisisPadsComponent } from './analisis/analisis-pads/analisis-pads.component';
-import { AnalisisOtrosComponent } from './analisis/analisis-otros/analisis-otros.component';
 import { BusquedaComponent } from './analisis/busqueda/busqueda.component';
+import { AnalisisPadsComponent } from './analisis-pads/analisis-pads.component';
+import { AnalisisOtrosComponent } from './analisis-otros/analisis-otros.component';
+import { AnalisisCajasComponent } from './analisis/analisis-cajas/analisis-cajas.component';
+import { LaboratorioComponent } from './laboratorio.component';
 
 
 
 @NgModule({
   declarations: [
-    LaboratorioComponent,
     LaboratorioIndexComponent,
+    LaboratorioComponent,
     AnalisisTintaComponent,
     EspecificacionesComponent,
     NuevaEspecificacionComponent,
@@ -31,8 +31,8 @@ import { BusquedaComponent } from './analisis/busqueda/busqueda.component';
     AnalisisSustratoComponent,
     AnalisisCajasComponent,
     AnalisisPadsComponent,
+    BusquedaComponent,
     AnalisisOtrosComponent,
-    BusquedaComponent
   ],
   imports: [
     CommonModule,

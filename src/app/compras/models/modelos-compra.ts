@@ -300,7 +300,7 @@ export class Mensaje {
         public maquinas: string[],
         public tamano_sustrato_imprimir: number[],
         public area_efectiva: number[],
-        public fuente: string,
+        public fuente: string[],
         public troqueladora: string[],
         public guillotina: string[],
         public pegadora: string[],

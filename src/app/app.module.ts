@@ -14,6 +14,7 @@ import { LaboratorioModule } from './laboratorio/laboratorio.module';
 import { FasesYMaquinariasComponent } from './fases-ymaquinarias/fases-ymaquinarias.component';
 import { MainComponent } from './fases-ymaquinarias/main/main.component';
 import { FasesYmaquinariasModule } from './fases-ymaquinarias/fases-ymaquinarias.module';
+import { SolicitudMaterialComponent } from './shared/navbar/solicitud-material/solicitud-material.component';
 @NgModule({
   declarations: [
     AppComponent,

@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
   }
 
   Menu:boolean = false;
+  Solicitud_Material:boolean = false;
 
   showMenu(){
     this.Menu = true;

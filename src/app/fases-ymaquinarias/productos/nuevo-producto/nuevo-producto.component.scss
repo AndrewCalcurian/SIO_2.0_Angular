@@ -164,3 +164,19 @@
     display: block;
     margin-top: 23px;
 }
+
+
+
+/* app.component.css */
+.modal-content {
+    width: 90vw;
+    height: 90vh;
+    overflow: auto;
+  }
+  
+  .card {
+    margin: 1em;
+    text-align: center;
+    transform: rotate(45deg);
+  }
+  

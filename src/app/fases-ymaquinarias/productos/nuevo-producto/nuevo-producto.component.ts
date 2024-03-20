@@ -20,6 +20,20 @@ export class NuevoProductoComponent implements OnInit{
   @Input() producto!:Producto
   @Output() onCloseModal = new EventEmitter()
 
+
+
+  cards = Array(8).fill(0).map((x,i)=>i+1); // Genera 8 tarjetas numeradas del 1 al 8
+  isModalActive = false;
+
+  openModal() {
+    this.isModalActive = true;
+  }
+
+  closeModal() {
+    this.isModalActive = false;
+  }
+
+
   sustrato_selected = '';
   maquina_selected = '';
   troqueladora_selected = '';
