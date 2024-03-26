@@ -30,6 +30,11 @@ export class MaquinasService {
     this.socket.io.emit('CLIENTE:deleteMaquina', id)
   }
 
+  BuscarPinzas(maquina){
+    let maquinas_filtradas = this.maquinas.find(Impresora => Impresora.nombre === maquina)
+    return maquinas_filtradas.pinzas;
+  }
+
   onMaquinas(){
     this.socket.io.emit('CLIENTE:buscarMaquina')
   

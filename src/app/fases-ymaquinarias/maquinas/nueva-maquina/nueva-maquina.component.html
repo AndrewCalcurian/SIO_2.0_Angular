@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="column is-2">
-                            <label for="" class="label">.</label>
+                            <label for="" class="label"> </label>
                             <button class="button is-info" (click)="addFase()">
                                 <i class="fas fa-plus"></i>
                             </button>
@@ -73,19 +73,25 @@
                 </div>
             </div>
             <div class="columns">
-                <div class="column is-2">
-                    <div class="field">
-                        <label class="label">Und/horas</label>
+                <div class="column is-4">
+                    <div class="field is-grouped">
                         <div class="control">
-                            <input type="text" class="input" [(ngModel)]="data.trabajo">
+                            <label class="label tooltip">Tamaño de pinza (mm)</label> <br>
+                            <input type="text" class="input shorter" [(ngModel)]="PinzasSeleccionadas" width="20px">
                         </div>
-                    </div>
-                </div>
-                <div class="column is-2">
-                    <div class="field">
-                        <label for="" class="label">Colores</label>
                         <div class="control">
-                            <input type="text" class="input" [(ngModel)]="data.colores">
+                            <label for="" class="label"> </label>
+                            <button class="button is-info" (click)="addPinza()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="control">
+                            <label class="label">Und/horas</label>
+                            <input type="text" class="input shortest" [(ngModel)]="data.trabajo">
+                        </div>
+                        <div class="control">
+                            <label for="" class="label tooltip">Colores</label> <br>
+                            <input type="text" class="input shortest" [(ngModel)]="data.colores">
                         </div>
                     </div>
                 </div>
@@ -101,6 +107,15 @@
                         <tr *ngFor="let faseSelected of fasesQueTrabaja">
                             <td>{{faseSelected.nombre}}</td>
                             <td><i class="far fa-trash-alt red" (click)="deleteSelected(faseSelected)"></i></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column">
+                    <i class="fas fa-arrow-to-top"></i> <strong>Tamaño de pinza(s):</strong>
+                    <table class="table">
+                        <tr *ngFor="let faseSelected of data.pinzas;index as i">
+                            <td>{{faseSelected}} mm</td>
+                            <td><i class="far fa-trash-alt red" (click)="deletePinza(i)"></i></td>
                         </tr>
                     </table>
                 </div>

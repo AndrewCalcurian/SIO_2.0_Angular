@@ -52,12 +52,7 @@ export class ProductosComponent {
     troqueladora:[],
     guillotina:[],
     pegadora:[],
-    pegamento:[
-      {
-        pega:'',
-        cantidad:0
-      }
-    ],
+    pegamento:[],
     embalaje:'',
     caja:[],
     unidades_por_caja:0,

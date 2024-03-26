@@ -23,6 +23,19 @@ export class NuevaMaquinaComponent {
   @Output() onFinalizarTarea = new EventEmitter();
 
   public faseSeleccionadaActual:any = '';
+  public PinzasSeleccionadas:any = '';
+
+
+  addPinza(){
+    let pinza = this.PinzasSeleccionadas;
+
+    let existe = this.data.pinzas.find(x => x === pinza);
+
+    if(!existe){
+      this.data.pinzas.push(pinza)
+      this.PinzasSeleccionadas = ''
+    }
+  }
 
 
   cerrar(){
@@ -67,6 +80,10 @@ export class NuevaMaquinaComponent {
   editarMaquina(){
     this.api.EditarMaquina(this.data);
     this.onFinalizarTarea.emit()
+  }
+
+  deletePinza(n){
+    this.data.pinzas.splice(n, 1)
   }
 
 }

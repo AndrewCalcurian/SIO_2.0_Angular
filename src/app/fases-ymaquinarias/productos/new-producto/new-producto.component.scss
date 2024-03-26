@@ -88,13 +88,21 @@
 
 .nombre_del_producto{
     position: absolute;
-    bottom: -2px;
+    bottom: 9px;
+    left: 21.5px;
     color: rgb(252, 252, 199);
+}
+.fuente{
+    position: absolute;
+    top:10px;
 }
 
 .red_cross{
+    position: absolute;
     background-color: #f03a5f;
     font-size: 50px;
+    margin: 15px;
+    right: 15px;
 }
 
 
@@ -130,4 +138,152 @@
     box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
 -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
 -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+  }
+
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom:1px dotted #9999CC;
+    cursor: help;
+}
+
+.tooltip::after {
+    content: 'Por cada 1.000 hojas';
+    position: absolute;
+    background-color: #555;
+    color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip_pinza {
+    position: relative;
+    display: inline-block;
+    border-bottom:1px dotted #9999CC;
+    cursor: help;
+}
+
+.tooltip_pinza::after {
+    content: 'Pinza';
+    position: absolute;
+    background-color: #555;
+    color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip_pinza:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip_contrapinza {
+    position: relative;
+    display: inline-block;
+    border-bottom:1px dotted #9999CC;
+    cursor: help;
+}
+
+.tooltip_contrapinza::after {
+    content: 'Contra pinza';
+    position: absolute;
+    background-color: #555;
+    color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip_contrapinza:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip_contraescuadra {
+    position: relative;
+    display: inline-block;
+    border-bottom:1px dotted #9999CC;
+    cursor: help;
+}
+
+.tooltip_contraescuadra::after {
+    content: 'Contra escuadra';
+    position: absolute;
+    background-color: #555;
+    color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip_contraescuadra:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip_escuadra {
+    position: relative;
+    display: inline-block;
+    border-bottom:1px dotted #9999CC;
+    cursor: help;
+}
+
+.tooltip_escuadra::after {
+    content: 'Escuadra';
+    position: absolute;
+    background-color: #555;
+    color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip_escuadra:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
+.motivo{
+    font-size: 13px;
+    display: block;
+    background-color: rgb(249, 249, 162);
+    padding: 5px;
   }

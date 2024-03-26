@@ -10,6 +10,7 @@
                 {{producto.producto}}
             </p>
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
+            <label for="" class="label">.</label>
         </div>
         <div class="card-content">
           <p class="subtitles">{{card.title}}</p>
@@ -24,6 +25,18 @@
                             </select>
                         </div>
                     </div>
+                    <div class="control">
+                        <label class="label">Categoría</label>
+                        <div class="select">
+                            <select>
+                                <option value="{{categoria._id}}" *ngFor="let categoria of categoria.categorias;index as i">
+                                    {{categoria.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Producto</label>
                             <input type="text" class="input" placeholder="producto" [(ngModel)]="producto.producto">
@@ -78,7 +91,7 @@
                     <div class="control">
                         <div class="file is-success">
                             <label class="file-label">
-                              <input class="file-input" type="file" name="resume">
+                              <input class="file-input" type="file" name="resume" (change)="subirImagen($event, 0)">
                               <span class="file-cta">
                                 <span class="file-icon">
                                   <i class="fas fa-upload"></i>
@@ -91,7 +104,7 @@
                           </div>
                     </div>
                     <div class="control">
-                        <i class="fas fa-info-circle blue_"></i>
+                        <i class="fas fa-info-circle blue_" (click)="openImage(Producto_imag, 'Imagen del producto')" style="cursor: pointer;"></i>
                     </div>
                 </div>
             </span>
@@ -102,7 +115,7 @@
                         <div class="select">
                             <select id="" [(ngModel)]="sustrato_selected">
                                 <ng-container *ngFor="let sustrato of materiales.materiales">
-                                    <option value="{{sustrato._id}}" *ngIf="sustrato.grupo.trato">{{sustrato.nombre}}({{sustrato.fabricante.alias}}) {{sustrato.gramaje}}g cal:{{sustrato.calibre}}</option>
+                                    <option value="{{sustrato._id}}&{{sustrato.nombre}}({{sustrato.fabricante.alias}}) {{sustrato.gramaje}}g cal:{{sustrato.calibre}}" *ngIf="sustrato.grupo.trato">{{sustrato.nombre}}({{sustrato.fabricante.alias}}) {{sustrato.gramaje}}g cal:{{sustrato.calibre}}</option>
                                 </ng-container>
                             </select>
                         </div> 
@@ -115,7 +128,7 @@
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_sustrato')">
                             <span class="notification" *ngIf="producto.sustrato.length > 0">{{producto.sustrato.length}}</span>
                         </i>
                     </div>
@@ -127,13 +140,13 @@
                             <select name="" id="" (click)="notificar()" [(ngModel)]="tinta_selected.tinta">
                                 <option value="#">Seleccione tinta</option>
                                 <ng-container *ngFor="let tinta of materiales.materiales">
-                                    <option value="{{tinta._id}}" *ngIf="tinta.grupo.nombre === 'Tintas'">{{tinta.nombre}}({{tinta.fabricante.alias}})</option>
+                                    <option value="{{tinta._id}}&{{tinta.nombre}}({{tinta.fabricante.alias}})" *ngIf="tinta.grupo.nombre === 'Tintas'">{{tinta.nombre}}({{tinta.fabricante.alias}})</option>
                                 </ng-container>
                             </select>
                         </div>
                     </div>
                     <div class="control is-25_">
-                        <label for="" class="label">Cantidad</label>
+                        <label for="" class="label tooltip">Cantidad</label>
                         <input type="text" class="input" [(ngModel)]="tinta_selected.cantidad">
                     </div>
                     <div class="control" *ngIf="tinta_selected.tinta && tinta_selected.cantidad">
@@ -144,7 +157,7 @@
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_tintas')">
                             <span class="notification" *ngIf="producto.tintas.length > 0">{{producto.tintas.length}}</span>
                         </i>
                     </div>
@@ -155,13 +168,13 @@
                         <div class="select">
                             <select name="" id="" [(ngModel)]="this.barniz_selected.barniz">
                                 <ng-container *ngFor="let barniz of materiales.materiales">
-                                    <option value="{{barniz._id}}" *ngIf="barniz.grupo.nombre === 'Barniz S/Impresión' || barniz.grupo.nombre === 'Barniz Acuoso'">{{barniz.nombre}}({{barniz.fabricante.alias}})</option>
+                                    <option value="{{barniz._id}}&{{barniz.nombre}}({{barniz.fabricante.alias}})" *ngIf="barniz.grupo.nombre === 'Barniz S/Impresión' || barniz.grupo.nombre === 'Barniz Acuoso'">{{barniz.nombre}}({{barniz.fabricante.alias}})</option>
                                 </ng-container>
                             </select>
                         </div>
                     </div>
                     <div class="control is-25_">
-                        <label for="" class="label">Cantidad</label>
+                        <label for="" class="label tooltip">Cantidad</label>
                         <input type="text" class="input" [(ngModel)]="this.barniz_selected.cantidad">
                     </div>
                     <div class="control" *ngIf="barniz_selected.barniz && barniz_selected.cantidad">
@@ -172,7 +185,7 @@
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_barniz')">
                             <span class="notification" *ngIf="producto.barnices.length > 0">{{producto.barnices.length}}</span>
                         </i>
                     </div>
@@ -244,20 +257,20 @@
                     <div class="column">
                         <div class="field is-grouped">
                             <div class="control is-25_">
-                                <label for="" class="label">Inf. ↓</label>
-                                <input type="number" class="input" [(ngModel)]="margenBottom" (change)="crearModelo()">
+                                <label for="" class="label tooltip_pinza">Inf. ↓</label>
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="margenBottom" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
-                                <label for="" class="label">Sup. ↑</label>
-                                <input type="number" class="input" [(ngModel)]="margenTop" (change)="crearModelo()">
+                                <label for="" class="label tooltip_contrapinza">Sup. ↑</label>
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="margenTop" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
-                                <label for="" class="label">Izq. ←</label>
-                                <input type="number" class="input" [(ngModel)]="margenLeft" (change)="crearModelo()">
+                                <label for="" class="label tooltip_contraescuadra">Izq. ←</label>
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="margenLeft" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
-                                <label for="" class="label">Der. →</label>
-                                <input type="number" class="input" [(ngModel)]="margenRight" (change)="crearModelo()">
+                                <label for="" class="label tooltip_escuadra">Der. →</label>
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="margenRight" (change)="crearModelo()">
                             </div>
                         </div>
                         <div style="display: inline-block; margin-left: 13%; background-color: white;" class="paper">
@@ -270,20 +283,20 @@
                     <div class="column gray">
                         <div class="field is-grouped">
                             <div class="control is-25_">
-                                <label for="" class="label">Inf. ↓</label>
-                                <input type="number" class="input" [(ngModel)]="B_margenBottom" (change)="crearModelo()">
+                                <label for="" class="label tooltip_pinza">Inf. ↓</label>
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="B_margenBottom" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
-                                <label for="" class="label">Sup. ↑</label>
-                                <input type="number" class="input" [(ngModel)]="B_margenTop" (change)="crearModelo()">
+                                <label for="" class="label tooltip_contrapinza">Sup. ↑</label>
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="B_margenTop" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
-                                <label for="" class="label">Izq. ←</label>
-                                <input type="number" class="input" [(ngModel)]="B_margenLeft" (change)="crearModelo()">
+                                <label for="" class="label tooltip_contraescuadra">Izq. ←</label>
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="B_margenLeft" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
-                                <label for="" class="label">Der. →</label>
-                                <input type="number" class="input" [(ngModel)]="B_margenRight" (change)="crearModelo()">
+                                <label for="" class="label tooltip_escuadra">Der. →</label>
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="B_margenRight" (change)="crearModelo()">
                             </div>
                         </div>
                         <div style="display: inline-block; margin-left: 13%; background-color: white;" class="paper">
@@ -313,11 +326,11 @@
             <span class="content" *ngIf="i === 4">
                 <div class="field is-grouped">
                     <div class="control">
-                        <label for="" class="label">Máquina impresora aprobada:</label>
+                        <label for="" class="label">Impresora aprobada:</label>
                         <div class="select">
                             <select name="" id="" [(ngModel)]="maquina_selected">
                                 <ng-container *ngFor="let maquina of maquinas.maquinas">
-                                    <option value="{{maquina._id}}" *ngIf="Impresion_(maquina, 'Impresión')">{{maquina.nombre}}</option>
+                                    <option value="{{maquina._id}}&{{maquina.nombre}}" *ngIf="Impresion_(maquina, 'Impresión')">{{maquina.nombre}}</option>
                                 </ng-container>
                             </select>
                         </div>
@@ -330,16 +343,28 @@
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_impresora')">
                             <span class="notification" *ngIf="producto.maquinas.length > 0">{{producto.maquinas.length}}</span>
                         </i>
                     </div>
                 </div>
-                <div class="field">
-                    <div class="control">
-                        <label class="label">Secuencia de colores:</label>
+                <span class="subtitles_">Secuencia de colores</span><br><br>
+                <div class="field is-grouped">
+                    <div class="control" *ngFor="let impresora of impresoras_nombre">
+                        <label class="label">{{impresora}}</label>
                         <div cdkDropList (cdkDropListDropped)="drop($event)" class="secuencia">
                             <div *ngFor="let color of secuencia" cdkDrag class="color___">{{color}}</div>
+                        </div>
+                    </div>
+                </div>
+                <span class="subtitles_">Tamaño de pinzas</span><br><br>
+                <div class="field is-grouped">
+                    <div class="control" *ngFor="let impresora of impresoras_nombre">
+                        <label class="label">{{impresora}}:</label>
+                        <div class="select">
+                            <select>
+                                <option value="" *ngFor="let pinza of maquinas.BuscarPinzas(impresora)">{{pinza}} mm</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -349,7 +374,7 @@
                         <div class="select">
                             <select name="" id="" [(ngModel)]="this.solucion_selected">
                                 <ng-container *ngFor="let solucion of materiales.materiales">
-                                    <option value="{{solucion._id}}" *ngIf="solucion.grupo.nombre === 'Solución de fuentes'">{{solucion.nombre}}({{solucion.fabricante.alias}})</option>
+                                    <option value="{{solucion._id}}&{{solucion.nombre}}({{solucion.fabricante.alias}})" *ngIf="solucion.grupo.nombre === 'Solución de fuentes'">{{solucion.nombre}}({{solucion.fabricante.alias}})</option>
                                 </ng-container>
                             </select>
                         </div>
@@ -362,7 +387,7 @@
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_fuente')">
                             <span class="notification" *ngIf="producto.fuente.length > 0">{{producto.fuente.length}}</span>
                         </i>
                     </div>
@@ -373,107 +398,110 @@
                     <div class="control">
                         <label for="" class="label">Troqueladora aprobada:</label>
                         <div class="select">
-                            <select name="" id="">
-                                <option value="">option 1</option>
-                                <option value="">option 2</option>
-                                <option value="">option 3</option>
-                                <option value="">option 4</option>
-                                <option value="">option 5</option>
+                            <select name="" id="" [(ngModel)]="troqueladora_selected">
+                                <ng-container *ngFor="let maquina of maquinas.maquinas">
+                                    <option value="{{maquina._id}}&{{maquina.nombre}}" *ngIf="Impresion_(maquina, 'Troquelado')">{{maquina.nombre}}</option>
+                                </ng-container>
                             </select>
                         </div>
                     </div>
-                    <div class="control">
+                    <div class="control" *ngIf="troqueladora_selected">
                         <label for="" class="label"> </label>
-                        <button class="button is-info">
+                        <button class="button is-info" (click)="maquina_troqueladora()">
                             <span class="icon"><i class="fas fa-plus-circle"></i></span>
                         </button>
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
-                            <span class="notification">5</span>
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_troqueladora')">
+                            <span class="notification" *ngIf="producto.troqueladora.length > 0">{{producto.troqueladora.length}}</span>
                         </i>
+                    </div>
+                </div>
+                <span class="subtitles_">Canal del hendidura:</span><br><br>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <label for="" class="label">Alto</label>
+                        <input type="text" class="input">
+                    </div>
+                    <div class="control">
+                        <label for="" class="label">Ancho</label>
+                        <input type="text" class="input">
                     </div>
                 </div>
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Guillotina aprobada:</label>
                         <div class="select">
-                            <select name="" id="">
-                                <option value="">option 1</option>
-                                <option value="">option 2</option>
-                                <option value="">option 3</option>
-                                <option value="">option 4</option>
-                                <option value="">option 5</option>
+                            <select name="" id="" [(ngModel)]="guillotina_selected">
+                                <ng-container *ngFor="let maquina of maquinas.maquinas">
+                                    <option value="{{maquina._id}}&{{maquina.nombre}}" *ngIf="Impresion_(maquina, 'Cortado')">{{maquina.nombre}}</option>
+                                </ng-container>
                             </select>
                         </div>
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <button class="button is-info">
+                        <button class="button is-info" (click)="maquina_guillotina()" *ngIf="guillotina_selected">
                             <span class="icon"><i class="fas fa-plus-circle"></i></span>
                         </button>
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
-                            <span class="notification">5</span>
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_guillotina')">
+                            <span class="notification" *ngIf="producto.guillotina.length >0">{{producto.guillotina.length}}</span>
                         </i>
                     </div>
                 </div>
                 <div class="field is-grouped">
                     <div class="control">
-                        <label for="" class="label">Máquina pegadora aprobada:</label>
+                        <label for="" class="label">Pegadora aprobada:</label>
                         <div class="select">
-                            <select name="" id="">
-                                <option value="">option 1</option>
-                                <option value="">option 2</option>
-                                <option value="">option 3</option>
-                                <option value="">option 4</option>
-                                <option value="">option 5</option>
+                            <select name="" id="" [(ngModel)]="pegadora_selected">
+                                <ng-container *ngFor="let maquina of maquinas.maquinas">
+                                    <option value="{{maquina._id}}&{{maquina.nombre}}" *ngIf="Impresion_(maquina, 'Pegado')">{{maquina.nombre}}</option>
+                                </ng-container>
                             </select>
                         </div>
                     </div>
-                    <div class="control">
+                    <div class="control" *ngIf="pegadora_selected">
                         <label for="" class="label"> </label>
-                        <button class="button is-info">
+                        <button class="button is-info" (click)="maquina_pegadora()">
                             <span class="icon"><i class="fas fa-plus-circle"></i></span>
                         </button>
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
-                            <span class="notification">5</span>
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_pegadora')">
+                            <span class="notification" *ngIf="producto.pegadora.length > 0">{{producto.pegadora.length}}</span>
                         </i>
                     </div>
                 </div>
                 <div class="field is-grouped">
                     <div class="control">
-                        <label for="" class="label">Pegamento aprobada:</label>
+                        <label for="" class="label">Pegamento aprobados:</label>
                         <div class="select">
-                            <select name="" id="">
-                                <option value="">option 1</option>
-                                <option value="">option 2</option>
-                                <option value="">option 3</option>
-                                <option value="">option 4</option>
-                                <option value="">option 5</option>
+                            <select name="" id="" [(ngModel)]="this.pegamento_selected.pega">
+                                <ng-container *ngFor="let pega of materiales.materiales">
+                                    <option value="{{pega._id}}&{{pega.nombre}}({{pega.fabricante.alias}})" *ngIf="pega.grupo.nombre === 'Pegas'">{{pega.nombre}}({{pega.fabricante.alias}})</option>
+                                </ng-container>
                             </select>
                         </div>
                     </div>
-                    <div class="control">
-                        <label for="" class="label">Cantidad:</label>
-                        <input type="text" class="input">
+                    <div class="control is-25_">
+                        <label for="" class="label tooltip">Cantidad</label>
+                        <input type="text" class="input" [(ngModel)]="this.pegamento_selected.cantidad">
                     </div>
-                    <div class="control">
+                    <div class="control" *ngIf="pegamento_selected.pega && pegamento_selected.cantidad">
                         <label for="" class="label"> </label>
-                        <button class="button is-info">
+                        <button class="button is-info" (click)="add_pegamento()">
                             <span class="icon"><i class="fas fa-plus-circle"></i></span>
                         </button>
                     </div>
                     <div class="control">
                         <label for="" class="label"> </label>
-                        <i class="fas fa-info-circle blue_">
-                            <span class="notification">5</span>
+                        <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_pega')">
+                            <span class="notification" *ngIf="producto.pegamento.length > 0">{{producto.pegamento.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -481,22 +509,111 @@
                     <div class="control">
                         <label for="" class="label">Cajas de embalaje</label>
                         <div class="select">
-                            <select name="" id="">
-                                <option value="">option 1</option>
-                                <option value="">option 2</option>
-                                <option value="">option 3</option>
-                                <option value="">option 4</option>
-                                <option value="">option 5</option>
-                                <option value="">option 6</option>
+                            <select name="" id="" [(ngModel)]="this.caja_selected">
+                                <ng-container *ngFor="let cajas of materiales.materiales">
+                                    <option value="{{cajas._id}}&{{cajas.nombre}}({{cajas.fabricante.alias}})" *ngIf="cajas.grupo.nombre === 'Cajas corrugadas'">{{cajas.nombre}}({{cajas.fabricante.alias}})</option>
+                                </ng-container>
                             </select>
                         </div>
                     </div>
+                    <div class="control" *ngIf="caja_selected">
+                        <label for="" class="label"> </label>
+                        <button class="button is-info" (click)="add_caja()">
+                            <span class="icon"><i class="fas fa-plus-circle"></i></span>
+                        </button>
+                    </div>
+                    <div class="control" *ngIf="caja_nombre">
+                        <label for="" class="label"> </label>
+                        <strong class="motivo">{{caja_nombre}}</strong>
+                    </div>
                 </div>
                 
-                <div class="field" *ngFor="let n of [].constructor(3);index as i">
+                <div class="field" *ngFor="let sustrato of sustratos_nombres;index as i">
                     <div class="control">
-                        <label for="" class="label">Unidades por caja (con Sustrato {{i+1}})</label>
+                        <label for="" class="label">Unidades por caja ({{sustrato}})</label>
                         <input type="text" class="input is-30_">
+                    </div>
+                </div>
+            </span>
+            <span class="content" *ngIf="i === 6">
+
+                <span class="subtitles_">
+                    Distribución del producto en caja <br>
+                </span>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <label for="" class="label">Vista aerea</label>
+                        <div class="file is-success">
+                            <label class="file-label">
+                              <input class="file-input" type="file" name="resume" (change)="subirImagen($event, 1)">
+                              <span class="file-cta">
+                                <span class="file-icon">
+                                  <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Subir imagen
+                                </span>
+                              </span>
+                            </label>
+                          </div>
+                    </div>
+                    <div class="control">
+                        <label for="" class="label"> </label>
+                        <i class="fas fa-info-circle blue_" (click)="openImage(Embalaje_Aereo, 'Imagen del producto')" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <label for="" class="label">Vista 3D</label>
+                        <div class="file is-success">
+                            <label class="file-label">
+                              <input class="file-input" type="file" name="resume" (change)="subirImagen($event, 2)">
+                              <span class="file-cta">
+                                <span class="file-icon">
+                                  <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Subir imagen
+                                </span>
+                              </span>
+                            </label>
+                          </div>
+                    </div>
+                    <div class="control">
+                        <label for="" class="label"> </label>
+                        <i class="fas fa-info-circle blue_" (click)="openImage(Embalaje_3d, 'Imagen del producto')" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <label class="label">Peso de caja (kg):</label>
+                        <input type="text" class="input">
+                    </div>
+                    <div class="control">
+                        <label class="label">Cantidad de estibas:</label>
+                        <input type="text" class="input">
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <label for="" class="label">Paletizado aprobado:</label>
+                        <div class="file is-success">
+                            <label class="file-label">
+                              <input class="file-input" type="file" name="resume" (change)="subirImagen($event, 3)">
+                              <span class="file-cta">
+                                <span class="file-icon">
+                                  <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Subir imagen
+                                </span>
+                              </span>
+                            </label>
+                          </div>
+                    </div>
+                    <div class="control">
+                        <label for="" class="label"> </label>
+                        <i class="fas fa-info-circle blue_" (click)="openImage(paletizado, 'Imagen del producto')" style="cursor: pointer;"></i>
                     </div>
                 </div>
             </span>
@@ -506,3 +623,81 @@
     <button class="button is-info back" (click)="previous()"><i class="fas fa-chevron-left"></i></button>
     <button class="button is-info front" (click)="next()"><i class="fas fa-chevron-right"></i></button>
   </div>
+
+
+  <div class="modal" [ngClass]="{'is-active':detalle}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <div class="modal-card-head">
+            <p class="modal-card-title fuente">
+                Detalles
+            </p>
+            <button class="delete red_cross" aria-label="close" (click)="cerrarDetalles()"></button>
+        </div>
+        <div class="modal-card-body">
+            <ng-container *ngIf="detalles.modal_sustrato">
+                <div class="subtitles">Tipo de sustrato</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of sustratos_nombres;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="detalles.modal_tintas">
+                <div class="subtitles">Tipo de tinta</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of tinta_nombres;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.tintas[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="detalles.modal_barniz">
+                <div class="subtitles">Tipo de barniz</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of barniz_nombres;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.barnices[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="detalles.modal_impresora">
+                <div class="subtitles">Impresoras aprobadas</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of impresoras_nombre;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="detalles.modal_fuente">
+                <div class="subtitles">Solución de fuentes aprobadas</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of fuentes_nombres;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="detalles.modal_troqueladora">
+                <div class="subtitles">Troqueladora aprobadas</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of troqueladora_nombres;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="detalles.modal_guillotina">
+                <div class="subtitles">Guillotina probadas</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of guillotina_nombres;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="detalles.modal_pegadora">
+                <div class="subtitles">Pegadora probadas</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of pegadora_nombres;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="detalles.modal_pega">
+                <div class="subtitles">Tipo de barniz</div>
+                <hr>
+                <ng-container *ngFor="let sustrato of pega_nombres;index as i">
+                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.pegamento[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

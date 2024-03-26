@@ -18,6 +18,8 @@ import { ClientesComponent } from './productos/clientes/clientes.component';
 import { NewProductoComponent } from './productos/new-producto/new-producto.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { CategoriasComponent } from './categorias/categorias.component';
+import { NuevaCategoriaComponent } from './categorias/nueva-categoria/nueva-categoria.component';
 
 
 
@@ -34,7 +36,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ProductosComponent,
     NuevoProductoComponent,
     ClientesComponent,
-    NewProductoComponent
+    NewProductoComponent,
+    CategoriasComponent,
+    NuevaCategoriaComponent
   ],
   imports: [
     CommonModule,
