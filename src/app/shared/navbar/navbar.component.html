@@ -34,9 +34,10 @@
             <ul class="menu-list">
                 <li>
                     <a routerLink="/laboratorio" (click)="select_menu(3)" [ngClass]="{'is-active':router.url == '/laboratorio'}">Laboratorio</a>
-                    <ul *ngIf="router.url == '/laboratorio' || router.url == '/laboratorio/especificacion' || router.url == '/laboratorio/analisis'">
+                    <ul *ngIf="router.url == '/laboratorio' || router.url == '/laboratorio/especificacion' || router.url == '/laboratorio/analisis' || router.url == '/laboratorio/defectos'">
                         <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/especificacion'}" routerLink="/laboratorio/especificacion">Especificación</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/analisis'}" routerLink="/laboratorio/analisis">Análisis</a></li>
+                        <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/defectos'}" routerLink="/laboratorio/defectos">Defectos</a></li>
                     </ul>
                 </li>
             </ul>
@@ -46,7 +47,7 @@
                     <ul *ngIf="router.url == '/maquinas' || router.url == '/maquinas/fases' || router.url == '/maquinas/maquinas' || router.url == '/maquinas/productos' || router.url == '/maquinas/categoria'">
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/fases'}" routerLink="/maquinas/fases">Fases</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/maquinas'}" routerLink="/maquinas/maquinas">Máquinas</a></li>
-                        <li> <a [ngClass]="{'is-active':router.url == '/maquinas/categoria'}" routerLink="/maquinas/categoria">Categoria</a></li>
+                        <li> <a [ngClass]="{'is-active':router.url == '/maquinas/categoria'}" routerLink="/maquinas/categoria">Categoría</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/productos'}" routerLink="/maquinas/productos">Productos</a></li>
                     </ul>
                 </li>

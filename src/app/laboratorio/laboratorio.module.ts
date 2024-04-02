@@ -16,6 +16,7 @@ import { AnalisisPadsComponent } from './analisis-pads/analisis-pads.component';
 import { AnalisisOtrosComponent } from './analisis-otros/analisis-otros.component';
 import { AnalisisCajasComponent } from './analisis/analisis-cajas/analisis-cajas.component';
 import { LaboratorioComponent } from './laboratorio.component';
+import { DefectosComponent } from './defectos/defectos.component';
 
 
 
@@ -33,6 +34,7 @@ import { LaboratorioComponent } from './laboratorio.component';
     AnalisisPadsComponent,
     BusquedaComponent,
     AnalisisOtrosComponent,
+    DefectosComponent,
   ],
   imports: [
     CommonModule,

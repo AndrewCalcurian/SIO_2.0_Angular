@@ -6,6 +6,7 @@ import { LaboratorioIndexComponent } from './laboratorio-index/laboratorio-index
 import { AnalisisTintaComponent } from './analisis/analisis-tinta/analisis-tinta.component';
 import { EspecificacionesComponent } from './especificaciones/especificaciones.component';
 import { AnalisisComponent } from './analisis/analisis.component';
+import { DefectosComponent } from './defectos/defectos.component';
 
 const routes: Routes =[
   {
@@ -23,6 +24,10 @@ const routes: Routes =[
       {
         path:'analisis',
         component:AnalisisComponent
+      },
+      {
+        path:'defectos',
+        component:DefectosComponent
       }
     ]
 }]
