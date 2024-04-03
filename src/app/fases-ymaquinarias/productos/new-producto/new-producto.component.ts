@@ -10,7 +10,7 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 // import pdfFonts from '../../../../assets/fonts';
 import * as moment from 'moment';
-import { Cell, Img, PdfMakeWrapper, Stack, Table, Txt, Ul } from 'pdfmake-wrapper';
+import { Cell, Columns, Img, PdfMakeWrapper, Stack, Table, Txt, Ul } from 'pdfmake-wrapper';
 
 @Component({
   selector: 'app-new-producto',
@@ -872,6 +872,76 @@ export class NewProductoComponent {
 
       pdf.add(
         new Ul(tintas).end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
+          ],
+          [
+            new Cell(new Txt('4. Pre-impresión').bold().end).bold().color('#FFFFFF').fillColor('#000000').end,
+          ],
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
+          ],
+          [
+            new Cell(new Txt('4.1 Nombre del archivo del diseño del producto').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(new Txt('AD-AH-001-1_17012023.ai').end).border([false]).end
+          ],
+          [
+            new Cell(new Txt('4.2 Código del montaje').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('Montaje A').bold().end,
+                  new Txt('Montaje B').bold().end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('M-AH-001-1-A').end,
+                  new Txt('M-AH-001-1-B').end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(new Txt('4.3 Nombre del archivo del montaje del producto').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('M-AH-001-1-A_14062023.ai').end,
+                  new Txt('M-AH-001-1-B_28062023.ai').end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(new Txt('4.3 Código de películas').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('M-AH-001-1-A_14062023.ai').end,
+                  new Txt('M-AH-001-1-B_28062023.ai').end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          
+        ]).widths(['100%']).end
       )
 
       pdf.create().download(`TEST`)
