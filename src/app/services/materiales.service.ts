@@ -65,4 +65,20 @@ export class MaterialesService {
 }
 
 
+
+
+  PantonesSolo(){
+
+    const materialesFiltrados:any = [];
+    const codigosEncontrados: string[] = [];
+    this.materiales.forEach(material => {
+      if (material.grupo.nombre === 'Tintas' && material.color === 'P' && !codigosEncontrados.includes(material.codigo)) {
+          materialesFiltrados.push(material);
+          codigosEncontrados.push(material.codigo);
+      }
+  });
+
+  return materialesFiltrados
+  }
+
 }

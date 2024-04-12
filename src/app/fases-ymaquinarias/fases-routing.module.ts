@@ -7,6 +7,7 @@ import { FasesComponent } from './fases/fases.component';
 import { MaquinasComponent } from './maquinas/maquinas.component';
 import { ProductosComponent } from './productos/productos.component';
 import { CategoriasComponent } from './categorias/categorias.component';
+import { PreparacionTintasComponent } from './preparacion-tintas/preparacion-tintas.component';
 
 const routes: Routes =[
   {
@@ -32,6 +33,10 @@ const routes: Routes =[
       {
         path:'categoria',
         component:CategoriasComponent
+      },
+      {
+        path:'tintas',
+        component:PreparacionTintasComponent
       }
     ]
 }]

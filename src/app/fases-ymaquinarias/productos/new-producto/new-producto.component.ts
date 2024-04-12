@@ -10,7 +10,7 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 // import pdfFonts from '../../../../assets/fonts';
 import * as moment from 'moment';
-import { Cell, Columns, Img, PdfMakeWrapper, Stack, Table, Txt, Ul } from 'pdfmake-wrapper';
+import { Cell, Columns, Img, Ol, PdfMakeWrapper, Stack, Table, Txt, Ul } from 'pdfmake-wrapper';
 
 @Component({
   selector: 'app-new-producto',
@@ -384,6 +384,7 @@ export class NewProductoComponent {
 
       let Sustratos = ['Cartón Rev. Gris']
       let tintas = ['Barniz S/Impreción (Olin) 0.5kg', 'Barniz S/Impresión (Huber) 0.5kg']
+      let capacidad = [100, 95, 100, 95]
       
       let Carton = [
         {
@@ -458,19 +459,24 @@ export class NewProductoComponent {
       let formulas_ = [{
         color:'Rojo Fuego',
         formulas: [
-          ['- Rojo proceso (Olin) 0.5kg', '- Amarillo proceso Apache (Olin) 0.3kg', '- Negro intenso (Olin) 0.1kg'],
-          ['- Rojo proceso (Huber) 0.7kg', '- Amarillo proceso Apache (Olin) 0.2kg', '- Negro proceso Apache (Olin) 0.1kg']
+          ['Rojo proceso (Olin) 0.5kg', 'Amarillo proceso Apache (Olin) 0.3kg', 'Negro intenso (Olin) 0.1kg'],
+          ['Rojo proceso (Huber) 0.7kg', 'Amarillo proceso Apache (Olin) 0.2kg', 'Negro proceso Apache (Olin) 0.1kg']
         ]
       },
       {
-        color:'Rojo ab-citos',
+        color:'P-222',
         formulas: [
-          ['- Rojo proceso (Olin) 0.5kg', '- Amarillo proceso Apache (Olin) 0.3kg', '- Negro intenso (Olin) 0.1kg'],
-          ['- Rojo proceso (Huber) 0.7kg', '- Amarillo proceso Apache (Olin) 0.2kg', '- Negro proceso Apache (Olin) 0.1kg']
+          ['Rojo proceso (Olin) 0.5kg', 'Amarillo proceso Apache (Olin) 0.3kg', 'Negro intenso (Olin) 0.1kg'],
+          ['Rojo proceso (Huber) 0.7kg', 'Amarillo proceso Apache (Olin) 0.2kg', 'Negro proceso Apache (Olin) 0.1kg']
         ]
       }]
       let rojoFuego1 = ['- Rojo proceso (Olin) 0.5kg', '- Amarillo proceso Apache (Olin) 0.3kg', '- Negro intenso (Olin) 0.1kg']
       let rojoFuego2 = ['- Rojo proceso (Huber) 0.7kg', '- Amarillo proceso Apache (Olin) 0.2kg', '- Negro proceso Apache (Olin) 0.1kg']
+
+      let PeliculasA = ['Pelicula N°1: Cyan:AH-001-1- A -2','Pelicula N°2: Magenta:AH-001-1- A -3','Pelicula N°3: Negro:AH-001-1- A -1','Pelicula N°4: Amarillo:AH-001-1- A -4']
+      let PeliculasB = ['Pelicula N°1: Cyan:AH-001-1- B -2','Pelicula N°2: Magenta:AH-001-1- B -3','Pelicula N°3: Negro:AH-001-1- B -1','Pelicula N°4: Amarillo:AH-001-1- B -4']
+      let impresoras = ['Roland 700 - (13)', 'Roland Rekord (4C) - (14)']
+      let impresoras_ = ['Roland 700', 'Roland Rekord (4C)']
 
       const pdf = new PdfMakeWrapper();
       PdfMakeWrapper.setFonts(pdfFonts);
@@ -783,7 +789,7 @@ export class NewProductoComponent {
             pdf.add(
               new Table([
                 [
-                  new Cell(new Txt(Colores[i].color).end).decoration('underline').decorationStyle('dotted').linkToPage(1).bold().fillColor('#c9c9c9').border([false]).end,
+                  new Cell(new Txt(Colores[i].color).end).decoration('underline').decorationStyle('dotted').linkToPage(9).bold().fillColor('#c9c9c9').border([false]).end,
                 ]
               ]).widths(['100%']).end
             )
@@ -928,21 +934,529 @@ export class NewProductoComponent {
             ).border([false]).end
           ],
           [
-            new Cell(new Txt('4.3 Código de películas').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+            new Cell(new Txt('4.4 Código de películas').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
           ],
           [
             new Cell(
               new Columns(
                 [
-                  new Txt('M-AH-001-1-A_14062023.ai').end,
-                  new Txt('M-AH-001-1-B_28062023.ai').end
+                  new Ul(PeliculasA).end,
+                  new Ul(PeliculasB).end
                 ]
               ).end
             ).border([false]).end
           ],
           
+          [
+            new Cell(new Txt('4.5 Tamaño de sustrato a imprimir / Cantidad de ejemplares').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('95 x 70 cm').end,
+                  new Txt('64 x 93 cm').end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('18 Ejemplares').end,
+                  new Txt('16 Ejemplares').end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(new Txt('4.6 Márgenes (Inf. Sup. Der. Izq.)').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('1.5cm x 1cm x 1cm x 1cm').end,
+                  new Txt('1.5cm x 1cm x 1cm x 1cm').end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(new Txt('4.7 Área efectiva de impresión (cm²):').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('6262').end,
+                  new Txt('5452.1').end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(new Txt('4.8 Porcentaje de desperdicio (%):').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('6.20').end,
+                  new Txt('9.17').end
+                ]
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(new Txt('4.9 Plancha').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Table([
+                [
+                  new Cell(new Txt('Tipo').bold().end).fillColor('#f1f1f1').border([false]).end,
+                  new Cell(new Txt('Marca').bold().end).fillColor('#f1f1f1').border([false]).end,
+                  new Cell(new Txt('Tiempo de exposición (s)').bold().end).fillColor('#f1f1f1').border([false]).end
+                ],
+                [
+                  new Cell(new Txt('Positiva').end).border([false]).end,
+                  new Cell(new Txt('N/D').end).border([false]).end,
+                  new Cell(new Txt('30 (54,79)').end).border([false]).end
+                ]
+              ]).widths(['45%','25%','30%']).end
+            ).border([false]).end
+          ]
+
         ]).widths(['100%']).end
       )
+
+      // PAGINA 4 **************************************
+      pdf.add(
+        new Table([
+          [
+            new Cell(await new Img('../../assets/poli_cintillo.png').width(85).margin([0, 10,0,0]).build()).alignment('center').rowSpan(4).end,
+            new Cell(new Txt(`FORMATO 
+            ESPECIFICACIÓN DE 
+            PRODUCTO`).bold().end).alignment('center').margin([0, 10,0,0]).fontSize(13).rowSpan(4).end,
+            new Cell(new Txt('Código: FRP-007').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('N° de Revisión: 1').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('Fecha: 20/06/2023').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('Página: 2 de 2').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+        ]).widths(['25%','50%','25%']).pageBreak('before').end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+          ]
+        ]).widths(['100%']).end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('5. Impresión').bold().end).bold().color('#FFFFFF').fillColor('#000000').end,
+          ],
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
+          ],
+          [
+            new Cell(new Txt('5.1 Impresora(s) aprobada(s) - (tamaño de pinza de impresión (mm))').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(new Ul(impresoras).end).border([false]).end
+          ],
+          [
+            new Cell(new Txt('5.2 Secuencia de colores en máquina').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt(impresoras_[0]).end,
+                  new Txt(impresoras_[1]).end
+                ],
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Ol(['negro','cyan','magenta','amarillo']).end,
+                  new Ol(['negro','magenta','cyan','amarillo']).end
+                ],
+              ).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(new Txt('5.3 Solución de fuentes').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Table([
+                [
+                  new Cell(new Txt('Fabricante').bold().end).fillColor('#f1f1f1').border([false]).end,
+                  new Cell(new Txt('Descripción').bold().end).fillColor('#f1f1f1').border([false]).end,
+                  new Cell(new Txt('Especificación').bold().end).fillColor('#f1f1f1').border([false]).end
+                ],
+                [
+                  new Cell(new Txt('Sun Chemical').end).border([false]).end,
+                  new Cell(new Txt('Rycoline 567').end).border([false]).end,
+                  new Cell(new Ul(['pH: 4,4 - 5,5', 'Conductividad: 1.500 - 3.500 μS/cm']).end).border([false]).end
+                ]
+              ]).widths(['33%','33%','34%']).end
+            ).border([false]).end
+          ],
+          [
+            new Cell(new Txt('6. Post-impresión').bold().end).bold().color('#FFFFFF').fillColor('#000000').end,
+          ],
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
+          ],
+          [
+            new Cell(new Txt('6.1 Troqueladora(s) aprobada(s)').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(new Ul(['Bobst Novacut 106']).end).border([false]).end,
+          ],
+          [
+            new Cell(new Txt('6.2 Canal de hendidura').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(new Txt('104 x 725 mm').end).border([false]).end,
+          ],
+          [
+            new Cell(new Txt('6.3 Guillotina(s) aprobada(s)').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(new Ul(['No aplica']).end).border([false]).end,
+          ],
+          [
+            new Cell(new Txt('6.4 Pegadora(s) aprobada(s)').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(new Ul(['No aplica']).end).border([false]).end,
+          ],
+          [
+            new Cell(new Txt('6.5 Pegamento(s) aprobado(s)').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(new Ul(['Pega Alta Viscocidad 104 HV 15P', 'Pega Alta Viscocidad 104 HV 15P']).end).border([false]).end,
+          ]
+        ]).widths(['100%']).end
+      )
+        // PAGINA 6 ************************************
+        pdf.add(
+          new Table([
+            [
+              new Cell(await new Img('../../assets/poli_cintillo.png').width(85).margin([0, 10,0,0]).build()).alignment('center').rowSpan(4).end,
+              new Cell(new Txt(`FORMATO 
+              ESPECIFICACIÓN DE 
+              PRODUCTO`).bold().end).alignment('center').margin([0, 10,0,0]).fontSize(13).rowSpan(4).end,
+              new Cell(new Txt('Código: FRP-007').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+            ],
+            [
+              new Cell(new Txt('').end).end,
+              new Cell(new Txt('').end).end,
+              new Cell(new Txt('N° de Revisión: 1').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+            ],
+            [
+              new Cell(new Txt('').end).end,
+              new Cell(new Txt('').end).end,
+              new Cell(new Txt('Fecha: 20/06/2023').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+            ],
+            [
+              new Cell(new Txt('').end).end,
+              new Cell(new Txt('').end).end,
+              new Cell(new Txt('Página: 2 de 2').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+            ],
+          ]).widths(['25%','50%','25%']).pageBreak('before').end
+        )
+  
+        pdf.add(
+          new Table([
+            [
+              new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+            ]
+          ]).widths(['100%']).end
+        )
+        
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('6.6 Cajas de embalaje').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(new Txt('Caja Nº 9').end).border([false]).end,
+          ],
+        ]).widths(['100%']).end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('Descripción').end).fillColor('#f1f1f1').bold().border([false]).end,
+            new Cell(new Txt('Capacidad (Und)').end).fillColor('#f1f1f1').bold().border([false]).end
+          ]
+        ]).widths(['60%','40%',]).end
+      )
+
+      for(let i=0;i<Carton.length;i++){
+        for(let n=0;n<Carton[i].ubicacion.length;n++){
+          for(let c=0;c<Carton[i].ubicacion[n].especificacion.calibre.length;c++){
+            pdf.add(
+              new Table([
+                [
+                  new Cell(new Txt(`Cartón Rev. Gris (${Carton[i].marca})`).end).bold().border([false]).end,
+                  new Cell(new Txt(`${capacidad[c].toString()}`).end).bold().border([false]).end
+                ]
+              ]).widths(['60%','40%',]).end
+            )
+          }
+        }
+      }
+
+
+      // PAGINA 7 **********************************************
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(await new Img('../../assets/poli_cintillo.png').width(85).margin([0, 10,0,0]).build()).alignment('center').rowSpan(4).end,
+            new Cell(new Txt(`FORMATO 
+            ESPECIFICACIÓN DE 
+            PRODUCTO`).bold().end).alignment('center').margin([0, 10,0,0]).fontSize(13).rowSpan(4).end,
+            new Cell(new Txt('Código: FRP-007').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('N° de Revisión: 1').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('Fecha: 20/06/2023').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('Página: 2 de 2').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+        ]).widths(['25%','50%','25%']).pageBreak('before').end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+          ]
+        ]).widths(['100%']).end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('6.7 Distribucion del producto').end).fillColor('#dedede').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Txt('Vista aerea').end,
+                  new Txt('Vista 3D').end
+                ],
+              ).end
+            ).fillColor('#f1f1f1').border([false]).end
+          ],
+        ]).widths(['100%']).end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(
+              new Columns(
+                [
+                  new Cell(await new Img('http://192.168.0.23:8080/api/imagen/aereo/62266c741c1b1805b8ad24a0-434.png').width(250).margin([0, 15]).build()).alignment('center').border([false]).end,
+                  new Cell(await new Img('http://192.168.0.23:8080/api/imagen/distribucion/62266c741c1b1805b8ad24a0-478.png').width(250).margin([0, 15]).build()).alignment('center').border([false]).end,
+                ],
+              ).end
+            ).border([false]).end
+          ],
+        ]).widths(['100%']).end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('Peso de caja (kg)').end).fillColor('#f1f1f1').bold().border([false,false,false,false]).end,
+            new Cell(new Txt('Cantidad de estibas').end).fillColor('#f1f1f1').bold().border([false,false,false,false]).end
+          ],
+          [
+            new Cell(new Txt('20').end).border([false]).end,
+            new Cell(new Txt('5').end).border([false]).end
+          ],
+        ]).widths(['50%','50%']).end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('Peletizado aprobado').end).fillColor('#f1f1f1').bold().border([false,false,false,false]).end,
+          ],
+          [
+            new Cell(await new Img('http://192.168.0.23:8080/api/imagen/despacho/62266c741c1b1805b8ad24a0-959.png').width(250).margin([0, 15]).build()).alignment('center').border([false]).end,
+          ]
+
+        ]).widths(['100%']).end
+      )
+
+      // PAGINA 8 **************************************************************
+      pdf.add(
+        new Table([
+          [
+            new Cell(await new Img('../../assets/poli_cintillo.png').width(85).margin([0, 10,0,0]).build()).alignment('center').rowSpan(4).end,
+            new Cell(new Txt(`FORMATO 
+            ESPECIFICACIÓN DE 
+            PRODUCTO`).bold().end).alignment('center').margin([0, 10,0,0]).fontSize(13).rowSpan(4).end,
+            new Cell(new Txt('Código: FRP-007').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('N° de Revisión: 1').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('Fecha: 20/06/2023').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('Página: 2 de 2').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+        ]).widths(['25%','50%','25%']).pageBreak('before').end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+          ]
+        ]).widths(['100%']).end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('7. Clasificación de defectos').bold().end).bold().color('#FFFFFF').fillColor('#000000').end,
+          ],
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+          ],
+          [
+            new Cell(new Txt('7.1 Defectos críticos AQL 1,5%').bold().end).bold().fillColor('#f1f1f1').border([false]).end,
+          ],
+          [
+            new Cell(new Ul(['Fuera de dimensiones','Rayas','Cartón roto, maltratado, fuera de norma','Arqueado','Despegado lateral','Litografía borrosa','Mal corte y/o desperdicios en el estuche']).end).border([false]).end,
+          ],
+          [
+            new Cell(new Txt('7.1 Defectos máyores AQL 1,5%').bold().end).bold().fillColor('#f1f1f1').border([false]).end,
+          ],
+          [
+            new Cell(new Ul(['Fuera de dimensiones','Rayas','Cartón roto, maltratado, fuera de norma','Arqueado','Despegado lateral','Litografía borrosa','Mal corte y/o desperdicios en el estuche']).end).border([false]).end,
+          ],
+          [
+            new Cell(new Txt('7.1 Defectos menores AQL 1,5%').bold().end).bold().fillColor('#f1f1f1').border([false]).end,
+          ],
+          [
+            new Cell(new Ul(['Fuera de dimensiones','Rayas','Cartón roto, maltratado, fuera de norma','Arqueado','Despegado lateral','Litografía borrosa','Mal corte y/o desperdicios en el estuche']).end).border([false]).end,
+          ],
+        ]).widths(['100%']).end
+      )
+
+      // PAGINA 9*********************************+
+      pdf.add(
+        new Table([
+          [
+            new Cell(await new Img('../../assets/poli_cintillo.png').width(85).margin([0, 10,0,0]).build()).alignment('center').rowSpan(4).end,
+            new Cell(new Txt(`FORMATO 
+            ESPECIFICACIÓN DE 
+            PRODUCTO`).bold().end).alignment('center').margin([0, 10,0,0]).fontSize(13).rowSpan(4).end,
+            new Cell(new Txt('Código: FRP-007').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('N° de Revisión: 1').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('Fecha: 20/06/2023').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+          [
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('').end).end,
+            new Cell(new Txt('Página: 2 de 2').end).fillColor('#dedede').fontSize(9).alignment('center').end,
+          ],
+        ]).widths(['25%','50%','25%']).pageBreak('before').end
+      )
+
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+          ],
+          [
+            new Cell(new Txt('8. Preparación colores pantone usados').bold().end).bold().color('#FFFFFF').fillColor('#000000').end,
+          ],
+          [
+            new Cell(new Txt(' ').end).border([false]).fontSize(1).end
+          ],
+        ]).widths(['100%']).end
+      )
+      
+      for(let i=0;i<formulas_.length;i++){
+        pdf.add(
+          new Table([
+            [
+              new Cell(new Txt(formulas_[i].color).bold().end).fillColor('#f1f1f1').border([false]).end
+            ]
+          ]).widths(['100%']).end
+        )
+        for(let n=0;n<formulas_[i].formulas.length;n++){
+          pdf.add(
+            new Table([
+              [
+                new Cell(new Txt(`Fórmula ${n+1}`).bold().end).border([false]).end
+              ],
+              [
+                new Cell(new Ul(formulas_[i].formulas[n]).end).border([false]).end
+              ]
+            ]).widths(['100%']).end
+          )
+        }
+      }
 
       pdf.create().download(`TEST`)
     }

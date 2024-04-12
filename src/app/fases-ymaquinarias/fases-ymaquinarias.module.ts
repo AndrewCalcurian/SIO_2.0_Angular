@@ -20,6 +20,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { NuevaCategoriaComponent } from './categorias/nueva-categoria/nueva-categoria.component';
+import { PreparacionTintasComponent } from './preparacion-tintas/preparacion-tintas.component';
+import { NuevaFormulaComponent } from './preparacion-tintas/nueva-formula/nueva-formula.component';
 
 
 
@@ -38,7 +40,9 @@ import { NuevaCategoriaComponent } from './categorias/nueva-categoria/nueva-cate
     ClientesComponent,
     NewProductoComponent,
     CategoriasComponent,
-    NuevaCategoriaComponent
+    NuevaCategoriaComponent,
+    PreparacionTintasComponent,
+    NuevaFormulaComponent,
   ],
   imports: [
     CommonModule,
