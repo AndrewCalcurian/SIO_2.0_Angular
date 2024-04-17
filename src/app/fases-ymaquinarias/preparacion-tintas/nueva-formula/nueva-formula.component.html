@@ -9,7 +9,7 @@
         </div>
         <div class="modal-card-body">
             <div class="select">
-                <select [(ngModel)]="preparacion">
+                <select [(ngModel)]="preparacion" disabled>
                     <option value="{{tinta.codigo}}" *ngFor="let tinta of tintas.PantonesSolo()">{{tinta.codigo}} ({{tinta.nombre}})</option>
                 </select>
             </div>

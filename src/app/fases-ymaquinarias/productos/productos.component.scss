@@ -54,3 +54,49 @@
 .grupos:hover::before {
   opacity: 1;
 }
+
+.clientes-list {
+  // font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clientes-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.clientes-list li {
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  color: black;
+}
+
+.clientes-list li:hover {
+
+  background-color: #e3e3e3;
+  cursor: pointer;
+}
+
+.message {
+  background-color: #f7f7f7; /* Color de fondo del mensaje */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 0.5s ease; /* Animación de aparición */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

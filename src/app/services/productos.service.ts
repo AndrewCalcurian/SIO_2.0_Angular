@@ -5,21 +5,20 @@ import { Mensaje } from '../compras/models/modelos-compra';
 @Injectable({
   providedIn: 'root'
 })
-export class FormulasService {
-
+export class ProductosService {
   public mensaje!:Mensaje;
-  public formulas:any = [];
+  public producto:any = [];
 
   constructor(public socket:WebSocketService) { 
-    this.onFormulas()
+    this.onProductos()
   }
 
-  onFormulas(){
-    this.socket.io.emit('CLIENTE:buscarFormula')
+  onProductos(){
+    this.socket.io.emit('CLIENTE:buscarProducto')
   
-    this.socket.io.on('SERVER:formula', (data)=>{
-      this.formulas = data;
-      console.log(this.formulas)
+    this.socket.io.on('SERVER:producto', (data)=>{
+      this.producto = data;
+      console.log(this.producto)
     })
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
       console.error(data.mensaje);
@@ -27,16 +26,15 @@ export class FormulasService {
     });
   }
 
-  GuardarFormula(data:any){
-    this.socket.io.emit('CLIENTE:nuevaFormula',data)
+  GuardarProducto(data:any){
+    this.socket.io.emit('CLIENTE:nuevoProducto',data)
     // this.socket.io.emit('NuevoGrupo',{nombre,parcial:false,icono:'test'})
   }
 
-
-  BuscarFormulas(color){
-    return this.formulas.filter(formula => {
-      return formula.pantone === color;
+  buscarPorClientes(cliente){
+    console.log(cliente)
+    return this.producto.filter(x=> {
+      return x.identificacion.cliente._id === cliente
     })
-}
-
+  }
 }

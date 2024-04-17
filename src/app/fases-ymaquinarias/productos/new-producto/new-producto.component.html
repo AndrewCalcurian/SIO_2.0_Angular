@@ -7,7 +7,7 @@
                 Especificación de producto
             </p>
             <p class="nombre_del_producto">
-                {{producto.producto}}
+                {{producto.identificacion.producto}}
             </p>
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
             <label for="" class="label">.</label>
@@ -20,7 +20,7 @@
                     <div class="control">
                         <label for="" class="label">Cliente</label>
                         <div class="select">
-                            <select name="" id="" [(ngModel)]="producto.cliente">
+                            <select name="" id="" [(ngModel)]="producto.identificacion.cliente">
                                 <option value="{{cliente._id}}" *ngFor="let cliente of clientes.clientes">{{cliente.nombre}}</option>
                             </select>
                         </div>
@@ -28,7 +28,7 @@
                     <div class="control">
                         <label class="label">Categoría</label>
                         <div class="select">
-                            <select>
+                            <select [(ngModel)]="producto.identificacion.categoria">
                                 <option value="{{categoria._id}}" *ngFor="let categoria of categoria.categorias;index as i">
                                     {{categoria.nombre}}
                                 </option>
@@ -39,15 +39,15 @@
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Producto</label>
-                            <input type="text" class="input" placeholder="producto" [(ngModel)]="producto.producto">
+                            <input type="text" class="input" placeholder="producto" [(ngModel)]="producto.identificacion.producto">
                     </div>
                     <div class="control is-15_">
                         <label for="" class="label">Código:</label>
-                            <input type="text" class="input" placeholder="código del producto">
+                            <input type="text" class="input" placeholder="código del producto" [(ngModel)]="producto.identificacion.codigo">
                     </div>
                     <div class="control is-15_">
                         <label for="" class="label">Versión:</label>
-                            <input type="text" class="input" placeholder="código del producto">
+                            <input type="text" class="input" placeholder="código del producto" [(ngModel)]="producto.identificacion.version">
                     </div>
                 </div>
                 <button class="button is-success" (click)="especificacion()">
@@ -59,34 +59,34 @@
                 <div class="field is-grouped">
                     <div class="control is-25_">
                         <label for="" class="label">Ancho:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.dimensiones.desplegado.ancho">
                     </div>
                     <div class="control is-25_">
                         <label for="" class="label">Largo:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.dimensiones.desplegado.largo">
                     </div>
                     <div class="control is-25_">
                         <label for="" class="label">Tolerancia:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.dimensiones.desplegado.tolerancia">
                     </div>
                 </div>
                 <div class="subtitles_">Tamaño del producto cerrado (mm)</div>
                 <div class="field is-grouped">
                     <div class="control is-25_">
                         <label for="" class="label">Ancho:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.dimensiones.cerrado.ancho">
                     </div>
                     <div class="control is-25_">
                         <label for="" class="label">Largo:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.dimensiones.cerrado.largo">
                     </div>
                     <div class="control is-25_">
                         <label for="" class="label">Alto:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.dimensiones.cerrado.alto">
                     </div>
                     <div class="control is-25_">
                         <label for="" class="label">Tolerancia:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.dimensiones.cerrado.tolerancia">
                     </div>
                 </div>
                 <div class="subtitles_">Diseño del producto</div>
@@ -132,7 +132,7 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_sustrato')">
-                            <span class="notification" *ngIf="producto.sustrato.length > 0">{{producto.sustrato.length}}</span>
+                            <span class="notification" *ngIf="producto.materia_prima.sustrato.length > 0">{{producto.materia_prima.sustrato.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                             <select name="" id="" (click)="notificar()" [(ngModel)]="tinta_selected.tinta">
                                 <option value="#">Seleccione tinta</option>
                                 <ng-container *ngFor="let tinta of materiales.materiales">
-                                    <option value="{{tinta._id}}&{{tinta.nombre}}({{tinta.fabricante.alias}})" *ngIf="tinta.grupo.nombre === 'Tintas'">{{tinta.nombre}}({{tinta.fabricante.alias}})</option>
+                                    <option value="{{tinta._id}}&{{tinta.nombre}}({{tinta.fabricante.alias}})&{{tinta.color}}" *ngIf="tinta.grupo.nombre === 'Tintas'">{{tinta.nombre}}({{tinta.fabricante.alias}})</option>
                                 </ng-container>
                             </select>
                         </div>
@@ -161,7 +161,7 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_tintas')">
-                            <span class="notification" *ngIf="producto.tintas.length > 0">{{producto.tintas.length}}</span>
+                            <span class="notification" *ngIf="producto.materia_prima.tintas.length > 0">{{producto.materia_prima.tintas.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -189,7 +189,7 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_barniz')">
-                            <span class="notification" *ngIf="producto.barnices.length > 0">{{producto.barnices.length}}</span>
+                            <span class="notification" *ngIf="producto.materia_prima.barnices.length > 0">{{producto.materia_prima.barnices.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -198,82 +198,61 @@
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Nombre del archivo del diseño del producto:</label>
-                        <input type="text" class="input is-45_">
+                        <input type="text" class="input is-45_" [(ngModel)]="producto.pre_impresion.diseno">
                     </div>
                 </div>
                 <div class="field">
                     <div class="control">
                         <label for="" class="label">Cantidad de montajes:</label>
-                        <input type="number" name="" id="" class="input is-25_">
+                        <input type="number" name="" id="" class="input is-25_" [(ngModel)]="producto.pre_impresion.montajes">
                     </div>
                 </div>
                 <span class="subtitles_">Nombre del archivo del montaje del producto:</span>
                 <div class="field is-grouped">
-                    <div class="control">
-                        <label for="" class="label">Montaje A:</label>
-                        <input type="text" class="input">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Montaje B:</label>
-                        <input type="text" class="input">
+                    <div class="control" *ngFor="let montajes of [].constructor(producto.pre_impresion.montajes);index as i">
+                        <label for="" class="label">Montaje {{convert(i)}}:</label>
+                        <input type="text" class="input" [(ngModel)]="producto.pre_impresion.nombre_montajes[i]">
                     </div>
                 </div>
                 <span class="subtitles_" style="z-index: 999;">Tamaño de sustrato a imprimir (cm) / ejemplares por pliego:</span><br><br>
                 <div class="columns">
-                    <div class="column">
-                        <span class="subtitles_">Montaje A:</span>
+                    <div class="column" *ngFor="let montajes of [].constructor(producto.pre_impresion.montajes);index as i">
+                        <span class="subtitles_">Montaje {{convert(i)}}:</span>
                         <div class="field is-grouped">
                             <div class="control is-30_">
                                 <label for="" class="label">Alto:</label>
-                                <input type="number" class="input" [(ngModel)]="altura" (change)="crearModelo()">
+                                <input type="number" class="input" [(ngModel)]="producto.pre_impresion.tamano_sustrato.montajes[i].ancho" (change)="crearModelo()">
                             </div>
                             <div class="control is-30_">
                                 <label for="" class="label">Largo:</label>
-                                <input type="number" class="input" [(ngModel)]="longitud" (change)="crearModelo()">
+                                <input type="number" class="input" [(ngModel)]="producto.pre_impresion.tamano_sustrato.montajes[i].largo" (change)="crearModelo()">
                             </div>
                             <div class="control is-30_">
                                 <label for="" class="label">Ejemplares:</label>
-                                <input type="number" class="input" [(ngModel)]="ejemplares" (change)="crearModelo()">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column gray">
-                        <span class="subtitles_">Montaje B:</span>
-                        <div class="field is-grouped">
-                            <div class="control is-30_">
-                                <label for="" class="label">Ancho:</label>
-                                <input type="number" class="input" [(ngModel)]="B_altura" (change)="crearModelo()">
-                            </div>
-                            <div class="control is-30_">
-                                <label for="" class="label">Largo:</label>
-                                <input type="number" class="input" [(ngModel)]="B_longitud" (change)="crearModelo()">
-                            </div>
-                            <div class="control is-30_">
-                                <label for="" class="label">Ejemplares:</label>
-                                <input type="number" class="input" [(ngModel)]="B_ejemplares" (change)="crearModelo()">
+                                <input type="number" class="input" [(ngModel)]="producto.pre_impresion.tamano_sustrato.montajes[i].ejemplares" (change)="crearModelo()">
                             </div>
                         </div>
                     </div>
                 </div>
                 <span class="subtitles_">Márgenes (cm):</span>
                 <div class="columns">
-                    <div class="column">
+                    <div class="column" *ngFor="let montajes of [].constructor(producto.pre_impresion.montajes);index as i">
                         <div class="field is-grouped">
                             <div class="control is-25_">
                                 <label for="" class="label tooltip_pinza">Inf. ↓</label>
-                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="margenBottom" (change)="crearModelo()">
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="producto.pre_impresion.tamano_sustrato.margenes[i].inferior" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
                                 <label for="" class="label tooltip_contrapinza">Sup. ↑</label>
-                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="margenTop" (change)="crearModelo()">
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="producto.pre_impresion.tamano_sustrato.margenes[i].superior" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
                                 <label for="" class="label tooltip_contraescuadra">Izq. ←</label>
-                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="margenLeft" (change)="crearModelo()">
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="producto.pre_impresion.tamano_sustrato.margenes[i].izquierdo" (change)="crearModelo()">
                             </div>
                             <div class="control is-25_">
                                 <label for="" class="label tooltip_escuadra">Der. →</label>
-                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="margenRight" (change)="crearModelo()">
+                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="producto.pre_impresion.tamano_sustrato.margenes[i].derecho" (change)="crearModelo()">
                             </div>
                         </div>
                         <div style="display: inline-block; margin-left: 13%; background-color: white;" class="paper">
@@ -283,46 +262,20 @@
                         </div>
                         <br><br>
                     </div>
-                    <div class="column gray">
-                        <div class="field is-grouped">
-                            <div class="control is-25_">
-                                <label for="" class="label tooltip_pinza">Inf. ↓</label>
-                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="B_margenBottom" (change)="crearModelo()">
-                            </div>
-                            <div class="control is-25_">
-                                <label for="" class="label tooltip_contrapinza">Sup. ↑</label>
-                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="B_margenTop" (change)="crearModelo()">
-                            </div>
-                            <div class="control is-25_">
-                                <label for="" class="label tooltip_contraescuadra">Izq. ←</label>
-                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="B_margenLeft" (change)="crearModelo()">
-                            </div>
-                            <div class="control is-25_">
-                                <label for="" class="label tooltip_escuadra">Der. →</label>
-                                <input type="number" min="0" step="0.5" class="input" [(ngModel)]="B_margenRight" (change)="crearModelo()">
-                            </div>
-                        </div>
-                        <div style="display: inline-block; margin-left: 13%; background-color: white;" class="paper">
-                            <div [ngStyle]="B_style">
-                                <div *ngFor="let n of [].constructor(this.B_ejemplares)" style="background: rgb(29, 133, 175);"></div>
-                            </div>
-                        </div>
-                        <br><br>
-                    </div>
                 </div>
                 <span class="subtitles_">Plancha:</span>
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Tipo:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.pre_impresion.plancha.tipo">
                     </div>
                     <div class="control">
                         <label for="" class="label">Marca:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]='producto.pre_impresion.plancha.marca'>
                     </div>
                     <div class="control">
                         <label for="" class="label">Tiempo de exposición (s):</label>
-                        <input type="text" class="input is-30_">
+                        <input type="text" class="input is-30_" [(ngModel)]='producto.pre_impresion.plancha.tiempo_exposicion'>
                     </div>
                 </div>
             </span>
@@ -347,16 +300,16 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_impresora')">
-                            <span class="notification" *ngIf="producto.maquinas.length > 0">{{producto.maquinas.length}}</span>
+                            <span class="notification" *ngIf="producto.impresion.impresoras.length">{{producto.impresion.impresoras.length}}</span>
                         </i>
                     </div>
                 </div>
                 <span class="subtitles_">Secuencia de colores</span><br><br>
                 <div class="field is-grouped">
-                    <div class="control" *ngFor="let impresora of impresoras_nombre">
+                    <div class="control" *ngFor="let impresora of impresoras_nombre;index as i">
                         <label class="label">{{impresora}}</label>
                         <div cdkDropList (cdkDropListDropped)="drop($event)" class="secuencia">
-                            <div *ngFor="let color of secuencia" cdkDrag class="color___">{{color}}</div>
+                            <div *ngFor="let color of producto.impresion.secuencia[i]" cdkDrag class="color___">{{color}}</div>
                         </div>
                     </div>
                 </div>
@@ -365,7 +318,7 @@
                     <div class="control" *ngFor="let impresora of impresoras_nombre">
                         <label class="label">{{impresora}}:</label>
                         <div class="select">
-                            <select>
+                            <select [(ngModel)]="producto.impresion.pinzas">
                                 <option value="" *ngFor="let pinza of maquinas.BuscarPinzas(impresora)">{{pinza}} mm</option>
                             </select>
                         </div>
@@ -391,7 +344,7 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_fuente')">
-                            <span class="notification" *ngIf="producto.fuente.length > 0">{{producto.fuente.length}}</span>
+                            <span class="notification" *ngIf="producto.impresion.fuentes.length">{{producto.impresion.fuentes.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -417,7 +370,7 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_troqueladora')">
-                            <span class="notification" *ngIf="producto.troqueladora.length > 0">{{producto.troqueladora.length}}</span>
+                            <span class="notification" *ngIf="producto.post_impresion.troqueladora.length">{{producto.post_impresion.troqueladora.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -425,11 +378,11 @@
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Alto</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.post_impresion.henidura.alto">
                     </div>
                     <div class="control">
                         <label for="" class="label">Ancho</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.post_impresion.henidura.ancho">
                     </div>
                 </div>
                 <div class="field is-grouped">
@@ -452,7 +405,7 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_guillotina')">
-                            <span class="notification" *ngIf="producto.guillotina.length >0">{{producto.guillotina.length}}</span>
+                            <span class="notification" *ngIf="producto.post_impresion.guillotina.length">{{producto.post_impresion.guillotina.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -476,7 +429,7 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_pegadora')">
-                            <span class="notification" *ngIf="producto.pegadora.length > 0">{{producto.pegadora.length}}</span>
+                            <span class="notification" *ngIf="producto.post_impresion.pegadora.length > 0">{{producto.post_impresion.pegadora.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -504,7 +457,7 @@
                     <div class="control">
                         <label for="" class="label"> </label>
                         <i class="fas fa-info-circle blue_" style="cursor: pointer;" (click)="showDetail('modal_pega')">
-                            <span class="notification" *ngIf="producto.pegamento.length > 0">{{producto.pegamento.length}}</span>
+                            <span class="notification" *ngIf="producto.post_impresion.pegamento.length > 0">{{producto.post_impresion.pegamento.length}}</span>
                         </i>
                     </div>
                 </div>
@@ -619,6 +572,9 @@
                         <i class="fas fa-info-circle blue_" (click)="openImage(paletizado, 'Imagen del producto')" style="cursor: pointer;"></i>
                     </div>
                 </div>
+                <button class="button is-success" (click)="guardar()" [ngClass]="{'is-loading':loading}">
+                    <span>Guardar</span>
+                </button>
             </span>
         </div>
       </div>
@@ -649,14 +605,14 @@
                 <div class="subtitles">Tipo de tinta</div>
                 <hr>
                 <ng-container *ngFor="let sustrato of tinta_nombres;index as i">
-                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.tintas[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
+                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.materia_prima.tintas[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="detalles.modal_barniz">
                 <div class="subtitles">Tipo de barniz</div>
                 <hr>
                 <ng-container *ngFor="let sustrato of barniz_nombres;index as i">
-                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.barnices[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
+                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.materia_prima.barnices[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="detalles.modal_impresora">
@@ -698,7 +654,7 @@
                 <div class="subtitles">Tipo de barniz</div>
                 <hr>
                 <ng-container *ngFor="let sustrato of pega_nombres;index as i">
-                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.pegamento[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
+                    <i class="fas fa-circle red"></i> {{sustrato}} {{producto.post_impresion.pegamento[i].cantidad}}kg <i class="far fa-trash-alt red"></i> <br>
                 </ng-container>
             </ng-container>
         </div>

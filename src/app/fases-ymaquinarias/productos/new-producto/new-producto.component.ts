@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Producto } from 'src/app/compras/models/modelos-compra';
+import { Producto, Producto_ } from 'src/app/compras/models/modelos-compra';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { MaterialesService } from 'src/app/services/materiales.service';
@@ -11,6 +11,7 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 // import pdfFonts from '../../../../assets/fonts';
 import * as moment from 'moment';
 import { Cell, Columns, Img, Ol, PdfMakeWrapper, Stack, Table, Txt, Ul } from 'pdfmake-wrapper';
+import { ProductosService } from 'src/app/services/productos.service';
 
 @Component({
   selector: 'app-new-producto',
@@ -24,7 +25,8 @@ export class NewProductoComponent {
               public materiales:MaterialesService,
               public maquinas:MaquinasService,
               public categoria:CategoriasService,
-              public uploadImage:SubirArchivosService){
+              public uploadImage:SubirArchivosService,
+              public api:ProductosService){
                 this.crearModelo()
   }
 
@@ -36,8 +38,10 @@ export class NewProductoComponent {
 
 
   @Input() nuevo:any;
-  @Input() producto!:Producto
+  @Input() producto!:Producto_
   @Output() onCloseModal = new EventEmitter()
+
+  public loading = false;
 
   sustrato_selected = '';
   maquina_selected = '';
@@ -173,6 +177,7 @@ export class NewProductoComponent {
           switch(n){
             case 0:
               this.Producto_imag = img;
+              this.producto.dimensiones.diseno = img;
             break;
             case 1:
               this.Embalaje_Aereo = img;
@@ -199,27 +204,46 @@ export class NewProductoComponent {
     this.onCloseModal.emit()
   }
 
-  crearModelo(){
-    this.style = {
-      'width': `200px`,
-      'height': `130px`,
-      'background': 'rgb(161, 242, 216);',
-      'display': 'grid',
-      'grid-template-columns': `repeat(${Math.sqrt(this.ejemplares)}, 1fr)`,
-      'grid-template-rows': `repeat(${Math.sqrt(this.ejemplares)}, 1fr)`,
-      'margin': `${this.margenTop * 2}px ${this.margenRight * 2}px ${this.margenBottom * 2}px ${this.margenLeft * 2}px`,
-    }
-
-    this.B_style = {
-      'width': `200px`,
-      'height': `130px`,
-      'background': 'rgb(161, 242, 216);',
-      'display': 'grid',
-      'grid-template-columns': `repeat(${Math.sqrt(this.B_ejemplares)}, 1fr)`,
-      'grid-template-rows': `repeat(${Math.sqrt(this.B_ejemplares)}, 1fr)`,
-      'margin': `${this.B_margenTop * 2}px ${this.B_margenRight * 2}px ${this.B_margenBottom * 2}px ${this.B_margenLeft * 2}px`,
-    }
+  guardar(){
+    this.loading = true;
+    this.api.GuardarProducto(this.producto)
+    setTimeout(() => {
+      Swal.fire({
+        text:this.api.mensaje.mensaje,
+        icon:this.api.mensaje.icon,
+        toast:true,
+        position:'top-end',
+        timer:5000,
+        timerProgressBar:true,
+        showConfirmButton:false
+      })
+      this.loading = false
+      this.onCloseModal.emit();
+    }, 1000);
   }
+
+  crearModelo(){
+  }
+  //   this.style = {
+  //     'width': `200px`,
+  //     'height': `130px`,
+  //     'background': 'rgb(161, 242, 216);',
+  //     'display': 'grid',
+  //     'grid-template-columns': `repeat(${Math.sqrt(this.ejemplares)}, 1fr)`,
+  //     'grid-template-rows': `repeat(${Math.sqrt(this.ejemplares)}, 1fr)`,
+  //     'margin': `${Number(this.producto.pre_impresion.tamano_sustrato.margenes[0].superior) * 2}px ${Number(this.producto.pre_impresion.tamano_sustrato.margenes[0].derecho) * 2}px ${Number(this.producto.pre_impresion.tamano_sustrato.margenes[0].inferior) * 2}px ${Number(this.producto.pre_impresion.tamano_sustrato.margenes[0].izquierdo) * 2}px`,
+  //   }
+
+  //   this.B_style = {
+  //     'width': `200px`,
+  //     'height': `130px`,
+  //     'background': 'rgb(161, 242, 216);',
+  //     'display': 'grid',
+  //     'grid-template-columns': `repeat(${Math.sqrt(this.B_ejemplares)}, 1fr)`,
+  //     'grid-template-rows': `repeat(${Math.sqrt(this.B_ejemplares)}, 1fr)`,
+  //     'margin': `${Number(this.producto.pre_impresion.tamano_sustrato.margenes[1].superior) * 2}px ${Number(this.producto.pre_impresion.tamano_sustrato.margenes[1].derecho) * 2}px ${Number(this.producto.pre_impresion.tamano_sustrato.margenes[1].inferior) * 2}px ${Number(this.producto.pre_impresion.tamano_sustrato.margenes[1].izquierdo) * 2}px`,
+  //   }
+  // }
 
   previous() {
     if (this.currentIndex > 0) {
@@ -250,8 +274,8 @@ export class NewProductoComponent {
     let splited = this.sustrato_selected.split('&')
 
     // Verificar si el sustrato seleccionado no existe en el array antes de agregarlo
-    if (!this.producto.sustrato.includes(splited[0])) {
-        this.producto.sustrato.push(splited[0]);
+    if (!this.producto.materia_prima.sustrato.includes(splited[0])) {
+        this.producto.materia_prima.sustrato.push(splited[0]);
         this.sustratos_nombres.push(splited[1])
     } else {
         // Si el sustrato ya existe, puedes mostrar un mensaje de error o simplemente no hacer nada
@@ -264,8 +288,8 @@ export class NewProductoComponent {
 
   maquina_impresora(){
     let splited = this.maquina_selected.split('&')
-    if (!this.producto.maquinas.includes(splited[0])) {
-      this.producto.maquinas.push(splited[0]);
+    if (!this.producto.impresion.impresoras.includes(splited[0])) {
+      this.producto.impresion.impresoras.push(splited[0]);
       this.impresoras_nombre.push(splited[1])
     }
 
@@ -274,8 +298,8 @@ export class NewProductoComponent {
 
   maquina_troqueladora(){
     let splited = this.troqueladora_selected.split('&')
-    if (!this.producto.troqueladora.includes(splited[0])) {
-      this.producto.troqueladora.push(splited[0]);
+    if (!this.producto.post_impresion.troqueladora.includes(splited[0])) {
+      this.producto.post_impresion.troqueladora.push(splited[0]);
       this.troqueladora_nombres.push(splited[1])
     }
 
@@ -284,8 +308,8 @@ export class NewProductoComponent {
 
   maquina_guillotina(){
     let splited = this.guillotina_selected.split('&')
-    if (!this.producto.guillotina.includes(splited[0])) {
-      this.producto.guillotina.push(splited[0]);
+    if (!this.producto.post_impresion.guillotina.includes(splited[0])) {
+      this.producto.post_impresion.guillotina.push(splited[0]);
       this.guillotina_nombres.push(splited[1])
     }
 
@@ -294,8 +318,8 @@ export class NewProductoComponent {
 
   maquina_pegadora(){
     let splited = this.pegadora_selected.split('&')
-    if (!this.producto.pegadora.includes(splited[0])) {
-      this.producto.pegadora.push(splited[0]);
+    if (!this.producto.post_impresion.pegadora.includes(splited[0])) {
+      this.producto.post_impresion.pegadora.push(splited[0]);
       this.pegadora_nombres.push(splited[1])
     }
 
@@ -304,8 +328,8 @@ export class NewProductoComponent {
 
   Solucion_fuente(){
     let splited = this.solucion_selected.split('&')
-    if (!this.producto.fuente.includes(splited[0])) {
-      this.producto.fuente.push(splited[0]);
+    if (!this.producto.impresion.fuentes.includes(splited[0])) {
+      this.producto.impresion.fuentes.push(splited[0]);
       this.fuentes_nombres.push(splited[1])
     }
 
@@ -315,15 +339,20 @@ export class NewProductoComponent {
   add_tinta(){
     let splited = this.tinta_selected.tinta.split('&')
     // Verificar si la tinta seleccionada no existe en el array antes de agregarla
-    const tintaExistente = this.producto.tintas.find(tinta => tinta.tinta === splited[0]);
+    const tintaExistente = this.producto.materia_prima.tintas.find(tinta => tinta.tinta === splited[0]);
 
     if (!tintaExistente) {
-        this.producto.tintas.push({ tinta: splited[0], cantidad: this.tinta_selected.cantidad });
+        this.producto.materia_prima.tintas.push({ tinta: splited[0], cantidad: this.tinta_selected.cantidad });
         this.tinta_nombres.push(splited[1])
     } else {
         // Si la tinta ya existe, puedes mostrar un mensaje de error o simplemente no hacer nada
         console.log('La tinta ya está en la lista.');
   }
+
+    let colorExiste = this.producto.impresion.secuencia[0].find(x => x === splited[2])
+    if(!colorExiste){
+      this.producto.impresion.secuencia[0].push(splited[2])
+    }
 
   // Reiniciar las propiedades de la variable tinta_selected
   this.tinta_selected.cantidad = 0;
@@ -333,10 +362,10 @@ export class NewProductoComponent {
   add_barniz(){
     let splited = this.barniz_selected.barniz.split('&');
     // Verificar si la tinta seleccionada no existe en el array antes de agregarla
-    const barnizExistente = this.producto.barnices.find(barniz => barniz.barniz === splited[0]);
+    const barnizExistente = this.producto.materia_prima.barnices.find(barniz => barniz.barniz === splited[0]);
 
     if (!barnizExistente) {
-        this.producto.barnices.push({ barniz: splited[0], cantidad: this.barniz_selected.cantidad });
+        this.producto.materia_prima.barnices.push({ barniz: splited[0], cantidad: this.barniz_selected.cantidad });
         this.barniz_nombres.push(splited[1])
     } else {
         // Si la tinta ya existe, puedes mostrar un mensaje de error o simplemente no hacer nada
@@ -347,14 +376,18 @@ export class NewProductoComponent {
     this.barniz_selected.barniz = '';
   }
 
+  convert(n){
+    return String.fromCharCode(65 + n)
+  }
+
   add_pegamento(){
 
     let splited = this.pegamento_selected.pega.split('&')
     // Verificar si la tinta seleccionada no existe en el array antes de agregarla
-    const pegamentoExistente = this.producto.pegamento.find(pegamento => pegamento.pega === splited[0]);
+    const pegamentoExistente = this.producto.post_impresion.pegamento.find(pegamento => pegamento.pega === splited[0]);
 
     if (!pegamentoExistente) {
-        this.producto.pegamento.push({ pega: splited[0], cantidad: this.pegamento_selected.cantidad });
+        this.producto.post_impresion.pegamento.push({ pega: splited[0], cantidad: this.pegamento_selected.cantidad });
         this.pega_nombres.push(splited[1])
     } else {
         // Si la tinta ya existe, puedes mostrar un mensaje de error o simplemente no hacer nada
@@ -367,7 +400,7 @@ export class NewProductoComponent {
 
   add_caja(){
     let splited = this.caja_selected.split('&')
-    this.producto.caja[0] = splited[0];
+    this.producto.post_impresion.caja.cabida[0] = splited[0];
     this.caja_nombre = splited[1]
   }
 
@@ -616,6 +649,7 @@ export class NewProductoComponent {
           ]
         ]).widths(['100%']).end
       )
+
 
       // PAGINA 2 ******************************************
       pdf.add(

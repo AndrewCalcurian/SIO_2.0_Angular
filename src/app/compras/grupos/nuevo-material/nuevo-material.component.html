@@ -71,11 +71,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="column is-3" *ngIf="selected_pantone">
-                    <div class="field">
-                        <label for="" class="label">Código:</label>
-                        <div class="control">
+                <div class="column is-4" *ngIf="selected_pantone">
+                    <div class="field is-grouped">
+                        <div class="control" width="50%">
+                            <label for="" class="label">Código:</label>
                             <input type="text" class="input" [(ngModel)]="codigo">
+                        </div>
+                        <div class="control">
+                            <label for="" class="label">Coordenadas RGB:</label>
+                            <input type="color" class="input" [(ngModel)]="rgb">
                         </div>
                     </div>
                 </div>

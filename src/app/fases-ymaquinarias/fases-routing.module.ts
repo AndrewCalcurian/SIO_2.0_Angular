@@ -5,9 +5,9 @@ import { FasesYMaquinariasComponent } from './fases-ymaquinarias.component';
 import { MainComponent } from './main/main.component';
 import { FasesComponent } from './fases/fases.component';
 import { MaquinasComponent } from './maquinas/maquinas.component';
-import { ProductosComponent } from './productos/productos.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { PreparacionTintasComponent } from './preparacion-tintas/preparacion-tintas.component';
+import { ProductosComponent } from './productos/productos.component';
 
 const routes: Routes =[
   {

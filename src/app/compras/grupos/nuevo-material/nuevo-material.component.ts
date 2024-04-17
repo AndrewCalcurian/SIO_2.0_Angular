@@ -31,6 +31,7 @@ export class NuevoMaterialComponent implements OnInit{
   public origen:string = '';
   public serie:string = '';
   public nombre:string = '';
+  public rgb:string = ''
 
 
   constructor(public grupos:GruposService,
@@ -126,6 +127,7 @@ export class NuevoMaterialComponent implements OnInit{
         origen:this.origen,
         serie:this.serie,
         nombre:this.nombre,
+        rgb:this.rgb
       }
 
       this.api.nuevoMaterial(data)

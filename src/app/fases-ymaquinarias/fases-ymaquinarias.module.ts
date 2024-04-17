@@ -12,7 +12,6 @@ import { InformacionComponent } from './fases/informacion/informacion.component'
 import { MaquinasComponent } from './maquinas/maquinas.component';
 import { NuevaMaquinaComponent } from './maquinas/nueva-maquina/nueva-maquina.component';
 import { InfoMaquinasComponent } from './maquinas/info-maquinas/info-maquinas.component';
-import { ProductosComponent } from './productos/productos.component';
 import { NuevoProductoComponent } from './productos/nuevo-producto/nuevo-producto.component';
 import { ClientesComponent } from './productos/clientes/clientes.component';
 import { NewProductoComponent } from './productos/new-producto/new-producto.component';
@@ -22,6 +21,7 @@ import { CategoriasComponent } from './categorias/categorias.component';
 import { NuevaCategoriaComponent } from './categorias/nueva-categoria/nueva-categoria.component';
 import { PreparacionTintasComponent } from './preparacion-tintas/preparacion-tintas.component';
 import { NuevaFormulaComponent } from './preparacion-tintas/nueva-formula/nueva-formula.component';
+import { ProductosComponent } from './productos/productos.component';
 
 
 
@@ -35,7 +35,6 @@ import { NuevaFormulaComponent } from './preparacion-tintas/nueva-formula/nueva-
     MaquinasComponent,
     NuevaMaquinaComponent,
     InfoMaquinasComponent,
-    ProductosComponent,
     NuevoProductoComponent,
     ClientesComponent,
     NewProductoComponent,
@@ -43,6 +42,7 @@ import { NuevaFormulaComponent } from './preparacion-tintas/nueva-formula/nueva-
     NuevaCategoriaComponent,
     PreparacionTintasComponent,
     NuevaFormulaComponent,
+    ProductosComponent
   ],
   imports: [
     CommonModule,

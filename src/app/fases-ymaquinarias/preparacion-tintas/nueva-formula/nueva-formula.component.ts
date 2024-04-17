@@ -20,14 +20,16 @@ export class NuevaFormulaComponent implements OnInit{
   }
 
   
-  formular:any = []
   public material = ''
   public cantidad = ''
-  public preparacion = ''
   public cargando = false;
 
   @Input() nuevo:any;
+  @Input() preparacion:any;
+  @Input() formular:any = [];
+  @Input() id:any
   @Output() onCloseModal = new EventEmitter();
+  @Output() onUpdateData = new EventEmitter();
 
   agregarMaterial(){
 
@@ -41,7 +43,7 @@ export class NuevaFormulaComponent implements OnInit{
     }
 
     this.formular.push(data)
-    console.log(this.formular)
+    
 
     this.material = ''
     this.cantidad = ''
@@ -62,13 +64,16 @@ export class NuevaFormulaComponent implements OnInit{
   guardarFormula(){
     this.cargando = true;
     let data = {
+      _id:this.id,
       pantone:this.preparacion,
       formula:this.formular
     }
     
     this.api.GuardarFormula(data)
+    this.onUpdateData.emit({pantone:data.pantone})
     this.preparacion = ''
-    this.formular = ''
+    this.formular = []
+    this.id = ''
     setTimeout(() => {
       Swal.fire({
         text:this.api.mensaje.mensaje,
@@ -83,5 +88,7 @@ export class NuevaFormulaComponent implements OnInit{
       this.onCloseModal.emit();
     }, 500);
   }
+
+
 
 }

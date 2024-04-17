@@ -282,6 +282,72 @@ export class Mensaje {
     ){}
   }
 
+  class Identificacion {
+    constructor(
+        public cliente: string,
+        public categoria: string,
+        public producto: string,
+        public codigo: string,
+        public version: string
+    ) {}
+}
+
+class Dimensiones {
+    constructor(
+        public desplegado: { ancho: string; largo: string; tolerancia: string },
+        public cerrado: { ancho: string; largo: string; alto: string; tolerancia: string },
+        public diseno: string
+    ) {}
+}
+
+class Tinta_ {
+    constructor(
+        public tinta: string | any,
+        public cantidad: number
+    ) {}
+}
+
+class Barniz_ {
+    constructor(
+        public barniz: string,
+        public cantidad: number
+    ) {}
+}
+
+class TamanoSustrato {
+    constructor(
+        public montajes: { ancho: string; largo: string; ejemplares: string }[],
+        public margenes: { inferior: string; superior: string; izquierdo: string; derecho: string }[]
+    ) {}
+}
+
+class Plancha {
+    constructor(
+        public tipo: string,
+        public marca: string,
+        public tiempo_exposicion: string
+    ) {}
+}
+
+class Pegamento_ {
+    constructor(
+        public pega: string,
+        public cantidad: number
+    ) {}
+}
+
+export class Producto_ {
+    constructor(
+        public identificacion: Identificacion,
+        public dimensiones: Dimensiones,
+        public materia_prima: { sustrato: string[]; tintas: Tinta_[]; barnices: Barniz_[] },
+        public pre_impresion: { diseno: string; montajes: string; nombre_montajes: string[]; tamano_sustrato: TamanoSustrato; plancha: Plancha },
+        public impresion: { impresoras: string[]; secuencia: string[][]; pinzas: string[][]; fuentes: string[] },
+        public post_impresion: { troqueladora: string[]; henidura: { alto: string; ancho: string }; guillotina: string[];pegadora:string[]; pegamento: Pegamento_[]; caja: { nombre: string; cabida: string[] } }
+    ) {}
+}
+  
+
   export class Producto {
     constructor(
         public cliente: string,
