@@ -32,8 +32,8 @@ export class NewProductoComponent {
 
   secuencia = ['Amarillo', 'Azul', 'Rojo', 'Negro'];
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.secuencia, event.previousIndex, event.currentIndex);
+  drop(event: CdkDragDrop<string[]>, i:number) {
+    moveItemInArray(this.producto.impresion.secuencia[i], event.previousIndex, event.currentIndex);
   }
 
 
@@ -181,12 +181,15 @@ export class NewProductoComponent {
             break;
             case 1:
               this.Embalaje_Aereo = img;
+              this.producto.post_impresion.distribucion.aerea  = img
             break;
             case 2:
               this.Embalaje_3d = img;
+              this.producto.post_impresion.distribucion.v3d  = img
             break;
             case 3:
               this.paletizado = img;
+              this.producto.post_impresion.distribucion.paletizado  = img
             break;
           }
       })
@@ -196,7 +199,6 @@ export class NewProductoComponent {
     this.detalle = true;
     if(tipo in this.detalles){
       this.detalles[tipo] = true
-      console.log(this.detalles)
     }
   }
 
@@ -291,8 +293,12 @@ export class NewProductoComponent {
     if (!this.producto.impresion.impresoras.includes(splited[0])) {
       this.producto.impresion.impresoras.push(splited[0]);
       this.impresoras_nombre.push(splited[1])
+      if (this.producto.impresion.impresoras.length > 1) {
+        let colores__ = this.producto.impresion.secuencia[0].slice();
+        this.producto.impresion.secuencia.push(colores__);
     }
-
+    }
+    console.log(this.producto.impresion.secuencia)
     this.maquina_selected = ''
   }
 
@@ -349,6 +355,23 @@ export class NewProductoComponent {
         console.log('La tinta ya está en la lista.');
   }
 
+  switch (splited[2]) {
+    case 'A':
+        splited[2] = 'Amarillo';
+        break;
+    case 'C':
+        splited[2] = 'Cyan';
+        break;
+    case 'M':
+        splited[2] = 'Magenta';
+        break;
+    case 'K':
+        splited[2] = 'Negro';
+        break;
+    default:
+        splited[2] = splited[3];
+}
+
     let colorExiste = this.producto.impresion.secuencia[0].find(x => x === splited[2])
     if(!colorExiste){
       this.producto.impresion.secuencia[0].push(splited[2])
@@ -400,7 +423,7 @@ export class NewProductoComponent {
 
   add_caja(){
     let splited = this.caja_selected.split('&')
-    this.producto.post_impresion.caja.cabida[0] = splited[0];
+    this.producto.post_impresion.caja.nombre = splited[1];
     this.caja_nombre = splited[1]
   }
 

@@ -7,6 +7,7 @@ import { WebSocketService } from './web-socket.service';
 export class EspecificacionesService {
 
   especificaciones!: any
+  especificaciones_!: any
   constructor(private socket: WebSocketService) {
     this.buscarEspecificacion();
   }
@@ -18,9 +19,16 @@ export class EspecificacionesService {
       this.especificaciones = especificaciones;
     })
 
+    this.socket.io.on('SERVER:Especificaciones_', async (especificaciones_) => {
+      this.especificaciones = especificaciones_;
+    })
+
     this.socket.io.emit('CLIENTE:BuscarEspecificaciones');
   }
 
+  buscarEspecificacion_(id){
+    return this.especificaciones_.find(x=> x._id === id)
+  }
   GuardarEspecificacion(data: any) {
     this.socket.io.emit('CLIENTE:nuevaEspecificacion', data)
   }

@@ -143,7 +143,7 @@
                             <select name="" id="" (click)="notificar()" [(ngModel)]="tinta_selected.tinta">
                                 <option value="#">Seleccione tinta</option>
                                 <ng-container *ngFor="let tinta of materiales.materiales">
-                                    <option value="{{tinta._id}}&{{tinta.nombre}}({{tinta.fabricante.alias}})&{{tinta.color}}" *ngIf="tinta.grupo.nombre === 'Tintas'">{{tinta.nombre}}({{tinta.fabricante.alias}})</option>
+                                    <option value="{{tinta._id}}&{{tinta.nombre}}({{tinta.fabricante.alias}})&{{tinta.color}}&{{tinta.codigo}}" *ngIf="tinta.grupo.nombre === 'Tintas'">{{tinta.nombre}}({{tinta.fabricante.alias}})</option>
                                 </ng-container>
                             </select>
                         </div>
@@ -308,18 +308,18 @@
                 <div class="field is-grouped">
                     <div class="control" *ngFor="let impresora of impresoras_nombre;index as i">
                         <label class="label">{{impresora}}</label>
-                        <div cdkDropList (cdkDropListDropped)="drop($event)" class="secuencia">
+                        <div cdkDropList (cdkDropListDropped)="drop($event,i)" class="secuencia">
                             <div *ngFor="let color of producto.impresion.secuencia[i]" cdkDrag class="color___">{{color}}</div>
                         </div>
                     </div>
                 </div>
                 <span class="subtitles_">Tamaño de pinzas</span><br><br>
                 <div class="field is-grouped">
-                    <div class="control" *ngFor="let impresora of impresoras_nombre">
+                    <div class="control" *ngFor="let impresora of impresoras_nombre;index as i">
                         <label class="label">{{impresora}}:</label>
                         <div class="select">
-                            <select [(ngModel)]="producto.impresion.pinzas">
-                                <option value="" *ngFor="let pinza of maquinas.BuscarPinzas(impresora)">{{pinza}} mm</option>
+                            <select [(ngModel)]="producto.impresion.pinzas[i]">
+                                <option value="{{pinza}}" *ngFor="let pinza of maquinas.BuscarPinzas(impresora)">{{pinza}} mm</option>
                             </select>
                         </div>
                     </div>
@@ -487,7 +487,7 @@
                 <div class="field" *ngFor="let sustrato of sustratos_nombres;index as i">
                     <div class="control">
                         <label for="" class="label">Unidades por caja ({{sustrato}})</label>
-                        <input type="text" class="input is-30_">
+                        <input type="text" class="input is-30_" [(ngModel)]="producto.post_impresion.caja.cabida[i]">
                     </div>
                 </div>
             </span>
@@ -543,11 +543,11 @@
                 <div class="field is-grouped">
                     <div class="control">
                         <label class="label">Peso de caja (kg):</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.post_impresion.distribucion.peso_cajas">
                     </div>
                     <div class="control">
                         <label class="label">Cantidad de estibas:</label>
-                        <input type="text" class="input">
+                        <input type="text" class="input" [(ngModel)]="producto.post_impresion.distribucion.estibas">
                     </div>
                 </div>
                 <div class="field is-grouped">

@@ -336,6 +336,17 @@ class Pegamento_ {
     ) {}
 }
 
+class Distribucion {
+    constructor(
+        public aerea: string,
+        public v3d: string,
+        public peso_cajas:string,
+        public estibas:string,
+        public paletizado:string,
+
+    ) {}
+}
+
 export class Producto_ {
     constructor(
         public identificacion: Identificacion,
@@ -343,7 +354,7 @@ export class Producto_ {
         public materia_prima: { sustrato: string[]; tintas: Tinta_[]; barnices: Barniz_[] },
         public pre_impresion: { diseno: string; montajes: string; nombre_montajes: string[]; tamano_sustrato: TamanoSustrato; plancha: Plancha },
         public impresion: { impresoras: string[]; secuencia: string[][]; pinzas: string[][]; fuentes: string[] },
-        public post_impresion: { troqueladora: string[]; henidura: { alto: string; ancho: string }; guillotina: string[];pegadora:string[]; pegamento: Pegamento_[]; caja: { nombre: string; cabida: string[] } }
+        public post_impresion: { troqueladora: string[]; henidura: { alto: string; ancho: string }; guillotina: string[];pegadora:string[]; pegamento: Pegamento_[]; caja: { nombre: string; cabida: string[] }; distribucion: Distribucion }
     ) {}
 }
   
