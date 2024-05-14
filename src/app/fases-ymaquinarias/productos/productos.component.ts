@@ -7,6 +7,7 @@ import { ProductosService } from 'src/app/services/productos.service';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { DefectosService } from 'src/app/services/defectos.service';
 import { FormulasService } from 'src/app/services/formulas.service';
+var _ = require('lodash');
 
 // import { SwPush } from '@angular/service-worker';
 
@@ -23,8 +24,20 @@ export class ProductosComponent {
               public productos_:ProductosService,
               public defects:DefectosService,
               public formulas:FormulasService
-  ) {
-  }
+  ) {}
+
+
+  public sustratos_nombres:string[] = []
+  public tinta_nombres:string[]= []
+  public barniz_nombres:string[] = []
+  public impresoras_nombre:string[] = []
+  public fuentes_nombres:string[] = []
+  public troqueladora_nombres:string[] = []
+  public guillotina_nombres:string[] = []
+  public pegadora_nombres:string[] = []
+  public pega_nombres:string[] = []
+  public cajas_nombres:string[] = []
+  public caja_nombre = '';
 
   public nuevo;
   public cliente;
@@ -166,6 +179,54 @@ export class ProductosComponent {
     this.nuevo = false;
     this.cliente = false;
     this.editar = false;
+
+    let textoSinFormatear = this.obtenerDiferencias(this.productos_.lastOne, this.Producto)
+
+    function formatStringUnique(input: string): string {
+      // Reemplaza todos los '.' y '_' con espacios
+      let formattedString = input.replace(/[.]/g, ' ');
+    
+      // Divide la cadena en palabras y elimina las palabras repetidas
+      const words = formattedString.split(' ');
+      const uniqueWords = words.filter((word, index) => words.indexOf(word) === index);
+    
+      // Une las palabras únicas de nuevo en una cadena
+      formattedString = uniqueWords.join(' ');
+    
+      return formattedString;
+    }
+    
+    const ahora = new Date();
+    const dia = ahora.getDate().toString().padStart(2, '0'); // Obtener el día con ceros a la izquierda si es necesario
+    const mes = (ahora.getMonth() + 1).toString().padStart(2, '0'); // Obtener el mes (se suma 1 ya que los meses van de 0 a 11)
+    const año = ahora.getFullYear();
+    const fecha = `${dia}-${mes}-${año}`;
+    const hora = ahora.toTimeString().split(' ')[0]; // Obtener la hora en formato HH:MM:SS
+    function formatChangesDynamically(changes: any): string {
+      let message = `Actualizacion: ${fecha} - ${hora}\n`;
+    
+      const processChange = (key: string, value: any) => {
+        if (typeof value === 'object' && value !== null) {
+          if ('original' in value && 'nuevo' in value) {
+            message += `- La ruta: ${formatStringUnique(key)} cambió.\n  Anterior: ${value.original}\n Nuevo: ${value.nuevo}\n\n`;
+          } else {
+            Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+              processChange(`${key}.${nestedKey}`, nestedValue);
+            });
+          }
+        }
+      };
+    
+      Object.entries(changes).forEach(([key, value]) => {
+        processChange(key, value);
+      });
+    
+      return message;
+    }
+
+    const userFriendlyMessage = formatChangesDynamically(textoSinFormatear);
+    console.log(userFriendlyMessage);
+
     this.Producto = {
       identificacion:{
         cliente  :'',
@@ -1591,4 +1652,649 @@ const ultimaPropiedad = propiedadesUltimaEspecificacion[propiedadesUltimaEspecif
     }
     generarEspecificacion()
   }
+
+
+
+  obtenerDiferencias(obj1, obj2) {
+    function cambios(objetoBase, objetoComparar) {
+      function cambiosInternos(base, comparar, ruta = '') {
+        return _.transform(base, (resultado, valor, clave) => {
+          const valorComparar = comparar[clave];
+          const rutaActual = ruta ? `${ruta}.${clave}` : clave;
+  
+          if (!_.isEqual(valor, valorComparar)) {
+            resultado[rutaActual] = _.isObject(valor) && _.isObject(valorComparar) ?
+              cambiosInternos(valor, valorComparar, rutaActual) : { original: valor, nuevo: valorComparar };
+          }
+        });
+      }
+  
+      return cambiosInternos(objetoBase, objetoComparar);
+    }
+  
+    return cambios(obj1, obj2);
+  }
+  
+
+
+
+  Cambios(){
+    const producto = {
+      "_id": {
+        "$oid": "6627e5d6361182a67688aa9b"
+      },
+      "borrado": false,
+      "identificacion": {
+        "cliente": {
+          "$oid": "65c68c77fb6842b60425f730"
+        },
+        "categoria": {
+          "$oid": "66032bf4066fd3f378f7a693"
+        },
+        "producto": "producto test",
+        "codigo": "02",
+        "version": "1"
+      },
+      "dimensiones": {
+        "desplegado": {
+          "ancho": "30",
+          "largo": "20",
+          "tolerancia": "1"
+        },
+        "cerrado": {
+          "ancho": "20",
+          "largo": "30",
+          "alto": "2",
+          "tolerancia": "1"
+        },
+        "diseno": "PRODUCTO_23_4_2024_12_42_39_172.png"
+      },
+      "materia_prima": {
+        "sustrato": [
+          {
+            "$oid": "655ca516758cdd519b4b7ec8"
+          },
+          {
+            "$oid": "655cc50d71209352589bf75d"
+          }
+        ],
+        "tintas": [
+          {
+            "tinta": {
+              "$oid": "661fe13cbe729ad3f96a7b43"
+            },
+            "cantidad": "0.5",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aa9c"
+            }
+          },
+          {
+            "tinta": {
+              "$oid": "661fe156be729ad3f96a7b4e"
+            },
+            "cantidad": "0.5",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aa9d"
+            }
+          },
+          {
+            "tinta": {
+              "$oid": "661fe1f8be729ad3f96a7b90"
+            },
+            "cantidad": "0.2",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aa9e"
+            }
+          },
+          {
+            "tinta": {
+              "$oid": "661ee3680be7c3b860010b89"
+            },
+            "cantidad": "0.2",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aa9f"
+            }
+          },
+          {
+            "tinta": {
+              "$oid": "661fe17ebe729ad3f96a7b59"
+            },
+            "cantidad": "0.01",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aaa0"
+            }
+          }
+        ],
+        "barnices": [
+          {
+            "barniz": {
+              "$oid": "65cce514ee8d817da3f9c4dd"
+            },
+            "cantidad": "0.02",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aaa1"
+            }
+          }
+        ]
+      },
+      "pre_impresion": {
+        "diseno": "archivo.ai",
+        "montajes": "2",
+        "nombre_montajes": [
+          "a.ai",
+          "b.ai"
+        ],
+        "tamano_sustrato": {
+          "montajes": [
+            {
+              "ancho": "10",
+              "largo": "20",
+              "ejemplares": "15",
+              "_id": {
+                "$oid": "6627e5d6361182a67688aaa2"
+              }
+            },
+            {
+              "ancho": "10",
+              "largo": "30",
+              "ejemplares": "25",
+              "_id": {
+                "$oid": "6627e5d6361182a67688aaa3"
+              }
+            }
+          ],
+          "margenes": [
+            {
+              "inferior": "2",
+              "superior": "2",
+              "izquierdo": "2",
+              "derecho": "2",
+              "_id": {
+                "$oid": "6627e5d6361182a67688aaa4"
+              }
+            },
+            {
+              "inferior": "2",
+              "superior": "2",
+              "izquierdo": "2",
+              "derecho": "2",
+              "_id": {
+                "$oid": "6627e5d6361182a67688aaa5"
+              }
+            }
+          ]
+        },
+        "plancha": {
+          "tipo": "Ptipo",
+          "marca": "Pmarca",
+          "tiempo_exposicion": "2"
+        }
+      },
+      "impresion": {
+        "impresoras": [
+          {
+            "$oid": "65c3cd8a778e45ce5e42afee"
+          },
+          {
+            "$oid": "65fdda3b9660e8c2b5983406"
+          }
+        ],
+        "secuencia": [
+          [
+            "Amarillo",
+            "Negro",
+            "233",
+            "Cyan"
+          ],
+          [
+            "233",
+            "Negro",
+            "Cyan",
+            "Amarillo"
+          ]
+        ],
+        "pinzas": [
+          [],
+          [
+            ""
+          ]
+        ],
+        "fuentes": [
+          {
+            "$oid": "65fb49d675ce10e38628d56b"
+          }
+        ]
+      },
+      "post_impresion": {
+        "troqueladora": [
+          {
+            "$oid": "65c3d178778e45ce5e42b017"
+          },
+          {
+            "$oid": "65cd0c4cff7d2d252682c084"
+          }
+        ],
+        "henidura": {
+          "alto": "30",
+          "ancho": "60"
+        },
+        "guillotina": [
+          {
+            "$oid": "65cd10b0ff7d2d252682c2d6"
+          }
+        ],
+        "pegadora": [
+          {
+            "$oid": "65c3d178778e45ce5e42b017"
+          }
+        ],
+        "pegamento": [
+          {
+            "pega": {
+              "$oid": "65cd0de1ff7d2d252682c107"
+            },
+            "cantidad": "0.5",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aaa6"
+            }
+          }
+        ],
+        "caja": {
+          "nombre": "",
+          "cabida": [
+            "300",
+            "250"
+          ]
+        },
+        "distribucion": {
+          "aerea": "EMBALAJE_AEREO_23_4_2024_12_45_50_177.png",
+          "v3d": "EMBALAJE_3D_23_4_2024_12_46_1_380.png",
+          "peso_cajas": "30",
+          "estibas": "7",
+          "paletizado": "PELETIZADO_23_4_2024_12_46_13_621.png"
+        }
+      },
+      "createdAt": {
+        "$date": "2024-04-23T16:46:14.921Z"
+      },
+      "updatedAt": {
+        "$date": "2024-04-23T16:46:14.921Z"
+      },
+      "__v": 0
+    }
+
+    const productos2 = {
+      "_id": {
+        "$oid": "6627e5d6361182a67688aa9b"
+      },
+      "borrado": false,
+      "identificacion": {
+        "cliente": {
+          "$oid": "65c68c77fb6842b60425f730"
+        },
+        "categoria": {
+          "$oid": "66032bf4066fd3f378f7a693"
+        },
+        "producto": "producto test",
+        "codigo": "02",
+        "version": "1"
+      },
+      "dimensiones": {
+        "desplegado": {
+          "ancho": "30",
+          "largo": "20",
+          "tolerancia": "1"
+        },
+        "cerrado": {
+          "ancho": "20",
+          "largo": "30",
+          "alto": "2",
+          "tolerancia": "1"
+        },
+        "diseno": "PRODUCTO_23_4_2024_12_42_39_172.png"
+      },
+      "materia_prima": {
+        "sustrato": [
+          {
+            "$oid": "655ca516758cdd519b4b7ec8"
+          },
+          {
+            "$oid": "655cc50d71209352589bf75d"
+          }
+        ],
+        "tintas": [
+          {
+            "tinta": {
+              "$oid": "661fe13cbe729ad3f96a7b43"
+            },
+            "cantidad": "0.5",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aa9c"
+            }
+          },
+          {
+            "tinta": {
+              "$oid": "661fe156be729ad3f96a7b4e"
+            },
+            "cantidad": "0.5",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aa9d"
+            }
+          },
+          {
+            "tinta": {
+              "$oid": "661fe1f8be729ad3f96a7b90"
+            },
+            "cantidad": "0.2",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aa9e"
+            }
+          },
+          {
+            "tinta": {
+              "$oid": "661ee3680be7c3b860010b89"
+            },
+            "cantidad": "0.2",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aa9f"
+            }
+          },
+          {
+            "tinta": {
+              "$oid": "661fe17ebe729ad3f96a7b59"
+            },
+            "cantidad": "0.01",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aaa0"
+            }
+          }
+        ],
+        "barnices": [
+          {
+            "barniz": {
+              "$oid": "65cce514ee8d817da3f9c4dd"
+            },
+            "cantidad": "0.2",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aaa1"
+            }
+          }
+        ]
+      },
+      "pre_impresion": {
+        "diseno": "archivo.ai",
+        "montajes": "2",
+        "nombre_montajes": [
+          "a.ai",
+          "b.ai"
+        ],
+        "tamano_sustrato": {
+          "montajes": [
+            {
+              "ancho": "10",
+              "largo": "20",
+              "ejemplares": "15",
+              "_id": {
+                "$oid": "6627e5d6361182a67688aaa2"
+              }
+            },
+            {
+              "ancho": "10",
+              "largo": "30",
+              "ejemplares": "25",
+              "_id": {
+                "$oid": "6627e5d6361182a67688aaa3"
+              }
+            }
+          ],
+          "margenes": [
+            {
+              "inferior": "2",
+              "superior": "2",
+              "izquierdo": "2",
+              "derecho": "2",
+              "_id": {
+                "$oid": "6627e5d6361182a67688aaa4"
+              }
+            },
+            {
+              "inferior": "2",
+              "superior": "2",
+              "izquierdo": "2",
+              "derecho": "2",
+              "_id": {
+                "$oid": "6627e5d6361182a67688aaa5"
+              }
+            }
+          ]
+        },
+        "plancha": {
+          "tipo": "Ptipo",
+          "marca": "Pmarca",
+          "tiempo_exposicion": "2"
+        }
+      },
+      "impresion": {
+        "impresoras": [
+          {
+            "$oid": "65c3cd8a778e45ce5e42afee"
+          },
+          {
+            "$oid": "65fdda3b9660e8c2b5983406"
+          }
+        ],
+        "secuencia": [
+          [
+            "Amarillo",
+            "Negro",
+            "233",
+            "Cyan"
+          ],
+          [
+            "233",
+            "Negro",
+            "Cyan",
+            "Amarillo"
+          ]
+        ],
+        "pinzas": [
+          [],
+          [
+            ""
+          ]
+        ],
+        "fuentes": [
+          {
+            "$oid": "65fb49d675ce10e38628d56b"
+          }
+        ]
+      },
+      "post_impresion": {
+        "troqueladora": [
+          {
+            "$oid": "65c3d178778e45ce5e42b017"
+          },
+          {
+            "$oid": "65cd0c4cff7d2d252682c084"
+          }
+        ],
+        "henidura": {
+          "alto": "30",
+          "ancho": "60"
+        },
+        "guillotina": [
+          {
+            "$oid": "65cd10b0ff7d2d252682c2d6"
+          }
+        ],
+        "pegadora": [
+          {
+            "$oid": "65c3d178778e45ce5e42b017"
+          }
+        ],
+        "pegamento": [
+          {
+            "pega": {
+              "$oid": "65cd0de1ff7d2d252682c107"
+            },
+            "cantidad": "0.5",
+            "_id": {
+              "$oid": "6627e5d6361182a67688aaa6"
+            }
+          }
+        ],
+        "caja": {
+          "nombre": "",
+          "cabida": [
+            "300",
+            "250"
+          ]
+        },
+        "distribucion": {
+          "aerea": "EMBALAJE_AEREO_23_4_2024_12_45_50_177.png",
+          "v3d": "EMBALAJE_3D_23_4_2024_12_46_1_380.png",
+          "peso_cajas": "30",
+          "estibas": "6",
+          "paletizado": "PELETIZADO_23_4_2024_12_46_13_621.png"
+        }
+      },
+      "createdAt": {
+        "$date": "2024-04-23T16:46:14.921Z"
+      },
+      "updatedAt": {
+        "$date": "2024-04-23T16:46:14.921Z"
+      },
+      "__v": 0
+    }
+    // Ejemplo de uso:
+    const json1 = { nombre: "Copilot", version: "1.0" };
+    const json2 = { nombre: "Copilot", version: "1.1" };
+  
+    let textoSinFormatear = this.obtenerDiferencias(producto, productos2)
+
+    function formatStringUnique(input: string): string {
+      // Reemplaza todos los '.' y '_' con espacios
+      let formattedString = input.replace(/[.]/g, ' ');
+    
+      // Divide la cadena en palabras y elimina las palabras repetidas
+      const words = formattedString.split(' ');
+      const uniqueWords = words.filter((word, index) => words.indexOf(word) === index);
+    
+      // Une las palabras únicas de nuevo en una cadena
+      formattedString = uniqueWords.join(' ');
+    
+      return formattedString;
+    }
+    
+    const ahora = new Date();
+    const dia = ahora.getDate().toString().padStart(2, '0'); // Obtener el día con ceros a la izquierda si es necesario
+    const mes = (ahora.getMonth() + 1).toString().padStart(2, '0'); // Obtener el mes (se suma 1 ya que los meses van de 0 a 11)
+    const año = ahora.getFullYear();
+    const fecha = `${dia}-${mes}-${año}`;
+    const hora = ahora.toTimeString().split(' ')[0]; // Obtener la hora en formato HH:MM:SS
+    function formatChangesDynamically(changes: any): string {
+      let message = `Actualizacion: ${fecha} - ${hora}\n`;
+    
+      const processChange = (key: string, value: any) => {
+        if (typeof value === 'object' && value !== null) {
+          if ('original' in value && 'nuevo' in value) {
+            message += `- La ruta: ${formatStringUnique(key)} cambió.\n  Anterior: ${value.original}\n Nuevo: ${value.nuevo}\n\n`;
+          } else {
+            Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+              processChange(`${key}.${nestedKey}`, nestedValue);
+            });
+          }
+        }
+      };
+    
+      Object.entries(changes).forEach(([key, value]) => {
+        processChange(key, value);
+      });
+    
+      return message;
+    }
+
+    const userFriendlyMessage = formatChangesDynamically(textoSinFormatear);
+    console.log(userFriendlyMessage);
+  }
+
+  EditarProducto(producto:any){
+    console.log(producto)
+    this.Producto = producto;
+    let cliente:any = this.Producto.identificacion.cliente
+    let categoria:any = this.Producto.identificacion.categoria
+    this.Producto.identificacion.cliente = cliente._id
+    this.Producto.identificacion.categoria = categoria._id
+    // Actualizar los sustratos y almacenar los nombres en sustratos_nombres
+    this.sustratos_nombres = this.Producto.materia_prima.sustrato.map((sustrato: any) => {
+      return sustrato.nombre;
+    });
+    this.Producto.materia_prima.sustrato = this.Producto.materia_prima.sustrato.map((sustrato: any) => {
+        return sustrato._id;
+    });
+    this.tinta_nombres = this.Producto.materia_prima.tintas.map((tintas: any) => {
+      return tintas.tinta.nombre;
+    });
+    for(let i=0;i<this.Producto.materia_prima.tintas.length;i++){
+      let tinta:any = this.Producto.materia_prima.tintas[i]
+      this.Producto.materia_prima.tintas[i].tinta = tinta._id
+    }
+    this.barniz_nombres = this.Producto.materia_prima.barnices.map((barnices: any) => {
+      return barnices.barniz.nombre;
+    });
+    for(let i=0;i<this.Producto.materia_prima.barnices.length;i++){
+      let barniz:any = this.Producto.materia_prima.barnices[i]
+      this.Producto.materia_prima.barnices[i].barniz = barniz._id
+    }
+    this.impresoras_nombre = this.Producto.impresion.impresoras.map((impresoras: any) => {
+      return impresoras.nombre;
+    });
+    this.Producto.impresion.impresoras = this.Producto.impresion.impresoras.map((impresoras: any) => {
+      return impresoras._id;
+    });
+    
+    for(let i=0;i<this.Producto.impresion.fuentes.length;i++){
+      let fuente:any = this.Producto.impresion.fuentes[i]
+      this.fuentes_nombres.push(fuente.nombre)
+    }
+
+    this.troqueladora_nombres = this.Producto.post_impresion.troqueladora.map((troqueladoras: any) => {
+      return troqueladoras.nombre;
+    });
+
+    this.Producto.post_impresion.troqueladora = this.Producto.post_impresion.troqueladora.map((troqueladoras: any) => {
+      return troqueladoras._id;
+    });
+
+    this.guillotina_nombres = this.Producto.post_impresion.guillotina.map((guillotinas: any) => {
+      return guillotinas.nombre;
+    });
+
+    this.Producto.post_impresion.guillotina = this.Producto.post_impresion.guillotina.map((guillotinas: any) => {
+      return guillotinas._id;
+    });
+
+    this.pegadora_nombres = this.Producto.post_impresion.pegadora.map((pegadoras: any) => {
+      return pegadoras.nombre;
+    });
+
+    this.Producto.post_impresion.pegadora = this.Producto.post_impresion.pegadora.map((pegadoras: any) => {
+      return pegadoras._id;
+    });
+
+    this.pega_nombres = this.Producto.post_impresion.pegamento.map((pegamentos: any) => {
+      return pegamentos.pega.nombre;
+    });
+
+    for(let i=0;i<this.Producto.post_impresion.pegamento.length;i++){
+      let pega:any = this.Producto.post_impresion.pegamento[i]
+      this.Producto.post_impresion.pegamento[i].pega = pega._id
+    }
+  
+    console.log(this.Producto)
+    this.nuevo = true;
+  }
+
+  
+
 }

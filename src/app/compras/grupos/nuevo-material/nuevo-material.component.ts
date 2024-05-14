@@ -31,7 +31,8 @@ export class NuevoMaterialComponent implements OnInit{
   public origen:string = '';
   public serie:string = '';
   public nombre:string = '';
-  public rgb:string = ''
+  public rgb:string = '';
+  public modelo:string = '';
 
 
   constructor(public grupos:GruposService,
@@ -98,6 +99,7 @@ export class NuevoMaterialComponent implements OnInit{
       this.origen = '';
       this.serie = '';
       this.nombre = '';
+      this.modelo = '';
       this.onCloseModal.emit();
     }
 
@@ -111,6 +113,8 @@ export class NuevoMaterialComponent implements OnInit{
       this.origen = '';
       this.serie = '';
       this.nombre = '';
+      this.modelo = '';
+      this.modelo = '';
       this.onCloseModal_.emit();
     }
     
@@ -127,6 +131,7 @@ export class NuevoMaterialComponent implements OnInit{
         origen:this.origen,
         serie:this.serie,
         nombre:this.nombre,
+        modelo:this.modelo,
         rgb:this.rgb
       }
 

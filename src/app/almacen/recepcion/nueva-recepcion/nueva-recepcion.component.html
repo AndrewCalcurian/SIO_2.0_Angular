@@ -23,7 +23,127 @@
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
         <div class="modal-card-body">
-            <div class="columns">
+            <div class="field is-grouped">
+                <div class="control">
+                    <label for="" class="label">Proveedor:</label>
+                    <div class="select">
+                        <select [(ngModel)]="proveedor_" (change)="OC__ = ''">
+                            <option value="{{proveedor._id}}" *ngFor="let proveedor of proveedores.proveedores">{{proveedor.nombre}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control" *ngIf="proveedor_">
+                    <label class="label">Tipo:</label>
+                    <div class="select">
+                        <select>
+                            <option value="F - ">F</option>
+                            <option value="N - ">N</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control" *ngIf="proveedor_">
+                    <label class="label">Nº Documento:</label>
+                    <input type="text" class="input" [(ngModel)]="documento_">
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control" *ngIf="documento_">
+                    <label class="label">Control:</label>
+                    <input type="text" class="input" [(ngModel)]="control" (keydown)="generarNumeroDeControl()">
+                </div>
+                <div class="control" *ngIf="control">
+                    <label class="label">Base Imponible (Bs):</label>
+                    <input type="text" class="input right-aligned-input" [(ngModel)]="inputValue" (keyup)="onInputChange($event)" (keydown)="keyDownEvent($event)">
+                </div>
+            </div>
+            <hr *ngIf="inputValue">
+            <div class="field is-grouped">
+                <div class="control" *ngIf="inputValue != '0,00'">
+                    <label class="label">Fecha recepción:</label>
+                    <input type="date" class="input" [(ngModel)]="f_recepcion" [max]="today">
+                </div>
+                <div class="control" *ngIf="f_recepcion">
+                    <label class="label">Transportista:</label>
+                    <input type="text" class="input" [(ngModel)]="transportista_">
+                </div>
+                <div class="control" *ngIf="transportista_">
+                    <label class="label">OC:</label>
+                    <div class="select">
+                        <select (change)="seleccionarOC($event.target)" [(ngModel)]="OC__">
+                            <option value="{{i}}" *ngFor="let orden of OC_Poligrafica.filtrarPorProveedor(proveedor_);index as i">{{orden.numero}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control" *ngIf="OC__">
+                    <label class="label">Recepción:</label>
+                    <div class="select">
+                        <select [(ngModel)]="material_selected_in_OC">
+                            <option value="{{n}}" *ngFor="let materiales of Poligrafica_OC.pedido;index as n">{{materiales.material.nombre}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control" *ngIf="material_selected_in_OC">
+                    <label class="label">Lote:</label>
+                    <input type="text" class="input" [(ngModel)]="lote_">
+                </div>
+                <div class="control" *ngIf="lote_">
+                    <label class="label">Cantidad {{Poligrafica_OC.pedido[material_selected_in_OC].unidad}}:</label>
+                    <input type="number" class="input short" [value]="Poligrafica_OC.pedido[material_selected_in_OC].cantidad" [(ngModel)]="cantidad_">
+                </div>
+            </div>
+            <div class="field has-addons" *ngIf="cantidad_">
+                <div class="control">
+                    <label for="" class="label">Fecha Venc.</label>
+                    <input type="date" name="" id="" class="input">
+                </div>
+                <p class="control">
+                    <label class="label">Presentación:</label>
+                    <span class="select">
+                        <select [(ngModel)]="presentacion_">
+                            <option value="Lata">Lata</option>
+                            <option value="Paleta">Paleta</option>
+                            <option value="Paquete">Paquete</option>
+                            <option value="Env. Plastico">Env. Plástico</option>
+                        </select>
+                    </span>
+                </p>
+                <p class="control" *ngIf="cantidad_">
+                    <label class="label">Neto ({{Poligrafica_OC.pedido[material_selected_in_OC].unidad}}):</label>
+                    <input type="text" class="input short" [(ngModel)]="neto_">
+                </p>
+                <p class="control" *ngIf="cantidad_ && neto_">
+                    <label class="label"> </label>
+                    <button class="button is-success" (click)="addMaterial()">
+                        <span class="icon">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </button>
+                </p>
+            </div>
+            <span id="sobrante" class="informacion"></span><br>
+            <span id="info" class="informacion"></span>
+            <span *ngIf="done">  <i class="fas fa-info-circle blue_" style="font-size: larger;"></i>  <i class="fas fa-tasks blue_" style="font-size: larger;"></i></span>
+            <br>
+            <div class="field" *ngIf="done">
+                <div class="control">
+                    <label for="" class="label">Cargar lote:</label>
+                    <div class="file is-info">
+                        <label class="file-label">
+                          <input class="file-input" type="file" name="resume" />
+                          <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-file-excel"></i>
+                            </span>
+        
+                          </span>
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <!-- ************************ DEPRECATED ************************ -->
+            <div class="columns" style="display: none;">
                 <div class="column">
                     <div class="field">
                         <label for="" class="label">Nº Documento:</label>

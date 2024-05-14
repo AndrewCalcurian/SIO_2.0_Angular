@@ -22,68 +22,77 @@ export class RecepcionComponent {
 
   }
 
+// Función para verificar si un lote tiene análisis en el almacén y devuelve la información
 poseeAnalisis(lote){
-  console.log(this.almacen.buscarPorLote(lote))
-  return this.almacen.buscarPorLote(lote)
+  console.log(this.almacen.buscarPorLote(lote)); // Imprime en consola la información del análisis del lote
+  return this.almacen.buscarPorLote(lote); // Retorna la información del análisis del lote
 }
 
+// Función asincrónica para enviar materiales al almacén
 EnviarAlmacen = async(index: number, i: number) =>{
   const materiales = this.api.recepciones[index].materiales[i];
   await materiales.forEach((material:any) => {
-    material.material = material.material._id;
-    material.recepcion = this.api.recepciones[index]._id;
+    material.material = material.material._id; // Asigna el ID del material
+    material.recepcion = this.api.recepciones[index]._id; // Asigna el ID de la recepción
   });
-  this.almacen.GuardarAlmacen(materiales);
+  this.almacen.GuardarAlmacen(materiales); // Guarda los materiales en el almacén
 }
 
-  showInfo(i) {
-    if (!this.clicked[i]) {
-      this.clicked[i] = true;
-    } else {
-      this.clicked[i] = false;
-    }
+// Función para mostrar u ocultar información adicional en una sección
+showInfo(i) {
+  if (!this.clicked[i]) {
+    this.clicked[i] = true; // Si no se ha hecho clic previamente, muestra la información adicional
+  } else {
+    this.clicked[i] = false; // Si ya se hizo clic, oculta la información adicional
   }
+}
 
-  mostrarDetalle() {
-    this.detalle = true;
-  }
+// Función para mostrar el detalle de una recepción
+mostrarDetalle() {
+  this.detalle = true; // Muestra el detalle de la recepción
+}
 
-  NuevaRecepcion() {
-    this.nueva = true;
-  }
+// Función para crear una nueva recepción
+NuevaRecepcion() {
+  this.nueva = true; // Indica que se va a crear una nueva recepción
+}
 
-  publicMaterial(x: number, y: number) {
-    this.detalle = true;
-    this.Material_selected = this.api.recepciones[x]
-    this.n_word = y
-  }
+// Función para publicar un material seleccionado
+publicMaterial(x: number, y: number) {
+  this.detalle = true; // Muestra el detalle del material seleccionado
+  this.Material_selected = this.api.recepciones[x]; // Asigna el material seleccionado
+  this.n_word = y; // Asigna un valor a la variable n_word
+}
 
-  EdicionDeMaterial(x: number, y: number) {
-    this.edicion = true;
-    this.Material_selected = this.api.recepciones[x]
-    this.n_word = y
-  }
+// Función para editar un material
+EdicionDeMaterial(x: number, y: number) {
+  this.edicion = true; // Indica que se va a editar un material
+  this.Material_selected = this.api.recepciones[x]; // Asigna el material seleccionado para editar
+  this.n_word = y; // Asigna un valor a la variable n_word
+}
 
-  notificar(id: string) {
-    this.api.NoticarRecepcion(id);
-    setTimeout(() => {
-      Swall.fire({
-        text: this.api.mensaje.mensaje,
-        icon: this.api.mensaje.icon,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timerProgressBar: true,
-        timer: 5000
-      })
-    }, 1000)
-    console.log(id);
-  }
+// Función para notificar una recepción
+notificar(id: string) {
+  this.api.NoticarRecepcion(id); // Notifica la recepción con el ID proporcionado
+  setTimeout(() => {
+    Swall.fire({
+      text: this.api.mensaje.mensaje, // Muestra un mensaje
+      icon: this.api.mensaje.icon, // Muestra un ícono
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timerProgressBar: true,
+      timer: 5000 // Configuración de la notificación
+    })
+  }, 1000) // Espera 1 segundo antes de mostrar la notificación
+  console.log(id); // Imprime el ID en consola
+}
 
-  checkar(id: string) {
-    console.log(id)
-    this.api.checkearRecepcion(id);
-  }
+// Función para verificar una recepción
+checkar(id: string) {
+  console.log(id); // Imprime el ID en consola
+  this.api.checkearRecepcion(id); // Realiza la verificación de la recepción con el ID proporcionado
+}
 
   DescargarFormato(informacion:any){
 

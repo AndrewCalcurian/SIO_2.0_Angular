@@ -113,14 +113,15 @@
                     </div>
                 </div>
             </div>
-            <div class="columns">
-                <div class="column">
+            <div class="field is-grouped">
+                <div class="control">
                     <label for="" class="label">Material</label>
-                    <div class="control">
-                        <input type="text" class="input" [(ngModel)]="nombre">
-                    </div>
+                    <input type="text" class="input" [(ngModel)]="nombre">
                 </div>
-                <div class="column"></div>
+                <div class="control">
+                    <label class="label">Código cliente:</label>
+                    <input type="text" class="input" [(ngModel)]="modelo">
+                </div>
             </div>
             <button class="button is-success" (click)="guardarMaterial()">
                 <span class="icon"><i class="fas fa-save"></i></span>

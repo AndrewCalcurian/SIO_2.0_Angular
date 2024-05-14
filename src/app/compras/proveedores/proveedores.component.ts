@@ -55,7 +55,7 @@ export class ProveedoresComponent{
   }
 
   filas(){
-    return Math.ceil(this.api.proveedores.length / 5)
+    return Math.ceil((this.api.proveedores.length + 1) / 5)
   }
 
   EditarProveedor(i:number){

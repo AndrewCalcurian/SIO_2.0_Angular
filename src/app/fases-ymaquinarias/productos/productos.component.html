@@ -7,6 +7,16 @@
 <app-new-producto 
 [nuevo]="nuevo"
 [producto]="Producto"
+[sustratos_nombres]="sustratos_nombres"
+[tinta_nombres]="tinta_nombres"
+[barniz_nombres]="barniz_nombres"
+[impresoras_nombre]="impresoras_nombre"
+[troqueladora_nombres]="troqueladora_nombres"
+[guillotina_nombres]="guillotina_nombres"
+[pegadora_nombres]="pegadora_nombres"
+[pega_nombres]="pega_nombres"
+[cajas_nombres]="cajas_nombres"
+[caja_nombre]="caja_nombre"
 (onCloseModal)="cerrar()">
 </app-new-producto>
 
@@ -44,6 +54,12 @@
             </span>
             <span>Cliente</span>
           </button> 
+          <button class="button is-success" (click)="Cambios()">
+            <span class="icon">
+              <i class="fas fa-plus-circle"></i>
+            </span>
+            <span>Cambios</span>
+          </button> 
         <br><br>
         <div class="columns">
           <div class="column is-3">
@@ -80,7 +96,8 @@
                         <td>E-{{producto.identificacion.cliente.codigo}}-{{producto.identificacion.codigo}}-{{producto.identificacion.version}}</td>
                         <td>{{producto.identificacion.categoria.nombre}} {{producto.identificacion.producto}}</td>
                         <td>
-                          <i class="fas fa-download blue_" style="cursor: pointer;" (click)="DescargarPDF(producto)"></i>
+                          <i class="fas fa-edit green" style="cursor: pointer;" (click)="EditarProducto(producto)"></i>
+                           <i class="fas fa-download blue_" style="cursor: pointer;" (click)="DescargarPDF(producto)"></i>
                         </td>
                       </tr>
                     </tbody>

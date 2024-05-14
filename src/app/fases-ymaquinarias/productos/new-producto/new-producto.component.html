@@ -50,9 +50,6 @@
                             <input type="text" class="input" placeholder="código del producto" [(ngModel)]="producto.identificacion.version">
                     </div>
                 </div>
-                <button class="button is-success" (click)="especificacion()">
-                    <span>Download</span>
-                </button>
             </span>
             <span class="content" *ngIf="i === 1">
                 <div class="subtitles_">Tamaño del producto desplegado (mm)</div>
@@ -107,7 +104,7 @@
                           </div>
                     </div>
                     <div class="control">
-                        <i class="fas fa-info-circle blue_" (click)="openImage(Producto_imag, 'Imagen del producto')" style="cursor: pointer;"></i>
+                        <i class="fas fa-info-circle blue_" (click)="openImage(producto.dimensiones.diseno, 'Imagen del producto')" style="cursor: pointer;"></i>
                     </div>
                 </div>
             </span>

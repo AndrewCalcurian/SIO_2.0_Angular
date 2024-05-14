@@ -44,6 +44,10 @@ export class MaterialesService {
     this.socket.io.emit('CLIENTE:elminarMaterial', id)
   }
 
+  filtrarPorFabricante(id_fabricante){
+    return this.materiales.filter((x:any) => x.fabricante._id === id_fabricante)
+  }
+
   filtrarPorGrupos(ids: string[]): any[] {
     return this.materiales.filter((x: any) => ids.some((groupId: string) => groupId.includes(x.grupo._id)));
   }

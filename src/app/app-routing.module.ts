@@ -18,6 +18,10 @@ const routes: Routes = [
 {
   path: 'maquinas',
   loadChildren: () => import('./fases-ymaquinarias/fases-routing.module').then(m => m.FasesRoutingModule)
+},
+{
+  path: 'ordenes',
+  loadChildren: () => import('./ordenes/ordenes-routing.module').then(m=> m.OrdenesRoutingModule)
 }];
 
 @NgModule({

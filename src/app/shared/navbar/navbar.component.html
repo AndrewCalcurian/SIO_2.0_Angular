@@ -11,10 +11,11 @@
             <ul class="menu-list">
                 <li>
                     <a routerLink="/compras" (click)="select_menu(1)" [ngClass]="{'is-active':router.url == '/compras'}">Compras</a>
-                    <ul *ngIf="router.url == '/compras' || router.url == '/compras/grupos' || router.url == '/compras/fabricantes' || router.url == '/compras/proveedores'">
+                    <ul *ngIf="router.url == '/compras' || router.url == '/compras/grupos' || router.url == '/compras/fabricantes' || router.url == '/compras/proveedores' || router.url == '/compras/ordenes'">
                         <li><a [ngClass]="{'is-active':router.url == '/compras/grupos'}" routerLink="/compras/grupos">Grupos</a></li>
                         <li><a [ngClass]="{'is-active':router.url == '/compras/fabricantes'}" routerLink="/compras/fabricantes">Fabricantes</a></li>
                         <li><a [ngClass]="{'is-active':router.url == '/compras/proveedores'}" routerLink="/compras/proveedores">Proveedores</a></li>
+                        <li><a [ngClass]="{'is-active':router.url == '/compras/ordenes'}" routerLink="/compras/ordenes">Ordenes</a></li>
                     </ul>
                 </li>
             </ul>

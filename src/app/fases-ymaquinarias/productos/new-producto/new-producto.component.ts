@@ -39,6 +39,17 @@ export class NewProductoComponent {
 
   @Input() nuevo:any;
   @Input() producto!:Producto_
+  @Input() sustratos_nombres:any
+  @Input() tinta_nombres:any
+  @Input() barniz_nombres:any
+  @Input() impresoras_nombre:any
+  @Input() fuentes_nombres:any
+  @Input() troqueladora_nombres:any
+  @Input() guillotina_nombres:any
+  @Input() pegadora_nombres:any
+  @Input() pega_nombres:any
+  @Input() cajas_nombres:any
+  @Input() caja_nombre:any;
   @Output() onCloseModal = new EventEmitter()
 
   public loading = false;
@@ -65,17 +76,7 @@ export class NewProductoComponent {
 
   seleccion_tinta = false;
 
-  sustratos_nombres:string[] = []
-  tinta_nombres:string[]= []
-  barniz_nombres:string[] = []
-  impresoras_nombre:string[] = []
-  fuentes_nombres:string[] = []
-  troqueladora_nombres:string[] = []
-  guillotina_nombres:string[] = []
-  pegadora_nombres:string[] = []
-  pega_nombres:string[] = []
-  cajas_nombres:string[] = []
-  caja_nombre = '';
+  
 
 
   style: any = {};

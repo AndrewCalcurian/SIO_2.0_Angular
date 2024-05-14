@@ -15,9 +15,12 @@ import { FasesYMaquinariasComponent } from './fases-ymaquinarias/fases-ymaquinar
 import { MainComponent } from './fases-ymaquinarias/main/main.component';
 import { FasesYmaquinariasModule } from './fases-ymaquinarias/fases-ymaquinarias.module';
 import { SolicitudMaterialComponent } from './shared/navbar/solicitud-material/solicitud-material.component';
+import { OrdenesComponent } from './ordenes/ordenes.component';
+import { OrdenesModule } from './ordenes/ordenes.module';
 @NgModule({
   declarations: [
     AppComponent,
+    OrdenesComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,8 @@ import { SolicitudMaterialComponent } from './shared/navbar/solicitud-material/s
     ComprasModule,
     AlmacenModule,
     LaboratorioModule,
-    FasesYmaquinariasModule
+    FasesYmaquinariasModule,
+    OrdenesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

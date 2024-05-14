@@ -16,6 +16,8 @@ import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { NuevoProveedorComponent } from './proveedores/nuevo-proveedor/nuevo-proveedor.component';
 import { NuevoMaterialComponent } from './grupos/nuevo-material/nuevo-material.component';
 import { DetallesProveedoresComponent } from './proveedores/detalles-proveedores/detalles-proveedores.component';
+import { OrdenesComponent } from './ordenes/ordenes.component';
+import { NuevoOrdenComponent } from './ordenes/nuevo-orden/nuevo-orden.component';
 
 
 
@@ -32,7 +34,9 @@ import { DetallesProveedoresComponent } from './proveedores/detalles-proveedores
     ProveedoresComponent,
     NuevoProveedorComponent,
     NuevoMaterialComponent,
-    DetallesProveedoresComponent
+    DetallesProveedoresComponent,
+    OrdenesComponent,
+    NuevoOrdenComponent
   ],
   imports: [
     CommonModule,

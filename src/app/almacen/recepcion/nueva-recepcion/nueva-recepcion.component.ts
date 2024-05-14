@@ -7,6 +7,7 @@ import { RecepcionService } from 'src/app/services/recepcion.service';
 import { Cell, Img, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
+import { OpoligraficaService } from 'src/app/services/opoligrafica.service';
 
 @Component({
   selector: 'app-nueva-recepcion',
@@ -18,11 +19,30 @@ export class NuevaRecepcionComponent {
   constructor(public proveedores:ProveedoresService,
               public fabricantes:FabricantesService,
               public materiales :MaterialesService,
+              public OC_Poligrafica:OpoligraficaService,
               public api  :RecepcionService){}
 
   @Input() nueva!:boolean;
   @Output() onCloseModal = new EventEmitter();
-  
+
+
+  public Poligrafica_OC;
+  public material_selected_in_OC;
+  public materiales_recibidos;
+  public control = '';
+  public proveedor_ = ''
+  public OC__
+  public inputValue: string = '0,00';
+  public textoSinFormato = '';
+  public cantidad_ = 0;
+  public neto_ = 0;
+  public presentacion_
+  public documento_
+  public f_recepcion
+  public transportista_
+  public lote_
+  public done = false;
+  today = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato YYYY-MM-DD
 
   public documento!:string;
   public condicion:boolean = false;
@@ -64,7 +84,145 @@ export class NuevaRecepcionComponent {
   day = String(this.currentDate.getDate()).padStart(2, '0');
   Hoy = `${this.year}-${this.month}-${this.day}`;
 
+
+  seleccionarOC(e){
+    this.Poligrafica_OC = this.OC_Poligrafica.filtrarPorProveedor(this.proveedor_)[e.value]
+  }
+
+
+  addMaterial(){
+    let leyenda = ''
+    let sobrante = ''
+    let resultado = this.calcularLatasYSobrante(this.cantidad_, this.neto_)
+    if(resultado.sobrante > 0){
+      sobrante = `1 ${this.presentacion_} de ${resultado.sobrante.toFixed(2)} ${this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad}`
+      leyenda = `${resultado.latas.length - 1} ${this.presentacion_}(s) de ${this.neto_} ${this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad}`
+    }else{
+      leyenda = `${resultado.latas.length} ${this.presentacion_}(s) de ${this.neto_} ${this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad}`
+    }
+
+    // Update the 'info' span element with the 'leyenda' text 
+    const infoElement = document.getElementById('info');
+    if (infoElement) {
+      infoElement.textContent = leyenda;
+    } else {
+      console.error('Element with ID "info" not found.');
+    }
+
+    const sobrante__ = document.getElementById('sobrante');
+    if (sobrante__) {
+      sobrante__.textContent = sobrante;
+    } else {
+      console.error('Element with ID "sobrante" not found.');
+    }
+    this.done = true;
+  }
+
+  generarNumeroDeControl(){
+    let nuevoValor = this.control.replace(/[^0-9]/g, ''); // Elimina caracteres no numéricos
+      if (nuevoValor.length <= 2) {
+        // Si hay 2 o menos dígitos, no hace nada
+        return;
+      } else if (nuevoValor.length >= 1 && nuevoValor.length <= 10) {
+        // Si hay más de 2 dígitos, agrega el guion después de los primeros dos
+        nuevoValor = `${nuevoValor.slice(0, 2)}-${nuevoValor.slice(2)}`;
+      } else {
+        // Si hay más de 10 dígitos, limita el valor a los primeros 10 y agrega el guion
+        nuevoValor = `${nuevoValor.slice(0, 2)}-${nuevoValor.slice(2, 10)}`;
+      }
+      this.control = nuevoValor;
+  }
+
+
+  keyDownEvent(e: KeyboardEvent): boolean {
+    // Permitir la tecla para borrar
+    if (e.key === 'Backspace') return true;
+    // Permitir flecha izquierda
+    if (e.key === 'ArrowLeft') return true;
+    // Permitir flecha derecha
+    if (e.key === 'ArrowRight') return true;
+    // Bloquear tecla de espacio
+    if (e.key === ' ') return false;
+    // Bloquear tecla si no es un número o una coma
+    if (isNaN(Number(e.key))) return false;
+    return true;
+}
+
+keyUpEvent(numeros: HTMLInputElement): void {
+    numeros.value = numeros.value
+        // Borrar todos los espacios en blanco
+        .replace(/\s/g, '');
+    // Guardar el texto sin formato en la variable textoSinFormato
+    this.textoSinFormato = numeros.value;
+    numeros.value = numeros.value
+        // Agregar un espacio cada dos números
+        .replace(/\D/g, '')
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+        // Borrar espacio al final
+        .trim();
+}
   
+
+onInputChange(event: any) {
+  let newValue = event.target.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+  if (newValue.charAt(0) === '0' && newValue.charAt(1) !== '.') {
+    newValue = newValue.slice(1);
+  }
+  if (newValue.length > 2) {
+    let format = newValue.slice('0', -2)
+    format = format.replace(/\D/g, '')
+    format = format.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    console.log(format)
+    newValue = format + ',' + newValue.slice(-2); // Agregar el punto decimal
+  } else if (newValue.length === 2) {
+    newValue = '0,' + newValue; // Agregar el punto decimal al inicio si solo hay 2 dígitos
+  } else {
+    newValue = '0,0' + newValue; // Agregar ceros adicionales si solo hay 1 dígito
+  }
+  this.inputValue = newValue;
+}
+
+calcularLatasYSobrante(cantidadTotal: number, pesoNetoPorLata: number){
+  // Calcular la cantidad de latas y el sobrante
+  const cantidadLatas = Math.floor(cantidadTotal / pesoNetoPorLata);
+  const sobrante = cantidadTotal % pesoNetoPorLata;
+
+  // Inicializar el arreglo de latas
+  const datosLatas:any = [];
+
+  // Agregar la lata con sobrante (si existe)
+  if (sobrante > 0) {
+    datosLatas.push({
+      material:this.Poligrafica_OC.pedido[this.material_selected_in_OC].material._id,
+      presentacion:this.presentacion_,
+      codigo: 1,
+      cantidad: sobrante,
+      unidad:this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad
+    });
+  }
+
+  // Agregar las latas restantes
+  for (let i = 1; i <= cantidadLatas; i++) {
+    datosLatas.push({
+      material:this.Poligrafica_OC.pedido[this.material_selected_in_OC].material._id,
+      presentacion:this.presentacion_,
+      codigo: i + datosLatas.length, // Ajustar el número para la lata con sobrante
+      cantidad: pesoNetoPorLata,
+      unidad:this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad
+    });
+  }
+
+  // Retornar el resultado
+  return {
+    sobrante,
+    latas: datosLatas,
+  };
+}
+
+calcularRecepcion(){
+
+}
+
   guardar = async () => {
     const { GrupoDeMateriales, cantidades, documento, OC, recepcion, transportista, proveedor, fabricacion, ParaAlmacenar } = this;
   
@@ -243,5 +401,6 @@ export class NuevaRecepcionComponent {
   }
 
   
+
 
 }

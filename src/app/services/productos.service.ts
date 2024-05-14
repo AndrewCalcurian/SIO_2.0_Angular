@@ -8,6 +8,7 @@ import { Mensaje } from '../compras/models/modelos-compra';
 export class ProductosService {
   public mensaje!:Mensaje;
   public producto:any = [];
+  public lastOne:any = []
 
   constructor(public socket:WebSocketService) { 
     this.onProductos()
@@ -24,6 +25,9 @@ export class ProductosService {
       console.error(data.mensaje);
       this.mensaje = data
     });
+    this.socket.io.on('SERVIDOR:diferente', (data)=>{
+      this.lastOne = data
+    })
   }
 
   GuardarProducto(data:any){

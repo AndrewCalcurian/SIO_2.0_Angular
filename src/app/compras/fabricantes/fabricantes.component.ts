@@ -22,7 +22,7 @@ export class FabricantesComponent {
 
 
   filas(){
-    return Math.ceil(this.api.fabricantes.length / 5)
+    return Math.ceil((this.api.fabricantes.length + 1) / 5)
   }
 
   seleccion(i:number){
