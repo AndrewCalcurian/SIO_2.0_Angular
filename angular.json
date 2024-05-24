@@ -17,6 +17,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "pdfmake/build/vfs_fonts",
+              "pdfmake/build/pdfmake",
+              "moment",
+              "sweetalert2",
+              "rgb-lab"
+            ],
             "outputPath": "dist/sio-fe",
             "index": "src/index.html",
             "main": "src/main.ts",

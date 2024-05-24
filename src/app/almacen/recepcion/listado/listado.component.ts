@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listado',
@@ -21,5 +22,23 @@ export class ListadoComponent {
   cerrar(){
     this.onCerrarModal.emit();
   }
+
+  verificarCodigoUnico(codigo, i): void {
+    
+    let existencia = this.lista.filter((x:any, n:number) => x.codigo === codigo.value && n != i)
+    console.log(existencia)
+    if(existencia.length > 0){
+      Swal.fire({
+        icon:'error',
+        text:'El codigo debe ser único.',
+        timer:5000,
+        timerProgressBar:true,
+        toast:true,
+        position:'top-end',
+        showConfirmButton:false
+      })
+      this.lista[i].codigo = ''
+    }
+  }  
 
 }

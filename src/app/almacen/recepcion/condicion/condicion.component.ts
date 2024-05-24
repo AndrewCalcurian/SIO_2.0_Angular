@@ -9,11 +9,13 @@ export class CondicionComponent {
 
   @Input() condicion!:boolean;
   @Input() recepcion!:any;
+  @Input() condicion__:any;
   @Input() n!:number;
+  @Input() grupo:any;
+  @Input() trato:any
   @Output() onCloseModal = new EventEmitter();
 
   cerrar(){
-   this.recepcion[this.n].check = true;
    this.onCloseModal.emit();
   }
 }

@@ -19,10 +19,10 @@ export class OpoligraficaService {
   
     this.socket.io.on('SERVER:OrdenesPoligrafica', (data)=>{
       this.orden = data;
+      console.error(this.orden);
     })
 
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
-      console.error(data.mensaje);
       this.mensaje = data
     });
   }
@@ -33,6 +33,27 @@ export class OpoligraficaService {
 
   nuevaOrden(data){
     this.socket.io.emit('CLIENTE:NuevaOrdenPoligrafica', data)
+  }
+
+  separarPorProveedor(){
+    const materialesPorProveedor = {};
+    // Recorremos el arreglo original
+      this.orden.forEach((material) => {
+        const { proveedor } = material;
+
+        // Si el proveedor no existe en el objeto, lo creamos
+        if (!materialesPorProveedor[proveedor.nombre]) {
+          materialesPorProveedor[proveedor.nombre] = [];
+        }
+
+        // Agregamos el material al proveedor correspondiente
+        materialesPorProveedor[proveedor.nombre].push(material);
+      });
+
+      // Convertimos el objeto en un arreglo de proveedores
+      const arregloCategorizado = Object.entries(materialesPorProveedor);
+
+      return arregloCategorizado;
   }
 
 

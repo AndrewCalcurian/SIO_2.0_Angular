@@ -20,69 +20,267 @@
                 </div>
             </div>
             <br>
-            <button class="button is-info" (click)="nueva_orden()">
-                <span class="icon"><i class="fas fa-plus-circle"></i></span>
-                <span>Orden</span>
-            </button>
-            <br> <br>
-            <ng-container *ngFor="let orden of ordenes.orden;index as i">
-                <div class="card animate__animated animate__fadeInUp" >
-                    <div class="card-header dark">
-                        <p class="card-header-title">
-                            {{orden.proveedor.nombre}} - <span class="Proveedor"> OC:{{addSlice(orden.numero)}}</span> 
-                                 <i class="fas fa-download blue_" style="cursor: pointer;" (click)="DescargarPDF(orden)"></i>
-                        </p>
-                        <i class="fas fa-chevron-up" style="cursor: pointer;" (click)="show_info(i)" [ngClass]="{'rotate-down': ORDEN[i], 'rotate-up': !ORDEN[i]}"></i>
+            <div class="tags are-large">
+                <button class="button is-info boton" (click)="nueva_orden()">
+                    <span class="icon"><i class="fas fa-plus-circle"></i></span>
+                    <span>Orden</span>
+                </button>  
+                <span class="tag" [ngClass]="{'is-success':fecha}" (click)="buscarporFecha()"><i class="fas fa-calendar-alt"></i> Fechas</span>
+                <span class="tag" [ngClass]="{'is-success':cliente}" (click)="buscarporCliente()"><i class="fas fa-users"></i> Clientes</span>
+                <span class="tag"><i class="fas fa-slash"></i> Cerradas</span>
+                <div class="field has-addons busqueda">
+                    <div class="control">
+                      <input class="input" type="text" placeholder="Buscar OC">
                     </div>
-                    <div class="card-content orden_Info" [ngClass]="{'active': ORDEN[i]}">
-                        <table class="table is-fullwidth is-striped tabla" [ngClass]="{'active_': ORDEN[i]}">
-                            <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Código</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio unitario</th>
-                                    <th>Base Imp.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let material of orden.pedido">
-                                    <td>{{material.material.nombre}} ({{material.material.fabricante.alias}})</td>
-                                    <td>{{material.material.modelo}}</td>
-                                    <td>{{material.cantidad}}{{material.unidad}}</td>
-                                    <td>{{material.precio}}</td>
-                                    <td>{{ material.precio * material.cantidad | number: '1.2-2' }}</td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Sub-Total</th>
-                                    <th>{{calcularTotalNeto(orden).toFixed(2)}}</th>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>I.V.A</th>
-                                    <th>{{calcularTotalIva(orden).toFixed(2)}}</th>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Neto</th>
-                                    <th>{{(calcularTotalNeto(orden) + calcularTotalIva(orden)).toFixed(2) | number: '1.2-2'}}</th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                    <div class="control">
+                      <button class="button is-info">
+                        <span class="icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+            </div>
+            <br>
+            <div class="columns">
+                <div class="column">
+
+                    <ng-container *ngIf="fecha">
+                        <ng-container *ngFor="let orden of ordenes.orden;index as i">
+                            <div class="card animate__animated animate__fadeInUp" >
+                                <div class="card-header dark">
+                                    <p class="card-header-title">
+                                        {{orden.proveedor.nombre}} - <span class="Proveedor"> OC:{{addSlice(orden.numero)}}</span> 
+                                             <i class="fas fa-download blue_" style="cursor: pointer;" (click)="DescargarPDF(orden)"></i>
+                                    </p>
+                                    <i class="fas fa-chevron-up" style="cursor: pointer;" (click)="show_info(i)" [ngClass]="{'rotate-down': ORDEN[i], 'rotate-up': !ORDEN[i]}"></i>
+                                </div>
+                                <div class="card-content orden_Info" [ngClass]="{'active': ORDEN[i]}">
+                                    <table class="table is-fullwidth is-striped tabla" [ngClass]="{'active_': ORDEN[i]}">
+                                        <thead>
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th>Código</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio unitario</th>
+                                                <th>Base Imp.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let material of orden.pedido">
+                                                <td>{{material.material.nombre}} ({{material.material.fabricante.alias}})</td>
+                                                <td>{{material.material.modelo}}</td>
+                                                <td>{{material.cantidad}}{{material.unidad}}</td>
+                                                <td>{{material.precio}}</td>
+                                                <td>{{ material.precio * material.cantidad | number: '1.2-2' }}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>Sub-Total</th>
+                                                <th>{{calcularTotalNeto(orden).toFixed(2)}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>I.V.A</th>
+                                                <th>{{calcularTotalIva(orden).toFixed(2)}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>Neto</th>
+                                                <th>{{(calcularTotalNeto(orden) + calcularTotalIva(orden)).toFixed(2) | number: '1.2-2'}}</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <br>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="cliente">
+                        <ng-container *ngFor="let proveedor of porProveedor;index as i">
+                            <span class="clientesName" style="cursor: pointer; font-family: 'Gilroy';" (click)="show_info_(i)">{{proveedor[0]}} 
+                                <i class="fas fa-chevron-up" [ngClass]="{'rotate-down': Info_clientes[i], 'rotate-up': !Info_clientes[i]}"></i>
+                            </span>
+                            <div class="orden_Info" [ngClass]="{'active':Info_clientes[i]}">
+                                <div class="card animate__animated animate__fadeInUp carta_espacio" *ngFor="let orden of proveedor[1];index as y">
+                                    <div class="card-header dark">
+                                        <p class="card-header-title">
+                                            <span class="Proveedor"> OC:{{addSlice(orden.numero)}}</span> 
+                                                 <i class="fas fa-download blue_" style="cursor: pointer;" (click)="DescargarPDF(orden)"></i>
+                                        </p>
+                                        <i class="fas fa-chevron-up" style="cursor: pointer;" (click)="show_info(y)" [ngClass]="{'rotate-down': ORDEN[y], 'rotate-up': !ORDEN[y]}"></i>
+                                    </div>
+                                    <div class="card-content orden_Info" [ngClass]="{'active': ORDEN[y]}">
+                                        <table class="table is-fullwidth is-striped tabla" [ngClass]="{'active_': ORDEN[y]}">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Código</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio unitario</th>
+                                                    <th>Base Imp.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let material of orden.pedido;index as x">
+                                                    <td>{{material.material.nombre}} ({{material.material.fabricante.alias}})</td>
+                                                    <td>{{material.material.modelo}}</td>
+                                                    <td>{{material.cantidad}}{{material.unidad}}</td>
+                                                    <td>{{material.precio}}</td>
+                                                    <td>{{ material.precio * material.cantidad | number: '1.2-2' }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>Sub-Total</th>
+                                                    <th>{{calcularTotalNeto(orden).toFixed(2)}}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>I.V.A</th>
+                                                    <th>{{calcularTotalIva(orden).toFixed(2)}}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>Neto</th>
+                                                    <th>{{(calcularTotalNeto(orden) + calcularTotalIva(orden)).toFixed(2) | number: '1.2-2'}}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                </div>
+                <div class="column is-4">
+                    <div class="card tags">
+                        <div class="card-content ty orange">
+                            <div class="columns">
+                                <div class="column is-2">
+                                    <span class="number_">
+                                        <h1>16</h1>
+                                    </span>
+                                </div>
+                                <div class="column is-2">
+                                    <span class="fina">Órdenes</span> <br>
+                                    <span class="gruesa">Mes</span>
+                                </div>
+                                <div class="column">
+                                    <span class="Detalle">
+                                        {{mesActual}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position__">
+                            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                              <defs>
+                                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                              </defs>
+                              <g class="moving-waves">
+                                <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.25)" />
+                                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.20)" />
+                                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0)" />
+                                <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.10)" />
+                                <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.05)" />
+                                <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0)" />
+                              </g>
+                            </svg>
+                          </div>
+                    </div>
+                    <div class="card tags">
+                        <div class="card-content ty green__">
+                            <div class="columns">
+                                <div class="column is-2">
+                                    <span class="number_">
+                                        <h1>58</h1>
+                                    </span>
+                                </div>
+                                <div class="column is-2">
+                                    <span class="fina">Órdenes</span> <br>
+                                    <span class="gruesa">Año</span>
+                                </div>
+                                <div class="column">
+                                    <span class="Detalle">
+                                        {{yearActual}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position__">
+                            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                              <defs>
+                                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                              </defs>
+                              <g class="moving-waves">
+                                  <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.20)" />
+                                <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.25)" />
+                                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0)" />
+                                <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.10)" />
+                                <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0)" />
+                                <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.05)" />
+                              </g>
+                            </svg>
+                          </div>
+                    </div>
+                    <div class="card tags">
+                        <div class="card-content ty blue___">
+                            <div class="columns">
+                                <div class="column is-2">
+                                    <span class="number_">
+                                        <h1>16</h1>
+                                    </span>
+                                </div>
+                                <div class="column is-3">
+                                    <span class="fina">Órdenes</span> <br>
+                                    <span class="gruesa">cerradas</span>
+                                </div>
+                                <div class="column">
+                                    <span class="Detalle">
+                                        Septiembre
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position__">
+                            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                              <defs>
+                                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                              </defs>
+                              <g class="moving-waves">
+                                <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.25)" />
+                                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.20)" />
+                                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0)" />
+                                <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.10)" />
+                                <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.05)" />
+                                <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0)" />
+                              </g>
+                            </svg>
+                          </div>
                     </div>
                 </div>
-                <br>
-            </ng-container>
-
+            </div>
         </div>
     </div>
 </div>

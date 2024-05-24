@@ -21,6 +21,17 @@ export class CompraComponent {
   public cliente = false; // Variable para controlar si se está buscando por cliente
 public fecha = true; // Variable para controlar si se está buscando por fecha
 public Info_clientes = [false, false]; // Array de booleanos para controlar la visualización de información adicional por cliente
+public ORDEN = [false, false]
+
+
+show_info_(n){
+  if(this.ORDEN[n]){
+    this.ORDEN[n] = false; // Si la información está mostrándose, ocultarla
+  } else {
+    this.ORDEN[n] = true; // Si la información está oculta, mostrarla
+  }
+}
+
 
 // Función para buscar por cliente
 buscarporCliente(){
@@ -43,5 +54,7 @@ show_info(n){
     this.Info_clientes[n] = true; // Si la información está oculta, mostrarla
   }
 }
+
+
 
 }

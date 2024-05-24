@@ -12,6 +12,12 @@
     font-size: x-large;
 }
 
+
+.dark{
+    color: white;
+    background-color: #9fadbc;
+  }
+
 .especificacion{
     background-color: #d5234d;
 }
@@ -185,7 +191,7 @@ width: 100%;
   .busqueda{
     position: absolute;
     margin-top: -7px;
-    right: 25px;
+    right: 50px;
   }
 
   .clientesName {
@@ -225,4 +231,44 @@ width: 100%;
 
 .clienteInfo.active {
     max-height: 1000px; /* Ajusta la altura según sea necesario */
+}
+
+.are-large{
+    background-color: #3c3f41;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.fa-chevron-up {
+    display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  width: 35px;
+  height: 45px;
+}
+
+.rotate-down, .rotate-up {
+    transition: transform 0.5s;
+}
+
+.rotate-down {
+    transform: rotate(0deg);
+}
+
+.rotate-up {
+    transform: rotate(180deg);
+}
+
+.orden_Info {
+    max-height: 0;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    transition: max-height 0.5s;
+}
+
+.orden_Info.active {
+    max-height: 1000px; /* Ajusta la altura según sea necesario */
+    margin: 5px;
+    padding: 5px;
 }

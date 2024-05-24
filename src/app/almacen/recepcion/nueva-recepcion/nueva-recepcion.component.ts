@@ -8,6 +8,7 @@ import { Cell, Img, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
 import { OpoligraficaService } from 'src/app/services/opoligrafica.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-nueva-recepcion',
@@ -43,6 +44,29 @@ export class NuevaRecepcionComponent {
   public lote_
   public done = false;
   today = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato YYYY-MM-DD
+  public Listado_
+  public revisado = false
+  public registro_lotes:any = []
+  public lotes_guardados:any = []
+  public grupo:any = ''
+  public trato:any = ''
+  public condicion____ = {
+    Certificado_de_calidad:false,
+    Identificacion_del_lote:false,
+    Cajas_en_buen_estado:false,
+    Cajas_limpias:false,
+    Envases_cerrado_hermeticamente:false,
+    Paleta_en_buen_estado:false,
+    Paleta_sin_precencia_de_humedad:false,
+    Paletas_libres_de_insectos:false,
+    Embalaje_limpio:false,
+    Embalaje_sin_rotura:false,
+    Embalaje_seco_externamente:false,
+    Embalaje_seco_internamente:false,
+    Evidencia_de_fumigacion:false
+  }
+
+  public tipo_documento = 'F - '
 
   public documento!:string;
   public condicion:boolean = false;
@@ -87,7 +111,76 @@ export class NuevaRecepcionComponent {
 
   seleccionarOC(e){
     this.Poligrafica_OC = this.OC_Poligrafica.filtrarPorProveedor(this.proveedor_)[e.value]
+    console.log(this.Poligrafica_OC)
   }
+
+  // En tu componente de Angular
+cargarArchivo(event: any) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = (e: any) => {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: 'array' });
+    const sheetName = workbook.SheetNames[0]; // Supongamos que la hoja que contiene los datos es la primera
+
+    // Convierte los datos a un objeto JSON
+    const excelData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+    
+    // Crea el objeto 'data' con los valores del Excel
+    const dataObj = excelData.map((row: any) => ({
+      codigo: row.Codigo,
+      cantidad: row.Cantidades,
+    }));
+
+    // Check if all values in dataObj are undefined
+    const allUndefined = dataObj.every(obj => obj.codigo === undefined && obj.cantidad === undefined);
+    if (allUndefined) {
+      Swal.fire({
+        text:'El documento debe contener las columnas <Codigo> y <Cantidades> para proceder a cargar la recepción',
+        icon:'error',
+        timerProgressBar:true,
+        timer:5000,
+        toast:true,
+        position:'top-end',
+        showConfirmButton:false
+      });
+
+      return
+    }
+
+    for(let i=0; i < dataObj.length; i++){
+      if(this.Listado_[i]){
+          this.Listado_[i].codigo = dataObj[i].codigo;
+          this.Listado_[i].neto = dataObj[i].cantidad;
+      } else {
+          break; // Exit the loop if Listado_ has fewer elements than dataObj
+      }
+  }
+    // Remove any excess elements from Listado_
+    if(this.Listado_.length > dataObj.length){
+        this.Listado_.splice(dataObj.length);
+    }
+    const infoElement = document.getElementById('info');
+    if (infoElement) {
+      infoElement.textContent = '';
+    } else {
+      console.error('Element with ID "info" not found.');
+    }
+
+    const sobrante__ = document.getElementById('sobrante');
+    if (sobrante__) {
+      sobrante__.innerHTML = this.contarPresentaciones(this.Listado_);
+    } else {
+      console.error('Element with ID "sobrante" not found.');
+    }
+
+  };
+
+  reader.readAsArrayBuffer(file);
+  }
+
 
 
   addMaterial(){
@@ -148,18 +241,20 @@ export class NuevaRecepcionComponent {
     return true;
 }
 
-keyUpEvent(numeros: HTMLInputElement): void {
+keyUpEvent(numeros:any): void {
     numeros.value = numeros.value
         // Borrar todos los espacios en blanco
         .replace(/\s/g, '');
     // Guardar el texto sin formato en la variable textoSinFormato
     this.textoSinFormato = numeros.value;
     numeros.value = numeros.value
-        // Agregar un espacio cada dos números
-        .replace(/\D/g, '')
-        .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-        // Borrar espacio al final
-        .trim();
+        // // Agregar un espacio cada dos números
+        // .replace(/\D/g, '')
+        // .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+        // // Borrar espacio al final
+        // .trim();
+
+      console.log(this.textoSinFormato)
 }
   
 
@@ -172,7 +267,6 @@ onInputChange(event: any) {
     let format = newValue.slice('0', -2)
     format = format.replace(/\D/g, '')
     format = format.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-    console.log(format)
     newValue = format + ',' + newValue.slice(-2); // Agregar el punto decimal
   } else if (newValue.length === 2) {
     newValue = '0,' + newValue; // Agregar el punto decimal al inicio si solo hay 2 dígitos
@@ -193,30 +287,129 @@ calcularLatasYSobrante(cantidadTotal: number, pesoNetoPorLata: number){
   // Agregar la lata con sobrante (si existe)
   if (sobrante > 0) {
     datosLatas.push({
-      material:this.Poligrafica_OC.pedido[this.material_selected_in_OC].material._id,
+      material:this.Poligrafica_OC.pedido[this.material_selected_in_OC].material,
+      nombre:this.Poligrafica_OC.pedido[this.material_selected_in_OC].material.nombre,
       presentacion:this.presentacion_,
+      lote:this.lote_,
       codigo: 1,
-      cantidad: sobrante,
-      unidad:this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad
+      neto: sobrante,
+      unidad:this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad,
+      oc:this.Poligrafica_OC
     });
   }
 
   // Agregar las latas restantes
   for (let i = 1; i <= cantidadLatas; i++) {
     datosLatas.push({
-      material:this.Poligrafica_OC.pedido[this.material_selected_in_OC].material._id,
+      material:this.Poligrafica_OC.pedido[this.material_selected_in_OC].material,
+      nombre:this.Poligrafica_OC.pedido[this.material_selected_in_OC].material.nombre,
       presentacion:this.presentacion_,
-      codigo: i + datosLatas.length, // Ajustar el número para la lata con sobrante
-      cantidad: pesoNetoPorLata,
-      unidad:this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad
+      lote:this.lote_,
+      codigo: 1 + datosLatas.length, // Ajustar el número para la lata con sobrante
+      neto: pesoNetoPorLata,
+      unidad:this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad,
+      oc:this.Poligrafica_OC
     });
   }
 
+  this.Listado_ = datosLatas
+  console.log(this.Listado_)
   // Retornar el resultado
   return {
     sobrante,
     latas: datosLatas,
   };
+}
+
+NuevoGuardarRegistro = async() =>{
+
+  let data = {
+  proveedor: this.proveedor_,
+  documento: `${this.tipo_documento}${this.documento_}`,
+  control: this.control,
+  precio: this.textoSinFormato,
+  recepcion: this.f_recepcion,
+  transportista: this.transportista_,
+  materiales: this.lotes_guardados.map((grupo) => {
+    return grupo.map((lote) => ({
+      material: lote.material._id,
+      nombre: lote.nombre,
+      presentacion: lote.presentacion,
+      lote: lote.lote,
+      codigo: lote.codigo,
+      neto: lote.neto,
+      unidad: lote.unidad,
+      oc: lote.oc._id,
+    }));
+  }),
+};
+
+proveedor: this.proveedor_,
+  this.tipo_documento = 'F - '
+  this.documento_ = ''
+  this.control= ''
+  this.textoSinFormato= ''
+  this.f_recepcion= ''
+  this.transportista_= ''
+
+  console.log(data)
+  await this.api.GuardarRecepcion(data)
+    this.onCloseModal.emit();
+
+    setTimeout(() => {
+      Swal.fire({
+        title: this.api.mensaje.mensaje,
+        icon: this.api.mensaje.icon,
+        timer: 5000,
+        timerProgressBar: true,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false
+      });
+    }, 1000);
+  
+}
+
+contarPresentaciones(arreglo):string | any{
+  const presentaciones = {};
+  
+  arreglo.forEach(item => {
+    const key = `${item.presentacion} de ${item.neto}`;
+    if (presentaciones[key]) {
+      presentaciones[key]++;
+    } else {
+      presentaciones[key] = 1;
+    }
+  });
+  
+  let result = '';
+      Object.keys(presentaciones).forEach(key => {
+        result += `${presentaciones[key]} ${key} <br>`;
+  });
+
+  return result
+}
+
+_guardar(){
+  this.registro_lotes.push(this.contarPresentaciones(this.Listado_))
+  this.lotes_guardados.push(this.Listado_)
+  console.log(this.lotes_guardados)
+  this.OC__ = ''
+  this.material_selected_in_OC = ''
+  this.lote_ = ''
+  this.cantidad_ = 0
+  this.presentacion_ = ''
+  this.neto_ = 0
+  this.revisado = false;
+
+    const sobrante__ = document.getElementById('sobrante');
+    if (sobrante__) {
+      sobrante__.textContent = '';
+    } else {
+      console.error('Element with ID "sobrante" not found.');
+    }
+
+    this.done = false;
 }
 
 calcularRecepcion(){
@@ -290,6 +483,30 @@ calcularRecepcion(){
   CerrarListado(){
     this.nueva = true;
     this.listado = false;
+    
+
+    const infoElement = document.getElementById('info');
+    if (infoElement) {
+      infoElement.textContent = '';
+    } else {
+      console.error('Element with ID "info" not found.');
+    }
+
+    const sobrante__ = document.getElementById('sobrante');
+    if (sobrante__) {
+      sobrante__.innerHTML = this.contarPresentaciones(this.Listado_);
+    } else {
+      console.error('Element with ID "sobrante" not found.');
+    }
+
+    this.revisado = true;
+  }
+
+  task(grupo, trato){
+    this.grupo = grupo
+    this.trato = trato
+    this.condicion = true;
+    this.nueva = false
   }
 
   buscarFabricantes = async(e:any)=>{
@@ -365,7 +582,15 @@ calcularRecepcion(){
                                     Identificacion_del_lote:false,
                                     Cajas_en_buen_estado:false,
                                     Cajas_limpias:false,
-                                    Envases_cerrado_hermeticamente:false
+                                    Envases_cerrado_hermeticamente:false,
+                                    Paleta_en_buen_estado:false,
+                                    Paleta_sin_precencia_de_humedad:false,
+                                    Paletas_libres_de_insectos:false,
+                                    Embalaje_limpio:false,
+                                    Embalaje_sin_rotura:false,
+                                    Embalaje_seco_externamente:false,
+                                    Embalaje_seco_internamente:false,
+                                    Evidencia_de_fumigacion:false
                                   }
                                 });
     this.cantidades.push(this.cantidad)

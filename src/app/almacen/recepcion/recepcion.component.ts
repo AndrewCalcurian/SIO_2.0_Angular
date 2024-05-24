@@ -38,6 +38,11 @@ EnviarAlmacen = async(index: number, i: number) =>{
   this.almacen.GuardarAlmacen(materiales); // Guarda los materiales en el almacén
 }
 
+sumarNetos(materiales){
+  let cantidad = materiales.reduce((total, material) => total + Number(material.neto), 0);
+  return cantidad.toFixed(2)
+}
+
 // Función para mostrar u ocultar información adicional en una sección
 showInfo(i) {
   if (!this.clicked[i]) {

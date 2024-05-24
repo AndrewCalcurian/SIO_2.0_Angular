@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="control short_" *ngIf="material.unidad">
-                    <label class="label">Costo Unitario ($)</label>
+                    <label class="label">Costo Unitario (USD)</label>
                     <input type="number" name="" id="" class="input" [(ngModel)]="material.precio" min="0">
                 </div>
                 <div class="control" *ngIf="material.precio && Number_(material.precio) > 0">
@@ -75,8 +75,8 @@
                     <tr>
                         <th>Descripción</th>
                         <th>Cantidad</th>
-                        <th>Costo</th>
-                        <th>Base Imp.</th>
+                        <th>Costo Unit. (USD)</th>
+                        <th>Neto (USD)</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -105,7 +105,7 @@
                     <tr>
                         <th></th>
                         <th></th>
-                        <th>Neto:</th>
+                        <th>Total:</th>
                         <th colspan="2">{{(calcularTotalNeto(Orden) + calcularTotalIva(Orden)).toFixed(2)}}</th>
                     </tr>
                 </tfoot>

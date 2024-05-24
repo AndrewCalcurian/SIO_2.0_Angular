@@ -41,8 +41,40 @@
             <div class="field">
                 <label for="" class="label">Rif:</label>
                 <div class="control">
-                    <input type="text" class="input" [(ngModel)]="rif" *ngIf="nuevo">
+                    <input type="text" class="input" [(ngModel)]="rif" *ngIf="nuevo" (keyup)="formatRif($event)">
                     <input type="text" class="input" [(ngModel)]="proveedor.rif" *ngIf="editar">
+                </div>
+            </div>
+            <div class="field">
+                <strong>Persona de contacto</strong>
+                <div class="columns">
+                    <div class="column">
+                        <label for="" class="label">Nombre:</label>
+                        <div class="control">
+                            <input type="text" class="input" [(ngModel)]="contacto_nombre">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label for="" class="label" *ngIf="contacto_nombre">Teléfono:</label>
+                        <div class="control" *ngIf="contacto_nombre">
+                            <input type="text" class="input" [(ngModel)]="contacto_numero">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label for="" class="label" *ngIf="contacto_numero">Correo:</label>
+                        <div class="control" *ngIf="contacto_numero">
+                            <input type="text" class="input" [(ngModel)]="contacto_email" >
+                        </div>
+                    </div>
+                    <div class="column is-1" >
+                        <label for="" class="label" *ngIf="contacto_email"> </label>
+                        <button class="button is-info" (click)="NuevoContacto()" *ngIf="contacto_email && nuevo && isValidEmail(contacto_email)">
+                            <span class="icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <button class="button is-info" (click)="NuevoContacto_()" *ngIf="contacto_email && editar && isValidEmail(contacto_email)">
+                            <span class="icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="columns">
@@ -83,38 +115,7 @@
                     </div>
                 </div>
             </div>
-            <div class="field">
-                <strong>Persona de contacto</strong>
-                <div class="columns">
-                    <div class="column">
-                        <label for="" class="label">Nombre:</label>
-                        <div class="control">
-                            <input type="text" class="input" [(ngModel)]="contacto_nombre">
-                        </div>
-                    </div>
-                    <div class="column">
-                        <label for="" class="label" *ngIf="contacto_nombre">Teléfono:</label>
-                        <div class="control" *ngIf="contacto_nombre">
-                            <input type="text" class="input" [(ngModel)]="contacto_numero">
-                        </div>
-                    </div>
-                    <div class="column">
-                        <label for="" class="label" *ngIf="contacto_numero">Correo:</label>
-                        <div class="control" *ngIf="contacto_numero">
-                            <input type="text" class="input" [(ngModel)]="contacto_email">
-                        </div>
-                    </div>
-                    <div class="column is-1">
-                        <label for="" class="label" *ngIf="contacto_email"> </label>
-                        <button class="button is-info" (click)="NuevoContacto()" *ngIf="contacto_email && nuevo">
-                            <span class="icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                        <button class="button is-info" (click)="NuevoContacto_()" *ngIf="contacto_email && editar">
-                            <span class="icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <div class="modal-card bg" *ngIf="contactos.length > 0 || fabricantes_array_name.length > 0 && nuevo">
@@ -122,20 +123,32 @@
             <div class="columns">
                 <div class="column">
                     <strong>Fabricantes:</strong> <br><hr>
-                    <ng-container *ngFor="let fabricante of fabricantes_array_name;index as i">
-                        <div class="columns">
-                            <div class="column is-2">
-                                {{fabricante}}
-                            </div>
-                            <div class="column">
-                                <i class="far fa-trash-alt red" style="cursor: pointer;" (click)="EliminarFabricante(i)"></i>
-                            </div>
-                        </div>
-                    </ng-container>
+                    <table class="table is-fullwidth dark_">
+                        <tr *ngFor="let fabricante of fabricantes_array_name;index as i" class="bg">
+                            <td>{{fabricante}}</td>
+                            <td><i class="far fa-trash-alt red" style="cursor: pointer;" (click)="EliminarFabricante(i)"></i></td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="column">
                     <strong>Personas de contacto:</strong> <br><hr>
-                    <ng-container *ngFor="let contacto of contactos;index as i">
+                    <table class="table is-fullwidth dark_">
+                        <tr *ngFor="let contacto of contactos;index as i" class="bg">
+                            <td class="bg">
+                                {{contacto.nombre}} <br>
+                                {{contacto.numero}}<br>
+                                {{contacto.email}} <br> <br> 
+                            </td>
+                            <td class="bg">
+                                <br>
+                                <i class="far fa-trash-alt red" style="cursor: pointer;" (click)="EliminarContacto(i)"></i>
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- <ng-container *ngFor="let contacto of contactos;index as i">
+                        <table class="table is-fullwidth">
+                            <thead></thead>
+                        </table>
                         <div class="columns">
                             <div class="column is-3">
                                 {{contacto.nombre}} <br>
@@ -148,7 +161,7 @@
                                  
                             </div>
                         </div>
-                    </ng-container>
+                    </ng-container> -->
                 </div>
             </div>
             <hr>

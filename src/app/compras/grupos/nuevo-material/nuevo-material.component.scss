@@ -59,3 +59,31 @@
     padding: 20px;
     border-radius: 4px;
   }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom:1px dotted #9999CC;
+    cursor: help;
+}
+
+.tooltip::after {
+    content: 'Debes consultar coordenadas RGB';
+    position: absolute;
+    background-color: #555;
+    color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover::after {
+    visibility: visible;
+    opacity: 1;
+}

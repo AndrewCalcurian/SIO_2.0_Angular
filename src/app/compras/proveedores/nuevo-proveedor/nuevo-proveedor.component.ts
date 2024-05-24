@@ -55,6 +55,8 @@ export class NuevoProveedorComponent implements OnInit{
     setInterval(changeRandomPhrase, 2000);
   }
 
+  
+
   cerrar(){
     this.nombre = '';
     this.direccion = '';
@@ -73,6 +75,24 @@ export class NuevoProveedorComponent implements OnInit{
 
   EliminarContacto(i:number){
     this.contactos.splice(i,1)
+  }
+
+  formatRif(event: any) {
+    const regex = /^[JVGC]-?\d{0,8}-?\d{0,1}$/; // Expresión regular actualizada
+    const newValue = event.target.value.toUpperCase();
+  
+    if (!regex.test(newValue)) {
+      this.rif = newValue.substring(0, newValue.length - 1);
+    } else {
+      // Agregar guiones automáticamente
+      let formattedValue = newValue.replace(/(\d{0})(\d{8})(\d{1})/, '$1-$2-$3');
+      this.rif = formattedValue; // Establecer el valor formateado n el campo de input
+    }
+  }
+
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
   }
 
   checkProveedor(){

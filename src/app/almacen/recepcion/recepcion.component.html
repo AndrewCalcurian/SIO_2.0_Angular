@@ -83,7 +83,7 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let materiales of recepcion.materiales;index as i">
-                                            <td>{{recepcion.OC}}</td>
+                                            <td>{{materiales[0].oc.numero}}</td>
                                             <td>{{materiales[0].lote}}</td>
                                             <td>
                                                 <div class="circle_"></div>
@@ -91,7 +91,7 @@
                                             </td>
                                             <td>
                                                 <p>
-                                                    {{recepcion.cantidad[i]}}{{materiales[0].unidad}}
+                                                    {{sumarNetos(materiales)}}{{materiales[0].unidad}}
                                                 </p>
                                             </td>
                                             <td>

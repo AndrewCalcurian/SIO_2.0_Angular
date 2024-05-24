@@ -8,7 +8,26 @@
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
         <div class="modal-card-body" *ngIf="listado">
-            <p class="title" *ngIf='lista[n]'>{{lista[n].nombre}}({{lista[n].fabricante}})</p>
+            <p class="subtitles">{{lista[0].nombre}} - {{lista[0].lote}}</p>
+            <table class="table is-fullwidth is-striped">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Cantidad ({{lista[0].unidad}})</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let producto of lista;index as i">
+                        <td>
+                            <input type="text" class="input" [(ngModel)]="producto.codigo" (change)="verificarCodigoUnico($event.target, i)">
+                        </td>
+                        <td>
+                            <input type="text" class="input" [(ngModel)]="producto.neto">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <p class="title" *ngIf='lista[n]'>{{lista[n].nombre}}({{lista[n].fabricante}})</p>
             <div class="field">
                 <label for="" class="label">Fabricación</label>
                 <div class="control">
@@ -40,7 +59,11 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
+            <button class="button is-info" (click)="cerrar()">
+                <span class="icon"><i class="fa-solid fa-check"></i></span>
+                <span>Listo</span>
+            </button>
         </div>
     </div>
 </div>

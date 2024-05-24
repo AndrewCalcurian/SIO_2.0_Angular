@@ -462,6 +462,11 @@ export class AnalisisComponent {
                 }, 5000);
   }
 
+  CalcularPeso(materiales){
+    let cantidad = materiales.reduce((total, material) => total + Number(material.neto), 0);
+    return cantidad.toFixed(2)
+  }
+
   public sustrato_char:any;
 
   MostrarDesdeBusqueda(e){

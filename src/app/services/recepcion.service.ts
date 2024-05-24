@@ -46,6 +46,7 @@ export class RecepcionService {
 
     this.socket.io.on('SERVER:Recepciones', (Recepciones) => {
       this.recepciones = Recepciones
+      console.log(this.recepciones)
     })
       this.buscarTop5();
   }

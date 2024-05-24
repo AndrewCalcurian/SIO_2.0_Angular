@@ -10,9 +10,13 @@ import { OpoligraficaService } from 'src/app/services/opoligrafica.service';
 })
 export class OrdenesComponent {
 
-
+  public mesActual;
+  public yearActual;
   constructor(public ordenes:OpoligraficaService){
-
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Septiembre', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const fechaActual = new Date();
+    this.mesActual = meses[fechaActual.getMonth()];
+    this.yearActual = new Date().getFullYear();
   }
 
   public nueva = false;
@@ -28,6 +32,27 @@ export class OrdenesComponent {
     descripcion:'Esta orden será cancelada en bolívares según tasa BCV del día de la emisión del pago.'
   }
 
+  public cliente = false; // Variable para controlar si se está buscando por cliente
+  public fecha = true; // Variable para controlar si se está buscando por fecha
+  public porProveedor:any = []
+  public Info_clientes = [false, false]; // Array de booleanos para controlar la visualización de información adicional por cliente
+
+
+  // Función para buscar por cliente
+  buscarporCliente(){
+    this.fecha = false; // Ocultar la búsqueda por fecha
+    this.cliente = true; // Mostrar la búsqueda por cliente
+    
+    console.log(this.ordenes.separarPorProveedor())
+    this.porProveedor = this.ordenes.separarPorProveedor()
+  }
+
+  // Función para buscar por fecha
+  buscarporFecha(){
+    this.fecha = true; // Mostrar la búsqueda por fecha
+    this.cliente = false; // Ocultar la búsqueda por cliente
+  }
+
   nueva_orden() {
     this.nueva = !this.nueva;
   }
@@ -37,6 +62,14 @@ export class OrdenesComponent {
       this.ORDEN[n] = false; // Si la información está mostrándose, ocultarla
     } else {
       this.ORDEN[n] = true; // Si la información está oculta, mostrarla
+    }
+  }
+
+  show_info_(n){
+    if(this.Info_clientes[n]){
+      this.Info_clientes[n] = false; // Si la información está mostrándose, ocultarla
+    } else {
+      this.Info_clientes[n] = true; // Si la información está oculta, mostrarla
     }
   }
 
@@ -88,7 +121,7 @@ export class OrdenesComponent {
 
     const materiales = [orden].map((orden) => orden.pedido.map((item) => item.material.nombre));
     const cantidades = [orden].map((orden) => orden.pedido.map((item) => item.cantidad));
-    const modelos = [orden].map((orden) => orden.pedido.map((item) => item.material.unidad));
+    const modelos = [orden].map((orden) => orden.pedido.map((item) => item.material.modelo));
     const cantidades_ = [orden].map((orden) => orden.pedido.map((item, index) => `${item.cantidad}${orden.pedido[index].unidad}`));
     const precios = [orden].map((orden) => orden.pedido.map((item) => item.precio));
 
@@ -203,20 +236,20 @@ export class OrdenesComponent {
             new Cell(new Txt(' ').end).end,
           ],
           [
-            new Cell(new Txt('RAZÓN SOCIAL:').bold().end).border([true, false,false,false]).fontSize(10).fillColor('#C9C9C9').end,
-            new Cell(new Txt(orden.proveedor.nombre).end).border([false, false,true,false]).fontSize(10).end,
+            new Cell(new Txt('RAZÓN SOCIAL:').bold().end).fontSize(10).fillColor('#C9C9C9').end,
+            new Cell(new Txt(orden.proveedor.nombre).end).fontSize(10).end,
           ],
           [
-            new Cell(new Txt('R.I.F:').bold().end).border([true, false,false,false]).fontSize(10).fillColor('#C9C9C9').end,
-            new Cell(new Txt(orden.proveedor.rif).end).border([false, false,true,false]).fontSize(10).end,
+            new Cell(new Txt('R.I.F:').bold().end).fontSize(10).fillColor('#C9C9C9').end,
+            new Cell(new Txt(orden.proveedor.rif).end).fontSize(10).end,
           ],
           [
-            new Cell(new Txt('DIRECCIÓN:').bold().end).border([true, false,false,false]).fontSize(10).fillColor('#C9C9C9').end,
-            new Cell(new Txt(orden.proveedor.direccion).end).border([false, false,true,false]).fontSize(10).end,
+            new Cell(new Txt('DIRECCIÓN:').bold().end).fontSize(10).fillColor('#C9C9C9').end,
+            new Cell(new Txt(orden.proveedor.direccion).end).fontSize(10).end,
           ],
           [
-            new Cell(new Txt('TELEFONO:').bold().end).border([true, false,false,true]).fontSize(10).fillColor('#C9C9C9').end,
-            new Cell(new Txt('212-3627180/7181').end).border([false, false,true,true]).fontSize(10).end,
+            new Cell(new Txt('TELEFONO:').bold().end).fontSize(10).fillColor('#C9C9C9').end,
+            new Cell(new Txt('212-3627180/7181').end).fontSize(10).end,
           ]
         ]).widths(['15%', '85%']).end
       )
@@ -243,8 +276,8 @@ export class OrdenesComponent {
             new Cell(new Txt('Código').bold().end).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
             new Cell(new Txt('Descripción').bold().end).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
             new Cell(new Txt('Cantidad').bold().end).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
-            new Cell(new Txt('Coste Unit.').bold().end).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
-            new Cell(new Txt('Base Imp.').bold().end).colSpan(2).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
+            new Cell(new Txt('Costo Unit. (USD)').bold().end).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
+            new Cell(new Txt('Base Imp. (USD)').bold().end).colSpan(2).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
             new Cell(new Txt('I.V.A (16%)').bold().end).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
           ],
           [
@@ -275,11 +308,11 @@ export class OrdenesComponent {
             new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
             new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
             new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
-            new Cell(new Txt('Neto:').bold().end).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
+            new Cell(new Txt('Total:').bold().end).fillColor('#c9c9c9').fontSize(10).alignment('center').end,
             new Cell(new Txt(TotalNeto).bold().end).colSpan(2).fontSize(10).alignment('center').end,
             new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
           ]
-        ]).widths(['15%','50%','11%','11%','12%','1%']).end
+        ]).widths(['15%','38%','11%','18%','18%','1%']).end
       )
 
       pdf.add(
@@ -314,43 +347,43 @@ export class OrdenesComponent {
       pdf.add(
         new Table([
           [
-            new Cell(new Txt('CONDICIONES').bold().end).colSpan(2).alignment('center').fillColor('#000000').color('#FFFFFF').end,
+            new Cell(new Txt('CONDICIONES DE PAGO').bold().end).colSpan(2).alignment('center').fillColor('#000000').color('#FFFFFF').end,
             new Cell(new Txt(' ').end).end,
+            new Cell(new Txt(' ').end).border([false]).end,
+            new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt('ELABORADO POR').bold().end).colSpan(2).alignment('center').fillColor('#000000').color('#FFFFFF').end,
             new Cell(new Txt(' ').end).end,
-            new Cell(new Txt(' ').end).border([false]).end,
-            new Cell(new Txt(' ').end).border([false]).end,
             
           ],
           [
             new Cell(new Txt('Fecha Entrega:').bold().end).fillColor('#c9c9c9').fontSize(8).alignment('center').end,
             new Cell(new Txt(orden.entrega).bold().end).fontSize(8).alignment('center').end,
             new Cell(new Txt(' ').end).border([false]).end,
+            new Cell(new Txt(' ').end).border([false]).end,
+            new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt('Nombre:').bold().end).fillColor('#c9c9c9').fontSize(8).alignment('center').end,
             new Cell(new Txt('Zuleima Vela').bold().end).fontSize(8).alignment('center').end,
-            new Cell(new Txt(' ').end).border([false]).end,
-            new Cell(new Txt(' ').end).border([false]).end,
           ],
           [
             new Cell(new Txt('Condic. Pago:').bold().end).fillColor('#c9c9c9').fontSize(8).alignment('center').end,
             new Cell(new Txt('Contado').bold().end).fontSize(8).alignment('center').end,
             new Cell(new Txt(' ').end).border([false]).end,
+            new Cell(new Txt(' ').end).border([false]).end,
+            new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt('Firma:').bold().end).fillColor('#c9c9c9').fontSize(8).alignment('center').end,
             new Cell(new Txt('').bold().end).fontSize(8).alignment('center').end,
-            new Cell(new Txt(' ').end).border([false]).end,
-            new Cell(new Txt(' ').end).border([false]).end,
           ],
           [
             new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt(' ').end).border([false]).end,
+            new Cell(new Txt(' ').end).border([false]).end,
+            new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt('Fecha:').bold().end).fillColor('#c9c9c9').fontSize(8).alignment('center').end,
             new Cell(new Txt(hoy).bold().end).fontSize(8).alignment('center').end,
-            new Cell(new Txt(' ').end).border([false]).end,
-            new Cell(new Txt(' ').end).border([false]).end,
           ],
-        ]).widths(['14.95%','14.95%','0.1%','10.95%','18.95%','40%','0.1%']).end
+        ]).widths(['14.95%','14.95%','0.1%','40%','0.1%','10.95%','18.95%']).end
       )
       pdf.create().download()
     }
