@@ -20,8 +20,12 @@ const routes: Routes = [
   loadChildren: () => import('./fases-ymaquinarias/fases-routing.module').then(m => m.FasesRoutingModule)
 },
 {
-  path: 'ordenes',
+  path: 'ventas',
   loadChildren: () => import('./ordenes/ordenes-routing.module').then(m=> m.OrdenesRoutingModule)
+},
+{
+  path:'empresa',
+  loadChildren: () => import('./empleados/empleados.module').then(m=>m.EmpleadosModule)
 }];
 
 @NgModule({

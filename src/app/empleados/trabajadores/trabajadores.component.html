@@ -1,0 +1,60 @@
+<app-nuevo-trabajador
+[nuevo_trabajador]="nuevo_trabajador"
+[trabajador]="trabajador"
+(onCloseModal)="nuevo_trabajador = false;">
+
+</app-nuevo-trabajador>
+<div class="container_ mt-5">
+    <div class="card">
+        <div class="card-content darker">
+            <div class="card mt-5 title_">
+                <!-- <span class="red-bar"></span> -->
+                <div class="card-content">
+                  <h1 class="title blancas">
+                    Trabajadores
+                  </h1>
+                  <h2 class="subtitle description blancas">
+                    Descripción
+                  </h2>
+                </div>
+                <div class="iconos">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+            <br>
+            <button class="button is-info" (click)="nuevo_trabajador = true;">
+                <span class="icon"><i class="fas fa-plus-circle"></i></span>
+                <span>Empleado</span>
+            </button> 
+            <br> <br>
+            <div class="Departamentos">
+                <div class="card dep" *ngFor="let cargos of trabajadores.trabajador">
+                    <div class="card_designed">
+                        <span class="color" [style.background-color]="cargos.contratacion.departamento.color">
+                            <div class="columns">
+                                <div class="column is-4">
+                                    <figure class="image is-64x64 profile_pic">
+                                        <img class="is-rounded"  />
+                                    </figure>
+                                </div>
+                                <div class="column">
+                                    {{cargos.datos_personales.nombres}}
+                                    {{cargos.datos_personales.apellidos}}
+                                </div>
+                            </div>
+                        </span>
+                        <span class="info">
+                            {{cargos.datos_personales.email}} <br>
+                            {{cargos.datos_personales.celular}}
+                        </span>
+                    </div>
+                <footer class="card-footer">
+                    <a class="card-footer-item"><i class="fas fa-info-circle blue_"></i></a>
+                    <a class="card-footer-item"><i class="far fa-edit green" (click)="trabajador = cargos; nuevo_trabajador = true"></i></a>
+                    <a class="card-footer-item"><i class="fas fa-trash-alt red" (click)="eliminarTrabajador(cargos)"></i></a>
+                </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

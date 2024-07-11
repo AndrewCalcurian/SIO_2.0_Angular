@@ -187,19 +187,19 @@
                                             </thead>
                                             <tbody *ngIf="Tags[0]">
                                                 <tr *ngFor="let defectos of defectos.menores;index as i" [ngClass]="{'elemento-a-desintegrar':clases[i]}">
-                                                    <td style="font-size: small;"><i class="far fa-edit green" style="cursor: pointer;" (click)="editar(i,'menores')"></i>  <i class="far fa-trash-alt red" (click)="deleteDefecto('menores',i)" style="cursor: pointer;"></i></td>
+                                                    <td style="font-size: small;"><i class="far fa-edit green" style="cursor: pointer;" (click)="editar(i,'menores')"></i>  <i class="fas fa-trash-alt red" (click)="deleteDefecto('menores',i)" style="cursor: pointer;"></i></td>
                                                     <td style="font-size: small;">{{defectos}}</td>
                                                 </tr>
                                             </tbody>
                                             <tbody *ngIf="Tags[1]">
                                                 <tr *ngFor="let defectos of defectos.mayores;index as i">
-                                                    <td style="font-size: small;"><i class="far fa-edit green" style="cursor: pointer;" (click)="editar(i,'mayores')"></i>  <i class="far fa-trash-alt red" (click)="deleteDefecto('mayores',i)" style="cursor: pointer;"></i></td>
+                                                    <td style="font-size: small;"><i class="far fa-edit green" style="cursor: pointer;" (click)="editar(i,'mayores')"></i>  <i class="fas fa-trash-alt red" (click)="deleteDefecto('mayores',i)" style="cursor: pointer;"></i></td>
                                                     <td style="font-size: small;">{{defectos}}</td>
                                                 </tr>
                                             </tbody>
                                             <tbody *ngIf="Tags[2]">
                                                 <tr *ngFor="let defectos of defectos.criticos;index as i">
-                                                    <td style="font-size: small;"><i class="far fa-edit green" style="cursor: pointer;" (click)="editar(i,'criticos')"></i>  <i class="far fa-trash-alt red" (click)="deleteDefecto('criticos',i)" style="cursor: pointer;"></i></td>
+                                                    <td style="font-size: small;"><i class="far fa-edit green" style="cursor: pointer;" (click)="editar(i,'criticos')"></i>  <i class="fas fa-trash-alt red" (click)="deleteDefecto('criticos',i)" style="cursor: pointer;"></i></td>
                                                     <td style="font-size: small;">{{defectos}}</td>
                                                 </tr>
                                             </tbody>

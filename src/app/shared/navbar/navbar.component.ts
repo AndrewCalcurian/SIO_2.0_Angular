@@ -11,6 +11,7 @@ export class NavbarComponent implements OnInit {
   constructor(public router:Router) {}
 
   public Menu_:any = []
+  public empresa = false;
 
   ngOnInit(): void {
   }
@@ -29,5 +30,10 @@ export class NavbarComponent implements OnInit {
   select_menu(n){
     this.Menu_ = [];
     this.Menu_[n] = true;
+    this.empresa = false
+  }
+
+  showEmpresa(){
+    this.empresa = true;
   }
 }

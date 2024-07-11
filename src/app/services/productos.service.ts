@@ -35,9 +35,14 @@ export class ProductosService {
     // this.socket.io.emit('NuevoGrupo',{nombre,parcial:false,icono:'test'})
   }
 
+  FiltrarPorCliente(cliente){
+    console.log(this.producto.filter((x:any)=> x.identificacion.cliente._id === cliente))
+    return this.producto.filter((x:any)=> x.identificacion.cliente._id === cliente)
+  }
+
   buscarPorClientes(cliente){
-    console.log(cliente)
     return this.producto.filter(x=> {
+      console.log(x.identificacion.cliente._id === cliente)
       return x.identificacion.cliente._id === cliente
     })
   }

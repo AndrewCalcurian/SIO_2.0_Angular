@@ -21,7 +21,15 @@
             </ul>
             <ul class="menu-list">
                 <li>
-                    <a routerLink="/almacen">Inventario</a>
+                    <a routerLink="/ventas" [ngClass]="{'is-active':router.url == '/ventas'}">Ventas</a>
+                    <ul *ngIf="router.url == '/ventas' || router.url == '/ventas/compra'">
+                        <li><a [ngClass]="{'is-active':router.url == '/ventas/compra'}" routerLink="/ventas/compra">Órdenes de compra</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="menu-list">
+                <li>
+                    <a routerLink="/almacen" >Inventario</a>
                     <ul *ngIf="router.url == '/almacen' || router.url == '/almacen/inventario' || router.url == '/almacen/recepcion'">
                         <li>
                             <a [ngClass]="{'is-active':router.url == '/almacen/inventario'}" routerLink="/almacen/inventario">Inventario</a>
@@ -51,6 +59,16 @@
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/categoria'}" routerLink="/maquinas/categoria">Categoría</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/productos'}" routerLink="/maquinas/productos">Productos</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/tintas'}" routerLink="/maquinas/tintas">Tintas</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="menu-list">
+                <li>
+                    <a (click)="showEmpresa()" [ngClass]="{'is-active':router.url == '/empresa'}">Empresa</a>
+                    <ul *ngIf="empresa || router.url == '/empresa/departamentos' || router.url == '/empresa/cargos' || router.url == '/empresa/empleados'">
+                        <li> <a [ngClass]="{'is-active':router.url == '/empresa/departamentos'}" routerLink="/empresa/departamentos">Departamentos</a></li>
+                        <li> <a [ngClass]="{'is-active':router.url == '/empresa/cargos'}" routerLink="/empresa/cargos">Cargos</a></li>
+                        <li> <a [ngClass]="{'is-active':router.url == '/empresa/empleados'}" routerLink="/empresa/empleados">Empleados</a></li>
                     </ul>
                 </li>
             </ul>

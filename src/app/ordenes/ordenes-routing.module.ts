@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { OrdenesComponent } from './ordenes.component';
 import { CompraComponent } from './compra/compra.component';
+import { ProduccionComponent } from './produccion/produccion.component';
 
 const routes: Routes =[
   {
@@ -12,6 +13,10 @@ const routes: Routes =[
       {
         path:'compra',
         component:CompraComponent
+      },
+      {
+        path:'produccion',
+        component:ProduccionComponent
       }
     ]
 }]
