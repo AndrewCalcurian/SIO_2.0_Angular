@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CargosService } from 'src/app/services/cargos.service';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
+import { SubirArchivosService } from 'src/app/services/subir-archivos.service';
 import { TrabajadoresService } from 'src/app/services/trabajadores.service';
 import Swal from 'sweetalert2';
 
@@ -15,14 +16,23 @@ export class NuevoTrabajadorComponent implements OnInit{
   constructor(private http: HttpClient,
               public departamentos:DepartamentosService,
               public cargos:CargosService,
-              public api:TrabajadoresService
+              public api:TrabajadoresService,
+              public imagenes:SubirArchivosService
   ){}
 
 
   @Input() nuevo_trabajador:any;
   @Input() trabajador:any;
+  @Input() referencias:any;
+  @Input() carga:any;
+  @Input() emergencias:any;
+  @Input() cursos_realizados:any;
+  @Input() softwares:any
   @Output() onCloseModal = new EventEmitter();
 
+
+  public idiomas:any = []
+  public trabajoAnterior:any = []
 
   public CI = 'V-'
   public estados:any = []
@@ -38,7 +48,7 @@ export class NuevoTrabajadorComponent implements OnInit{
     {title: 'Datos Personales', content: 'Contenido 1'},
     {title: 'Referencias personales', content: 'Contenido 1'},
     {title: 'Cargas Familiares', content: 'Contenido 1'},
-    {title: 'Instrucción academica', content: 'Contenido 1'},
+    {title: 'Instrucción académica', content: 'Contenido 1'},
     {title: 'Función en la empresa', content: 'Contenido 1'},
     // Agrega más tarjetas según sea necesario
   ];
@@ -83,14 +93,6 @@ export class NuevoTrabajadorComponent implements OnInit{
     remuneracion:'',
     motivo:''
   }
-
-  public referencias:any = []
-  public carga:any = []
-  public emergencias:any = []
-  public cursos_realizados:any = []
-  public idiomas:any = []
-  public softwares:any = []
-  public trabajoAnterior:any = []
 
   ngOnInit(): void {
     this.http.get('http://api.geonames.org/childrenJSON?geonameId=3625428&username=poligrafica').subscribe((response: any) => {
@@ -296,18 +298,19 @@ export class NuevoTrabajadorComponent implements OnInit{
   }
 
 
+  
+  // Función para actualizar el objeto 'softwares' cuando cambia un checkbox
+  updateSoftwares() {
   // Obtener referencias a los elementos del DOM
-  wordCheckbox:any = document.getElementById('wordCheckbox');
-  excelCheckbox:any = document.getElementById('excelCheckbox');
-  powerPointCheckbox:any = document.getElementById('powerPointCheckbox');
-  acrobatCheckbox:any = document.getElementById('acrobatCheckbox');
+  let wordCheckbox:any = document.getElementById('wordCheckbox');
+  let excelCheckbox:any = document.getElementById('excelCheckbox');
+  let powerPointCheckbox:any = document.getElementById('powerPointCheckbox');
+  let acrobatCheckbox:any = document.getElementById('acrobatCheckbox');
 
-// Función para actualizar el objeto 'softwares' cuando cambia un checkbox
-updateSoftwares() {
-    this.trabajador.manejo_herramientas.softwares.word = this.wordCheckbox.checked;
-    this.trabajador.manejo_herramientas.softwares.excel = this.excelCheckbox.checked;
-    this.trabajador.manejo_herramientas.softwares.power_point = this.powerPointCheckbox.checked;
-    this.trabajador.manejo_herramientas.softwares.acrobat = this.acrobatCheckbox.checked;
+    this.trabajador.manejo_herramientas.softwares.word = wordCheckbox.checked;
+    this.trabajador.manejo_herramientas.softwares.excel = excelCheckbox.checked;
+    this.trabajador.manejo_herramientas.softwares.power_point = powerPointCheckbox.checked;
+    this.trabajador.manejo_herramientas.softwares.acrobat = acrobatCheckbox.checked;
 }
 
 showProgress(x,y){
@@ -343,6 +346,28 @@ showProgress(x,y){
   }, 500);
 }
 
+
+onFileSelected(event) {
+  const file = event.target.files[0];
+  if (file) {
+    this.imagenes.actualizarFoto(file, 'empleado', 'EMPLEADOS')
+    .then(img =>{
+      this.trabajador.datos_personales.foto = img;
+    })
+    const reader = new FileReader();
+    reader.onload = function(e:any) {
+      const imgElement:any = document.querySelector('.image-hover-wrapper img');
+      imgElement.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  }
+}
+
+public subAreas:any = []
+
+buscarSubArea(e){
+  this.subAreas = this.departamentos.buscarSubUnidad(e.value);
+}
 
 
 }

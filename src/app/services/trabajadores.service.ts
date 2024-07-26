@@ -8,6 +8,7 @@ import { Mensaje } from '../compras/models/modelos-compra';
 export class TrabajadoresService {
 
   public trabajador;
+  public contrataciones;
   public mensaje!:Mensaje
 
   constructor(private socket:WebSocketService) { 
@@ -19,7 +20,11 @@ export class TrabajadoresService {
     
     this.socket.io.on('SERVER:Trabajador', (data)=>{
       this.trabajador = data;
-      console.log('trabajadores:', this.trabajador)
+    })
+
+    this.socket.io.on('SERVER:Contrataciones', (data)=>{
+      this.contrataciones = data;
+      console.log('contrataciones:', this.contrataciones)
     })
 
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
@@ -33,6 +38,10 @@ export class TrabajadoresService {
 
   eliminarTrabajador(data:any){
     this.socket.io.emit('CLIENTE:EliminarTrabajador', data)
+  }
+
+  buscarHistorialTrabajador(trabajador_id){
+    return this.contrataciones.filter((x:any)=> x.trabajador === trabajador_id)
   }
 
 }

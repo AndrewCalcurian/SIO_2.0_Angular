@@ -50,4 +50,9 @@ export class DepartamentosService {
     this.socket.io.emit('CLIENTE:EliminarSubUnidad', data);
   }
 
+  buscarSubUnidad(departamento_id){
+    let departamento_ = this.departamentos.find((x:any) => x._id === departamento_id)
+    return this.subunidad.filter((x:any)=>x.departamento === departamento_.nombre)
+  }
+
 }

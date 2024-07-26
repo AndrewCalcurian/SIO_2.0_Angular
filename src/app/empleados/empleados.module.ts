@@ -16,6 +16,8 @@ import { InfoGestionComponent } from './gestion/info-gestion/info-gestion.compon
 import { TrabajadoresComponent } from './trabajadores/trabajadores.component';
 import { NuevoTrabajadorComponent } from './trabajadores/nuevo-trabajador/nuevo-trabajador.component';
 import { HttpClientModule } from '@angular/common/http';
+import { InformacionEmpleadoComponent } from './trabajadores/informacion-empleado/informacion-empleado.component';
+import { HistorialEmpleadoComponent } from './trabajadores/historial-empleado/historial-empleado.component';
 
 
 
@@ -32,7 +34,9 @@ import { HttpClientModule } from '@angular/common/http';
     NuevaGestionComponent,
     InfoGestionComponent,
     TrabajadoresComponent,
-    NuevoTrabajadorComponent
+    NuevoTrabajadorComponent,
+    InformacionEmpleadoComponent,
+    HistorialEmpleadoComponent
   ],
   imports: [
     CommonModule,

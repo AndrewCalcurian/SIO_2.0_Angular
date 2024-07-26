@@ -14,7 +14,6 @@ export class NuevoDepartamentoComponent {
   @Input() nuevo:any
   @Input() unidades:any;
   @Input() unidad:any
-  @Input() Departamento:any
   @Output() onCloseModal = new EventEmitter();
 
 

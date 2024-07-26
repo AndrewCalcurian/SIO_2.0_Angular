@@ -1,6 +1,6 @@
 <div class="modal is-active" [ngClass]="{'is-active':nuevo_trabajador}">
     <div class="modal-background"></div>
-    <div class="modal-card animate__animated animate__fadeInUp long" *ngFor="let card of cards; let i = index" [style.display]="i === currentIndex ? 'block' : 'none'">
+    <div class="modal-card long" *ngFor="let card of cards; let i = index" [style.display]="i === currentIndex ? 'block' : 'none'">
         <div class="modal-card-head">
             <p class="modal-card-title fuente" *ngIf="nuevo_trabajador">
                 Nuevo empleado
@@ -9,124 +9,181 @@
         </div>
         <div class="modal-card-body light" style="max-height: 500px;overflow-y: auto;">
             <p class="title">{{card.title}}</p>
+                 
+    <ul class="steps has-content-centered">
+        <li class="steps-segment" [ngClass]="{'is-active':i === 0}"> 
+          <a (click)="currentIndex = 0" class="steps-marker" ><i class="fas fa-user"></i></a>
+          <div class="steps-content">
+            <p class="is-size-6" style="font-family: 'Gilroy';color:dbdbdb;">Datos personales</p>
+          </div>
+        </li>
+        <li class="steps-segment" [ngClass]="{'is-active':i === 1}">
+          <a (click)="currentIndex = 1" class="steps-marker" ><i class="fas fa-user-friends"></i></a>
+          <div class="steps-content">
+          <p class="is-size-6" style="font-family: 'Gilroy';color:dbdbdb;">Referencias personales</p>
+          </div>
+        </li>
+        <li class="steps-segment" [ngClass]="{'is-active':i === 2}">
+          <a (click)="currentIndex = 2" class="steps-marker" ><i class="fas fa-users"></i></a>
+          <div class="steps-content">
+          <p class="is-size-6" style="font-family: 'Gilroy';color:dbdbdb;">Cargas familiares</p>
+          </div>
+        </li>
+        <li class="steps-segment" [ngClass]="{'is-active':i === 3}">
+          <a (click)="currentIndex = 3" class="steps-marker" ><i class="fas fa-user-graduate"></i></a>
+          <div class="steps-content">
+          <p class="is-size-6" style="font-family: 'Gilroy';color:dbdbdb;">Instrucción académica</p>
+          </div>
+        </li>
+        <li class="steps-segment" [ngClass]="{'is-active':i === 4}">
+          <a (click)="currentIndex = 4" class="steps-marker" ><i class="fas fa-user-tie"></i></a>
+          <div class="steps-content">
+          <p class="is-size-6" style="font-family: 'Gilroy';color:dbdbdb;">Función en la empresa</p>
+          </div>
+        </li>
+      </ul>
+      <br>
             <span class="content" *ngIf="i === 0">
-                <progress class="progress is-success is-small" value="20" max="100">
-                    60%
-                </progress>
-                <div class="field is-grouped">
-                    <div class="control">
-                        <label for="" class="label">Apellidos:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.apellidos">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Nombres:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.nombres">
-                    </div>
-                    <div class="control" style="width: 110px;">
-                        <label for="" class="label">Cédula:</label>
-                        <input type="text" class="input" [(ngModel)]="CI" (keyup)="formatCedula($event)">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Fecha nacimiento:</label>
-                        <input type="date" class="input" [(ngModel)]="trabajador.datos_personales.fecha_nac">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label" >Altura (m):</label>
-                        <input type="text" class="input" style="width: 60px;" [(ngModel)]="trabajador.datos_personales.altura">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Peso (kg):</label>
-                        <input type="text" class="input" style="width: 60px;" [(ngModel)]="trabajador.datos_personales.peso">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Sexo:</label>
-                        <fieldset>
-                            M: <input type="radio" name="sexo" id="masculino" [(ngModel)]="trabajador.datos_personales.sexo" value="M">
-                            F: <input type="radio" name="sexo" id="femenino" [(ngModel)]="trabajador.datos_personales.sexo" value="F">
-                        </fieldset>
-                    </div>
-                </div>
-                <div class="field is-grouped">
-                    <div class="control">
-                        <label for="" class="label">Lugar de nacimiento:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.nacimiento">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Nacionalidad:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.nacionalidad">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Estado Civil:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.estado_civil">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Licencia de conducir No.:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.licencia">
-                    </div>
-                    <div class="control" style="width: 60px;">
-                        <label for="" class="label" style="width: 30px;">Grado:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.grado">
-                    </div>
-                </div>
-                <div class="field is-grouped">
-                    <div class="control">
-                        <label for="" class="label">Rif:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.rif">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Correo Electrónico:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.email">
-                    </div>
-                </div>
-                <div class="field is-grouped">
-                    <div class="control">
-                        <label for="" class="label">Estado:</label>
-                        <div class="select">
-                            <select (change)="BuscarMunicipio($event.target)" [(ngModel)]="estado">
-                                <option value="{{estado.geonameId}}-{{estado.name}}" *ngFor="let estado of estados">{{estado.name}}</option>
-                            </select>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field is-grouped has-addons">
+                            <div class="control">
+                                <label for="" class="label">Apellidos:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.apellidos">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Nombres:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.nombres">
+                            </div>
+                            <p class="control">
+                                <label for="" class="label">.</label>
+                                <span class="select">
+                                    <select>
+                                        <option>V</option>
+                                        <option>E</option>
+                                    </select>
+                                </span>
+                            </p>
+                            <p class="control" style="width: 110px;">
+                                <label for="" class="label">Cédula:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.cedula">
+                            </p>
+                            <div class="control">
+                                <label for="" class="label">Fecha nacimiento:</label>
+                                <input type="date" class="input" [(ngModel)]="trabajador.datos_personales.fecha_nac">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Sexo:</label>
+                                <fieldset>
+                                    M: <input type="radio" name="sexo" id="masculino" [(ngModel)]="trabajador.datos_personales.sexo" value="M">
+                                    F: <input type="radio" name="sexo" id="femenino" [(ngModel)]="trabajador.datos_personales.sexo" value="F">
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <label for="" class="label" >Altura (m):</label>
+                                <input type="text" class="input" style="width: 60px;" [(ngModel)]="trabajador.datos_personales.altura">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Peso (kg):</label>
+                                <input type="text" class="input" style="width: 60px;" [(ngModel)]="trabajador.datos_personales.peso">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Lugar de nacimiento:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.nacimiento">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Nacionalidad:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.nacionalidad">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Estado Civil:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.estado_civil">
+                            </div>
+                            
+                        </div>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <label for="" class="label">Licencia de conducir No.:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.licencia">
+                            </div>
+                            <div class="control" style="width: 60px;">
+                                <label for="" class="label" style="width: 30px;">Grado:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.grado">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Rif:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.rif">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Correo Electrónico:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.email">
+                            </div>
+                        </div>
+                        <span class="subtitles">Dirección</span> <br>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <label for="" class="label">Estado:</label>
+                                <div class="select">
+                                    <select (change)="BuscarMunicipio($event.target)" [(ngModel)]="estado">
+                                        <option value="{{estado.geonameId}}-{{estado.name}}" *ngFor="let estado of estados">{{estado.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Municipio:</label>
+                                <div class="select">
+                                    <select (change)="BuscarParroquia($event.target)" [(ngModel)]="municipio">
+                                        <option value="{{municipio.geonameId}}-{{municipio.toponymName}}" *ngFor="let municipio of Municipio">{{municipio.toponymName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Parroquia:</label>
+                                <div class="select">
+                                    <select [(ngModel)]="trabajador.datos_personales.parroquia">
+                                        <option value="{{parroquia.toponymName}}" *ngFor="let parroquia of Parroquia">{{parroquia.toponymName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Sector/Urbanización</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.sector">
+                            </div>
+                        </div>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <label for="" class="label">Domicilio (Calle/Av.):</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.domicilio">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Teléfono:</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.telefono">
+                            </div>
+                            <div class="control">
+                                <label for="" class="label">Teléfono Celular</label>
+                                <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.celular">
+                            </div>
                         </div>
                     </div>
-                    <div class="control">
-                        <label for="" class="label">Municipio:</label>
-                        <div class="select">
-                            <select (change)="BuscarParroquia($event.target)" [(ngModel)]="municipio">
-                                <option value="{{municipio.geonameId}}-{{municipio.toponymName}}" *ngFor="let municipio of Municipio">{{municipio.toponymName}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Parroquia:</label>
-                        <div class="select">
-                            <select [(ngModel)]="trabajador.datos_personales.parroquia">
-                                <option value="{{parroquia.toponymName}}" *ngFor="let parroquia of Parroquia">{{parroquia.toponymName}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Sector/Urbanización</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.sector">
-                    </div>
-                </div>
-                <div class="field is-grouped">
-                    <div class="control">
-                        <label for="" class="label">Domicilio (Calle/Av.):</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.domicilio">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Teléfono:</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.telefono">
-                    </div>
-                    <div class="control">
-                        <label for="" class="label">Teléfono Celular</label>
-                        <input type="text" class="input" [(ngModel)]="trabajador.datos_personales.celular">
+                    <div class="column is-3">
+                        <label class="image-hover-wrapper" for="file-input">
+                          <figure class="image is-4by5">
+                            <img src="https://bulma.io/assets/images/placeholders/128x128.png" />
+                          </figure>
+                          <div class="hover-overlay">
+                            <div class="content has-text-centered">
+                              <i class="fas fa-camera"></i>
+                              <p>Cargar Foto</p>
+                            </div>
+                          </div>
+                        </label>
+                        <input type="file" id="file-input" accept="image/*" (change)="onFileSelected($event)">
                     </div>
                 </div>
             </span>
             <span class="content" *ngIf="i === 1">
-                <progress class="progress is-success is-small" value="40" max="100">
-                    60%
-                </progress>
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Nombre:</label>
@@ -153,10 +210,6 @@
                 </div>
             </span>
             <span class="content" *ngIf="i === 2">
-                <progress class="progress is-success is-small" value="60" max="100">
-                    60%
-                </progress>
-                <span class="subtitles">Carga familiar ************</span> <br>
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Parentesco:</label>
@@ -204,9 +257,6 @@
                 </div>
             </span>
             <span class="content" *ngIf="i === 3">
-                <progress class="progress is-success is-small" value="80" max="100">
-                    60%
-                </progress>
                 <span class="subtitles">Grado de instrucción</span> <br>
 
                 <span class="field is-grouped">
@@ -281,15 +331,15 @@
                             No: <input type="radio" name="computadora" id="" value="No" [(ngModel)]="trabajador.manejo_herramientas.computadora">
                         </fieldset>
                     </div>
-                    <div class="control">
+                    <!-- <div class="control">
                         <label for="" class="label">Software que domina:</label>
                         Word: <input type="checkbox" name="word" id="wordCheckbox" (change)="updateSoftwares()">
                         Excel: <input type="checkbox" name="excel" id="excelCheckbox" (change)="updateSoftwares()">
                         PowerPoint: <input type="checkbox" name="power_point" id="powerPointCheckbox" (change)="updateSoftwares()">
                         Acrobat: <input type="checkbox" name="acrobat" id="acrobatCheckbox" (change)="updateSoftwares()">
-                    </div>
+                    </div> -->
                     <div class="control">
-                        <label for="" class="label">Otro software que domina:</label>
+                        <label for="" class="label">Softwares que domina:</label>
                         <input type="text" class="input" [(ngModel)]="SOFTWARE">
                     </div>
                     <div class="control">
@@ -299,7 +349,7 @@
                         </button>
                     </div>
                 </div>
-                <span class="subtitles">Referencia de trabajos anteriores</span> <br>
+                <!-- <span class="subtitles">Referencia de trabajos anteriores</span> <br>
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Datos de la empresa:</label>
@@ -327,12 +377,9 @@
                             <span><i class="fas fa-plus"></i></span>
                         </button>
                     </div>
-                </div>
+                </div> -->
             </span>
             <span class="content" *ngIf="i === 4">
-                <progress class="progress is-success is-small" value="100" max="100">
-                    60%
-                </progress>
                 <div class="field is-grouped">
                     <div class="control">
                         <label for="" class="label">Fecha de ingreso:</label>
@@ -341,7 +388,7 @@
                     <div class="control">
                         <label for="" class="label">Departamento:</label>
                         <div class="select">
-                            <select [(ngModel)]="trabajador.contratacion.departamento">
+                            <select [(ngModel)]="trabajador.contratacion.departamento" (change)="buscarSubArea($event.target)">
                                 <option value="{{departamento._id}}" *ngFor="let departamento of departamentos.departamentos">{{departamento.nombre}}</option>
                             </select>
                         </div>
@@ -358,7 +405,8 @@
                         <label for="" class="label">De:</label>
                         <div class="select">
                             <select [(ngModel)]="trabajador.contratacion.de">
-                                <option value="{{unidad._id}}" *ngFor="let unidad of departamentos.subunidad">{{unidad.nombre}}</option>
+                                <option value="6696bc0c3b59a8877b99bf36">Departamento</option>
+                                <option value="{{unidad._id}}" *ngFor="let unidad of subAreas">{{unidad.nombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -503,7 +551,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="titulos">
+                <!-- <div class="titulos">
                     <div class="dot"></div> <div class="titulo">Referencia trabajos anteriores:</div>
                 </div>
                 <table class="table dark_">
@@ -526,7 +574,7 @@
                             <td>{{trabajo.motivo}}</td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
             </span>
         </div>
     </div>

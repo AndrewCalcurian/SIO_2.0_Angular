@@ -7,7 +7,7 @@ import { ProductosService } from 'src/app/services/productos.service';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { DefectosService } from 'src/app/services/defectos.service';
 import { FormulasService } from 'src/app/services/formulas.service';
-var _ = require('lodash');
+// var _ = require('lodash');
 
 // import { SwPush } from '@angular/service-worker';
 
@@ -180,7 +180,7 @@ export class ProductosComponent {
     this.cliente = false;
     this.editar = false;
 
-    let textoSinFormatear = this.obtenerDiferencias(this.productos_.lastOne, this.Producto)
+    let textoSinFormatear = ''
 
     function formatStringUnique(input: string): string {
       // Reemplaza todos los '.' y '_' con espacios
@@ -1652,28 +1652,6 @@ const ultimaPropiedad = propiedadesUltimaEspecificacion[propiedadesUltimaEspecif
     }
     generarEspecificacion()
   }
-
-
-
-  obtenerDiferencias(obj1, obj2) {
-    function cambios(objetoBase, objetoComparar) {
-      function cambiosInternos(base, comparar, ruta = '') {
-        return _.transform(base, (resultado, valor, clave) => {
-          const valorComparar = comparar[clave];
-          const rutaActual = ruta ? `${ruta}.${clave}` : clave;
-  
-          if (!_.isEqual(valor, valorComparar)) {
-            resultado[rutaActual] = _.isObject(valor) && _.isObject(valorComparar) ?
-              cambiosInternos(valor, valorComparar, rutaActual) : { original: valor, nuevo: valorComparar };
-          }
-        });
-      }
-  
-      return cambiosInternos(objetoBase, objetoComparar);
-    }
-  
-    return cambios(obj1, obj2);
-  }
   
 
 
@@ -2170,7 +2148,7 @@ const ultimaPropiedad = propiedadesUltimaEspecificacion[propiedadesUltimaEspecif
     const json1 = { nombre: "Copilot", version: "1.0" };
     const json2 = { nombre: "Copilot", version: "1.1" };
   
-    let textoSinFormatear = this.obtenerDiferencias(producto, productos2)
+    let textoSinFormatear = ''
 
     function formatStringUnique(input: string): string {
       // Reemplaza todos los '.' y '_' con espacios

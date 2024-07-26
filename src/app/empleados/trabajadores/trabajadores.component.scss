@@ -79,6 +79,12 @@
     font-size: 4em;
     font-family: 'Gilroy';
     text-align: center;
+    overflow: hidden;
+}
+
+.profile_pic img{
+    width: 75px;
+    height: 75px;
 }
 
 .info{

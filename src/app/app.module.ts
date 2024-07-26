@@ -17,10 +17,12 @@ import { FasesYmaquinariasModule } from './fases-ymaquinarias/fases-ymaquinarias
 import { SolicitudMaterialComponent } from './shared/navbar/solicitud-material/solicitud-material.component';
 import { OrdenesComponent } from './ordenes/ordenes.component';
 import { OrdenesModule } from './ordenes/ordenes.module';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
     OrdenesComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
