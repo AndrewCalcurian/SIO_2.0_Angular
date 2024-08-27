@@ -9,6 +9,7 @@
 [Edicion_sustrato]="EDITAR_SUSTRATO"
 [Editable]="especificacion_para_editar"
 (onCloseModal)="cerrarNuevo()"
+(onActualizar)="actualizarEspecificaciones()"
 >
 
 </app-nueva-especificacion>
@@ -40,39 +41,45 @@
             </div>
             <br>
             <br>
-            <ng-container *ngFor="let fila of [].constructor(filas());index as fila_i">
-              <div class="columns">
-                <div class="column" *ngFor="let tarjeta of [].constructor(5);index as i">
-                  <ng-container *ngIf="grupos.grupos[(5*fila_i)+i]">
-                    <div class="card animate__animated animate__fadeInUp" [ngClass]="{'isSelected':grupoSelected == grupos.grupos[(5*fila_i)+i].nombre}">
-                      <div class="card-header">
-                        <div class="div card-header-title">
-                          <div class="subtitle">
-                            <div class="columns">
-                              <div class="column is-1">
-                                <i class="{{grupos.grupos[(5*fila_i)+i].icono}}"></i>
-                              </div>
-                              <div class="column grupo" (click)="randomise(grupos.grupos[(5*fila_i)+i].nombre, grupos.grupos[(5*fila_i)+i]._id)">
-                                {{grupos.grupos[(5*fila_i)+i].nombre}}
+            <div class="card">
+              <div class="card-content">
+                <span class="title">Grupos de materiales</span>
+                <hr>
+                <div class="Departamentos">
+                  <ng-container *ngFor="let grupo of grupos.grupos; index as i">
+                    <div class="card dep" *ngIf="!grupo.otro">
+                      <div class="card animate__animated animate__fadeInUp" [ngClass]="{'isSelected':grupoSelected === grupo.nombre}">
+                        <div class="card-header">
+                          <div class="div card-header-title">
+                            <div class="subtitle">
+                              <div class="columns">
+                                <div class="column is-1">
+                                  <i class="{{grupo.icono}}"></i>
+                                </div>
+                                <div class="column grupo" (click)="randomise(grupo.nombre, grupo._id)">
+                                  {{grupo.nombre}}
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <footer class="card-footer footer_">
+                          <a class="card-footer-item">
+                            <i class="fas fa-plus-circle" style="cursor: pointer;" (click)="nueva_especificacion(grupo._id)"></i>
+                          </a>
+                        </footer>
                       </div>
-                      <footer class="card-footer footer_">
-                        <a class="card-footer-item">
-                          <i class="fas fa-plus-circle" style="cursor: pointer;" (click)="nueva_especificacion(grupos.grupos[(5*fila_i)+i]._id)"></i>
-                        </a>
-                      </footer>
                     </div>
                   </ng-container>
                 </div>
               </div>
-            </ng-container>
+            </div>
           <br>
           <div class="card">
             <div class="card-content">
               <div class="lista">
+                <span class="title">Especificaciones {{grupoSelected}}</span>
+                <hr>
                 <table class="table is-fullwidth is-striped">
                   <thead>
                     <tr>

@@ -42,8 +42,10 @@ export class ProveedoresService {
     this.socket.io.emit('CLIENTE:deleteProveedor', id)
   }
 
-  seleccionarUnProveedor(id:any){
-    this.proveedor_selected = this.proveedores.filter((x:any) =>x.fabricantes._id === id)
+  seleccionarUnProveedor(nombre:any){
+    console.log('Aqui tambien tamos')
+    console.log(this.proveedores.filter((x:any) =>x.nombre === nombre))
+    return this.proveedores.filter((x:any) =>x.nombre === nombre)
   }
 
 }

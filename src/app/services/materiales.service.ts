@@ -20,7 +20,6 @@ export class MaterialesService {
 
   buscarMaterial(){
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
-      console.error(data.mensaje);
       this.mensaje = data
     });
 
@@ -28,7 +27,7 @@ export class MaterialesService {
 
     this.socket.io.on('SERVER:Materiales', (materiales)=>{
       this.materiales = materiales
-      console.log(this.materiales)
+      console.error(materiales,'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>!');
     })  
   }
 
@@ -63,6 +62,7 @@ export class MaterialesService {
 }
 
   filtrarPorGrupoConEspecificacion(id: any): Materiales[] {
+    console.log(id,'>>>>>>>>>>>>>>>>',this.materiales)
     return this.materiales.filter((material: any) => 
         material.grupo._id === id && (material.especificacion || material.especificacion2)
     );

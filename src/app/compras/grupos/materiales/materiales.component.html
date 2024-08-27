@@ -19,6 +19,7 @@
                         <th>Material</th>
                         <th>Marca</th>
                         <th>Serie</th>
+                        <th *ngIf="material_selected[0].origen">origen</th>
                         <th *ngIf="material_selected[0].gramaje">Gramaje</th>
                         <th *ngIf="material_selected[0].gramaje">Calibre</th>
                         <th *ngIf="material_selected[0].color">Color</th>
@@ -35,12 +36,12 @@
                                 </td>
                                 <td>
                                     {{material.fabricante.alias}}
-                                    <ng-container *ngIf="material.origen">
-                                        ({{material.origen}})
-                                    </ng-container>
                                 </td>
                                 <td>
                                     {{material.serie}}
+                                </td>
+                                <td *ngIf="material.origen">
+                                    {{material.origen}}
                                 </td>
                                 <td *ngIf="material.gramaje">
                                     {{material.gramaje}}

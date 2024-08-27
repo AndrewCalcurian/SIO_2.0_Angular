@@ -73,7 +73,7 @@
                     <label class="label">OC:</label>
                     <div class="select">
                         <select (change)="seleccionarOC($event.target)" [(ngModel)]="OC__">
-                            <option value="{{i}}" *ngFor="let orden of OC_Poligrafica.filtrarPorProveedor(proveedor_);index as i">{{orden.numero}}</option>
+                            <option value="{{i}}" *ngFor="let orden of OC_Poligrafica.filtrarPorProveedor(proveedor_);index as i">{{formatOrderNumber(orden.numero)}}</option>
                         </select>
                     </div>
                 </div>
@@ -119,20 +119,61 @@
                 
                 <p class="control" *ngIf="cantidad_ && neto_">
                     <label class="label"> </label>
-                    <button class="button no-style" (click)="addMaterial()">
+                    <button class="button is-info" (click)="addMaterial()">
                         <span class="icon">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <i class="fas fa-plus"></i>
                         </span>
                     </button>
                 </p>
             </div>
             <span id="sobrante" class="informacion"></span><br>
             <span id="info" class="informacion"></span>
-            <span *ngIf="done">  <i class="fas fa-info-circle blue_" style="font-size: larger;" (click)="listado = true; nueva = false"></i>  <i class="fas fa-tasks blue_" style="font-size: larger;" (click)="task(Listado_[0].material.grupo.nombre, Listado_[0].material.grupo.trato)"></i>
+
+            <span *ngIf="done">
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-info is-small" (click)="listado = true; nueva = false">
+                            <span class="icon"><i class="fas fa-info-circle"></i></span>
+                            <span>Detalles</span>
+                        </button>
+                    </div>
+                    <div class="control" *ngIf="revisado">
+                        <button class="button is-small is-info" (click)="task(Listado_[0].material.grupo.nombre, Listado_[0].material.grupo.trato)">
+                            <span class="icon"><i class="fas fa-tasks"></i></span>
+                            <span>Control</span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-small is-info" (click)="triggerFileInputClick()">
+                            <span class="icon"><i class="fas fa-file-excel"></i></span>
+                            <span>Cargar Excel</span>
+                        </button>
+                        <input type="file" id="excel-file" #fileInput accept=".xls,.xlsx" style="display: none;" (change)="cargarArchivo($event)">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control" *ngIf="checked">
+                        <button class="button is-success" (click)="_guardar()">
+                            <span class="icon"><i class="fas fa-check"></i></span>
+                            <span>Agregar</span>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <!--   <i class="fas fa-info-circle blue_" style="font-size: larger;" ></i>  <i class="fas fa-tasks blue_" style="font-size: larger;" ></i>
                   <label for="excel-file" style="background-image: url('../../../../assets/Excel.png'); width: 20px; height: 20px; display: block; cursor: pointer;background-size: cover;"></label>
-                <input type="file" id="excel-file" accept=".xls,.xlsx" style="display: none;" (change)="cargarArchivo($event)">  <i class="fa-solid fa-circle-plus green" *ngIf="revisado" (click)="_guardar()" style="cursor: pointer; font-size: large;"></i></span>
+                <input type="file" id="excel-file" accept=".xls,.xlsx" style="display: none;" (change)="cargarArchivo($event)">  <i class="fa-solid fa-circle-plus green" *ngIf="revisado" (click)="_guardar()" style="cursor: pointer; font-size: large;"></i> -->
+            </span>
 
             <br>
+            <button class="button is-success" *ngIf="ParaAlmacenar.length >0" (click)="guardar()">
+                <span class="icon">
+                    <i class="fas fa-save"></i>
+                </span>
+                <span>
+                    Guardar
+                </span>
+            </button>
             <!-- ************************ DEPRECATED ************************ -->
             <div class="columns" style="display: none;">
                 <div class="column">
@@ -354,8 +395,8 @@
                 </tr>
                 <tr *ngFor="let registro of registro_lotes;index as i">
                     <td>{{lotes_guardados[i][0].nombre}}</td>
-                    <th>{{registro}}</th>
-                    <th>{{lotes_guardados[i][0].oc.numero}}</th>
+                    <td [innerHTML]="registro"></td>
+                    <td>{{lotes_guardados[i][0].oc.numero}}</td>
                     <td>{{lotes_guardados[i][0].lote}}</td>
                     <td><i class="fas fa-trash-alt red"></i></td>
                 </tr>

@@ -34,6 +34,7 @@ export class EspecificacionesComponent implements OnInit {
     }, 1000);
   }
 
+
   cerrarNuevo() {
     this.NUEVA_ESPECIFICACION = false;
     this.EDITAR_ESPECIFICACION = false;
@@ -48,7 +49,21 @@ export class EspecificacionesComponent implements OnInit {
 
   Detallar(data: any) {
     this.Detalle = true;
-    this.Especificacion = data.especificacion
+    console.log(data)
+    if(data.especificacion2){
+      this.Especificacion = data.especificacion2.especificacion
+    }else{
+      this.Especificacion = data.especificacion
+    }
+
+    console.log(this.Especificacion)
+  }
+
+  actualizarEspecificaciones(){
+    let grupo_encontrado = this.grupos.BuscarGrupoPorNombre(this.grupoSelected)
+    console.log(this.grupoSelected, grupo_encontrado)
+    this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(grupo_encontrado?._id)
+    console.log(this.materialesEspecificados)
   }
 
 
@@ -56,9 +71,9 @@ export class EspecificacionesComponent implements OnInit {
     let Grupo:any = this.grupos.grupos.find((x:any) => x._id == id )
     if(Grupo.trato){
       this.NUEVO_SUSTRATO = true;
-    }else if(Grupo.nombre === 'Tintas'){
+    }else if(Grupo.nombre === 'Tintas' || Grupo.nombre === 'Barniz s/impresión'){
       this.NUEVA_ESPECIFICACION = true;
-    }else if(Grupo.nombre === 'Cajas corrugadas'){
+    }else if(Grupo.nombre === 'Cajas Corrugadas'){
       this.NUEVA_CAJA = true;
     }else if(Grupo.nombre === 'Soportes de Embalaje'){
       this.NUEVO_PADS = true;

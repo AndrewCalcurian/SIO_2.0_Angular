@@ -42,10 +42,10 @@
                                             Mínimo:
                                         </div>
                                         <div class="column" *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.gramaje.min">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.gramaje.min">
                                         </div>
                                         <div class="column" *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.gramaje.min">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.gramaje.min">
                                         </div>
                                     </div>
                                 </div>
@@ -55,10 +55,10 @@
                                             Nominal:
                                         </div>
                                         <div class="column" *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.gramaje.nom">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.gramaje.nom">
                                         </div>
                                         <div class="column" *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.gramaje.nom">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.gramaje.nom">
                                         </div>
                                     </div>
                                 </div>
@@ -68,10 +68,10 @@
                                             Máximo:
                                         </div>
                                         <div class="column" *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.gramaje.max">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.gramaje.max">
                                         </div>
                                         <div class="column" *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.gramaje.max">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.gramaje.max">
                                         </div>
                                     </div>
                                 </div>
@@ -98,15 +98,15 @@
                         <td>
                             <div class="columns" *ngIf="!Edicion_sustrato">
                                 <div class="column">(mm)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.mm.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.mm.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.mm.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.mm.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.mm.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.mm.max"></div>
                             </div>
                             <div class="columns" *ngIf="Edicion_sustrato">
                                 <div class="column">(mm)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.mm.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.mm.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.mm.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.mm.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.mm.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.mm.max"></div>
                             </div>
                         </td>
                     </tr>
@@ -115,15 +115,15 @@
                         <td>
                             <div class="columns" *ngIf="!Edicion_sustrato">
                                 <div class="column">(pt)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.pt.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.pt.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.pt.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.pt.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.pt.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.pt.max"></div>
                             </div>
                             <div class="columns" *ngIf="Edicion_sustrato">
                                 <div class="column">(pt)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.pt.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.pt.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.pt.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.pt.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.pt.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.pt.max"></div>
                             </div>
                         </td>
                     </tr>
@@ -132,15 +132,15 @@
                         <td>
                             <div class="columns" *ngIf="!Edicion_sustrato">
                                 <div class="column">(μm)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.um.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.um.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.um.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.um.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.um.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.calibre.um.max"></div>
                             </div>
                             <div class="columns" *ngIf="Edicion_sustrato">
                                 <div class="column">(μm)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.um.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.um.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.calibre.um.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.um.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.um.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.calibre.um.max"></div>
                             </div>
                         </td>
                     </tr>
@@ -162,15 +162,15 @@
                         <td>
                             <div class="columns" *ngIf="!Edicion_sustrato">
                                 <div class="column">(TOP)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.top.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.top.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.top.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.top.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.top.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.top.max"></div>
                             </div>
                             <div class="columns" *ngIf="Edicion_sustrato">
                                 <div class="column">(TOP)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.cobb.top.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.cobb.top.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.cobb.top.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.cobb.top.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.cobb.top.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.cobb.top.max"></div>
                             </div>
                         </td>
                     </tr>
@@ -179,15 +179,15 @@
                         <td>
                             <div class="columns" *ngIf="!Edicion_sustrato">
                                 <div class="column">(BACK)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.back.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.back.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.back.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.back.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.back.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.cobb.back.max"></div>
                             </div>
                             <div class="columns" *ngIf="Edicion_sustrato">
                                 <div class="column">(BACK)</div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.cobb.back.min"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.cobb.back.nom"></div>
-                                <div class="column"><input type="text" class="input is-small" [(ngModel)]="Editable.cobb.back.max"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.cobb.back.min"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.cobb.back.nom"></div>
+                                <div class="column"><input type="number" class="input is-small" [(ngModel)]="Editable.cobb.back.max"></div>
                             </div>
                         </td>
                     </tr>
@@ -205,10 +205,10 @@
                                             Mínimo:
                                         </div>
                                         <div class="column"  *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.curling.min">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.curling.min">
                                         </div>
                                         <div class="column"  *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.curling.min">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.curling.min">
                                         </div>
                                     </div>
                                 </div>
@@ -218,10 +218,10 @@
                                             Nominal:
                                         </div>
                                         <div class="column" *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.curling.nom">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.curling.nom">
                                         </div>
                                         <div class="column" *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.curling.nom">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.curling.nom">
                                         </div>
                                     </div>
                                 </div>
@@ -231,10 +231,10 @@
                                             Máximo:
                                         </div>
                                         <div class="column" *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.curling.max">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.curling.max">
                                         </div>
                                         <div class="column" *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.curling.max">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.curling.max">
                                         </div>
                                     </div>
                                 </div>
@@ -255,10 +255,10 @@
                                             Mínimo:
                                         </div>
                                         <div class="column" *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.blancura.min">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.blancura.min">
                                         </div>
                                         <div class="column" *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.blancura.min">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.blancura.min">
                                         </div>
                                     </div>
                                 </div>
@@ -268,10 +268,10 @@
                                             Nominal:
                                         </div>
                                         <div class="column" *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.blancura.nom">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.blancura.nom">
                                         </div>
                                         <div class="column" *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.blancura.nom">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.blancura.nom">
                                         </div>
                                     </div>
                                 </div>
@@ -281,10 +281,10 @@
                                             Máximo:
                                         </div>
                                         <div class="column" *ngIf="!Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="EspecificacionSustrato.blancura.max">
+                                            <input type="number" class="input is-small" [(ngModel)]="EspecificacionSustrato.blancura.max">
                                         </div>
                                         <div class="column" *ngIf="Edicion_sustrato">
-                                            <input type="text" class="input is-small" [(ngModel)]="Editable.blancura.max">
+                                            <input type="number" class="input is-small" [(ngModel)]="Editable.blancura.max">
                                         </div>
                                     </div>
                                 </div>
@@ -298,7 +298,7 @@
                 <span class="icon"><i class="fas fa-save"></i></span>
                 <span>Guardar</span>
             </button>
-            <button class="button is-success" (click)="Editar_()" *ngIf="Edicion_sustrato  && Material_selected != '#'">
+            <button class="button is-success" (click)="Editar_()" *ngIf="Edicion_sustrato">
                 <span class="icon"><i class="fas fa-save"></i></span>
                 <span>Editar</span>
             </button>
@@ -581,7 +581,7 @@
                 </tbody>
             </table>
             <hr>
-            <button class="button is-success" (click)="guardar()" *ngIf="!Editable && Material_selected != '#'">
+            <button class="button is-success" (click)="guardar()" *ngIf="!Editable">
                 <span class="icon"><i class="fas fa-save"></i></span>
                 <span>Guardar</span>
             </button>

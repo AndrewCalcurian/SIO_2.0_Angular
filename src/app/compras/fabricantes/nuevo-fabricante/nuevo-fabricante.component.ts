@@ -19,7 +19,7 @@ export class NuevoFabricanteComponent implements OnInit{
 
   nombre :string = '';
   alias  :string = '';
-  pais   :string = 'Venezuela';
+  pais   :string = '';
   estado :string = '';
   grupo  :string = ''
   proveedor_directo :boolean = false;
@@ -30,6 +30,7 @@ export class NuevoFabricanteComponent implements OnInit{
   p_contacto:any = []
   p_direccion:string = ''
   p_rif:string = ''
+  p_cargo:string = ''
 
   proveedor_directo_selected:any;
   proveedor_directo_abierto:boolean = false;
@@ -95,22 +96,26 @@ export class NuevoFabricanteComponent implements OnInit{
     AgregarContacto(){
       this.p_contacto.push({
         nombre: this.p_nombre,
-        telefono: this.p_telefono,
-        correo: this.p_correo
+        numero: this.p_telefono,
+        email: this.p_correo,
+        cargo:this.p_cargo
       });
       this.p_nombre = '';
       this.p_telefono = '';
       this.p_correo = '';
+      this.p_cargo = ''
     }
     AgregarContacto_(){
       this.proveedor_directo_selected[0].contactos.push({
         nombre: this.p_nombre,
-        telefono: this.p_telefono,
-        correo: this.p_correo
+        numero: this.p_telefono,
+        email: this.p_correo,
+        cargo: this.p_cargo
       });
       this.p_nombre = '';
       this.p_telefono = '';
       this.p_correo = '';
+      this.p_cargo = '';
     }
 
     addGuion(){
@@ -255,16 +260,31 @@ export class NuevoFabricanteComponent implements OnInit{
           }
           this.proveedor_service.nuevoProveedor(proveedor)
           this.onCloseModal.emit();
+          this.nombre  = '';
+          this.alias   = '';
+          this.pais    = '';
+          this.estado  = '';
+          this.grupo   = '';
+          this.proveedor_directo = false;
+      
+          this.p_nombre   = ''
+          this.p_telefono = ''
+          this.p_correo   = ''
+          this.p_contacto = []
+          this.p_direccion = ''
+          this.p_rif = ''
+          this.p_cargo = ''
+          this.origenes = []
+          this.grupos = []
       },1000)
     }
     this.onCloseModal.emit();
   }
 
   BuscarProveedor(){
-
+    console.log(this.data)
     if(!this.proveedor_directo_abierto){
-      this.proveedor_service.seleccionarUnProveedor(this.data._id)
-      this.proveedor_directo_selected = this.proveedor_service.proveedor_selected;
+      this.proveedor_directo_selected = this.proveedor_service.seleccionarUnProveedor(this.data.nombre);
       this.proveedor_directo_abierto = true;
     }else{
       this.proveedor_directo_abierto = false;

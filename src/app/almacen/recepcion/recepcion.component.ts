@@ -16,12 +16,18 @@ export class RecepcionComponent {
   public nueva: boolean = false;
   public Material_selected!: any;
   public n_word!: any
+  public comentarios = false;
+  public recepcion_id = ''
 
   constructor(public api: RecepcionService,
               public almacen:AlmacenService) {
 
   }
 
+
+  recepcionID(id, index){
+    this.recepcion_id = `${id}-${index}` 
+  }
 // Función para verificar si un lote tiene análisis en el almacén y devuelve la información
 poseeAnalisis(lote){
   console.log(this.almacen.buscarPorLote(lote)); // Imprime en consola la información del análisis del lote
@@ -253,7 +259,7 @@ checkar(id: string) {
               new Cell(new Txt(`${informacion.materiales[i][0].material.fabricante.nombre}`).end).alignment('center').fontSize(8).border([true,false,true,true]).end,
               new Cell(new Txt('N/A').end).alignment('center').fontSize(8).border([true,false,true,true]).end,
               new Cell(new Txt(`${informacion.materiales[i][0].presentacion}`).end).alignment('center').fontSize(8).border([true,false,true,true]).end,
-              new Cell(new Txt(`${informacion.materiales[i][1].neto} ${informacion.materiales[i][0].unidad}`).end).alignment('center').fontSize(8).border([true,false,true,true]).end,
+              new Cell(new Txt(`${informacion.materiales[i][0].neto} ${informacion.materiales[i][0].unidad}`).end).alignment('center').fontSize(8).border([true,false,true,true]).end,
               new Cell(new Txt(`${informacion.materiales.length}`).end).alignment('center').fontSize(8).border([true,false,true,true]).end,
               new Cell(new Txt(`${informacion.cantidad[i]} ${informacion.materiales[i][0].unidad}`).end).alignment('center').fontSize(8).border([true,false,true,true]).end,
             ],

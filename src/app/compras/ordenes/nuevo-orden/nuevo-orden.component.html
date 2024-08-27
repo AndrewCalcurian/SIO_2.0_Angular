@@ -49,15 +49,15 @@
                         </select>
                     </div>
                 </div>
-                <div class="control short_" *ngIf="material.unidad">
+                <div class="control" *ngIf="material.unidad">
+                    <label class="label">Cantidad</label>
+                    <input type="number" name="" id="" class="input" [(ngModel)]="material.cantidad" min="1">
+                </div>
+                <div class="control short_" *ngIf="material.cantidad && Number_(material.cantidad) > 0">
                     <label class="label">Costo Unitario (USD)</label>
                     <input type="number" name="" id="" class="input" [(ngModel)]="material.precio" min="0">
                 </div>
                 <div class="control" *ngIf="material.precio && Number_(material.precio) > 0">
-                    <label class="label">Cantidad</label>
-                    <input type="number" name="" id="" class="input" [(ngModel)]="material.cantidad" min="1">
-                </div>
-                <div class="control" *ngIf="material.cantidad && Number_(material.cantidad) > 0">
                     <label for="" class="label"> </label>
                     <button class="button is-info" (click)="addMaterial()">
                         <span class="icon">

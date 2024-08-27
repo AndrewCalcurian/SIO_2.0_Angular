@@ -1,42 +1,42 @@
-    <div class="background">
-    </div>
-    <div class="content">
-        <div class="black-shadow">
-            <div class="logo">
-                <div class="sio">
-                    <img src="../../assets/LOGO-SIO.png" alt="SIO">
-                </div>
-                <div class="poligrafica">
-                    <img src="../../assets/" alt="Poligrafica Industrial C.A.">
-                </div>
+  <div class="container_"></div>
+  <div class="modal">
+    <div class="modal-container">
+      <div class="modal-left">
+        <h1 class="modal-title" style="font-size: 'Gilroy';">Bienvenido!</h1>
+        <ng-container *ngIf="session_name">
+            <div class="title" style="font-size: 40px;">
+                {{session_name}}
             </div>
-        </div>
-        <div class="form">
-            <div class="shadow-banner">
-                <div class="card_">
-                    <div class="message">
-                        <p class="bienvenido">Bienvenido!</p>
-                    </div>
-                    <br>
-                    <div class="form-container">
-                        <p class="input-container" id='login-i'>
-                            <input type="text" class="login-input" id='input-username' onclick="test('login-i')" onchange="test2($event.target.value)">
-                            <label for="input-username animation" unselectable='on'>Correo</label>
-                        </p>
-                        <p class="input-container" id='pass-i'>
-                            <input type="password" class="login-input" id="input-password" onclick="test('pass-i')">
-                            <label for="input-password" unselectable="on">Contraseña</label>
-                        </p>
-                    </div>
-                    <span class="remember">
-                        <input type="checkbox" name="Remember" id=""> Recuerdame
-                    </span>
-                    <br>
-                    <span class="buttons">
-                        <button class="Login">Ingresar</button>
-                        <button class="Other_User">Otro Usuario</button>
-                    </span>
-                </div>
+        </ng-container>
+        <p class="modal-desc"></p>
+        <ng-container *ngIf="!session_name">
+            <div class="input-block">
+              <label for="email" class="input-label">Correo</label>
+              <input type="email" name="email" id="email" placeholder="Email" [(ngModel)]="Correo" (keyup.enter)="login()">
             </div>
+        </ng-container>
+        <div class="input-block">
+          <label for="password" class="input-label">Contraseña</label>
+          <input type="password" name="password" id="password" placeholder="Password" [(ngModel)]="Password" (keyup.enter)="login()">
         </div>
-    </div>
+            <input type="checkbox" id="recuerdame" [hidden]="session_name"> <span [hidden]="session_name"> Recuerdame</span>
+        <ng-container *ngIf="session_name">
+            <a (click)="borrar_sessiones()">¿No eres {{session_name}}?</a>
+        </ng-container>
+        <div class="modal-buttons">
+          <!-- <a href="" class="">Forgot your password?</a> -->
+          <button class="input-button" (click)="login()">Login</button>
+        </div>
+        <!-- <p class="sign-up">Don't have an account? <a href="#">Sign up now</a></p> -->
+      </div>
+      <div class="modal-right">
+        <img src="../../assets/Imagen-pequeña-v2.jpg" alt="">
+      </div>
+      <button class="icon-button close-button" (click)="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z"></path>
+          </svg>
+        </button>
+    </div> 
+    <button class="modal-button" (click)="openModal()">Ingresar</button>
+  </div>

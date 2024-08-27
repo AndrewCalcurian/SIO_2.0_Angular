@@ -285,7 +285,7 @@
                     </div>
                 </div>
                 <div class="column">
-                    <div class="field">
+                    <div class="field" *ngIf="pais">
                         <label for="" class="label">Estado</label>
                         <div class="control">
                             <input type="text" class="input" [(ngModel)]="estado">
@@ -293,7 +293,7 @@
                     </div>
                 </div>
                 <div class="column">
-                    <div class="field">
+                    <div class="field" *ngIf="estado">
                         <label for="" class="label"> </label>
                         <button class="button is-info" (click)="addOrigen()" *ngIf="nuevo">
                             <i class="fas fa-plus"></i>
@@ -318,7 +318,7 @@
                     </div>
                 </div>
                 <div class="column is-2">
-                    <div class="field">
+                    <div class="field" *ngIf="grupo">
                         <label for="" class="label"> </label>
                         <button class="button is-info" (click)="addGrupo()" *ngIf="nuevo">
                             <i class="fas fa-plus"></i>
@@ -355,40 +355,38 @@
                         <input type="text" class="input" maxlength="12" (input)="addGuion()" [(ngModel)]="proveedor_directo_selected[0].rif" *ngIf="proveedor_directo_abierto && !nuevo">
                     </div>
                 </div>
-                <div class="field">
-                    <strong>Persona de contacto</strong>
-                    <div class="columns">
-                        <div class="column">
-                            <label for="" class="label">Nombre:</label>
-                            <div class="control">
-                                <input type="text" class="input" [(ngModel)]="p_nombre">
-                            </div>
-                        </div>
-                        <div class="column">
-                            <label for="" class="label">Teléfono:</label>
-                            <div class="control" >
-                                <input type="text" class="input" [(ngModel)]="p_telefono">
-                            </div>
-                        </div>
-                        <div class="column">
-                            <label for="" class="label" >Correo:</label>
-                            <div class="control">
-                                <input type="email" class="input" [(ngModel)]="p_correo" (input)="validateEmail(p_correo)">
-                                <p id="validationMessage"></p>
-                            </div>
-                        </div>
-                        <div class="column is-1" *ngIf="nuevo && p_nombre && p_telefono && correo_valido">
-                            <label for="" class="label" > </label>
-                            <button class="button is-info" (click)="AgregarContacto()">
-                                <span class="icon"><i class="fas fa-plus"></i></span>
-                            </button>
-                        </div>
-                        <div class="column is-1" *ngIf="!nuevo">
-                            <label for="" class="label" > </label>
-                            <button class="button is-info" (click)="AgregarContacto_()">
-                                <span class="icon"><i class="fas fa-plus"></i></span>
-                            </button>
-                        </div>
+                <strong style="color: black;">Persona de contacto</strong>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <label for="" class="label">Nombre:</label>
+                        <input type="text" class="input" [(ngModel)]="p_nombre">
+                    </div>
+                    <div class="control" >
+                        <label for="" class="label">Teléfono:</label>
+                        <input type="text" class="input" [(ngModel)]="p_telefono">
+                    </div>
+                    <div class="control">
+                        <label for="" class="label" >Correo:</label>
+                        <input type="email" class="input" [(ngModel)]="p_correo" (input)="validateEmail(p_correo)">
+                        <p id="validationMessage"></p>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <label for="" class="label">Cargo:</label>
+                        <input type="text" class="input" [(ngModel)]="p_cargo">
+                    </div>
+                    <div class="control" *ngIf="nuevo && p_nombre && p_telefono && correo_valido && p_cargo">
+                        <label for="" class="label" > </label>
+                        <button class="button is-info" (click)="AgregarContacto()">
+                            <span class="icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                    </div>
+                    <div class="control" *ngIf="editar && p_nombre && p_telefono && correo_valido && p_cargo">
+                        <label for="" class="label" > </label>
+                        <button class="button is-info" (click)="AgregarContacto_()">
+                            <span class="icon"><i class="fas fa-plus"></i></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -422,23 +420,13 @@
                                     <tr [hidden]="elementosVisibles[i]">
                                         <td>
                                           {{contacto.nombre}} <br>
-                                          {{contacto.telefono}} <br>
-                                          {{contacto.correo}}
+                                          {{contacto.numero}} <br>
+                                          {{contacto.email}} <br>
+                                          {{contacto.cargo}}
                                         </td>
                                         <td>
-                                            <i class="far fa-edit green" (click)="editar_(i)"></i><br>
                                             <i class="fas fa-trash-alt red" (click)="deletecontacto_(i)"></i>
                                             
-                                        </td>
-                                    </tr>
-                                    <tr [hidden]="!elementosVisibles[i]">
-                                        <td>
-                                            <input type="text" class="input" [(ngModel)]="contacto.nombre">
-                                            <input type="text" class="input" [(ngModel)]="contacto.telefono">
-                                            <input type="text" class="input" [(ngModel)]="contacto.correo">
-                                        </td>
-                                        <td>
-                                            <i class="fas fa-check green" (click)="guardarCambios(i)"></i><br>
                                         </td>
                                     </tr>
                         </table>
@@ -453,7 +441,7 @@
         </div>
     </div>
 
-    <div class="modal-card added animate__animated animate__fadeInUp" *ngIf="origenes.length > 0 || grupos.length > 0 && nuevo">
+    <div class="modal-card added animate__animated animate__fadeInUp" *ngIf="origenes.length > 0 && nuevo || grupos.length > 0 && nuevo">
         <div class="modal-card-body bg">
             <div class="columns">
                 <div class="column">
@@ -484,7 +472,8 @@
                                     <td>
                                         {{contacto.nombre}} <br>
                                         {{contacto.telefono}} <br>
-                                        {{contacto.correo}}
+                                        {{contacto.correo}} <br>
+                                        {{contacto.cargo}}
                                     </td>
                                     <td>
                                          <br>

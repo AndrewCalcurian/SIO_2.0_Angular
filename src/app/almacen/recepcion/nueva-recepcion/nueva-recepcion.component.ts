@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Fabricante } from 'src/app/compras/models/modelos-compra';
 import { FabricantesService } from 'src/app/services/fabricantes.service';
 import { MaterialesService } from 'src/app/services/materiales.service';
@@ -16,6 +16,12 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./nueva-recepcion.component.scss']
 })
 export class NuevaRecepcionComponent {
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
+  triggerFileInputClick() {
+    this.fileInput.nativeElement.click();
+  }
 
   constructor(public proveedores:ProveedoresService,
               public fabricantes:FabricantesService,
@@ -93,6 +99,8 @@ export class NuevaRecepcionComponent {
   public fabricaciones:string[] = []
   public condiciones:any;
 
+  public checked = false;
+
   material_selected!:any;
   cantidad!:number;
   presentacion!:string;
@@ -112,6 +120,17 @@ export class NuevaRecepcionComponent {
   seleccionarOC(e){
     this.Poligrafica_OC = this.OC_Poligrafica.filtrarPorProveedor(this.proveedor_)[e.value]
     console.log(this.Poligrafica_OC)
+  }
+
+  formatOrderNumber(orderNumber: any): string {
+    // Ensure orderNumber is a string
+    const orderNumberStr = orderNumber.toString();
+
+    // Extract the first two characters (year) and the rest of the order number
+    const yearPart = orderNumberStr.substring(0, 2); // Get the first two digits
+    const orderPart = orderNumberStr.substring(2); // Get the rest of the order number
+
+    return `${yearPart}-${orderPart}`; // Format as "YY-XXXXX"
   }
 
   // En tu componente de Angular
@@ -292,7 +311,7 @@ calcularLatasYSobrante(cantidadTotal: number, pesoNetoPorLata: number){
       presentacion:this.presentacion_,
       lote:this.lote_,
       codigo: 1,
-      neto: sobrante,
+      neto: sobrante.toFixed(2),
       unidad:this.Poligrafica_OC.pedido[this.material_selected_in_OC].unidad,
       oc:this.Poligrafica_OC
     });
@@ -330,6 +349,7 @@ NuevoGuardarRegistro = async() =>{
   precio: this.textoSinFormato,
   recepcion: this.f_recepcion,
   transportista: this.transportista_,
+  OC:this.Poligrafica_OC.numero,
   materiales: this.lotes_guardados.map((grupo) => {
     return grupo.map((lote) => ({
       material: lote.material._id,
@@ -351,8 +371,6 @@ proveedor: this.proveedor_,
   this.textoSinFormato= ''
   this.f_recepcion= ''
   this.transportista_= ''
-
-  console.log(data)
   await this.api.GuardarRecepcion(data)
     this.onCloseModal.emit();
 
@@ -471,7 +489,7 @@ calcularRecepcion(){
   MostrarListado(n:number){
     this.nueva = false;
     this.listado = true;
-    this.choosen = n
+    this.choosen = n;
   }
 
   EliminarListado(i:number){
@@ -484,6 +502,9 @@ calcularRecepcion(){
     this.nueva = true;
     this.listado = false;
     
+    this.cantidad_ = this.Listado_.reduce((acc, material) => acc + parseFloat(material.neto), 0);
+    this.cantidad_ = Number(this.cantidad_.toFixed(2))
+
 
     const infoElement = document.getElementById('info');
     if (infoElement) {
@@ -613,6 +634,7 @@ calcularRecepcion(){
   cerrarCondicion(){
     this.condicion = false;
     this.nueva = true
+    this.checked = true;
   }
 
   MaterialSeleccionado(e:any){

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EspecificacionSustrato } from 'src/app/compras/models/modelos-compra';
 import { EspecificacionesService } from 'src/app/services/especificaciones.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-nueva-especificacion',
@@ -23,6 +24,7 @@ export class NuevaEspecificacionComponent {
   @Input() Editable!: any;
   @Input() Edicion_sustrato!: any;
   @Output() onCloseModal = new EventEmitter();
+  @Output() onActualizar = new EventEmitter();
 
 
   public newKey = ''
@@ -196,6 +198,18 @@ EspecificacionSustrato: EspecificacionSustrato = {
     }
     this.api.GuardarEspecificacion(data);
     this.cerrar();
+    setTimeout(() => {
+      Swal.fire({
+        toast:true,
+        timer:5000,
+        timerProgressBar:true,
+        position:'top-end',
+        text:this.api.mensaje.mensaje,
+        icon:this.api.mensaje.icon,
+        showConfirmButton:false
+      })
+      this.onActualizar.emit();
+    }, 1000);
   }
 
   guardar_sustrato(){
@@ -205,11 +219,35 @@ EspecificacionSustrato: EspecificacionSustrato = {
     }
     this.api.GuardarEspecificacion(data);
     this.cerrar();
+    setTimeout(() => {
+      Swal.fire({
+        toast:true,
+        timer:5000,
+        timerProgressBar:true,
+        position:'top-end',
+        text:this.api.mensaje.mensaje,
+        icon:this.api.mensaje.icon,
+        showConfirmButton:false
+      })
+      this.onActualizar.emit();
+    }, 1000);
   }
 
   Editar_() {
     console.log(this.Editable)
     this.api.EditarESpecificacion(this.Editable);
+    setTimeout(() => {
+      Swal.fire({
+        toast:true,
+        timer:5000,
+        timerProgressBar:true,
+        position:'top-end',
+        text:this.api.mensaje.mensaje,
+        icon:this.api.mensaje.icon,
+        showConfirmButton:false
+      })
+      this.onActualizar.emit();
+    }, 1000);
     this.cerrar()
 
   }

@@ -528,7 +528,7 @@ export class AnalisisComponent {
 
   Analizar(recepcion:any, material:any, index_recepcion:number, index_material:number){
 
-    if(material[0].material.grupo.nombre === 'Tintas'){
+    if(material[0].material.grupo.nombre === 'Tintas' || material[0].material.grupo.nombre === 'Barniz s/impresión'){
       this.Tinta = true;
       this.Recepcion_selected = recepcion;
       this.Material_selected = material;

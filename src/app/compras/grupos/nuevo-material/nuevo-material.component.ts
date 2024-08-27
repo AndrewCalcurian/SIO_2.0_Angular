@@ -16,6 +16,7 @@ export class NuevoMaterialComponent implements OnInit{
   public selected_sustrato:boolean = false;
   public selected_tinta:boolean = false;
   public selected_pantone:boolean = false;
+  public selected_cajas:boolean = false;
 
   @Input() nuevo_material:any;
   @Input() cargando!:boolean;
@@ -33,6 +34,7 @@ export class NuevoMaterialComponent implements OnInit{
   public nombre:string = '';
   public rgb:string = '';
   public modelo:string = '';
+  public cinta:string = '';
 
 
   constructor(public grupos:GruposService,
@@ -43,11 +45,10 @@ export class NuevoMaterialComponent implements OnInit{
             
   ngOnInit(): void {
     var phrases = [
-      'Arreglando código de programación',
-      'Ajustando colores',
+      'Arreglando código',
+      'Ajustando',
       'Descargando la información',
       'Buscando errores',
-      'Programando la respuesta que quieres',
       'Ya casi terminamos',
     ];
   
@@ -74,6 +75,11 @@ export class NuevoMaterialComponent implements OnInit{
         this.selected_tinta = true;
       }else{
         this.selected_tinta = false;
+      }
+      if(this.grupos.grupos[e.value].nombre === 'Cajas Corrugadas'){
+        this.selected_cajas = true;
+      }else{
+        this.selected_cajas = false;
       }
     }
 
@@ -115,6 +121,8 @@ export class NuevoMaterialComponent implements OnInit{
       this.nombre = '';
       this.modelo = '';
       this.modelo = '';
+      this.rgb = '';
+      this.cinta = '';
       this.onCloseModal_.emit();
     }
     
@@ -132,7 +140,8 @@ export class NuevoMaterialComponent implements OnInit{
         serie:this.serie,
         nombre:this.nombre,
         modelo:this.modelo,
-        rgb:this.rgb
+        rgb:this.rgb,
+        cinta:this.cinta
       }
 
       this.api.nuevoMaterial(data)

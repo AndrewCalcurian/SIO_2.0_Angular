@@ -30,6 +30,10 @@ export class GruposService {
     this.socket.io.emit('CLIENTE:EditarGrupo', data)
   }
 
+  BuscarGrupoPorNombre(nombre:string){
+    return this.grupos.find((x:any)=> x.nombre === nombre)
+  }
+
   onGrupos(){
     // Escucha el evento 'SERVIDOR:enviarMensaje'
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {

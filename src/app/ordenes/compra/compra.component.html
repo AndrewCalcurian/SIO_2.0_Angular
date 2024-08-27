@@ -39,14 +39,14 @@
                         <div class="home">
                             <button class="button button-hidde gray" (click)="buscarporFecha()" [ngClass]="{'selected':fecha}">
                                 <span class="icon">
-                                    <i class="fa-solid fa-house"></i>
+                                    <i class="fas fa-home"></i>
                                 </span>
                             </button>
                         </div>
                         <div class="icon-filter">
                             <button class="button button-hidde gray" (click)="mostrarFiltros()">
                                 <span class="icon">
-                                    <i class="fa-solid fa-filter"></i>
+                                    <i class="fas fa-filter"></i>
                                 </span>
                             </button>
                         </div>
@@ -55,34 +55,34 @@
                                 <div class="control">
                                     <button class="button button-hidde gray" (click)="RealizarBusquedaFecha()" [ngClass]="{'selected':DesdeHasta && !cliente}">
                                         <span class="icon">
-                                            <i class="fa-solid fa-calendar-days"></i>
+                                            <i class="fas fa-calendar-day"></i>
                                         </span>
                                     </button>
                                 </div>
                                 <div class="control">
                                     <button class="button button-hidde gray">
                                         <span class="icon">
-                                            <i class="fa-solid fa-users-line" (click)="buscarporCliente()" [ngClass]="{'selected':cliente}"></i>
+                                            <i class="fas fa-users" (click)="buscarporCliente()" [ngClass]="{'selected':cliente}"></i>
                                         </span>
                                     </button>
                                 </div>
                                 <div class="control">
                                     <button class="button button-hidde gray">
                                         <span class="icon">
-                                            <i class="fa-solid fa-lock"></i>
+                                            <i class="fas fa-lock"></i>
                                         </span>
                                     </button>
                                 </div>
                                 <div class="control">
                                     <button class="button button-hidde gray" (click)="BusquedaPorNumero()" [ngClass]="{'selected':OC_NUMBER}">
                                         <span class="icon">
-                                            <i class="fa-solid fa-hashtag"></i>
+                                            <i class="fas fa-hashtag"></i>
                                         </span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <i class="fa-solid fa-grip-lines-vertical grip" (click)="mostrarFiltros()" style="cursor: pointer;"></i>
+                        <i class="fas fa-grip-lines-vertical grip" (click)="mostrarFiltros()" style="cursor: pointer;"></i>
                     </div>
                 </div>
             </div>

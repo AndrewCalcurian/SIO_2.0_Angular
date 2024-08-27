@@ -13,14 +13,40 @@ export class OpoligraficaService {
 
   public orden!:any
   public mensaje!:Mensaje
+  public ordenesMesActual:number = 0;
+  public ordenesAnoActual:number = 0;
 
   onOrdenPoligrafica(){
     this.socket.io.emit('CLIENTE:BuscarOrdenesPoligrafica')
   
-    this.socket.io.on('SERVER:OrdenesPoligrafica', (data)=>{
+    this.socket.io.on('SERVER:OrdenesPoligrafica', (data) => {
       this.orden = data;
-      console.error(this.orden);
-    })
+    
+      // Obtener la fecha actual
+      const fechaActual = new Date();
+    
+      // Restablecer contadores
+      this.ordenesMesActual = 0;
+      this.ordenesAnoActual = 0;
+    
+      // Recorrer todas las órdenes y contar las que están en el mes y en el año actual
+      this.orden.forEach((orden) => {
+        const fechaOrden = new Date(orden.createdAt);
+    
+        // Verificar si la orden pertenece al año actual
+        if (fechaOrden.getFullYear() === fechaActual.getFullYear()) {
+          this.ordenesAnoActual++;
+          
+          // Verificar si la orden pertenece también al mes actual
+          if (fechaOrden.getMonth() === fechaActual.getMonth()) {
+            this.ordenesMesActual++;
+          }
+        }
+      });
+    
+      console.log(`Órdenes del mes actual: ${this.ordenesMesActual}`);
+      console.log(`Órdenes del año actual: ${this.ordenesAnoActual}`);
+    });
 
     this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
       this.mensaje = data

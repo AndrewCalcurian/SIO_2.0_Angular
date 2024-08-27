@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FabricantesService } from 'src/app/services/fabricantes.service';
 import { Fabricante, Fabricante_populated } from '../models/modelos-compra';
 import Swal from 'sweetalert2';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
 
 @Component({
   selector: 'app-fabricantes',
@@ -9,7 +10,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./fabricantes.component.scss']
 })
 export class FabricantesComponent {
-  constructor(public api:FabricantesService){
+  constructor(public api:FabricantesService,
+              public proveedores:ProveedoresService
+  ){
 
   }
 

@@ -22,14 +22,12 @@ export class NuevoGrupoComponent implements OnInit{
   parcial = "false";
   icono = "";
 
+  public iconos_gallery = false
+  public iconos_gallery_ = false
+
   ngOnInit(): void {
     var phrases = [
-      'Arreglando código de programación',
-      'Ajustando colores',
-      'Descargando la información',
-      'Buscando errores',
-      'Programando la respuesta que quieres',
-      'Ya casi terminamos',
+      'Casi termina...',
     ];
   
     // Function to change the random phrase
@@ -92,4 +90,18 @@ export class NuevoGrupoComponent implements OnInit{
     this.api.EditarGrupo(this.data)
     this.onCloseModal.emit()
   }
+
+
+  selectIcon(clase){
+    this.icono = clase
+    this.nuevo = true;
+    this.iconos_gallery = false;
+  }
+
+  selectIcon_(clase){
+    this.data.icono = clase
+    this.editar = true;
+    this.iconos_gallery_ = false;
+  }
+
 }

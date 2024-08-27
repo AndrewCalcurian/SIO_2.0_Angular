@@ -18,11 +18,22 @@ import { SolicitudMaterialComponent } from './shared/navbar/solicitud-material/s
 import { OrdenesComponent } from './ordenes/ordenes.component';
 import { OrdenesModule } from './ordenes/ordenes.module';
 import { LoginComponent } from './login/login.component';
+import { LoginModule } from './login/login.module';
+import { HttpClientModule } from '@angular/common/http';
+import { DashboardModule } from './Dashboard/dashboard.module';
+
+
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
+
+
 @NgModule({
   declarations: [
     AppComponent,
     OrdenesComponent,
-    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,9 +45,12 @@ import { LoginComponent } from './login/login.component';
     AlmacenModule,
     LaboratorioModule,
     FasesYmaquinariasModule,
-    OrdenesModule
+    OrdenesModule,
+    LoginModule,
+    DashboardModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'es-ES' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

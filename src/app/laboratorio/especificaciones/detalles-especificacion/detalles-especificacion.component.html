@@ -104,6 +104,32 @@
                         </tbody>
                     </table>
                 </ng-container>
+                <ng-container *ngIf="Especificacion.apariencia">
+                    <span *ngIf="Especificacion.apariencia">
+                        <i class="fas fa-circle red"></i> Apariencia: <br>
+                              {{Especificacion.apariencia}}
+                        <br>
+                    </span>
+                    <span *ngIf="Especificacion.ph_m">
+                        <i class="fas fa-circle red"></i> pH: <br>
+                              {{Especificacion.ph_m}} - {{Especificacion.ph_M}}
+                        <br>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="Especificacion.li_alto_nom">
+                    <span *ngIf="Especificacion.li_alto_nom">
+                        <i class="fas fa-circle red"></i> Longitud Interna (cm): <br>
+                               <span style="font-family: 'Gilroy';">Largo:</span> (min: {{Especificacion.li_largo_min}} - nom:{{Especificacion.li_largo_nom}} - max:{{Especificacion.li_largo_max}})<br>
+                               <span style="font-family: 'Gilroy';">Ancho:</span> (min: {{Especificacion.li_ancho_min}} - nom:{{Especificacion.li_ancho_nom}} - max:{{Especificacion.li_ancho_max}})<br>
+                               <span style="font-family: 'Gilroy';">Alto:</span> (min: {{Especificacion.li_alto_min}} - nom:{{Especificacion.li_alto_nom}} - max:{{Especificacion.li_alto_max}})<br>
+                    </span>
+                    <span *ngIf="Especificacion.le_alto_nom">
+                        <i class="fas fa-circle red"></i> Longitud Externa (cm): <br>
+                               <span style="font-family: 'Gilroy';">Largo:</span> (min: {{Especificacion.le_largo_min}} - nom:{{Especificacion.le_largo_nom}} - max:{{Especificacion.le_largo_max}})<br>
+                               <span style="font-family: 'Gilroy';">Ancho:</span> (min: {{Especificacion.le_ancho_min}} - nom:{{Especificacion.le_ancho_nom}} - max:{{Especificacion.le_ancho_max}})<br>
+                               <span style="font-family: 'Gilroy';">Alto:</span> (min: {{Especificacion.le_alto_min}} - nom:{{Especificacion.le_alto_nom}} - max:{{Especificacion.le_alto_max}})<br>
+                    </span>
+                </ng-container>
             </div>
         </div>
     </div>

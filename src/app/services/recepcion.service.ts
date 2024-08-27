@@ -11,9 +11,11 @@ export class RecepcionService {
 
   public mensaje!: Mensaje;
   public recepciones: any;
+  public comentarios: any;
   public topFive = []
   constructor(public socket: WebSocketService) {
     this.BuscarRecepciones();
+    this.BuscarComentarios();
   }
 
 
@@ -33,6 +35,21 @@ export class RecepcionService {
         })
       })
     }
+  }
+
+
+  BuscarComentarios() {
+
+    this.socket.io.on('SERVER:Comentario', (data) =>{
+      this.comentarios = data
+    });
+
+    this.socket.io.emit('CLIENTE:Comentario');
+
+  }
+
+  guardarComentarios(data){
+    this.socket.io.emit('CLIENTE:NuevoComentario', data);
   }
 
   BuscarRecepciones() {

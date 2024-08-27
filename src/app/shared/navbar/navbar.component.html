@@ -1,8 +1,12 @@
 <app-solicitud-material
 [Solicitud_Material]="Solicitud_Material"
 (onCloseModal)="Solicitud_Material = false">
-
 </app-solicitud-material>
+
+<app-cambio-contrasena
+[reset]="pass"
+(OnCloseModal)="cerrar()">
+</app-cambio-contrasena>
 
 <div class="menu__ animate__animated animate__fadeInLeft" id='menu'>
     <img src="../../../assets/LOGO-SIO.png" width="100" height="20" id="logo_menu">
@@ -10,8 +14,8 @@
     <aside class="menu">
             <ul class="menu-list">
                 <li>
-                    <a routerLink="/compras" (click)="select_menu(1)" [ngClass]="{'is-active':router.url == '/compras'}">Compras</a>
-                    <ul *ngIf="router.url == '/compras' || router.url == '/compras/grupos' || router.url == '/compras/fabricantes' || router.url == '/compras/proveedores' || router.url == '/compras/ordenes'">
+                    <a (click)="showCompras()" [ngClass]="{'is-active':router.url == '/compras'}">Compras</a>
+                    <ul *ngIf="compras || router.url == '/compras/grupos' || router.url == '/compras/fabricantes' || router.url == '/compras/proveedores' || router.url == '/compras/ordenes'">
                         <li><a [ngClass]="{'is-active':router.url == '/compras/grupos'}" routerLink="/compras/grupos">Grupos</a></li>
                         <li><a [ngClass]="{'is-active':router.url == '/compras/fabricantes'}" routerLink="/compras/fabricantes">Fabricantes</a></li>
                         <li><a [ngClass]="{'is-active':router.url == '/compras/proveedores'}" routerLink="/compras/proveedores">Proveedores</a></li>
@@ -21,16 +25,17 @@
             </ul>
             <ul class="menu-list">
                 <li>
-                    <a routerLink="/ventas" [ngClass]="{'is-active':router.url == '/ventas'}">Ventas</a>
-                    <ul *ngIf="router.url == '/ventas' || router.url == '/ventas/compra'">
+                    <a (click)="showVentas()" [ngClass]="{'is-active':router.url == '/ventas'}">Ventas</a>
+                    <ul *ngIf="ventas || router.url == '/ventas/compra' || router.url == '/ventas/produccion'">
                         <li><a [ngClass]="{'is-active':router.url == '/ventas/compra'}" routerLink="/ventas/compra">Órdenes de compra</a></li>
+                        <li><a [ngClass]="{'is-active':router.url == '/ventas/produccion'}" routerLink="/ventas/produccion">Órdenes de producción</a></li>
                     </ul>
                 </li>
             </ul>
             <ul class="menu-list">
                 <li>
-                    <a routerLink="/almacen" >Inventario</a>
-                    <ul *ngIf="router.url == '/almacen' || router.url == '/almacen/inventario' || router.url == '/almacen/recepcion'">
+                    <a (click)="showInventario()" >Inventario</a>
+                    <ul *ngIf="inventario || router.url == '/almacen/inventario' || router.url == '/almacen/recepcion'">
                         <li>
                             <a [ngClass]="{'is-active':router.url == '/almacen/inventario'}" routerLink="/almacen/inventario">Inventario</a>
                         </li>
@@ -42,8 +47,8 @@
             </ul>
             <ul class="menu-list">
                 <li>
-                    <a routerLink="/laboratorio" (click)="select_menu(3)" [ngClass]="{'is-active':router.url == '/laboratorio'}">Laboratorio</a>
-                    <ul *ngIf="router.url == '/laboratorio' || router.url == '/laboratorio/especificacion' || router.url == '/laboratorio/analisis' || router.url == '/laboratorio/defectos'">
+                    <a (click)="ShowLaboratorio()" [ngClass]="{'is-active':router.url == '/laboratorio'}">Laboratorio</a>
+                    <ul *ngIf="laboratorio || router.url == '/laboratorio/especificacion' || router.url == '/laboratorio/analisis' || router.url == '/laboratorio/defectos'">
                         <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/especificacion'}" routerLink="/laboratorio/especificacion">Especificación</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/analisis'}" routerLink="/laboratorio/analisis">Análisis</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/laboratorio/defectos'}" routerLink="/laboratorio/defectos">Defectos</a></li>
@@ -52,8 +57,8 @@
             </ul>
             <ul class="menu-list">
                 <li>
-                    <a routerLink="/maquinas" (click)="select_menu(3)" [ngClass]="{'is-active':router.url == '/maquinas'}">Producción</a>
-                    <ul *ngIf="router.url == '/maquinas' || router.url == '/maquinas/fases' || router.url == '/maquinas/maquinas' || router.url == '/maquinas/productos' || router.url == '/maquinas/categoria' || router.url == '/maquinas/tintas'">
+                    <a (click)="showProduccion()" [ngClass]="{'is-active':router.url == '/maquinas'}">Producción</a>
+                    <ul *ngIf="produccion || router.url == '/maquinas/fases' || router.url == '/maquinas/maquinas' || router.url == '/maquinas/productos' || router.url == '/maquinas/categoria' || router.url == '/maquinas/tintas'">
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/fases'}" routerLink="/maquinas/fases">Fases</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/maquinas'}" routerLink="/maquinas/maquinas">Máquinas</a></li>
                         <li> <a [ngClass]="{'is-active':router.url == '/maquinas/categoria'}" routerLink="/maquinas/categoria">Categoría</a></li>
@@ -79,6 +84,32 @@
                 </li>
             </ul>
     </aside>
-
-
+    <span class="popup_menu" *ngIf="isMenuVisible">
+        <a href="#" (click)="cerrarSesion()">Cerrar Sesión</a><br>
+        <a (click)="cambiarContrasena()">Cambiar Contraseña</a>
+        <div class="triangulo-abajo"></div>
+    </span>
+    <span class="usuario">
+        <span style="font-size: smaller;">
+            <div class="columns">
+                <div class="column is-2">
+                    <i class="fas fa-user-circle" style="font-size: large;display: box;padding: 10px;"></i>
+                </div>
+                <div class="column">
+                    <span class="users_information">
+                        <div style="margin: 0; padding: 0; margin-bottom: -7px;font-size: smaller;" class="user_name">
+                            {{ usuario.Nombre }}
+                        </div>
+                        <div style="margin: 0; padding: 0;font-size: smaller;" class="user_name">
+                            {{ usuario.Apellido }}
+                        </div>
+                    </span>
+                </div>
+                <div class="column is-2">
+                    <i class="fas fa-cog" style="display: box; border-left: solid 1px gray;padding: 10px;cursor:pointer;float: right;font-size: large;" (click)="showPopUp()"></i>
+                </div>
+            </div>
+        </span>
+    </span>
+      
 </div>

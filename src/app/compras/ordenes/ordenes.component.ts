@@ -1,18 +1,25 @@
+import { DecimalPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import * as moment from 'moment';
 import { Cell, Columns, Img, Ol, PdfMakeWrapper, Stack, Table, Txt, Ul } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { LoginService } from 'src/app/services/login.service';
 import { OpoligraficaService } from 'src/app/services/opoligrafica.service';
 
 @Component({
   selector: 'app-ordenes',
   templateUrl: './ordenes.component.html',
-  styleUrls: ['./ordenes.component.scss']
+  styleUrls: ['./ordenes.component.scss'],
+  providers: [DecimalPipe]
 })
 export class OrdenesComponent {
 
   public mesActual;
   public yearActual;
-  constructor(public ordenes:OpoligraficaService){
+  constructor(public api:OpoligraficaService,
+              public login:LoginService,
+              public decimalPipe:DecimalPipe
+  ){
     const meses = ['Enero', 'Febrero', 'Marzo', 'Septiembre', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const fechaActual = new Date();
     this.mesActual = meses[fechaActual.getMonth()];
@@ -37,20 +44,125 @@ export class OrdenesComponent {
   public porProveedor:any = []
   public Info_clientes = [false, false]; // Array de booleanos para controlar la visualización de información adicional por cliente
 
+  public filtrado = false;
+  public DesdeHasta = false;
+  public Busqueda = false;
+  public OC_NUMBER = false;
+  public filtrados:any = []
+  public PorClientes:any = [];
+  public searchTerm:any;
+  public semaforo = ['rojo', 'amarillo', 'verde']
+
+
+  formatear_cifras(valor:number){
+    return this.decimalPipe.transform(valor, '1.0-2')
+  }
+
+  mostrarFiltros(){
+    if(!this.filtrado){
+      this.filtrado = true
+    }else{
+      this.filtrado = false
+    }
+  }
+
+  RealizarBusquedaFecha(){
+    if(!this.DesdeHasta){
+      this.DesdeHasta = true
+    }
+    this.fecha = false; // Ocultar la búsqueda por fecha
+    this.cliente = false; // Mostrar la búsqueda por cliente
+    this.Busqueda = true;
+    this.Busqueda = true;
+    this.OC_NUMBER = false;
+    this.filtrados = [];
+  }
+
+  BusquedaPorNumero(){
+    this.OC_NUMBER = true;
+    this.DesdeHasta = false
+    this.fecha = false;
+    this.cliente = false;
+    this.Busqueda = true;
+    this.filtrados = [];
+  }
+
+  formatNumberWithDotSeparator(number: number): string {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+  
+  buscarPorFecha(desde: string, hasta: string) {
+    // Convertir las fechas sin alterar la zona horaria
+    const inicio = new Date(desde + 'T00:00:00');
+    const fin = new Date(hasta + 'T23:59:59');
+    
+    this.filtrados = this.api.orden.filter(orden => {
+      const fechaOrden = new Date(orden.createdAt);
+      console.log(fechaOrden,'Inicio:',inicio,'Fin:',fin)
+      return fechaOrden >= inicio && fechaOrden <= fin;
+    });
+  }
+  
+  
+  
+
+  buscarPorFecha_cliente(desde, hasta){
+
+    let OrdenesPorClientes = {}
+    let filtracion = this.api.orden.filter(orden => {
+      // Convertir las fechas de los objetos OrdenCompra a objetos Date
+      const fechaOrden = new Date(orden.recepcion);
+  
+      // Verificar si la fecha de la orden está dentro del rango especificado
+      return fechaOrden >= new Date(desde) && fechaOrden <= new Date(hasta);
+    });
+  
+    filtracion.forEach((orden) => {
+      const { cliente } = orden;
+  
+      // Si el proveedor no existe en el objeto, lo creamos
+      if (!OrdenesPorClientes[cliente.nombre]) {
+        OrdenesPorClientes[cliente.nombre] = [];
+      }
+  
+      // Agregamos el material al proveedor correspondiente
+      OrdenesPorClientes[cliente.nombre].push(orden);
+    });
+  
+    // Convertimos el objeto en un arreglo de proveedores
+    this.PorClientes = Object.entries(OrdenesPorClientes);
+  }
+  
+
+  search() {
+    // Eliminar cualquier guion '-' del searchTerm antes de la búsqueda
+    const cleanedSearchTerm = this.searchTerm.replace(/-/g, '');
+  
+    // Realizar la búsqueda con el término limpio
+    this.filtrados = this.api.orden.filter(orden => 
+      orden.numero.toString().includes(cleanedSearchTerm)
+    );
+  
+    console.log(this.filtrados);
+  }
+
 
   // Función para buscar por cliente
   buscarporCliente(){
     this.fecha = false; // Ocultar la búsqueda por fecha
     this.cliente = true; // Mostrar la búsqueda por cliente
     
-    console.log(this.ordenes.separarPorProveedor())
-    this.porProveedor = this.ordenes.separarPorProveedor()
+    console.log(this.api.separarPorProveedor())
+    this.porProveedor = this.api.separarPorProveedor()
   }
 
   // Función para buscar por fecha
   buscarporFecha(){
     this.fecha = true; // Mostrar la búsqueda por fecha
     this.cliente = false; // Ocultar la búsqueda por cliente
+    this.DesdeHasta = false;
+    this.OC_NUMBER = false;
+    this.Busqueda = false;
   }
 
   nueva_orden() {
@@ -66,10 +178,10 @@ export class OrdenesComponent {
   }
 
   show_info_(n){
-    if(this.Info_clientes[n]){
-      this.Info_clientes[n] = false; // Si la información está mostrándose, ocultarla
+    if(this.ORDEN[n]){
+      this.ORDEN[n] = false; // Si la información está mostrándose, ocultarla
     } else {
-      this.Info_clientes[n] = true; // Si la información está oculta, mostrarla
+      this.ORDEN[n] = true; // Si la información está oculta, mostrarla
     }
   }
 
@@ -155,6 +267,8 @@ export class OrdenesComponent {
     const year = today.getFullYear();
 
     let hoy = `${day}/${month}/${year}`;
+    let entrega = moment(orden.entrega).format('DD/MM/YYYY');
+    let usuario = `${this.login.usuario.Nombre} ${this.login.usuario.Apellido}`;
 
     let TotalNeto = (Number(SumaNetos) + Number(sumaIvas)).toFixed(2)
     TotalNeto = TotalNeto.toString()
@@ -165,6 +279,7 @@ export class OrdenesComponent {
       PdfMakeWrapper.setFonts(pdfFonts);
       pdf.pageOrientation('portrait');
       pdf.pageSize('A4');
+
     
       pdf.add(
         new Table([
@@ -249,7 +364,7 @@ export class OrdenesComponent {
           ],
           [
             new Cell(new Txt('TELEFONO:').bold().end).fontSize(10).fillColor('#C9C9C9').end,
-            new Cell(new Txt('212-3627180/7181').end).fontSize(10).end,
+            new Cell(new Txt(`${orden.proveedor.contactos[0].numero} - ${orden.proveedor.contactos[0].nombre}`).end).fontSize(10).end,
           ]
         ]).widths(['15%', '85%']).end
       )
@@ -312,7 +427,7 @@ export class OrdenesComponent {
             new Cell(new Txt(TotalNeto).bold().end).colSpan(2).fontSize(10).alignment('center').end,
             new Cell(new Txt(' ').end).border([false]).fontSize(1).end,
           ]
-        ]).widths(['15%','38%','11%','18%','18%','1%']).end
+        ]).widths(['15%','37%','12%','18%','18%','1%']).end
       )
 
       pdf.add(
@@ -358,12 +473,12 @@ export class OrdenesComponent {
           ],
           [
             new Cell(new Txt('Fecha Entrega:').bold().end).fillColor('#c9c9c9').fontSize(8).alignment('center').end,
-            new Cell(new Txt(orden.entrega).bold().end).fontSize(8).alignment('center').end,
+            new Cell(new Txt(entrega).bold().end).fontSize(8).alignment('center').end,
             new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt(' ').end).border([false]).end,
             new Cell(new Txt('Nombre:').bold().end).fillColor('#c9c9c9').fontSize(8).alignment('center').end,
-            new Cell(new Txt('Zuleima Vela').bold().end).fontSize(8).alignment('center').end,
+            new Cell(new Txt(usuario).bold().end).fontSize(8).alignment('center').end,
           ],
           [
             new Cell(new Txt('Condic. Pago:').bold().end).fillColor('#c9c9c9').fontSize(8).alignment('center').end,
