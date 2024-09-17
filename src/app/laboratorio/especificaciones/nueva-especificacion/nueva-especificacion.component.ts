@@ -23,14 +23,15 @@ export class NuevaEspecificacionComponent {
   @Input() Edicion!: any;
   @Input() Editable!: any;
   @Input() Edicion_sustrato!: any;
+  @Input() Esp_otro!:any
+  @Input() Edicion_cajas!:any;
+  @Input() EDITAR_OTROS!:any;
   @Output() onCloseModal = new EventEmitter();
   @Output() onActualizar = new EventEmitter();
 
 
   public newKey = ''
   public newKey_Value = ''
-
-  public Esp_otro:any = {}
 
   public EspecificacionPads:any = {
     largo:{

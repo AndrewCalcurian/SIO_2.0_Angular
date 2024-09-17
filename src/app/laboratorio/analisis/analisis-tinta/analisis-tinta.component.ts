@@ -6,6 +6,7 @@ import { SubirArchivosService } from 'src/app/services/subir-archivos.service';
 import { Cell, Img, PdfMakeWrapper, Stack, Table, Txt } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import * as moment from 'moment';
+import { AlmacenService } from 'src/app/services/almacen.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ import * as moment from 'moment';
 export class AnalisisTintaComponent{
 
   constructor(public api:AnalisisService,
-              public subirImagen_:SubirArchivosService){
+              public subirImagen_:SubirArchivosService,
+              public almacen:AlmacenService){
 
   }
 
@@ -976,6 +978,20 @@ export class AnalisisTintaComponent{
 
     GenerarCertificado()
     this.api.EnvarAnalisis(this.Analisis, this.Recepcion, this.Index);
+    setTimeout(() => {
+      async function EnviarAlmacen(materiales, recepcion, almacen) {
+        let materiales_ = materiales;
+        for (let material of materiales_) {
+          material.oc = material.oc._id;
+          material.material = material.material._id;
+          material.recepcion = recepcion._id; // Asegúrate de que `recepcion` está accesible en este contexto
+        }
+        console.log(materiales_);
+        almacen.GuardarAlmacen(materiales); // Guarda los materiales en el almacé
+      }
+    
+      EnviarAlmacen(this.Materiales, recepcion, this.almacen);
+    }, 2000);
     this.onCloseModal.emit()
   }
 

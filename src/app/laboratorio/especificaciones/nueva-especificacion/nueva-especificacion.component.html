@@ -586,7 +586,7 @@
                 <span>Guardar</span>
             </button>
             <button class="button is-success" *ngIf="Editable" (click)="Editar_()">
-                <span class="icon"></span>
+                <span class="icon"><i class="fas fa-save"></i></span>
                  <span>Editar</span>
             </button>
         </div>
@@ -594,7 +594,7 @@
 </div>
 
 <!-- ESPECIFICACION DE CAJAS -->
-<div class="modal" [ngClass]="{'is-active':NUEVA_CAJA}">
+<div class="modal" [ngClass]="{'is-active':NUEVA_CAJA || Edicion_cajas}">
     <div class="modal-background"></div>
     <div class="modal-card animate__animated animate__fadeInUp">
         <div class="modal-card-head">
@@ -604,7 +604,7 @@
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
         <div class="modal-card-body">
-            <div class="columns" *ngIf="!Edicion">
+            <div class="columns" *ngIf="!Edicion && !Edicion_cajas">
                 <div class="column is-3">
                     <div class="field">
                         <label for="" class="label">Material:</label>
@@ -620,7 +620,7 @@
                 </div>
             </div>
             <br>
-            <table class="table is-fullwidth is-striped" *ngIf="Material_selected != '#' || Edicion">
+            <table class="table is-fullwidth is-striped" *ngIf="Material_selected != '#' || Edicion_cajas">
                 <tbody>
                     <tbody>
                         <tr>
@@ -1119,7 +1119,7 @@
 </div>
 
 <!-- OTRAS ESPECIFICACIONES -->
-<div class="modal" [ngClass]="{'is-active':NUEVO_OTROS}">
+<div class="modal" [ngClass]="{'is-active':NUEVO_OTROS || EDITAR_OTROS}">
     <div class="modal-background"></div>
     <div class="modal-card animate__animated animate__fadeInUp">
         <div class="modal-card-head">
@@ -1129,7 +1129,7 @@
             <button class="delete red_cross" aria-label="close" (click)="cerrar()"></button>
         </div>
         <div class="modal-card-body">
-            <div class="columns" *ngIf="!Edicion_sustrato">
+            <div class="columns" *ngIf="!Edicion_sustrato && !EDITAR_OTROS">
                 <div class="column is-3">
                     <div class="field">
                         <label class="label">Material:</label>
@@ -1145,7 +1145,7 @@
                 </div>
             </div>
             <br>
-            <table class="table is-fullwidth is-striped" *ngIf="Material_selected != '#'">
+            <table class="table is-fullwidth is-striped" *ngIf="Material_selected != '#' || EDITAR_OTROS">
                 <tbody>
                     <tr>
                     </tr>

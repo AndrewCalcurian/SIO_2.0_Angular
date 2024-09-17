@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Cell, Img, PdfMakeWrapper, Stack, Table, Txt } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { AlmacenService } from 'src/app/services/almacen.service';
 import { AnalisisService } from 'src/app/services/analisis.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-analisis-pads',
@@ -11,7 +13,10 @@ import { AnalisisService } from 'src/app/services/analisis.service';
 })
 export class AnalisisPadsComponent {
 
-  constructor(public api:AnalisisService){}
+  constructor(public api:AnalisisService,
+              public login:LoginService,
+              public almacen:AlmacenService
+  ){}
 
   @Input() pads:any;
   @Input() Materiales:any;
@@ -198,104 +203,183 @@ calcularMedidas(tipo: string, medidas: number[], analisis: any) {
   }
 
   guardar(){
-    this.analisis.resultado.guardado.fecha = moment().format('DD/MM/YYYY')
+    this.analisis.resultado.guardado.fecha = moment().format('DD/MM/YYYY');
+    this.analisis.resultado.guardado.usuario = `${this.login.usuario.Nombre} ${this.login.usuario.Apellido}`;
       this.api.EnviarAnalisisPads(this.analisis, this.Recepcion, this.Index);
       this.onCloseMensaje.emit();
   }
 
-  AnalisisCompletado(){
+  AnalisisCompletado = async ()=>{
 
+    
+    let analisis = this.analisis
+    let Material = this.Materiales[0]
+    let recepcion = this.Recepcion
     let muestras:number[] = [];
-    let muestras1:string[] = [];
-    let muestras2:string[] = [];
-    let muestras3:string[] = [];
-    let muestras4:string[] = [];
-    let muestras5:string[] = [];
-    let muestras6:string[] = [];
-    let muestras7:string[] = [];
 
-    let muestras11:string[] = [];
-    let muestras22:string[] = [];
-    let muestras33:string[] = [];
-    let muestras44:string[] = [];
-    let muestras55:string[] = [];
-    let muestras66:string[] = [];
-    let muestras77:string[] = [];
-
-    let muestras111:string[] = [];
-    let muestras222:string[] = [];
-    let muestras333:string[] = [];
-    let muestras444:string[] = [];
-    let muestras555:string[] = [];
-    let muestras666:string[] = [];
-    let muestras777:string[] = [];
-
-    for (let i = 1; i <= 50; i++) {
-    muestras.push(i);
-    // Generar un número aleatorio entre 1 y 99
-  let randomNumber = Math.floor(Math.random() * 99) + 1;
-
-  // Generar dos decimales aleatorios
-  let randomDecimals = Math.floor(Math.random() * 100);
-
-  // Combinar el número entero con los decimales
-  let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
-    muestras1.push(result);
-    muestras2.push(result);
-    muestras3.push(result);
-    muestras4.push(result);
-    muestras5.push(result);
-    muestras6.push(result);
-    muestras7.push(result);
-
-    if(i > 16){
-      
+    for (let i = 1; i <= analisis.muestras; i++) {
+      muestras.push(i);
     }
 
+    // Encontrar el número máximo de decimales
+    const maxDecimals = Math.max(...analisis.largo.largo.map(num => {
+      const decimals = num.toString().split('.')[1];
+      return decimals ? decimals.length : 0;
+    }));
+
+    // Rellenar con ceros los números para que todos tengan el mismo número de decimales y cambiar puntos por comas
+    let _analisis_largo_largo = analisis.largo.largo.map(num => 
+      num.toFixed(maxDecimals).replace('.', ',')
+    );
+
+    // Llenar con "N/D" si está vacío
+    _analisis_largo_largo = llenarConND(_analisis_largo_largo, analisis.muestras);
+
+    // Encontrar el número máximo de decimales
+    const maxDecimals2 = Math.max(...analisis.ancho.ancho.map(num => {
+      const decimals = num.toString().split('.')[1];
+      return decimals ? decimals.length : 0;
+    }));
+
+    // Rellenar con ceros los números para que todos tengan el mismo número de decimales y cambiar puntos por comas
+    let _analisis_ancho_ancho = analisis.ancho.ancho.map(num => 
+      num.toFixed(maxDecimals2).replace('.', ',')
+    );
+
+    // Llenar con "N/D" si está vacío
+    _analisis_ancho_ancho = llenarConND(_analisis_ancho_ancho, analisis.muestras);
+
+    // Encontrar el número máximo de decimales
+    const maxDecimals3 = Math.max(...analisis.signado.signado.map(num => {
+      const decimals = num.toString().split('.')[1];
+      return decimals ? decimals.length : 0;
+    }));
+
+    // Rellenar con ceros los números para que todos tengan el mismo número de decimales y cambiar puntos por comas
+    let _analisis_signado_signado = analisis.signado.signado.map(num => 
+      num.toFixed(maxDecimals3).replace('.', ',')
+    );
+
+    // Llenar con "N/D" si está vacío
+    _analisis_signado_signado = llenarConND(_analisis_signado_signado, analisis.muestras);
+
+    // Encontrar el número máximo de decimales
+    const maxDecimals4 = Math.max(...analisis.espesor.espesor.map(num => {
+      const decimals = num.toString().split('.')[1];
+      return decimals ? decimals.length : 0;
+    }));
+
+    // Rellenar con ceros los números para que todos tengan el mismo número de decimales y cambiar puntos por comas
+    let _analisis_espesor_espesor = analisis.espesor.espesor.map(num => 
+      num.toFixed(maxDecimals4).replace('.', ',')
+    );
+
+    // Llenar con "N/D" si está vacío
+    _analisis_espesor_espesor = llenarConND(_analisis_espesor_espesor, analisis.muestras);
+
+    let promedio_largo = analisis.largo.promedio.toFixed(analisis.largo.decimales).replace('.', ',')
+    let promedio_ancho = analisis.ancho.promedio.toFixed(analisis.ancho.decimales).replace('.', ',')
+    let promedio_signado = analisis.signado.promedio.toFixed(analisis.signado.decimales).replace('.', ',')
+    let promedio_espesor = analisis.espesor.promedio.toFixed(analisis.espesor.decimales).replace('.', ',')
+
+    promedio_largo = llenarConND2(promedio_largo, 1)
+    promedio_ancho = llenarConND2(promedio_ancho, 1)
+    promedio_signado = llenarConND2(promedio_signado, 1)
+    promedio_espesor = llenarConND2(promedio_espesor, 1)
 
 
+    function llenarConND2(number:any, cantidad: number) {
+      if (Number(number) <= 0) {
+        return 'N/D';
+      }
+      return number;
     }
 
-    for(let i = 1; i <= 3; i++){
-
-      // Generar un número aleatorio entre 1 y 99
-  let randomNumber = Math.floor(Math.random() * 99) + 1;
-
-  // Generar dos decimales aleatorios
-  let randomDecimals = Math.floor(Math.random() * 100);
-
-// Combinar el número entero con los decimales
-let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
-      muestras11.push(result);
-      muestras22.push(result);
-      muestras33.push(result);
-      muestras44.push(result);
-      muestras55.push(result);
-      muestras66.push(result);
-      muestras77.push(result);
+    function llenarConND(array: any[], cantidad: number) {
+      if (array.length === 0) {
+        return Array(cantidad).fill('N/D');
+      }
+      return array;
     }
+    
+    let largo_analisis: any[] = [];
+    largo_analisis[0] = analisis.largo.desviacion.toFixed(analisis.largo.decimales).replace('.', ',');
+    largo_analisis[1] = analisis.largo.min.toFixed(2).replace('.', ',');
+    largo_analisis[2] = analisis.largo.max.toFixed(2).replace('.', ',');
+    // Llenar con "N/D" si está vacío
+    largo_analisis[0] = llenarConND2(largo_analisis[0], analisis.muestras);
+    largo_analisis[1] = llenarConND2(largo_analisis[1], analisis.muestras);
+    largo_analisis[2] = llenarConND2(largo_analisis[2], analisis.muestras);
+    
+    let ancho_analisis: any[] = [];
+    ancho_analisis[0] = analisis.ancho.desviacion.toFixed(analisis.ancho.decimales).replace('.', ',');
+    ancho_analisis[1] = analisis.ancho.min.toFixed(2).replace('.', ',');
+    ancho_analisis[2] = analisis.ancho.max.toFixed(2).replace('.', ',');
 
-    for(let i = 1; i <= 3; i++){
+    ancho_analisis[0] = llenarConND2(ancho_analisis[0], analisis.muestras);
+    ancho_analisis[1] = llenarConND2(ancho_analisis[1], analisis.muestras);
+    ancho_analisis[2] = llenarConND2(ancho_analisis[2], analisis.muestras);
+    
+    let signado_analisis: any[] = [];
+    signado_analisis[0] = analisis.signado.desviacion.toFixed(analisis.signado.decimales).replace('.', ',');
+    signado_analisis[1] = analisis.signado.min.toFixed(2).replace('.', ',');
+    signado_analisis[2] = analisis.signado.max.toFixed(2).replace('.', ',');
 
-      // Generar un número aleatorio entre 1 y 99
-  let randomNumber = Math.floor(Math.random() * 99) + 1;
+    signado_analisis[0] = llenarConND2(signado_analisis[0], analisis.muestras);
+    signado_analisis[1] = llenarConND2(signado_analisis[1], analisis.muestras);
+    signado_analisis[2] = llenarConND2(signado_analisis[2], analisis.muestras);
+    
+    let espesor_analisis: any[] = [];
+    espesor_analisis[0] = analisis.espesor.desviacion.toFixed(analisis.espesor.decimales).replace('.', ',');
+    espesor_analisis[1] = analisis.espesor.min.toFixed(2).replace('.', ',');
+    espesor_analisis[2] = analisis.espesor.max.toFixed(2).replace('.', ',');
 
-  // Generar dos decimales aleatorios
-  let randomDecimals = Math.floor(Math.random() * 100);
+    espesor_analisis[0] = llenarConND2(espesor_analisis[0], analisis.muestras);
+    espesor_analisis[1] = llenarConND2(espesor_analisis[1], analisis.muestras);
+    espesor_analisis[2] = llenarConND2(espesor_analisis[2], analisis.muestras);
 
-// Combinar el número entero con los decimales
-let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
-      muestras111.push(result);
-      muestras222.push(result);
-      muestras333.push(result);
-      muestras444.push(result);
-      muestras555.push(result);
-      muestras666.push(result);
-      muestras777.push(result);
-    }
+    let especificacion_largo: any = [
+      Material.material.especificacion2.especificacion.largo_min || 'N/D',
+      Material.material.especificacion2.especificacion.largo_nom || 'N/D',
+      Material.material.especificacion2.especificacion.largo_max || 'N/D'
+    ];
+
+    especificacion_largo[0] = llenarConND2(especificacion_largo[0],1)
+    especificacion_largo[1] = llenarConND2(especificacion_largo[1],1)
+    especificacion_largo[2] = llenarConND2(especificacion_largo[2],1)
+    
+    let especificacion_ancho: any = [
+      Material.material.especificacion2.especificacion.ancho_min || 'N/D',
+      Material.material.especificacion2.especificacion.ancho_nom || 'N/D',
+      Material.material.especificacion2.especificacion.ancho_max || 'N/D'
+    ];
+    especificacion_ancho[0] = llenarConND2(especificacion_ancho[0],1)
+    especificacion_ancho[1] = llenarConND2(especificacion_ancho[1],1)
+    especificacion_ancho[2] = llenarConND2(especificacion_ancho[2],1)
+    
+    let especificacion_signado: any = [
+      Material.material.especificacion2.especificacion.signado_min || 'N/D',
+      Material.material.especificacion2.especificacion.signado_nom || 'N/D',
+      Material.material.especificacion2.especificacion.signado_max || 'N/D'
+    ];
+    especificacion_signado[0] = llenarConND2(especificacion_signado[0],1)
+    especificacion_signado[1] = llenarConND2(especificacion_signado[1],1)
+    especificacion_signado[2] = llenarConND2(especificacion_signado[2],1)
+    
+    let especificacion_espesor: any = [
+      Material.material.especificacion2.especificacion.espesor_min || 'N/D',
+      Material.material.especificacion2.especificacion.espesor_nom || 'N/D',
+      Material.material.especificacion2.especificacion.espesor_max || 'N/D'
+    ];
+    especificacion_espesor[0] = llenarConND2(especificacion_espesor[0],1)
+    especificacion_espesor[1] = llenarConND2(especificacion_espesor[1],1)
+    especificacion_espesor[2] = llenarConND2(especificacion_espesor[2],1)
+
+    let fabricacion = recepcion.f_fabricacion ? recepcion.f_fabricacion : 'N/A'
+
 
     let operaciones = ['S','MÍN','MÁX']
-    let operaciones2 = ['S','MÍN','MÁX']
+    let operaciones2 = ['MÍN','STD','MÁX']
 
     let hoy = moment().format('dd/mm/yyyy')
     async function GenerarCertificado(){
@@ -351,27 +435,27 @@ let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
       new Table([
         [
           new Cell(new Txt('DESCRIPCIÓN').end).fontSize(7).fillColor('#c8c8c8').end,
-          new Cell(new Txt('Pads Nro 11').end).colSpan(3).fontSize(7).end,
+          new Cell(new Txt(Material.material.nombre).end).colSpan(3).fontSize(7).end,
           new Cell(new Txt('').end).fontSize(7).fillColor('#c8c8c8').end,
           new Cell(new Txt('').end).fontSize(7).end,
           new Cell(new Txt('LOTE').end).fontSize(7).fillColor('#c8c8c8').end,
-          new Cell(new Txt('23022024-360').end).fontSize(7).end,
+          new Cell(new Txt(Material.lote).end).fontSize(7).end,
         ],
         [
           new Cell(new Txt('PROVEEDOR').end).fontSize(7).fillColor('#c8c8c8').end,
-          new Cell(new Txt('Panel Sysmen, C.A').end).colSpan(3).fontSize(7).end,
+          new Cell(new Txt(recepcion.proveedor.nombre).end).colSpan(3).fontSize(7).end,
           new Cell(new Txt('').end).fontSize(7).fillColor('#c8c8c8').end,
           new Cell(new Txt('').end).fontSize(7).end,
           new Cell(new Txt('FABRICACIÓN').end).fontSize(7).fillColor('#c8c8c8').end,
-          new Cell(new Txt('09/10/2023').end).fontSize(7).end,
+          new Cell(new Txt(fabricacion).end).fontSize(7).end,
         ],
         [
           new Cell(new Txt('TIPO DE CARTÓN').end).fontSize(7).fillColor('#c8c8c8').end,
-          new Cell(new Txt('C-6.0').end).fontSize(7).end,
+          new Cell(new Txt(Material.material.serie).end).fontSize(7).end,
           new Cell(new Txt('PRESENTACIÓN').end).fontSize(7).fillColor('#c8c8c8').end,
-          new Cell(new Txt('Paquete de 25').end).fontSize(7).end,
+          new Cell(new Txt(`${Material.presentacion} ${Material.neto}${Material.unidad}`).end).fontSize(7).end,
           new Cell(new Txt('CANTIDAD').end).fontSize(7).fillColor('#c8c8c8').end,
-          new Cell(new Txt('550').end).fontSize(7).end,
+          new Cell(new Txt(Material.oc.pedido[0].cantidad).end).fontSize(7).end,
         ]
       ]).widths(['16%','10%','16%','26%','16%','16%']).end
     )
@@ -405,35 +489,35 @@ let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
         [
           new Cell(new Stack(muestras).end).colSpan(2).fontSize(7).alignment('center').end,
           new Cell(new Txt('').end).fillColor('#9b9b9b').fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras1).end).fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras2).end).fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras3).end).fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras4).end).fontSize(7).alignment('center').end,
+          new Cell(new Stack(_analisis_largo_largo).end).fontSize(7).alignment('center').end,
+          new Cell(new Stack(_analisis_ancho_ancho).end).fontSize(7).alignment('center').end,
+          new Cell(new Stack(_analisis_signado_signado).end).fontSize(7).alignment('center').end,
+          new Cell(new Stack(_analisis_espesor_espesor).end).fontSize(7).alignment('center').end,
         ],
         [
           // new Cell(new Txt('X').bold().end).fillColor('#9b9b9b').colSpan(2).border([true,false]).fontSize(7).alignment('center').end,
           new Cell(await new Img('../../assets/promedio.gif').width(4).build()).alignment('center').fillColor('#9b9b9b').colSpan(2).border([true,false]).end,
           new Cell(new Txt('').end).fontSize(7).alignment('center').end,
-          new Cell(new Txt('50,91').bold().end).fillColor('#9b9b9b').border([true,false,false,false]).fontSize(7).alignment('center').end,
-          new Cell(new Txt('50,91').bold().end).fillColor('#9b9b9b').border([true,false,false,false]).fontSize(7).alignment('center').end,
-          new Cell(new Txt('50,91').bold().end).fillColor('#9b9b9b').border([true,false,false,false]).fontSize(7).alignment('center').end,
-          new Cell(new Txt('50,91').bold().end).fillColor('#9b9b9b').border([true,false,true,false]).fontSize(7).alignment('center').end,
+          new Cell(new Txt(promedio_largo).bold().end).fillColor('#9b9b9b').border([true,false,false,false]).fontSize(7).alignment('center').end,
+          new Cell(new Txt(promedio_ancho).bold().end).fillColor('#9b9b9b').border([true,false,false,false]).fontSize(7).alignment('center').end,
+          new Cell(new Txt(promedio_signado).bold().end).fillColor('#9b9b9b').border([true,false,false,false]).fontSize(7).alignment('center').end,
+          new Cell(new Txt(promedio_espesor).bold().end).fillColor('#9b9b9b').border([true,false,true,false]).fontSize(7).alignment('center').end,
         ],
         [
           new Cell(new Stack(operaciones).end).border([true,false]).colSpan(2).fontSize(7).fillColor('#9b9b9b').alignment('center').end,
           new Cell(new Txt('').end).fontSize(7).fillColor('#c8c8c8').alignment('center').end,
-          new Cell(new Stack(muestras11).end).border([true,false]).fillColor('#c8c8c8').fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras22).end).border([true,false]).fillColor('#c8c8c8').fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras33).end).border([true,false]).fillColor('#c8c8c8').fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras44).end).border([true,false,true,false]).fillColor('#c8c8c8').fontSize(7).alignment('center').end,
+          new Cell(new Stack(largo_analisis).end).border([true,false]).fillColor('#c8c8c8').fontSize(7).alignment('center').end,
+          new Cell(new Stack(ancho_analisis).end).border([true,false]).fillColor('#c8c8c8').fontSize(7).alignment('center').end,
+          new Cell(new Stack(signado_analisis).end).border([true,false]).fillColor('#c8c8c8').fontSize(7).alignment('center').end,
+          new Cell(new Stack(espesor_analisis).end).border([true,false,true,false]).fillColor('#c8c8c8').fontSize(7).alignment('center').end,
         ],
         [
           new Cell(new Txt('ESP.').end).margin([0,6]).fillColor('#9b9b9b').fontSize(7).alignment('center').end,
           new Cell(new Stack(operaciones2).end).fillColor('#9b9b9b').fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras111).end).fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras222).end).fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras333).end).fontSize(7).alignment('center').end,
-          new Cell(new Stack(muestras444).end).fontSize(7).alignment('center').end,
+          new Cell(new Stack(especificacion_largo).end).fontSize(7).alignment('center').end,
+          new Cell(new Stack(especificacion_ancho).end).fontSize(7).alignment('center').end,
+          new Cell(new Stack(especificacion_signado).end).fontSize(7).alignment('center').end,
+          new Cell(new Stack(especificacion_espesor).end).fontSize(7).alignment('center').end,
         ]
       ]).widths(['10%','10%','20%','20%','20%','20%']).end
     )
@@ -454,9 +538,9 @@ let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
           new Cell(new Txt('RESULTADO').bold().end).fontSize(8).color('#ffffff').fillColor('#000000').decorationColor('#ffffff').alignment('center').end
         ],
         [
-          new Cell(new Txt('Observación ingresada por los sabis').fontSize(8).end).rowSpan(2).end,
+          new Cell(new Txt(analisis.resultado.observacion).fontSize(8).end).rowSpan(2).end,
           new Cell(new Txt('').end).border([false]).fontSize(1).end,
-          new Cell(new Txt('APROBADO').fontSize(10).bold().end).border([false]).alignment('center').end
+          new Cell(new Txt(analisis.resultado.resultado).fontSize(10).bold().end).border([false]).alignment('center').end
         ],
         [
           new Cell(new Txt('').fontSize(8).end).rowSpan(2).end,
@@ -471,17 +555,17 @@ let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
             ],
             [
               new Cell(new Txt('Firma:').fontSize(7).alignment('center').end).end,
-              new Cell(new Txt('usuario').fontSize(7).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.guardado.usuario).fontSize(7).alignment('center').end).end,
               new Cell(new Txt('').fontSize(7).alignment('center').end).border([false]).fillColor('#FFFFFF').end,
               new Cell(new Txt('Firma:').fontSize(7).alignment('center').end).end,
-              new Cell(new Txt('usuario').fontSize(7).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.validado.usuario).fontSize(7).alignment('center').end).end,
             ],
             [
               new Cell(new Txt('Fecha:').fontSize(7).alignment('center').end).end,
-              new Cell(new Txt('23/02/2024').fontSize(7).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.guardado.fecha).fontSize(7).alignment('center').end).end,
               new Cell(new Txt('').fontSize(7).alignment('center').end).border([false]).fillColor('#FFFFFF').end,
               new Cell(new Txt('Fecha:').fontSize(7).alignment('center').end).end,
-              new Cell(new Txt('23/02/2024').fontSize(7).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.validado.fecha).fontSize(7).alignment('center').end).end,
             ]
           ]).widths(['10.5%','38%','1%','10.5%','38%']).end
         ).alignment('center').border([false]).end
@@ -492,9 +576,27 @@ let result = parseFloat(`${randomNumber}.${randomDecimals}`).toFixed(2);
     pdf.create().download(`test`)
   }
 
-  GenerarCertificado()
-  this.api.EnviarAnalisisPads(this.analisis, this.Recepcion, this.Index);
-      this.onCloseMensaje.emit();
+  await GenerarCertificado()
+  this.analisis.resultado.validado.fecha = moment().format('DD/MM/YYYY');
+  this.analisis.resultado.validado.usuario = `${this.login.usuario.Nombre} ${this.login.usuario.Apellido}`;
+  this.api.EnviarAnalisisPads(this.analisis, this.Recepcion, this.Index)
+
+  setTimeout(() => {
+    async function EnviarAlmacen(materiales, recepcion, almacen) {
+      let materiales_ = materiales;
+      for (let material of materiales_) {
+        material.oc = material.oc._id;
+        material.material = material.material._id;
+        material.recepcion = recepcion._id; // Asegúrate de que `recepcion` está accesible en este contexto
+      }
+      console.log(materiales_);
+      almacen.GuardarAlmacen(materiales); // Guarda los materiales en el almacé
+    }
+  
+    EnviarAlmacen(this.Materiales, recepcion, this.almacen);
+  }, 2000);
+  
+  this.onCloseMensaje.emit();
   }
 
 }

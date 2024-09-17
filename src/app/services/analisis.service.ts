@@ -10,35 +10,151 @@ export class AnalisisService {
 
   public mensaje!: Mensaje;
   public AnalisisTintas;
-  public TintasAprobadas;
-  public TintasRechazadas;
+  public TintasAprobadas = 0;
+  public TintasRechazadas = 0;
   public TintaAnalizadaEnElAno;
   public TintaAnalizadaEnElMes;
   public AnalisisSustrato;
-  public SustratoAprobado;
-  public SustratoRechazado;
+  public SustratoAprobado = 0;
+  public SustratoRechazado = 0;
   public SustratoAnalizadaEnElAno;
   public SustratoAnalizadaEnElMes;
   public AnalisisCajas;
-  public CajasAceptadas;
-  public CajasRechazadas;
+  public CajasAceptadas = 0;
+  public CajasRechazadas = 0;
   public CajaAnalizadaEnElAno;
   public CajaAnalizadaEnElMes;
   public AnalisisPads;
-  public PadsAprobados;
-  public PadsRechazados;
+  public PadsAprobados = 0;
+  public PadsRechazados = 0;
   public PadsAnalizadaEnElAno;
   public PadsAnalizadaEnElMes;
   public AnalisisOtros;
-  public OtrosAprobados;
-  public OtrosRechazados;
+  public OtrosAprobados = 0;
+  public OtrosRechazados = 0;
   public OtrosAnalizadaEnElAno;
   public OtrosAnalizadaEnElMes;
   public AnalisisEnElAno = 0;
   public AnalisisEnElMes = 0;
+  public analisisAnuales = 0;
+  public analisisMensuales = 0;
+
+  public lastFives:any = []
   constructor(private socket:WebSocketService) {
-    this.BuscarAnalisisTinta()
+    // this.BuscarAnalisisTinta()
+    this.BusquedaDeTodosLosAnalisis()
    }
+
+   BusquedaDeTodosLosAnalisis() {
+    // Inicializar contadores
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth() + 1; // Los meses en JS son 0-indexados
+    
+    let todosLosAnalisis: any[] = [];
+  
+    const incrementarContadoresFecha = (fecha: Date) => {
+      const date = new Date(fecha);
+      if (date.getFullYear() === currentYear) {
+        this.analisisAnuales++;
+        if (date.getMonth() + 1 === currentMonth) {
+          this.analisisMensuales++;
+        }
+      }
+    };
+  
+    const agregarAnalisis = (analisis: any[]) => {
+      todosLosAnalisis = todosLosAnalisis.concat(analisis);
+    };
+  
+    this.socket.io.emit('CLIENTE:BuscarAnalisisTinta');
+    this.socket.io.emit('CLIENTE:BuscarAnalisisSustrato');
+    this.socket.io.emit('CLIENTE:BuscarAnalisisCajas');
+    this.socket.io.emit('CLIENTE:BuscarAnalisisPads');
+    this.socket.io.emit('CLIENTE:BuscarAnalisisOtros');
+
+    this.socket.io.on('SERVIDOR:enviaMensaje', (data) => {
+      this.mensaje = data
+    });
+  
+    this.socket.io.on('SERVER:AnalisisTinta', async (AnalisisTintas_) => {
+      this.AnalisisTintas = AnalisisTintas_;
+      agregarAnalisis(AnalisisTintas_);
+  
+      AnalisisTintas_.forEach((tinta: any) => {
+        incrementarContadoresFecha(tinta.updatedAt);
+        if (tinta.resultado.resultado === 'APROBADO') {
+          this.TintasAprobadas++;
+        } else if (tinta.resultado.resultado === 'RECHAZADO') {
+          this.TintasRechazadas++;
+        }
+      });
+    });
+  
+    this.socket.io.on('SERVER:AnalisisSustrato', async (AnalisisSustratos) => {
+      this.AnalisisSustrato = AnalisisSustratos;
+      agregarAnalisis(AnalisisSustratos);
+  
+      AnalisisSustratos.forEach((sustrato: any) => {
+        incrementarContadoresFecha(sustrato.updatedAt);
+        if (sustrato.resultado.resultado === 'APROBADO') {
+          this.SustratoAprobado++;
+        } else if (sustrato.resultado.resultado === 'RECHAZADO') {
+          this.SustratoRechazado++;
+        }
+      });
+    });
+  
+    this.socket.io.on('SERVER:AnalisisCajas', async (AnalisisCajas) => {
+      this.AnalisisCajas = AnalisisCajas;
+      agregarAnalisis(AnalisisCajas);
+  
+      AnalisisCajas.forEach((cajas: any) => {
+        incrementarContadoresFecha(cajas.updatedAt);
+        if (cajas.resultado.resultado === 'APROBADO') {
+          this.CajasAceptadas++;
+        } else if (cajas.resultado.resultado === 'RECHAZADO') {
+          this.CajasRechazadas++;
+        }
+      });
+    });
+  
+    this.socket.io.on('SERVER:AnalisisPads', async (AnalisisPads) => {
+      this.AnalisisPads = AnalisisPads;
+      agregarAnalisis(AnalisisPads);
+  
+      AnalisisPads.forEach((pad: any) => {
+        incrementarContadoresFecha(pad.updatedAt);
+        if (pad.resultado.resultado === 'APROBADO') {
+          this.PadsAprobados++;
+        } else if (pad.resultado.resultado === 'RECHAZADO') {
+          this.PadsRechazados++;
+        }
+      });
+    });
+  
+    this.socket.io.on('SERVER:AnalisisOtros', async (AnalisisOtro) => {
+      this.AnalisisOtros = AnalisisOtro;
+      agregarAnalisis(AnalisisOtro);
+  
+      AnalisisOtro.forEach((otro: any) => {
+        incrementarContadoresFecha(otro.updatedAt);
+        if (otro.resultado.resultado === 'APROBADO') {
+          this.OtrosAprobados++;
+        } else if (otro.resultado.resultado === 'RECHAZADO') {
+          this.OtrosRechazados++;
+        }
+      });
+  
+      // Ordenar todos los análisis por updatedAt en orden descendente y obtener los últimos 5
+      const ultimosCincoAnalisis = todosLosAnalisis
+        .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+        .slice(0, 5);
+  
+        this.lastFives = ultimosCincoAnalisis;
+        console.log(this.lastFives)
+    });
+  }
+  
 
 
    BuscarAnalisis(targetId){

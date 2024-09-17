@@ -5,6 +5,7 @@ import { Cell, Img, PdfMakeWrapper, Stack, Table, Txt } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { AnalisisSustrato, AnalisisSustrato2 } from 'src/app/compras/models/modelos-compra';
 import { AnalisisService } from 'src/app/services/analisis.service';
+import { AlmacenService } from 'src/app/services/almacen.service';
 
 @Component({
   selector: 'app-analisis-sustrato',
@@ -22,7 +23,9 @@ export class AnalisisSustratoComponent {
   @Output() onCloseSencillo = new EventEmitter()
 
 
-  constructor(public api:AnalisisService){
+  constructor(public api:AnalisisService,
+              public almacen:AlmacenService
+  ){
     
   }
 
@@ -442,6 +445,7 @@ export class AnalisisSustratoComponent {
     let analisis = this.analisis
     let muestras_ = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     let Material = this.Materiales[0]
+    let recepcion = this.Recepcion
     console.log(Material)
 
     let hoy = moment().format('dd/mm/yyyy')
@@ -892,6 +896,21 @@ export class AnalisisSustratoComponent {
     pdf.create().download(`test`)
   }
   GenerarCertificado()
+
+  setTimeout(() => {
+    async function EnviarAlmacen(materiales, recepcion, almacen) {
+      let materiales_ = materiales;
+      for (let material of materiales_) {
+        material.oc = material.oc._id;
+        material.material = material.material._id;
+        material.recepcion = recepcion._id; // Asegúrate de que `recepcion` está accesible en este contexto
+      }
+      console.log(materiales_);
+      almacen.GuardarAlmacen(materiales); // Guarda los materiales en el almacé
+    }
+  
+    EnviarAlmacen(this.Materiales, recepcion, this.almacen);
+  }, 2000);
 
   }
 

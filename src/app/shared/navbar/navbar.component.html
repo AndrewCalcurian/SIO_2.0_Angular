@@ -26,9 +26,10 @@
             <ul class="menu-list">
                 <li>
                     <a (click)="showVentas()" [ngClass]="{'is-active':router.url == '/ventas'}">Ventas</a>
-                    <ul *ngIf="ventas || router.url == '/ventas/compra' || router.url == '/ventas/produccion'">
+                    <ul *ngIf="ventas || router.url == '/ventas/compra' || router.url == '/ventas/produccion' || router.url == '/ventas/clientes'">
                         <li><a [ngClass]="{'is-active':router.url == '/ventas/compra'}" routerLink="/ventas/compra">Órdenes de compra</a></li>
                         <li><a [ngClass]="{'is-active':router.url == '/ventas/produccion'}" routerLink="/ventas/produccion">Órdenes de producción</a></li>
+                        <li><a [ngClass]="{'is-active':router.url == '/ventas/clientes'}" routerLink="/ventas/clientes">Clientes</a></li>
                     </ul>
                 </li>
             </ul>

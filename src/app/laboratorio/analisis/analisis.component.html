@@ -100,19 +100,21 @@
                                     <tbody>
                                         <ng-container *ngFor="let recepcion of recepciones.recepciones;index as index">
                                             <ng-container *ngIf="recepcion.status === 'En observacion'">
-                                                <tr *ngFor="let material of recepcion.materiales;index as i">
-                                                    <td>{{material[0].material.grupo.nombre}}</td>
-                                                    <td>{{material[0].lote}}</td>
-                                                    <td>{{material[0].material.nombre}}
-                                                        <ng-container *ngIf="material[0].material.gramaje">
-                                                            ({{material[0].ancho}}x{{material[0].largo}})
-                                                            {{material[0].material.gramaje}}(g/m²) - {{material[0].material.calibre}}(pt)
-                                                        </ng-container> {{material[0].material.fabricante.alias}} / {{material[0].material.serie}}</td>
-                                                    <td>{{CalcularPeso(material) | number:'1.0-2' }} {{material[0].unidad}}</td>
-                                                    <td>
-                                                        <span class="icon blue_"><i class="fas fa-vial" (click)="Analizar(recepcion, material, index, i)"></i></span>
-                                                    </td>
-                                                </tr>
+                                                <ng-container *ngFor="let material of recepcion.materiales;index as i">
+                                                    <tr *ngIf="verificarSiSerealizoAnalisis(material)">
+                                                        <td>{{material[0].material.grupo.nombre}}</td>
+                                                        <td>{{material[0].lote}}</td>
+                                                        <td>{{material[0].material.nombre}}
+                                                            <ng-container *ngIf="material[0].material.gramaje">
+                                                                ({{material[0].ancho}}x{{material[0].largo}})
+                                                                {{material[0].material.gramaje}}(g/m²) - {{material[0].material.calibre}}(pt)
+                                                            </ng-container> {{material[0].material.fabricante.alias}} / {{material[0].material.serie}}</td>
+                                                        <td>{{CalcularPeso(material) | number:'1.0-2' }} {{material[0].unidad}}</td>
+                                                        <td>
+                                                            <span class="icon blue_"><i class="fas fa-vial" (click)="Analizar(recepcion, material, index, i)"></i></span>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
                                             </ng-container>
                                         </ng-container>
                                     </tbody>
@@ -127,7 +129,7 @@
                             <div class="columns">
                                 <div class="column is-2">
                                     <span class="number_">
-                                        <h1>{{analisis.AnalisisEnElMes}}</h1>
+                                        <h1>{{analisis.analisisMensuales}}</h1>
                                     </span>
                                 </div>
                                 <div class="column is-2">
@@ -163,7 +165,7 @@
                             <div class="columns">
                                 <div class="column is-2">
                                     <span class="number_">
-                                        <h1>{{analisis.AnalisisEnElAno}}</h1>
+                                        <h1>{{analisis.analisisAnuales}}</h1>
                                     </span>
                                 </div>
                                 <div class="column is-2">
@@ -403,7 +405,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr *ngFor="let analisis_ of analisis.lastFives">
                                         
                                         <td>
                                             <div class="tooltip">
@@ -413,63 +415,7 @@
                                         </td>
                                         <td>
                                         <span class="etiqueta">
-                                            <span class="tag is-success">APROBADO</span>
-                                        </span>
-                                         <i class="fas fa-info-circle blue_"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="tooltip">
-                                                06032024-2
-                                                <span class="tooltiptext">Caja Nº9</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                        <span class="etiqueta">
-                                            <span class="tag is-success">APROBADO</span>
-                                        </span>
-                                         <i class="fas fa-info-circle blue_"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="tooltip">
-                                            06032024-2
-                                            <span class="tooltiptext">Cartón Rev. Gris 300g 50pt (70x95)</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                        <span class="etiqueta">
-                                            <span class="tag is-danger">RECHAZADO</span>
-                                        </span>
-                                         <i class="fas fa-info-circle blue_"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="tooltip">
-                                                06032024-2
-                                                <span class="tooltiptext">Azul Proceso Apache (Olín)</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                        <span class="etiqueta">
-                                            <span class="tag is-success">APROBADO</span>
-                                        </span>
-                                         <i class="fas fa-info-circle blue_"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="tooltip">
-                                                06012
-                                                <span class="tooltiptext">Cartón Rev. Gris 300g 50pt (70x95)</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                        <span class="etiqueta">
-                                            <span class="tag is-success">APROBADO</span>
+                                            <span class="tag" [ngClass]="{'is-success':analisis_.resultado.resultado === 'APROBADO', 'is-danger':analisis_.resultado.resultado === 'RECHAZADO'}">{{analisis_.resultado.resultado}}</span>
                                         </span>
                                          <i class="fas fa-info-circle blue_"></i>
                                         </td>

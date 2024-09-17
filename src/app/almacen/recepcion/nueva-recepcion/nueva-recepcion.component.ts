@@ -98,6 +98,7 @@ export class NuevaRecepcionComponent {
   public cantidades:number[] = []
   public fabricaciones:string[] = []
   public condiciones:any;
+  public f_fabricacion = ''
 
   public checked = false;
 
@@ -435,7 +436,7 @@ calcularRecepcion(){
 }
 
   guardar = async () => {
-    const { GrupoDeMateriales, cantidades, documento, OC, recepcion, transportista, proveedor, fabricacion, ParaAlmacenar } = this;
+    const { f_fabricacion, GrupoDeMateriales, cantidades, documento, OC, recepcion, transportista, proveedor, fabricacion, ParaAlmacenar } = this;
   
     const proveedorData = this.proveedores.proveedores[proveedor]._id;
 
@@ -448,6 +449,7 @@ calcularRecepcion(){
       condicion,
       recepcion,
       transportista,
+      f_fabricacion,
       proveedor: proveedorData,
       documento,
       fabricacion:this.fabricaciones,

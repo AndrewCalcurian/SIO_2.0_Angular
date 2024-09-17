@@ -35,7 +35,7 @@
                         </button>
                     </span>
                     <ng-container *ngIf="GeneralOculto[x]">
-                        <div *ngFor="let lotes of getObjectKeys(BuscarLotes(item[0]));index as y" class="Lotes animate__animated animate__fadeInDown">
+                        <div *ngFor="let lotes of getObjectKeys(BuscarLotes(item[0]));index as y" class="Lotes">
                             <!-- Mostrar el número de lote y su cantidad -->
                             <span class="strong">
                                 Lote: <span class="red">{{lotes[0]}}</span>

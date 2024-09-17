@@ -23,6 +23,10 @@ export class ClientesService {
     this.socket.io.emit('CLIENTE:EditCliente', data);
   }
 
+  buscarClientePorID(id: any) {
+    return this.clientes.find(cliente => cliente._id === id);
+  }
+
   onClientes(){
     this.socket.io.emit('CLIENTE:buscarCliente')
   

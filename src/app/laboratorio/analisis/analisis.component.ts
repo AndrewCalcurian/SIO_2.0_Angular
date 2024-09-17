@@ -452,7 +452,7 @@ export class AnalisisComponent {
               public grupos:GruposService,
               public materiales:MaterialesService){
 
-
+                console.log(this.recepciones)
                 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
                 const fechaActual = new Date();
                 this.mesActual = meses[fechaActual.getMonth()];
@@ -526,6 +526,47 @@ export class AnalisisComponent {
     return n.toLocaleString('es-ES');
   }
 
+
+  verificarSiSerealizoAnalisis(material){
+    if(material[0].analisis){
+      if(material[0].material.grupo.nombre === 'Tintas' || material[0].material.grupo.nombre === 'Barniz s/impresión'){
+        if(this.analisis.buscarAnalisisPorID(material[0].analisis).resultado.resultado != ''){
+          return false
+        }else{
+          return true
+        }
+      }else if(material[0].material.grupo.nombre === 'Cajas Corrugadas'){
+        if(this.analisis.buscarAnalisisCajasPorID(material[0].analisis).resultado.resultado != ''){
+          return false
+        }else{
+          return true
+        }
+      }else if(material[0].material.grupo.nombre === 'Soportes de Embalaje'){
+        if(this.analisis.buscarAnalisisPadsPorID(material[0].analisis).resultado.resultado != ''){
+          return false
+        }else{
+          return true
+        }
+      }else if(material[0].material.grupo.trato === true){
+        if(this.analisis.buscarAnalisisSustratoPorID(material[0].analisis).resultado.resultado != ''){
+          return false
+        }else{
+          return true
+        }
+      }else{
+        if(this.analisis.buscarAnalisisOtrosPorID(material[0].analisis).resultado.resultado != ''){
+          return false
+        }else{
+          return true
+        }
+      }
+    }else{
+      return true;
+    }
+  }
+
+
+
   Analizar(recepcion:any, material:any, index_recepcion:number, index_material:number){
 
     if(material[0].material.grupo.nombre === 'Tintas' || material[0].material.grupo.nombre === 'Barniz s/impresión'){
@@ -537,7 +578,7 @@ export class AnalisisComponent {
       if(this.analisis.buscarAnalisisPorID(material[0].analisis)){
         this.Analisis = this.analisis.buscarAnalisisPorID(material[0].analisis)
       }
-    }else if(material[0].material.grupo.nombre === 'Cajas corrugadas'){
+    }else if(material[0].material.grupo.nombre === 'Cajas Corrugadas'){
       this.Caja = true;
       this.Recepcion_selected = recepcion;
       this.Material_selected = material;

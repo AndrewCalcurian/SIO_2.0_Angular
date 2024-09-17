@@ -436,7 +436,7 @@
                         <div class="select">
                             <select name="" id="" [(ngModel)]="this.pegamento_selected.pega">
                                 <ng-container *ngFor="let pega of materiales.materiales">
-                                    <option value="{{pega._id}}&{{pega.nombre}}({{pega.fabricante.alias}})" *ngIf="pega.grupo.nombre === 'Pegas'">{{pega.nombre}}({{pega.fabricante.alias}})</option>
+                                    <option value="{{pega._id}}&{{pega.nombre}}({{pega.fabricante.alias}})" *ngIf="pega.grupo.nombre === 'Pega'">{{pega.nombre}}({{pega.fabricante.alias}})</option>
                                 </ng-container>
                             </select>
                         </div>
@@ -464,7 +464,7 @@
                         <div class="select">
                             <select name="" id="" [(ngModel)]="this.caja_selected">
                                 <ng-container *ngFor="let cajas of materiales.materiales">
-                                    <option value="{{cajas._id}}&{{cajas.nombre}}({{cajas.fabricante.alias}})" *ngIf="cajas.grupo.nombre === 'Cajas corrugadas'">{{cajas.nombre}}({{cajas.fabricante.alias}})</option>
+                                    <option value="{{cajas._id}}&{{cajas.nombre}}({{cajas.fabricante.alias}})" *ngIf="cajas.grupo.nombre === 'Cajas Corrugadas'">{{cajas.nombre}}({{cajas.fabricante.alias}})</option>
                                 </ng-container>
                             </select>
                         </div>

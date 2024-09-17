@@ -11,6 +11,8 @@ export class EspecificacionesComponent implements OnInit {
   NUEVA_ESPECIFICACION: boolean = false;
   EDITAR_ESPECIFICACION: boolean = false;
   EDITAR_SUSTRATO: boolean = false;
+  EDITAR_CAJA: boolean = false;
+  EDITAR_OTROS: boolean = false;
   NUEVO_SUSTRATO: boolean = false
   NUEVA_CAJA: boolean = false;
   NUEVO_PADS: boolean = false;
@@ -22,6 +24,7 @@ export class EspecificacionesComponent implements OnInit {
   grupoSelected: any
   Especificacion: any;
   especificacion_para_editar!: any;
+  public Esp_otro:any = {}
   constructor(public grupos: GruposService,
     public material: MaterialesService) {
 
@@ -43,6 +46,8 @@ export class EspecificacionesComponent implements OnInit {
     this.NUEVO_SUSTRATO = false;
     this.NUEVO_PADS = false;
     this.NUEVO_OTROS = false;
+    this.EDITAR_CAJA = false;
+    this.EDITAR_OTROS = false;
     this.grupoSelected = this.grupos.grupos[0].nombre
     this.materialesEspecificados = this.material.filtrarPorGrupoConEspecificacion(this.grupos.grupos[0]._id)
   }
@@ -96,10 +101,18 @@ export class EspecificacionesComponent implements OnInit {
   Editar(item: any) {
     if(item.grupo.trato){
       this.EDITAR_SUSTRATO = true;
-    }else{
+    }else if(item.grupo.nombre === 'Tintas'){
       this.EDITAR_ESPECIFICACION = true;
+    }else if(item.grupo.nombre === 'Cajas Corrugadas'){
+      this.EDITAR_CAJA = true;
+    }else{
+      this.EDITAR_OTROS = true;
     }
     this.especificacion_para_editar = item.especificacion;
-  }
+    this.Esp_otro = item.especificacion2.especificacion
+    this.Esp_otro._id = item.especificacion2._id;
 
+    console.log(this.Esp_otro)
+
+  }
 }

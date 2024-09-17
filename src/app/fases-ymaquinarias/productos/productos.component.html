@@ -19,14 +19,6 @@
 [caja_nombre]="caja_nombre"
 (onCloseModal)="cerrar()">
 </app-new-producto>
-
-<app-clientes
-[data]="data"
-[cliente]="cliente"
-[editar]="editar"
-(onCloseModal)="cerrar()"
-(onGuardarCliente)="GuardarCiente()">
-</app-clientes>
 <div class="container_ mt-5 ">
     <div class="card">
       <div class="card-content darker">
@@ -48,18 +40,6 @@
           </span>
           <span>Producto</span>
         </button> 
-        <button class="button is-success" (click)="nuevoCliente()">
-            <span class="icon">
-              <i class="fas fa-plus-circle"></i>
-            </span>
-            <span>Cliente</span>
-          </button> 
-          <button class="button is-success" (click)="Cambios()">
-            <span class="icon">
-              <i class="fas fa-plus-circle"></i>
-            </span>
-            <span>Cambios</span>
-          </button> 
         <br><br>
         <div class="columns">
           <div class="column is-3">

@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Cell, Img, PdfMakeWrapper, Stack, Table, Txt } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { AlmacenService } from 'src/app/services/almacen.service';
 import { AnalisisService } from 'src/app/services/analisis.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-analisis-otros',
@@ -11,7 +13,10 @@ import { AnalisisService } from 'src/app/services/analisis.service';
 })
 export class AnalisisOtrosComponent {
 
-  constructor(public api:AnalisisService){}
+  constructor(public api:AnalisisService,
+              public login:LoginService,
+              public almacen:AlmacenService
+  ){}
   
  @Input() otro:any;
  @Input() Materiales:any;
@@ -23,10 +28,35 @@ export class AnalisisOtrosComponent {
 
 
  getThirdKeyValue(): { key: string, value: any } {
-  const keys = Object.keys(this.Materiales[0].material.especificacion2.especificacion);
-  const thirdKey = keys[3];
-  const thirdValue = this.Materiales[0].material.especificacion2.especificacion[thirdKey];
-  return { key: thirdKey, value: thirdValue };
+  if (
+    this.Materiales &&
+    this.Materiales[0] &&
+    this.Materiales[0].material &&
+    this.Materiales[0].material.especificacion2 &&
+    this.Materiales[0].material.especificacion2.especificacion
+  ) {
+    const keys = Object.keys(this.Materiales[0].material.especificacion2.especificacion);
+    
+    // Filtrar las claves excluyendo las que no te interesan
+    const filteredKeys = keys.filter(key => 
+      !['_id', 'apariencia', 'ph_m', 'ph_M'].includes(key)
+    );
+
+    // Si hay suficientes claves después del filtrado, buscar la tercera
+    if (filteredKeys.length >= 3) {
+      const thirdKey = filteredKeys[2];
+      const thirdValue = this.Materiales[0].material.especificacion2.especificacion[thirdKey];
+      return { key: thirdKey, value: thirdValue };
+    } else if (filteredKeys.length > 0) {
+      // Si no hay suficientes, devolver la última clave disponible
+      const lastKey = filteredKeys[filteredKeys.length - 1];
+      const lastValue = this.Materiales[0].material.especificacion2.especificacion[lastKey];
+      return { key: lastKey, value: lastValue };
+    }
+  }
+
+  // Retornar null si no se encuentra ninguna clave diferente
+  return { key: '', value: '' };
 }
 
 cerrar(){
@@ -35,13 +65,52 @@ cerrar(){
 
 guardar(){
   this.analisis.resultado.guardado.fecha = moment().format('DD/MM/YYYY')
-    this.api.EnviarAnalisisOtros(this.analisis, this.Recepcion, this.Index);
-    this.onCloseMensaje.emit();
+  this.analisis.resultado.guardado.usuario = `${this.login.usuario.Nombre} ${this.login.usuario.Apellido}`
+  this.api.EnviarAnalisisOtros(this.analisis, this.Recepcion, this.Index);
+  this.onCloseMensaje.emit();
 }
 
 
 AnalisisCompletado(){
-  let hoy = moment().format('dd/mm/yyyy')
+  
+  let hoy = moment().format('DD/MM/YYYY')
+  this.analisis.resultado.validado.fecha = hoy;
+  this.analisis.resultado.validado.usuario = `${this.login.usuario.Nombre} ${this.login.usuario.Apellido}`
+
+  let analisis = this.analisis
+    let Material = this.Materiales[0]
+    let recepcion = this.Recepcion
+
+    let key = this.getThirdKeyValue().key
+    let value = this.getThirdKeyValue().value
+
+    let fecha_recepcion = moment(recepcion.recepcion).format('DD/MM/YYYY')
+
+    console.log(analisis.apariencia)
+    let apariencia = 'NO CUMPLE';
+    if(analisis.apariencia){
+      apariencia = 'CUMPLE';
+    }
+
+    let resultString = ''
+    // Crear un objeto para almacenar los materiales agrupados por presentación y neto
+    const agrupados = recepcion.materiales[0].reduce((acc, material) => {
+      const key = `${material.presentacion}-${material.neto}-${material.unidad}`;
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    for (const [key, cantidad] of Object.entries(agrupados)) {
+      const [presentacion, neto, unidad] = key.split('-');
+      resultString += `${cantidad} ${presentacion}(s) de ${neto}${unidad} `;
+    }
+
+    let mat = recepcion.materiales[0]
+    let netos = 0
+    for(let i=0;i<mat.length;i++){
+      console.log(mat[i])
+      netos = netos + Number(mat[i].neto)
+    }
     async function GenerarCertificado(){
     const pdf = new PdfMakeWrapper();
     PdfMakeWrapper.setFonts(pdfFonts);
@@ -103,19 +172,19 @@ AnalisisCompletado(){
       new Table([
         [
           new Cell(new Txt('PRODUCTO').end).color('#ffffff').fillColor('#3b3b3b').alignment('center').fontSize(9).end,
-          new Cell(new Txt('Ricolyne567').end).alignment('center').fontSize(9).end, 
+          new Cell(new Txt(Material.material.nombre).end).alignment('center').fontSize(9).end, 
         ],
         [
           new Cell(new Txt('PROVEEDOR').end).color('#ffffff').fillColor('#3b3b3b').alignment('center').fontSize(9).end,
-          new Cell(new Txt('Representaciones Chinea, C.A.').end).alignment('center').fontSize(9).end, 
+          new Cell(new Txt(recepcion.proveedor.nombre).end).alignment('center').fontSize(9).end, 
         ],
         [
           new Cell(new Txt('PRESENTACIÓN').end).color('#ffffff').fillColor('#3b3b3b').alignment('center').fontSize(9).end,
-          new Cell(new Txt('4 ENVASES DE 20L').end).alignment('center').fontSize(9).end, 
+          new Cell(new Txt(resultString).end).alignment('center').fontSize(9).end, 
         ],
         [
-          new Cell(new Txt('CANTIDAD (kg)').end).color('#ffffff').fillColor('#3b3b3b').alignment('center').fontSize(9).end,
-          new Cell(new Txt('80L').end).alignment('center').fontSize(9).end, 
+          new Cell(new Txt(`CANTIDAD`).end).color('#ffffff').fillColor('#3b3b3b').alignment('center').fontSize(9).end,
+          new Cell(new Txt(netos.toString()).end).alignment('center').fontSize(9).end, 
         ],
         [
           new Cell(new Txt('FECHA DE FABRICACIÓN').end).color('#ffffff').fillColor('#3b3b3b').alignment('center').fontSize(9).end,
@@ -127,11 +196,11 @@ AnalisisCompletado(){
         ],
         [
           new Cell(new Txt('FECHA DE RECEPCIÓN').end).color('#ffffff').fillColor('#3b3b3b').alignment('center').fontSize(9).end,
-          new Cell(new Txt('7/11/2022').end).alignment('center').fontSize(9).end, 
+          new Cell(new Txt(fecha_recepcion).end).alignment('center').fontSize(9).end, 
         ],
         [
           new Cell(new Txt('Nº DE LOTE').end).color('#ffffff').fillColor('#3b3b3b').alignment('center').fontSize(9).end,
-          new Cell(new Txt('N/D').end).alignment('center').fontSize(9).end, 
+          new Cell(new Txt(Material.lote).end).alignment('center').fontSize(9).end, 
         ],
       ]).widths(['30%','70%']).end
     )
@@ -179,9 +248,9 @@ AnalisisCompletado(){
     pdf.add(
       new Table([
         [
-          new Cell(new Txt('APARIENCIA').end).fillColor('#c4c4c4').fontSize(8).end,
-          new Cell(new Txt('líquido color Verde conintenso olor avinagrado').end).fontSize(8).end,
-          new Cell(new Txt('CUMPLE').end).fontSize(8).end,
+          new Cell(new Txt('APARIENCIA').alignment('center').end).fillColor('#c4c4c4').fontSize(8).end,
+          new Cell(new Txt(Material.material.especificacion2.especificacion.apariencia).end).fontSize(8).end,
+          new Cell(new Txt(apariencia).alignment('center').end).fontSize(8).end,
         ]
       ]).widths(['15%','70%','15%']).end
     )
@@ -219,8 +288,8 @@ AnalisisCompletado(){
         ],
         [
           new Cell(new Txt('').end).alignment('center').fontSize(8).end,
-          new Cell(new Txt('4,0-5,0').end).alignment('center').fontSize(8).end,
-          new Cell(new Txt('4,1').end).alignment('center').fontSize(8).end,
+          new Cell(new Txt(`${Material.material.especificacion2.especificacion.ph_m} - ${Material.material.especificacion2.especificacion.ph_M}`).end).alignment('center').fontSize(8).end,
+          new Cell(new Txt(analisis.ph).end).alignment('center').fontSize(8).end,
         ],
       ]).widths(['15%','35%','50%']).end
     )
@@ -233,36 +302,39 @@ AnalisisCompletado(){
       ]).widths(['100%']).end
     )
 
-    pdf.add(
-      new Table([
-        [
-          new Cell(new Txt('PRUEBAS O ENSAYOS ADICIONALES').bold().end).fontSize(8).color('#ffffff').fillColor('#000000').decorationColor('#ffffff').alignment('center').end
-        ]
-      ]).widths(['100%']).end
-    )
+    if(key.length > 0){
 
-    pdf.add(
-      new Table([
-        [
-          new Cell(new Txt('').end).border([false]).fontSize(1).end
-        ]
-      ]).widths(['100%']).end
-    )
-
-    pdf.add(
-      new Table([
-        [
-          new Cell(new Txt('Conductividad').end).alignment('center').margin([0,5]).fillColor('#c4c4c4').rowSpan(2).fontSize(8).end,
-          new Cell(new Txt('ESPECIFICACIÓN').end).alignment('center').fillColor('#c4c4c4').fontSize(8).end,
-          new Cell(new Txt('RESULTADO').end).alignment('center').fillColor('#c4c4c4').fontSize(8).end,
-        ],
-        [
-          new Cell(new Txt('').end).alignment('center').fontSize(8).end,
-          new Cell(new Txt('').end).alignment('center').fontSize(8).end,
-          new Cell(new Txt('2157 (Solución al 4%)').end).alignment('center').fontSize(8).end,
-        ],
-      ]).widths(['15%','35%','50%']).end
-    )
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('PRUEBAS O ENSAYOS ADICIONALES').bold().end).fontSize(8).color('#ffffff').fillColor('#000000').decorationColor('#ffffff').alignment('center').end
+          ]
+        ]).widths(['100%']).end
+      )
+  
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt('').end).border([false]).fontSize(1).end
+          ]
+        ]).widths(['100%']).end
+      )
+  
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt(key).end).alignment('center').margin([0,5]).fillColor('#c4c4c4').rowSpan(2).fontSize(8).end,
+            new Cell(new Txt('ESPECIFICACIÓN').end).alignment('center').fillColor('#c4c4c4').fontSize(8).end,
+            new Cell(new Txt('RESULTADO').end).alignment('center').fillColor('#c4c4c4').fontSize(8).end,
+          ],
+          [
+            new Cell(new Txt('').end).alignment('center').fontSize(8).end,
+            new Cell(new Txt(value).end).alignment('center').fontSize(8).end,
+            new Cell(new Txt(analisis.otro).end).alignment('center').fontSize(8).end,
+          ],
+        ]).widths(['15%','35%','50%']).end
+      )
+    }
 
 
     pdf.add(
@@ -281,9 +353,9 @@ AnalisisCompletado(){
           new Cell(new Txt('RESULTADO').bold().end).fontSize(8).color('#ffffff').fillColor('#000000').decorationColor('#ffffff').alignment('center').end
         ],
         [
-          new Cell(new Txt('Observación ingresada por los sabis').fontSize(8).end).rowSpan(2).end,
+          new Cell(new Txt(analisis.resultado.observacion).fontSize(8).end).rowSpan(2).end,
           new Cell(new Txt('').end).border([false]).fontSize(1).end,
-          new Cell(new Txt('APROBADO').fontSize(10).bold().end).border([false]).alignment('center').end
+          new Cell(new Txt(analisis.resultado.resultado).fontSize(10).bold().end).border([false]).alignment('center').end
         ],
         [
           new Cell(new Txt('').fontSize(8).end).rowSpan(2).end,
@@ -298,17 +370,17 @@ AnalisisCompletado(){
             ],
             [
               new Cell(new Txt('Firma:').fontSize(7).alignment('center').end).end,
-              new Cell(new Txt('usuario').fontSize(7).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.guardado.usuario).fontSize(7).alignment('center').end).end,
               new Cell(new Txt('').fontSize(7).alignment('center').end).border([false]).fillColor('#FFFFFF').end,
               new Cell(new Txt('Firma:').fontSize(7).alignment('center').end).end,
-              new Cell(new Txt('usuario').fontSize(7).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.validado.usuario).fontSize(7).alignment('center').end).end,
             ],
             [
               new Cell(new Txt('Fecha:').fontSize(7).alignment('center').end).end,
-              new Cell(new Txt('23/02/2024').fontSize(7).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.guardado.fecha).fontSize(7).alignment('center').end).end,
               new Cell(new Txt('').fontSize(7).alignment('center').end).border([false]).fillColor('#FFFFFF').end,
               new Cell(new Txt('Fecha:').fontSize(7).alignment('center').end).end,
-              new Cell(new Txt('23/02/2024').fontSize(7).alignment('center').end).end,
+              new Cell(new Txt(analisis.resultado.validado.fecha).fontSize(7).alignment('center').end).end,
             ]
           ]).widths(['10.5%','38%','1%','10.5%','38%']).end
         ).alignment('center').border([false]).end
@@ -322,6 +394,20 @@ AnalisisCompletado(){
 
   GenerarCertificado()
   this.api.EnviarAnalisisOtros(this.analisis, this.Recepcion, this.Index);
+  setTimeout(() => {
+    async function EnviarAlmacen(materiales, recepcion, almacen) {
+      let materiales_ = materiales;
+      for (let material of materiales_) {
+        material.oc = material.oc._id;
+        material.material = material.material._id;
+        material.recepcion = recepcion._id; // Asegúrate de que `recepcion` está accesible en este contexto
+      }
+      console.log(materiales_);
+      almacen.GuardarAlmacen(materiales); // Guarda los materiales en el almacé
+    }
+  
+    EnviarAlmacen(this.Materiales, recepcion, this.almacen);
+  }, 2000);
     this.onCloseMensaje.emit();
   }
 

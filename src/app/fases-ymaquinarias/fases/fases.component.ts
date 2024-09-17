@@ -74,6 +74,7 @@ export class FasesComponent {
   }
 
   eliminarMaquina(i){
+    // console.log(i)
     Swal.fire({
       title: "¿Quieres eliminar esta fase?",
       showDenyButton: true,
@@ -84,7 +85,7 @@ export class FasesComponent {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        this.api.eliminarFase(this.api.fases[i]._id);
+        this.api.eliminarFase(i._id);
         this.cerrar();
       }
     });

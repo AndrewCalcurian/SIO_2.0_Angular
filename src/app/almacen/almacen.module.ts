@@ -14,6 +14,7 @@ import { EdicionRecepcionComponent } from './recepcion/edicion-recepcion/edicion
 import { AlmacenadoComponent } from './almacenado/almacenado.component';
 import { InventarioComponent } from './almacenado/inventario/inventario.component';
 import { ComentariosComponent } from './recepcion/comentarios/comentarios.component';
+import { InventariosComponent } from './almacenado/inventarios/inventarios.component';
 
 
 
@@ -28,7 +29,8 @@ import { ComentariosComponent } from './recepcion/comentarios/comentarios.compon
     EdicionRecepcionComponent,
     AlmacenadoComponent,
     InventarioComponent,
-    ComentariosComponent
+    ComentariosComponent,
+    InventariosComponent
   ],
   imports: [
     CommonModule,

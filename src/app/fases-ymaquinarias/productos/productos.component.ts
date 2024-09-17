@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 import { Cell, Columns, Img, Ol, PdfMakeWrapper, Stack, Table, Txt, Ul } from 'pdfmake-wrapper';
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { Producto, Producto_ } from 'src/app/compras/models/modelos-compra';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { ProductosService } from 'src/app/services/productos.service';
-import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { DefectosService } from 'src/app/services/defectos.service';
 import { FormulasService } from 'src/app/services/formulas.service';
 // var _ = require('lodash');
